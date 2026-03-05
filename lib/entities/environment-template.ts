@@ -2,7 +2,7 @@ import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type { BasicMetaSysProps, Link, MakeRequest, DefaultElements } from '../common-types'
 import { wrapCursorPaginatedCollection } from '../common-utils'
-import type { ContentfulEnvironmentTemplateApi } from '../create-environment-template-api'
+import type { ContentfulEnvironmentTemplateAPI } from '../create-environment-template-api'
 import { createEnvironmentTemplateApi } from '../create-environment-template-api'
 import enhanceWithMethods from '../enhance-with-methods'
 import type { ContentTypeProps } from './content-type'
@@ -45,7 +45,7 @@ export type CreateEnvironmentTemplateProps = Omit<EnvironmentTemplateProps, 'sys
 
 export type EnvironmentTemplate = EnvironmentTemplateProps &
   DefaultElements<EnvironmentTemplateProps> &
-  ContentfulEnvironmentTemplateApi
+  ContentfulEnvironmentTemplateAPI
 
 export function wrapEnvironmentTemplate(
   makeRequest: MakeRequest,

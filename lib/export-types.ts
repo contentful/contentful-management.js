@@ -1,7 +1,9 @@
 export * from './common-types'
 export type {
   AccessToken,
+  /** @deprecated Use `AccessTokenProps` instead */
   AccessTokenProps as AccessTokenProp,
+  /** @deprecated Use `CreatePersonalAccessTokenProps` instead */
   CreatePersonalAccessTokenProps as CreatePATProps,
 } from './entities/access-token'
 export type { ApiKey, ApiKeyProps, CreateApiKeyProps } from './entities/api-key'
@@ -170,8 +172,11 @@ export type {
   ValidationFinding,
 } from './entities/environment-template-installation'
 export type {
+  /** @deprecated Use `CreateExtensionProps` instead */
   CreateExtensionProps as CreateUIExtensionProps,
+  /** @deprecated Use `Extension` instead */
   Extension as UIExtension,
+  /** @deprecated Use `ExtensionProps` instead */
   ExtensionProps as UIExtensionProps,
 } from './entities/extension'
 export type { FieldType } from './entities/field-type'
@@ -291,7 +296,8 @@ export type {
   WorkflowStepProps,
   WorkflowStepTaskAction,
 } from './entities/workflow-definition'
-export * from './plain/common-types'
+export * from './plain/plain-client-types'
+export { OptionalDefaults } from './plain/wrappers/wrap'
 
 export {
   WorkflowStepPermissionAction,
