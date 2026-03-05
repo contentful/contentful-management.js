@@ -65,7 +65,7 @@ export type ViewQueryOptions = {
 // Locale-based publish payload — add or remove specific locales, or null for full publish
 export type ViewLocalePublishPayload = { add: string[] } | { remove: string[] } | null
 
-// Create/Update payload — no sys, uses componentTypeId instead of sys.componentType link
+// Create payload — no sys, uses componentTypeId instead of sys.componentType link
 export type CreateViewProps = ViewCommonProps & {
   componentTypeId: string
   _experienceCtId: string

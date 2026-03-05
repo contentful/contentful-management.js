@@ -56,7 +56,8 @@ export const update: RestEndpoint<'View', 'update'> = (
   rawData: UpdateViewProps,
   headers?: RawAxiosRequestHeaders,
 ) => {
-  const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
+  const data: SetOptional<typeof rawData, 'sys'> & { componentTypeId?: string } = copy(rawData)
+  data.componentTypeId = rawData.sys.componentType.sys.id
   delete data.sys
   return raw.put<ViewProps>(http, getBaseUrl(params) + `/${params.viewId}`, data, {
     headers: {
