@@ -1494,7 +1494,6 @@ const semanticSettingsMock: ContentSemanticsSettingsProps = {
 }
 
 const contentSemanticsIndexMock: ContentSemanticsIndexProps = {
-  localeCode: 'en-US',
   sys: {
     id: 'mock-index-id',
     type: 'ContentSemanticsIndex',

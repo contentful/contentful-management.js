@@ -5,7 +5,6 @@ import type { DefaultElements, Link, MakeRequest } from '../common-types'
 export type ContentSemanticsIndexStatus = 'ACTIVE' | 'PENDING' | 'DELETING'
 
 export type ContentSemanticsIndexProps = {
-  localeCode: string
   sys: {
     id: string
     type: 'ContentSemanticsIndex'
@@ -14,8 +13,8 @@ export type ContentSemanticsIndexProps = {
     createdAt: string
     updatedAt: string
     createdBy: Link<'User'> | null
-    locale: Link<'Locale'> | null
-    environment: Link<'Environment'> | null
+    locale: Link<'Locale'>
+    environment: Link<'Environment'>
     space: Link<'Space'>
     organization: Link<'Organization'>
   }
