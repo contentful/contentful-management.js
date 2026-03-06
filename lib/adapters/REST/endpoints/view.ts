@@ -1,12 +1,18 @@
 import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
+import type { SetOptional } from 'type-fest'
 import type {
   CursorPaginatedCollectionProp,
   GetSpaceEnvironmentParams,
   GetViewParams,
 } from '../../../common-types'
-import type { CreateViewProps, ViewProps, ViewQueryOptions } from '../../../entities/view'
+import type {
+  CreateViewProps,
+  UpdateViewProps,
+  ViewProps,
+  ViewQueryOptions,
+} from '../../../entities/view'
 import type { RestEndpoint } from '../types'
 import * as raw from './raw'
 
@@ -42,6 +48,23 @@ export const create: RestEndpoint<'View', 'create'> = (
 ) => {
   const data = copy(rawData)
   return raw.post<ViewProps>(http, getBaseUrl(params), data, { headers })
+}
+
+export const update: RestEndpoint<'View', 'update'> = (
+  http: AxiosInstance,
+  params: GetViewParams,
+  rawData: UpdateViewProps,
+  headers?: RawAxiosRequestHeaders,
+) => {
+  const data: SetOptional<typeof rawData, 'sys'> & { componentTypeId?: string } = copy(rawData)
+  data.componentTypeId = rawData.sys.componentType.sys.id
+  delete data.sys
+  return raw.put<ViewProps>(http, getBaseUrl(params) + `/${params.viewId}`, data, {
+    headers: {
+      'X-Contentful-Version': rawData.sys.version ?? 0,
+      ...headers,
+    },
+  })
 }
 
 export const del: RestEndpoint<'View', 'delete'> = (http: AxiosInstance, params: GetViewParams) => {
