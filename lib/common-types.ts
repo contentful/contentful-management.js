@@ -216,10 +216,6 @@ import type {
   AutomationExecutionQueryOptions,
 } from './entities/automation-execution'
 import type {
-  UpdateVectorizationStatusProps,
-  VectorizationStatusProps,
-} from './entities/vectorization-status'
-import type {
   GetSemanticDuplicatesProps,
   SemanticDuplicatesProps,
 } from './entities/semantic-duplicates'
@@ -232,6 +228,12 @@ import type {
   SemanticReferenceSuggestionsProps,
 } from './entities/semantic-reference-suggestions'
 import type { GetSemanticSearchProps, SemanticSearchProps } from './entities/semantic-search'
+import type { ContentSemanticsSettingsProps } from './entities/semantic-settings'
+import type {
+  ContentSemanticsIndexProps,
+  ContentSemanticsIndexCollectionProps,
+  CreateContentSemanticsIndexProps,
+} from './entities/content-semantics-index'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -918,14 +920,22 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'UserUIConfig', 'get', UA>): MRReturn<'UserUIConfig', 'update'>
   (opts: MROpts<'UserUIConfig', 'update', UA>): MRReturn<'UserUIConfig', 'update'>
 
-  (opts: MROpts<'VectorizationStatus', 'get', UA>): MRReturn<'VectorizationStatus', 'get'>
-  (opts: MROpts<'VectorizationStatus', 'update', UA>): MRReturn<'VectorizationStatus', 'update'>
   (opts: MROpts<'SemanticDuplicates', 'get', UA>): MRReturn<'SemanticDuplicates', 'get'>
   (opts: MROpts<'SemanticRecommendations', 'get', UA>): MRReturn<'SemanticRecommendations', 'get'>
   (
     opts: MROpts<'SemanticReferenceSuggestions', 'get', UA>,
   ): MRReturn<'SemanticReferenceSuggestions', 'get'>
   (opts: MROpts<'SemanticSearch', 'get', UA>): MRReturn<'SemanticSearch', 'get'>
+  (opts: MROpts<'SemanticSettings', 'get', UA>): MRReturn<'SemanticSettings', 'get'>
+  (opts: MROpts<'ContentSemanticsIndex', 'get', UA>): MRReturn<'ContentSemanticsIndex', 'get'>
+  (
+    opts: MROpts<'ContentSemanticsIndex', 'getMany', UA>,
+  ): MRReturn<'ContentSemanticsIndex', 'getMany'>
+  (
+    opts: MROpts<'ContentSemanticsIndex', 'getManyForEnvironment', UA>,
+  ): MRReturn<'ContentSemanticsIndex', 'getManyForEnvironment'>
+  (opts: MROpts<'ContentSemanticsIndex', 'create', UA>): MRReturn<'ContentSemanticsIndex', 'create'>
+  (opts: MROpts<'ContentSemanticsIndex', 'delete', UA>): MRReturn<'ContentSemanticsIndex', 'delete'>
 
   (opts: MROpts<'View', 'getMany', UA>): MRReturn<'View', 'getMany'>
   (opts: MROpts<'View', 'get', UA>): MRReturn<'View', 'get'>
@@ -2293,6 +2303,35 @@ export type MRActions = {
       return: SemanticSearchProps
     }
   }
+  SemanticSettings: {
+    get: {
+      params: GetOrganizationParams
+      return: ContentSemanticsSettingsProps
+    }
+  }
+  ContentSemanticsIndex: {
+    get: {
+      params: GetContentSemanticsIndexParams
+      return: ContentSemanticsIndexProps
+    }
+    getMany: {
+      params: GetManyContentSemanticsIndexParams
+      return: ContentSemanticsIndexCollectionProps
+    }
+    getManyForEnvironment: {
+      params: GetManyContentSemanticsIndexForEnvironmentParams
+      return: ContentSemanticsIndexCollectionProps
+    }
+    create: {
+      params: GetOrganizationParams
+      payload: CreateContentSemanticsIndexProps
+      return: ContentSemanticsIndexProps
+    }
+    delete: {
+      params: GetContentSemanticsIndexParams
+      return: void
+    }
+  }
   Snapshot: {
     getManyForEntry: {
       params: GetSnapshotForEntryParams & QueryParams
@@ -2510,19 +2549,6 @@ export type MRActions = {
   UserUIConfig: {
     get: { params: GetUserUIConfigParams; return: UserUIConfigProps }
     update: { params: GetUserUIConfigParams; payload: UserUIConfigProps; return: UserUIConfigProps }
-  }
-  VectorizationStatus: {
-    get: {
-      params: GetOrganizationParams
-      headers?: RawAxiosRequestHeaders
-      return: VectorizationStatusProps
-    }
-    update: {
-      params: GetOrganizationParams
-      headers?: RawAxiosRequestHeaders
-      payload: UpdateVectorizationStatusProps
-      return: VectorizationStatusProps
-    }
   }
   View: {
     getMany: {
@@ -2915,4 +2941,10 @@ export type ReleaseEnvironmentParams = GetSpaceEnvironmentParams & {
 export type SemanticRequestFilter = {
   entityType?: 'Entry'
   contentTypeIds?: string[]
+}
+
+export type GetContentSemanticsIndexParams = GetOrganizationParams & { indexId: string }
+export type GetManyContentSemanticsIndexParams = GetOrganizationParams & { status?: string }
+export type GetManyContentSemanticsIndexForEnvironmentParams = GetSpaceEnvironmentParams & {
+  status?: string
 }

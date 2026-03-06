@@ -18,7 +18,7 @@ import type { CreateAppEventSubscriptionProps } from './entities/app-event-subsc
 import type { CreateAppKeyProps } from './entities/app-key'
 import type { CreateAppDetailsProps } from './entities/app-details'
 import type { OrganizationProps } from './entities/organization'
-import type { UpdateVectorizationStatusProps } from './entities/vectorization-status'
+import type { CreateContentSemanticsIndexProps } from './entities/content-semantics-index'
 
 /**
  * @private
@@ -51,7 +51,9 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
   const { wrapFunction, wrapFunctionCollection } = entities.func
   const { wrapRoleCollection } = entities.role
   const { wrapSpaceCollection } = entities.space
-  const { wrapVectorizationStatus } = entities.vectorizationStatus
+  const { wrapContentSemanticsSettings } = entities.semanticSettings
+  const { wrapContentSemanticsIndex, wrapContentSemanticsIndexCollection } =
+    entities.contentSemanticsIndex
 
   return {
     /**
@@ -1199,49 +1201,112 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
     },
 
     /**
-     * Gets the vectorization status for the organization
-     * @returns Promise for a VectorizationStatus
+     * Gets the semantic settings for the organization
+     * @return Promise for ContentSemanticsSettings
      * @example ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
      * })
      * const org = await client.getOrganization('<org_id>')
-     * const vectorizationStatus = await org.getVectorizationStatus()
+     * const settings = await org.getSemanticSettings()
      */
-    getVectorizationStatus() {
+    getSemanticSettings() {
       const raw = this.toPlainObject() as OrganizationProps
-      const organizationId = raw.sys.id
+
       return makeRequest({
-        entityType: 'VectorizationStatus',
+        entityType: 'SemanticSettings',
         action: 'get',
-        params: { organizationId },
-      }).then((payload) => wrapVectorizationStatus(makeRequest, payload))
+        params: { organizationId: raw.sys.id },
+      }).then((data) => wrapContentSemanticsSettings(makeRequest, data))
     },
 
     /**
-     * Updates the vectorization status for the organization
-     * @returns Promise for a VectorizationStatus
+     * Gets all content semantics indexes for the organization
+     * @return Promise for a collection of ContentSemanticsIndex
      * @example ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
      * })
      * const org = await client.getOrganization('<org_id>')
-     * const updatedVectorizationStatus = await org.updateVectorizationStatus([
-     *  { spaceId: '<space_id1>', enabled: true },
-     *  { spaceId: '<space_id2>', enabled: false }
-     * ])
+     * const indexes = await org.getContentSemanticsIndexes()
      */
-    updateVectorizationStatus(data: UpdateVectorizationStatusProps) {
+    getContentSemanticsIndexes() {
       const raw = this.toPlainObject() as OrganizationProps
-      const organizationId = raw.sys.id
+
       return makeRequest({
-        entityType: 'VectorizationStatus',
-        action: 'update',
-        params: { organizationId },
-        payload: data,
-      }).then((payload) => wrapVectorizationStatus(makeRequest, payload))
+        entityType: 'ContentSemanticsIndex',
+        action: 'getMany',
+        params: { organizationId: raw.sys.id },
+      }).then((data) => wrapContentSemanticsIndexCollection(makeRequest, data))
+    },
+
+    /**
+     * Gets a single content semantics index by ID
+     * @param indexId - ID of the content semantics index
+     * @return Promise for a ContentSemanticsIndex
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     * const org = await client.getOrganization('<org_id>')
+     * const index = await org.getContentSemanticsIndex('<index_id>')
+     */
+    getContentSemanticsIndex(indexId: string) {
+      const raw = this.toPlainObject() as OrganizationProps
+
+      return makeRequest({
+        entityType: 'ContentSemanticsIndex',
+        action: 'get',
+        params: { organizationId: raw.sys.id, indexId },
+      }).then((data) => wrapContentSemanticsIndex(makeRequest, data))
+    },
+
+    /**
+     * Creates a new content semantics index for the organization
+     * @param payload - Object containing spaceId and locale
+     * @return Promise for the created ContentSemanticsIndex
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     * const org = await client.getOrganization('<org_id>')
+     * const index = await org.createContentSemanticsIndex({ spaceId: '<space_id>', locale: 'en-US' })
+     */
+    createContentSemanticsIndex(payload: CreateContentSemanticsIndexProps) {
+      const raw = this.toPlainObject() as OrganizationProps
+
+      return makeRequest({
+        entityType: 'ContentSemanticsIndex',
+        action: 'create',
+        params: { organizationId: raw.sys.id },
+        payload,
+      }).then((data) => wrapContentSemanticsIndex(makeRequest, data))
+    },
+
+    /**
+     * Deletes a content semantics index by ID
+     * @param indexId - ID of the content semantics index to delete
+     * @return Promise for the deletion
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     * const org = await client.getOrganization('<org_id>')
+     * await org.deleteContentSemanticsIndex('<index_id>')
+     */
+    deleteContentSemanticsIndex(indexId: string) {
+      const raw = this.toPlainObject() as OrganizationProps
+
+      return makeRequest({
+        entityType: 'ContentSemanticsIndex',
+        action: 'delete',
+        params: { organizationId: raw.sys.id, indexId },
+      })
     },
   }
 }
