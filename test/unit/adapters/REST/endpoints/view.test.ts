@@ -19,17 +19,13 @@ describe('Rest View', { concurrent: true }, () => {
         params: {
           spaceId: 'space123',
           environmentId: 'master',
-          query: {
-            _experienceCtId: 'experience-ct-id',
-          },
+          query: {},
         },
       })
       .then((r) => {
         expect(r).to.eql(mockResponse)
         expect(httpMock.get.mock.calls[0][0]).to.eql('/spaces/space123/environments/master/views')
-        expect(httpMock.get.mock.calls[0][1].params).to.eql({
-          _experienceCtId: 'experience-ct-id',
-        })
+        expect(httpMock.get.mock.calls[0][1].params).to.eql({})
       })
   })
 
@@ -51,7 +47,6 @@ describe('Rest View', { concurrent: true }, () => {
           spaceId: 'space123',
           environmentId: 'master',
           query: {
-            _experienceCtId: 'experience-ct-id',
             limit: 20,
             pageNext: 'next-page-token',
           },
@@ -61,7 +56,6 @@ describe('Rest View', { concurrent: true }, () => {
         expect(r).to.eql(mockResponse)
         expect(httpMock.get.mock.calls[0][0]).to.eql('/spaces/space123/environments/master/views')
         expect(httpMock.get.mock.calls[0][1].params).to.eql({
-          _experienceCtId: 'experience-ct-id',
           limit: 20,
           pageNext: 'next-page-token',
         })
@@ -161,8 +155,6 @@ describe('Rest View', { concurrent: true }, () => {
           name: 'New View',
           description: 'A new view',
           componentTypeId: 'ct-123',
-          _experienceCtId: 'experience-ct-id',
-          _slug: 'new-view',
           viewports: [],
           contentProperties: {},
           designProperties: {},
@@ -176,8 +168,6 @@ describe('Rest View', { concurrent: true }, () => {
           name: 'New View',
           description: 'A new view',
           componentTypeId: 'ct-123',
-          _experienceCtId: 'experience-ct-id',
-          _slug: 'new-view',
           viewports: [],
           contentProperties: {},
           designProperties: {},
@@ -222,7 +212,6 @@ describe('Rest View', { concurrent: true }, () => {
           contentProperties: {},
           designProperties: {},
           dimensionKeyMap: { designProperties: {} },
-          _experienceCtId: 'experience-ct-id',
         },
       })
       .then((r) => {
