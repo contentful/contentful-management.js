@@ -48,13 +48,10 @@ type ViewCommonProps = {
 
 export type ViewProps = ViewCommonProps & {
   sys: ViewSys
-  _experienceCtId: string
-  _slug?: string
 }
 
 // Query options for getMany
 export type ViewQueryOptions = {
-  _experienceCtId: string
   limit?: number
   pageNext?: string
   pagePrev?: string
@@ -68,8 +65,6 @@ export type ViewLocalePublishPayload = { add: string[] } | { remove: string[] } 
 // Create payload — no sys, uses componentTypeId instead of sys.componentType link
 export type CreateViewProps = ViewCommonProps & {
   componentTypeId: string
-  _experienceCtId: string
-  _slug: string
 }
 
 export type UpdateViewProps = ViewProps

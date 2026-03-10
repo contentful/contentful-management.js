@@ -24,7 +24,6 @@ export type ViewPlainClientAPI = {
    *   spaceId: '<space_id>',
    *   environmentId: '<environment_id>',
    *   query: {
-   *     _experienceCtId: '<experience_ct_id>',
    *     limit: 10,
    *   },
    * });
@@ -71,8 +70,6 @@ export type ViewPlainClientAPI = {
    *   contentProperties: {},
    *   designProperties: {},
    *   dimensionKeyMap: { designProperties: {} },
-   *   _experienceCtId: '<experience_ct_id>',
-   *   _slug: '<slug>',
    * });
    * ```
    */
