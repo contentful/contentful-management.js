@@ -21,9 +21,7 @@ describe('Rest ComponentType', { concurrent: true }, () => {
         params: {
           spaceId: 'space123',
           environmentId: 'master',
-          query: {
-            _experienceCtId: 'experience-ct-id',
-          },
+          query: {},
         },
       })
       .then((r) => {
@@ -31,9 +29,7 @@ describe('Rest ComponentType', { concurrent: true }, () => {
         expect(httpMock.get.mock.calls[0][0]).to.eql(
           '/spaces/space123/environments/master/component_types',
         )
-        expect(httpMock.get.mock.calls[0][1].params).to.eql({
-          _experienceCtId: 'experience-ct-id',
-        })
+        expect(httpMock.get.mock.calls[0][1].params).to.eql({})
       })
   })
 
@@ -57,7 +53,6 @@ describe('Rest ComponentType', { concurrent: true }, () => {
           spaceId: 'space123',
           environmentId: 'master',
           query: {
-            _experienceCtId: 'experience-ct-id',
             skip: 10,
             limit: 20,
           },
@@ -69,7 +64,6 @@ describe('Rest ComponentType', { concurrent: true }, () => {
           '/spaces/space123/environments/master/component_types',
         )
         expect(httpMock.get.mock.calls[0][1].params).to.eql({
-          _experienceCtId: 'experience-ct-id',
           skip: 10,
           limit: 20,
         })
@@ -233,7 +227,6 @@ describe('Rest ComponentType', { concurrent: true }, () => {
           contentProperties: [],
           designProperties: [],
           dimensionKeyMap: { designProperties: {} },
-          _experienceCtId: 'experience-ct-id',
         },
       })
       .then((r) => {

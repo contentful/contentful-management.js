@@ -3,7 +3,6 @@ import type { Link, MetadataProps, SysLink } from '../common-types'
 
 // Query options for getMany - matches Bridge API contract
 export type ComponentTypeQueryOptions = {
-  _experienceCtId: string
   skip?: number
   limit?: number
 }
@@ -166,6 +165,4 @@ export type ComponentTypeProps = {
 
 export type CreateComponentTypeProps = Except<ComponentTypeProps, 'sys'>
 
-export type UpdateComponentTypeProps = ComponentTypeProps & {
-  _experienceCtId: string
-}
+export type UpdateComponentTypeProps = ComponentTypeProps
