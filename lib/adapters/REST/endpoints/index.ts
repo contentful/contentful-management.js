@@ -25,6 +25,7 @@ import * as Comment from './comment'
 import * as ComponentType from './component-type'
 import * as Concept from './concept'
 import * as ConceptScheme from './concept-scheme'
+import * as DataAssembly from './data-assembly'
 import * as ContentType from './content-type'
 import * as EditorInterface from './editor-interface'
 import * as Entry from './entry'
@@ -106,6 +107,7 @@ export default {
   ComponentType,
   Concept,
   ConceptScheme,
+  DataAssembly,
   ContentType,
   EditorInterface,
   Entry,

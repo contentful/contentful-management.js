@@ -145,6 +145,7 @@ import type {
 import type { AppKeyProps, CreateAppKeyProps } from './entities/app-key'
 import type { ConceptProps, CreateConceptProps } from './entities/concept'
 import type { ConceptSchemeProps, CreateConceptSchemeProps } from './entities/concept-scheme'
+import type { DataAssemblyProps, DataAssemblyQueryOptions } from './entities/data-assembly'
 import type {
   CreateEnvironmentTemplateProps,
   EnvironmentTemplateProps,
@@ -596,6 +597,8 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Comment', 'create', UA>): MRReturn<'Comment', 'create'>
   (opts: MROpts<'Comment', 'update', UA>): MRReturn<'Comment', 'update'>
   (opts: MROpts<'Comment', 'delete', UA>): MRReturn<'Comment', 'delete'>
+
+  (opts: MROpts<'DataAssembly', 'getMany', UA>): MRReturn<'DataAssembly', 'getMany'>
 
   (opts: MROpts<'ComponentType', 'getMany', UA>): MRReturn<'ComponentType', 'getMany'>
   (opts: MROpts<'ComponentType', 'get', UA>): MRReturn<'ComponentType', 'get'>
@@ -1691,6 +1694,12 @@ export type MRActions = {
       return: void
     }
   }
+  DataAssembly: {
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query: DataAssemblyQueryOptions }
+      return: CursorPaginatedCollectionProp<DataAssemblyProps>
+    }
+  }
   ContentType: {
     get: { params: GetContentTypeParams & QueryParams; return: ContentTypeProps }
     getMany: {
@@ -2778,6 +2787,7 @@ export type GetCommentParams = (GetEntryParams | GetCommentParentEntityParams) &
 }
 export type GetComponentTypeParams = GetSpaceEnvironmentParams & { componentTypeId: string }
 export type GetViewParams = GetSpaceEnvironmentParams & { viewId: string }
+export type GetDataAssemblyParams = GetSpaceEnvironmentParams & { dataAssemblyId: string }
 export type GetContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 export type GetEditorInterfaceParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 export type GetEntryParams = GetSpaceEnvironmentParams & { entryId: string }
