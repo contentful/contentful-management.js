@@ -241,6 +241,7 @@ export const createPlainClient = (
     },
     dataAssembly: {
       getMany: wrap(wrapParams, 'DataAssembly', 'getMany'),
+      get: wrap(wrapParams, 'DataAssembly', 'get'),
     },
     componentType: {
       getMany: wrap(wrapParams, 'ComponentType', 'getMany'),
