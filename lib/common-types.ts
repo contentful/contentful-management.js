@@ -598,8 +598,6 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Comment', 'update', UA>): MRReturn<'Comment', 'update'>
   (opts: MROpts<'Comment', 'delete', UA>): MRReturn<'Comment', 'delete'>
 
-  (opts: MROpts<'DataAssembly', 'getMany', UA>): MRReturn<'DataAssembly', 'getMany'>
-
   (opts: MROpts<'ComponentType', 'getMany', UA>): MRReturn<'ComponentType', 'getMany'>
   (opts: MROpts<'ComponentType', 'get', UA>): MRReturn<'ComponentType', 'get'>
   (opts: MROpts<'ComponentType', 'create', UA>): MRReturn<'ComponentType', 'create'>
@@ -640,6 +638,8 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'ContentType', 'delete', UA>): MRReturn<'ContentType', 'delete'>
   (opts: MROpts<'ContentType', 'publish', UA>): MRReturn<'ContentType', 'publish'>
   (opts: MROpts<'ContentType', 'unpublish', UA>): MRReturn<'ContentType', 'unpublish'>
+
+  (opts: MROpts<'DataAssembly', 'getMany', UA>): MRReturn<'DataAssembly', 'getMany'>
 
   (opts: MROpts<'EditorInterface', 'get', UA>): MRReturn<'EditorInterface', 'get'>
   (opts: MROpts<'EditorInterface', 'getMany', UA>): MRReturn<'EditorInterface', 'getMany'>
@@ -1694,12 +1694,6 @@ export type MRActions = {
       return: void
     }
   }
-  DataAssembly: {
-    getMany: {
-      params: GetSpaceEnvironmentParams & { query: DataAssemblyQueryOptions }
-      return: CursorPaginatedCollectionProp<DataAssemblyProps>
-    }
-  }
   ContentType: {
     get: { params: GetContentTypeParams & QueryParams; return: ContentTypeProps }
     getMany: {
@@ -1729,6 +1723,12 @@ export type MRActions = {
     delete: { params: GetContentTypeParams; return: any }
     publish: { params: GetContentTypeParams; payload: ContentTypeProps; return: ContentTypeProps }
     unpublish: { params: GetContentTypeParams; return: ContentTypeProps }
+  }
+  DataAssembly: {
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query: DataAssemblyQueryOptions }
+      return: CursorPaginatedCollectionProp<DataAssemblyProps>
+    }
   }
   EditorInterface: {
     get: { params: GetEditorInterfaceParams; return: EditorInterfaceProps }

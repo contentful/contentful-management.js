@@ -239,9 +239,6 @@ export const createPlainClient = (
       update: wrap(wrapParams, 'Comment', 'update') as PlainClientAPI['comment']['update'],
       delete: wrap(wrapParams, 'Comment', 'delete'),
     },
-    dataAssembly: {
-      getMany: wrap(wrapParams, 'DataAssembly', 'getMany'),
-    },
     componentType: {
       getMany: wrap(wrapParams, 'ComponentType', 'getMany'),
       get: wrap(wrapParams, 'ComponentType', 'get'),
@@ -267,6 +264,9 @@ export const createPlainClient = (
           { ...({ ...defaults, ...params } as GetContentTypeParams), fieldId },
           contentType,
         ),
+    },
+    dataAssembly: {
+      getMany: wrap(wrapParams, 'DataAssembly', 'getMany'),
     },
     user: {
       getManyForSpace: wrap(wrapParams, 'User', 'getManyForSpace'),
