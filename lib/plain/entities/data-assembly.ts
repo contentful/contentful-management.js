@@ -1,9 +1,14 @@
+import type { RawAxiosRequestHeaders } from 'axios'
 import type {
   CursorPaginatedCollectionProp,
   GetDataAssemblyParams,
   GetSpaceEnvironmentParams,
 } from '../../common-types'
-import type { DataAssemblyProps, DataAssemblyQueryOptions } from '../../entities/data-assembly'
+import type {
+  CreateDataAssemblyProps,
+  DataAssemblyProps,
+  DataAssemblyQueryOptions,
+} from '../../entities/data-assembly'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type DataAssemblyPlainClientAPI = {
@@ -44,4 +49,34 @@ export type DataAssemblyPlainClientAPI = {
    * ```
    */
   get(params: OptionalDefaults<GetDataAssemblyParams>): Promise<DataAssemblyProps>
+
+  /**
+   * Creates a new data assembly
+   * @param params the space and environment IDs
+   * @param rawData the data assembly data to create
+   * @param headers optional custom headers
+   * @returns the created data assembly
+   * @throws if the request fails
+   * @internal - Experimental endpoint, subject to breaking changes without notice
+   * @example
+   * ```javascript
+   * const dataAssembly = await client.dataAssembly.create({
+   *   spaceId: '<space_id>',
+   *   environmentId: '<environment_id>',
+   * }, {
+   *   sys: { type: 'DataAssembly', dataType: [] },
+   *   metadata: { tags: [] },
+   *   name: 'My Assembly',
+   *   description: 'A data assembly',
+   *   parameters: {},
+   *   resolvers: {},
+   *   return: {},
+   * });
+   * ```
+   */
+  create(
+    params: OptionalDefaults<GetSpaceEnvironmentParams>,
+    rawData: CreateDataAssemblyProps,
+    headers?: RawAxiosRequestHeaders,
+  ): Promise<DataAssemblyProps>
 }

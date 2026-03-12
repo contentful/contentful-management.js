@@ -1,11 +1,16 @@
 import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
+import copy from 'fast-copy'
 import type {
   CursorPaginatedCollectionProp,
   GetDataAssemblyParams,
   GetSpaceEnvironmentParams,
 } from '../../../common-types'
-import type { DataAssemblyProps, DataAssemblyQueryOptions } from '../../../entities/data-assembly'
+import type {
+  CreateDataAssemblyProps,
+  DataAssemblyProps,
+  DataAssemblyQueryOptions,
+} from '../../../entities/data-assembly'
 import type { RestEndpoint } from '../types'
 import * as raw from './raw'
 
@@ -31,4 +36,14 @@ export const get: RestEndpoint<'DataAssembly', 'get'> = (
   return raw.get<DataAssemblyProps>(http, getBaseUrl(params) + `/${params.dataAssemblyId}`, {
     headers,
   })
+}
+
+export const create: RestEndpoint<'DataAssembly', 'create'> = (
+  http: AxiosInstance,
+  params: GetSpaceEnvironmentParams,
+  rawData: CreateDataAssemblyProps,
+  headers?: RawAxiosRequestHeaders,
+) => {
+  const data = copy(rawData)
+  return raw.post<DataAssemblyProps>(http, getBaseUrl(params), data, { headers })
 }
