@@ -265,6 +265,9 @@ export const createPlainClient = (
           contentType,
         ),
     },
+    dataAssembly: {
+      getMany: wrap(wrapParams, 'DataAssembly', 'getMany'),
+    },
     user: {
       getManyForSpace: wrap(wrapParams, 'User', 'getManyForSpace'),
       getForSpace: wrap(wrapParams, 'User', 'getForSpace'),

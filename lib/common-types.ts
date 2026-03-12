@@ -145,6 +145,7 @@ import type {
 import type { AppKeyProps, CreateAppKeyProps } from './entities/app-key'
 import type { ConceptProps, CreateConceptProps } from './entities/concept'
 import type { ConceptSchemeProps, CreateConceptSchemeProps } from './entities/concept-scheme'
+import type { DataAssemblyProps, DataAssemblyQueryOptions } from './entities/data-assembly'
 import type {
   CreateEnvironmentTemplateProps,
   EnvironmentTemplateProps,
@@ -637,6 +638,8 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'ContentType', 'delete', UA>): MRReturn<'ContentType', 'delete'>
   (opts: MROpts<'ContentType', 'publish', UA>): MRReturn<'ContentType', 'publish'>
   (opts: MROpts<'ContentType', 'unpublish', UA>): MRReturn<'ContentType', 'unpublish'>
+
+  (opts: MROpts<'DataAssembly', 'getMany', UA>): MRReturn<'DataAssembly', 'getMany'>
 
   (opts: MROpts<'EditorInterface', 'get', UA>): MRReturn<'EditorInterface', 'get'>
   (opts: MROpts<'EditorInterface', 'getMany', UA>): MRReturn<'EditorInterface', 'getMany'>
@@ -1721,6 +1724,12 @@ export type MRActions = {
     publish: { params: GetContentTypeParams; payload: ContentTypeProps; return: ContentTypeProps }
     unpublish: { params: GetContentTypeParams; return: ContentTypeProps }
   }
+  DataAssembly: {
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query: DataAssemblyQueryOptions }
+      return: CursorPaginatedCollectionProp<DataAssemblyProps>
+    }
+  }
   EditorInterface: {
     get: { params: GetEditorInterfaceParams; return: EditorInterfaceProps }
     getMany: {
@@ -2778,6 +2787,7 @@ export type GetCommentParams = (GetEntryParams | GetCommentParentEntityParams) &
 }
 export type GetComponentTypeParams = GetSpaceEnvironmentParams & { componentTypeId: string }
 export type GetViewParams = GetSpaceEnvironmentParams & { viewId: string }
+export type GetDataAssemblyParams = GetSpaceEnvironmentParams & { dataAssemblyId: string }
 export type GetContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 export type GetEditorInterfaceParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 export type GetEntryParams = GetSpaceEnvironmentParams & { entryId: string }
