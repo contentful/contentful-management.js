@@ -1,6 +1,9 @@
 import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
-import type { CursorPaginatedCollectionProp, GetSpaceEnvironmentParams } from '../../../common-types'
+import type {
+  CursorPaginatedCollectionProp,
+  GetSpaceEnvironmentParams,
+} from '../../../common-types'
 import type { DataAssemblyProps, DataAssemblyQueryOptions } from '../../../entities/data-assembly'
 import type { RestEndpoint } from '../types'
 import * as raw from './raw'
