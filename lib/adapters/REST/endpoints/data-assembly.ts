@@ -2,6 +2,7 @@ import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import type {
   CursorPaginatedCollectionProp,
+  GetDataAssemblyParams,
   GetSpaceEnvironmentParams,
 } from '../../../common-types'
 import type { DataAssemblyProps, DataAssemblyQueryOptions } from '../../../entities/data-assembly'
@@ -18,6 +19,16 @@ export const getMany: RestEndpoint<'DataAssembly', 'getMany'> = (
 ) => {
   return raw.get<CursorPaginatedCollectionProp<DataAssemblyProps>>(http, getBaseUrl(params), {
     params: params.query,
+    headers,
+  })
+}
+
+export const get: RestEndpoint<'DataAssembly', 'get'> = (
+  http: AxiosInstance,
+  params: GetDataAssemblyParams,
+  headers?: RawAxiosRequestHeaders,
+) => {
+  return raw.get<DataAssemblyProps>(http, getBaseUrl(params) + `/${params.dataAssemblyId}`, {
     headers,
   })
 }

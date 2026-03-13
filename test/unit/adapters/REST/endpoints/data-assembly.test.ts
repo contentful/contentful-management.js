@@ -65,4 +65,31 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
         })
       })
   })
+
+  test('get calls correct URL', async () => {
+    const mockResponse = {
+      sys: { id: 'da123', type: 'DataAssembly' },
+      name: 'Test Assembly',
+    }
+
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'DataAssembly',
+        action: 'get',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+          dataAssemblyId: 'da123',
+        },
+      })
+      .then((r) => {
+        expect(r).to.eql(mockResponse)
+        expect(httpMock.get.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/data_assemblies_temp/da123',
+        )
+      })
+  })
 })

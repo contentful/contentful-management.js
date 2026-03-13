@@ -640,6 +640,7 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'ContentType', 'unpublish', UA>): MRReturn<'ContentType', 'unpublish'>
 
   (opts: MROpts<'DataAssembly', 'getMany', UA>): MRReturn<'DataAssembly', 'getMany'>
+  (opts: MROpts<'DataAssembly', 'get', UA>): MRReturn<'DataAssembly', 'get'>
 
   (opts: MROpts<'EditorInterface', 'get', UA>): MRReturn<'EditorInterface', 'get'>
   (opts: MROpts<'EditorInterface', 'getMany', UA>): MRReturn<'EditorInterface', 'getMany'>
@@ -1728,6 +1729,10 @@ export type MRActions = {
     getMany: {
       params: GetSpaceEnvironmentParams & { query: DataAssemblyQueryOptions }
       return: CursorPaginatedCollectionProp<DataAssemblyProps>
+    }
+    get: {
+      params: GetDataAssemblyParams
+      return: DataAssemblyProps
     }
   }
   EditorInterface: {
