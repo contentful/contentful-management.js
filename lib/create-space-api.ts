@@ -111,7 +111,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
     },
     /**
      * Gets an environment
-     * @param id - Environment ID
+     * @param environmentId - Environment ID
      * @returns Promise for an Environment
      * @example
      * ```javascript
@@ -631,7 +631,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
     /**
      * Creates a Role with a custom ID
      * @param id - Role ID
-     * @param data - Object representation of the Role to be created
+     * @param roleData - Object representation of the Role to be created
      * @returns Promise for the newly created Role
      * @example
      * ```javascript
@@ -943,7 +943,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
 
     /**
      * Gets a Team Space Membership
-     * @param id - Team Space Membership ID
+     * @param teamSpaceMembershipId - Team Space Membership ID
      * @returns Promise for a Team Space Membership
      * @example
      * ```javascript
@@ -994,7 +994,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
     },
     /**
    * Creates a Team Space Membership
-   * @param id - Team ID
+   * @param teamId - Team ID
    * @param data - Object representation of the Team Space Membership to be created
    * @returns Promise for the newly created Team Space Membership
    * @example
@@ -1261,7 +1261,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
 
     /**
      * Gets an Environment Alias
-     * @param Environment Alias ID
+     * @param environmentAliasId - Environment Alias ID
      * @returns Promise for an Environment Alias
      * @example
      * ```javascript
@@ -1436,7 +1436,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      * @param {object} options
      * @param options.scheduledActionId the id of the scheduled action to update
      * @param options.version the sys.version of the scheduled action to be updated
-     * @param payload the scheduled actions object with updates, omitting sys object
+     * @param options.payload the scheduled actions object with updates, omitting sys object
      * @returns Promise containing a wrapped scheduled action with helper methods
      * @example
      * ```javascript
