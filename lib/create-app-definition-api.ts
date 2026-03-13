@@ -141,7 +141,6 @@ export default function createAppDefinitionApi(makeRequest: MakeRequest) {
 
     /**
      * Creates an app bundle
-     * @param Object representation of the App Bundle to be created
      * @returns Promise for the newly created AppBundle
      * @example
      * ```javascript
