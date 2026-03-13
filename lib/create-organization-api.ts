@@ -603,7 +603,6 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
     },
     /**
      * Creates an app definition
-     * @param Object representation of the App Definition to be created
      * @returns Promise for the newly created AppDefinition
      * @example
      * ```javascript
