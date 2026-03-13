@@ -31,4 +31,4 @@ const client = createClient({ accessToken: 'YOUR_ACCESS_TOKEN' }, { type: 'plain
 // This returns a ClientAPI instance — see createClientApi
 ```
 
-See [createClientApi](../create-contentful-api/default.html) for the full legacy API reference.
+See [createClientApi](../create-contentful-api/default) for the full legacy API reference.

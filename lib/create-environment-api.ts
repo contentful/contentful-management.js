@@ -1330,7 +1330,6 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     /**
      * Creates a Asset based on files. After creation, call asset.processForLocale or asset.processForAllLocales to start asset processing.
      * @param data - Object representation of the Asset to be created. Note that the field object should have an uploadFrom property on asset creation, which will be removed and replaced with an url property when processing is finished.
-     * @param data.fields.file.[LOCALE].file - Can be a string, an ArrayBuffer or a Stream.
      * @returns Promise for the newly created Asset
      * @example
      * ```javascript
@@ -1375,8 +1374,6 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     },
     /**
      * Creates an asset key for signing asset URLs (Embargoed Assets)
-     * @param data Object with request payload
-     * @param data.expiresAt number a UNIX timestamp in the future (but not more than 48 hours from time of calling)
      * @returns Promise for the newly created AssetKey
      * @example
      * ```javascript
@@ -1724,7 +1721,6 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * Creates an App Installation
      * @param appDefinitionId - AppDefinition ID
      * @param data - AppInstallation data
-     * @param options.acceptAllTerms - Flag for accepting Apps' Marketplace EULA, Terms, and Privacy policy (need to pass `{acceptAllTerms: true}` to install a marketplace app)
      * @returns Promise for an App Installation
      * @example
      * ```javascript
@@ -2352,9 +2348,6 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     /**
      * Updates a Release and replaces all the properties.
      * @param {object} options,
-     * @param options.releaseId the ID of the release
-     * @param options.payload the payload to be updated in the Release
-     * @param options.version Release sys.version that to be updated
      * @returns Promise containing a wrapped Release, that has helper methods within.
      *
      * @example
@@ -2442,8 +2435,6 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
 
     /**
      * Publishes all Entities contained in a Release.
-     * @param options.releaseId the ID of the release
-     * @param options.version the version of the release that is to be published
      * @returns Promise containing a wrapped Release, that has helper methods within.
      *
      * @example
@@ -2477,8 +2468,6 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
 
     /**
      * Unpublishes all Entities contained in a Release.
-     * @param options.releaseId the ID of the release
-     * @param options.version the version of the release that is to be published
      * @returns Promise containing a wrapped Release, that has helper methods within.
      *
      * @example
@@ -2512,8 +2501,6 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
 
     /**
      * Validates all Entities contained in a Release against an action (publish or unpublish)
-     * @param options.releaseId the ID of the release
-     * @param options.payload (optional) the type of action to be validated against
      *
      * @returns Promise containing a wrapped Release, that has helper methods within.
      *
@@ -2554,8 +2541,6 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
 
     /**
      * Archives a Release and prevents new operations (publishing, unpublishing adding new entities etc).
-     * @param options.releaseId the ID of the release
-     * @param options.version the version of the release that is to be archived
      * @returns Promise containing a wrapped Release, that has helper methods within.
      *
      * @example
@@ -2589,8 +2574,6 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
 
     /**
      * Unarchives a previously archived Release - this enables the release to be published, unpublished etc.
-     * @param options.releaseId the ID of the release
-     * @param options.version the version of the release that is to be unarchived
      * @returns Promise containing a wrapped Release, that has helper methods within.
      *
      * @example
@@ -2624,8 +2607,6 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
 
     /**
      * Retrieves a ReleaseAction by ID
-     * @param params.releaseId The ID of a Release
-     * @param params.actionId The ID of a Release Action
      * @returns Promise containing a wrapped ReleaseAction
      * @example
      * ```javascript
@@ -2659,8 +2640,6 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
 
     /**
      * Gets a Collection of ReleaseActions
-     * @param {string} params.releaseId ID of the Release to fetch the actions from
-     * @param {ReleaseQueryOptions} params.query filtering options for the collection result
      * @returns Promise containing a wrapped ReleaseAction Collection
      *
      * @example
@@ -2723,7 +2702,6 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     /**
      * Gets a collection of all environment template installations in the environment for a given template
      * @param environmentTemplateId - Environment template ID to return installations for
-     * @param [options.installationId] - Installation ID to filter for a specific installation
      * @returns Promise for a collection of EnvironmentTemplateInstallations
      * ```javascript
      * const contentful = require('contentful-management')
