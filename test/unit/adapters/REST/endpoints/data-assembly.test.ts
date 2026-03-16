@@ -92,4 +92,46 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
         )
       })
   })
+
+  test('update calls correct URL with version header', async () => {
+    const mockResponse = {
+      sys: { id: 'da123', type: 'DataAssembly', version: 2 },
+      name: 'Updated Assembly',
+      description: 'An updated data assembly',
+      metadata: { tags: [] },
+      parameters: {},
+      resolvers: {},
+      return: {},
+    }
+
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'DataAssembly',
+        action: 'update',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+          dataAssemblyId: 'da123',
+        },
+        payload: {
+          sys: { id: 'da123', type: 'DataAssembly', version: 1, dataType: [] },
+          name: 'Updated Assembly',
+          description: 'An updated data assembly',
+          metadata: { tags: [] },
+          parameters: {},
+          resolvers: {},
+          return: {},
+        },
+      })
+      .then((r) => {
+        expect(r).to.eql(mockResponse)
+        expect(httpMock.put.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/data_assemblies_temp/da123',
+        )
+        expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(1)
+      })
+  })
 })
