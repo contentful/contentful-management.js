@@ -145,7 +145,11 @@ import type {
 import type { AppKeyProps, CreateAppKeyProps } from './entities/app-key'
 import type { ConceptProps, CreateConceptProps } from './entities/concept'
 import type { ConceptSchemeProps, CreateConceptSchemeProps } from './entities/concept-scheme'
-import type { DataAssemblyProps, DataAssemblyQueryOptions } from './entities/data-assembly'
+import type {
+  CreateDataAssemblyProps,
+  DataAssemblyProps,
+  DataAssemblyQueryOptions,
+} from './entities/data-assembly'
 import type {
   CreateEnvironmentTemplateProps,
   EnvironmentTemplateProps,
@@ -641,6 +645,7 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'DataAssembly', 'getMany', UA>): MRReturn<'DataAssembly', 'getMany'>
   (opts: MROpts<'DataAssembly', 'get', UA>): MRReturn<'DataAssembly', 'get'>
+  (opts: MROpts<'DataAssembly', 'create', UA>): MRReturn<'DataAssembly', 'create'>
 
   (opts: MROpts<'EditorInterface', 'get', UA>): MRReturn<'EditorInterface', 'get'>
   (opts: MROpts<'EditorInterface', 'getMany', UA>): MRReturn<'EditorInterface', 'getMany'>
@@ -1732,6 +1737,12 @@ export type MRActions = {
     }
     get: {
       params: GetDataAssemblyParams
+      return: DataAssemblyProps
+    }
+    create: {
+      params: GetSpaceEnvironmentParams
+      payload: CreateDataAssemblyProps
+      headers?: RawAxiosRequestHeaders
       return: DataAssemblyProps
     }
   }
