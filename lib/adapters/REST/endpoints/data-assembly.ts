@@ -32,3 +32,10 @@ export const get: RestEndpoint<'DataAssembly', 'get'> = (
     headers,
   })
 }
+
+export const del: RestEndpoint<'DataAssembly', 'delete'> = (
+  http: AxiosInstance,
+  params: GetDataAssemblyParams,
+) => {
+  return raw.del(http, getBaseUrl(params) + `/${params.dataAssemblyId}`)
+}

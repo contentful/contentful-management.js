@@ -44,4 +44,21 @@ export type DataAssemblyPlainClientAPI = {
    * ```
    */
   get(params: OptionalDefaults<GetDataAssemblyParams>): Promise<DataAssemblyProps>
+
+  /**
+   * Deletes a data assembly
+   * @param params the space, environment, and data assembly IDs
+   * @returns void
+   * @throws if the request fails, or the data assembly is not found
+   * @internal - Experimental endpoint, subject to breaking changes without notice
+   * @example
+   * ```javascript
+   * await client.dataAssembly.delete({
+   *   spaceId: '<space_id>',
+   *   environmentId: '<environment_id>',
+   *   dataAssemblyId: '<data_assembly_id>',
+   * });
+   * ```
+   */
+  delete(params: OptionalDefaults<GetDataAssemblyParams>): Promise<void>
 }

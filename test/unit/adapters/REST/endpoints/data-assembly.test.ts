@@ -92,4 +92,25 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
         )
       })
   })
+
+  test('delete calls correct URL', async () => {
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: '' }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'DataAssembly',
+        action: 'delete',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+          dataAssemblyId: 'da123',
+        },
+      })
+      .then(() => {
+        expect(httpMock.delete.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/data_assemblies_temp/da123',
+        )
+      })
+  })
 })
