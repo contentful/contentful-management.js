@@ -4,7 +4,7 @@ import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
 import type { DefaultElements, BasicMetaSysProps, SysLink, MakeRequest } from '../common-types'
 
-export type ActionType =
+export type RoleActionType =
   | 'read'
   | 'create'
   | 'update'
@@ -12,7 +12,9 @@ export type ActionType =
   | 'publish'
   | 'unpublish'
   | 'archive'
-  | 'unarchive'
+  | 'unarchive' 
+  | 'access'
+  | 'query'
 
 type ConditionType = 'and' | 'or' | 'not' | 'equals'
 export type ConstraintType = {
@@ -28,7 +30,7 @@ export type RoleProps = {
    */
   permissions: {
     ContentDelivery: string[] | string
-    ContentModel: string[]
+    ContentModel: string[] | string
     EnvironmentAliases: string[] | string
     Environments: string[] | string
     Settings: string[] | string
@@ -36,7 +38,7 @@ export type RoleProps = {
   }
   policies: {
     effect: string
-    actions: ActionType[] | 'all'
+    actions: RoleActionType[] | 'all'
     constraint: ConstraintType
   }[]
 }
