@@ -1750,6 +1750,7 @@ export type MRActions = {
     update: {
       params: GetDataAssemblyParams
       payload: UpdateDataAssemblyProps
+      headers?: RawAxiosRequestHeaders
       return: DataAssemblyProps
     }
   }

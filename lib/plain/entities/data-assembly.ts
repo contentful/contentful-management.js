@@ -103,5 +103,6 @@ export type DataAssemblyPlainClientAPI = {
   update(
     params: OptionalDefaults<GetDataAssemblyParams>,
     rawData: UpdateDataAssemblyProps,
+    headers?: RawAxiosRequestHeaders,
   ): Promise<DataAssemblyProps>
 }
