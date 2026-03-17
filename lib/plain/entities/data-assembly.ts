@@ -85,6 +85,7 @@ export type DataAssemblyPlainClientAPI = {
    * Updates a data assembly
    * @param params the space, environment, and data assembly IDs
    * @param rawData the data assembly data to update (must include sys.version)
+   * @param headers optional custom headers
    * @returns the updated data assembly
    * @throws if the request fails, or the data assembly is not found
    * @internal - Experimental endpoint, subject to breaking changes without notice
