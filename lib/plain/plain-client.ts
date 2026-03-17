@@ -269,6 +269,7 @@ export const createPlainClient = (
       getMany: wrap(wrapParams, 'DataAssembly', 'getMany'),
       get: wrap(wrapParams, 'DataAssembly', 'get'),
       create: wrap(wrapParams, 'DataAssembly', 'create'),
+      update: wrap(wrapParams, 'DataAssembly', 'update'),
     },
     user: {
       getManyForSpace: wrap(wrapParams, 'User', 'getManyForSpace'),

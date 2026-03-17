@@ -149,6 +149,7 @@ import type {
   CreateDataAssemblyProps,
   DataAssemblyProps,
   DataAssemblyQueryOptions,
+  UpdateDataAssemblyProps,
 } from './entities/data-assembly'
 import type {
   CreateEnvironmentTemplateProps,
@@ -646,6 +647,7 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'DataAssembly', 'getMany', UA>): MRReturn<'DataAssembly', 'getMany'>
   (opts: MROpts<'DataAssembly', 'get', UA>): MRReturn<'DataAssembly', 'get'>
   (opts: MROpts<'DataAssembly', 'create', UA>): MRReturn<'DataAssembly', 'create'>
+  (opts: MROpts<'DataAssembly', 'update', UA>): MRReturn<'DataAssembly', 'update'>
 
   (opts: MROpts<'EditorInterface', 'get', UA>): MRReturn<'EditorInterface', 'get'>
   (opts: MROpts<'EditorInterface', 'getMany', UA>): MRReturn<'EditorInterface', 'getMany'>
@@ -1742,6 +1744,12 @@ export type MRActions = {
     create: {
       params: GetSpaceEnvironmentParams
       payload: CreateDataAssemblyProps
+      headers?: RawAxiosRequestHeaders
+      return: DataAssemblyProps
+    }
+    update: {
+      params: GetDataAssemblyParams
+      payload: UpdateDataAssemblyProps
       headers?: RawAxiosRequestHeaders
       return: DataAssemblyProps
     }

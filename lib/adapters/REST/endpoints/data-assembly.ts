@@ -10,6 +10,7 @@ import type {
   CreateDataAssemblyProps,
   DataAssemblyProps,
   DataAssemblyQueryOptions,
+  UpdateDataAssemblyProps,
 } from '../../../entities/data-assembly'
 import type { RestEndpoint } from '../types'
 import * as raw from './raw'
@@ -46,4 +47,19 @@ export const create: RestEndpoint<'DataAssembly', 'create'> = (
 ) => {
   const data = copy(rawData)
   return raw.post<DataAssemblyProps>(http, getBaseUrl(params), data, { headers })
+}
+
+export const update: RestEndpoint<'DataAssembly', 'update'> = (
+  http: AxiosInstance,
+  params: GetDataAssemblyParams,
+  rawData: UpdateDataAssemblyProps,
+  headers?: RawAxiosRequestHeaders,
+) => {
+  const data = copy(rawData)
+  return raw.put<DataAssemblyProps>(http, getBaseUrl(params) + `/${params.dataAssemblyId}`, data, {
+    headers: {
+      'X-Contentful-Version': rawData.sys.version ?? 0,
+      ...headers,
+    },
+  })
 }
