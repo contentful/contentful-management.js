@@ -7,6 +7,7 @@ import type {
   GetSpaceEnvironmentParams,
 } from '../../../common-types'
 import type {
+  CreateDataAssemblyProps,
   DataAssemblyProps,
   DataAssemblyQueryOptions,
   UpdateDataAssemblyProps,
@@ -36,6 +37,16 @@ export const get: RestEndpoint<'DataAssembly', 'get'> = (
   return raw.get<DataAssemblyProps>(http, getBaseUrl(params) + `/${params.dataAssemblyId}`, {
     headers,
   })
+}
+
+export const create: RestEndpoint<'DataAssembly', 'create'> = (
+  http: AxiosInstance,
+  params: GetSpaceEnvironmentParams,
+  rawData: CreateDataAssemblyProps,
+  headers?: RawAxiosRequestHeaders,
+) => {
+  const data = copy(rawData)
+  return raw.post<DataAssemblyProps>(http, getBaseUrl(params), data, { headers })
 }
 
 export const update: RestEndpoint<'DataAssembly', 'update'> = (
