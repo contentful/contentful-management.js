@@ -123,4 +123,24 @@ export type DataAssemblyPlainClientAPI = {
    * ```
    */
   delete(params: OptionalDefaults<GetDataAssemblyParams>): Promise<void>
+
+  /**
+   * Unpublishes a data assembly
+   * @param params the space, environment, and data assembly IDs, and the version number
+   * @returns the unpublished data assembly
+   * @throws if the request fails, or the data assembly is not found
+   * @internal - Experimental endpoint, subject to breaking changes without notice
+   * @example
+   * ```javascript
+   * const dataAssembly = await client.dataAssembly.unpublish({
+   *   spaceId: '<space_id>',
+   *   environmentId: '<environment_id>',
+   *   dataAssemblyId: '<data_assembly_id>',
+   *   version: 1,
+   * });
+   * ```
+   */
+  unpublish(
+    params: OptionalDefaults<GetDataAssemblyParams & { version: number }>,
+  ): Promise<DataAssemblyProps>
 }

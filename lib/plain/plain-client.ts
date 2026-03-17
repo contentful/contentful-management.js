@@ -271,6 +271,7 @@ export const createPlainClient = (
       create: wrap(wrapParams, 'DataAssembly', 'create'),
       update: wrap(wrapParams, 'DataAssembly', 'update'),
       delete: wrap(wrapParams, 'DataAssembly', 'delete'),
+      unpublish: wrap(wrapParams, 'DataAssembly', 'unpublish'),
     },
     user: {
       getManyForSpace: wrap(wrapParams, 'User', 'getManyForSpace'),

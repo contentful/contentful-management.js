@@ -226,4 +226,33 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
         )
       })
   })
+
+  test('unpublish calls correct URL with DELETE method and version header', async () => {
+    const mockResponse = {
+      sys: { id: 'da123', type: 'DataAssembly', version: 2 },
+      name: 'Test Assembly',
+    }
+
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'DataAssembly',
+        action: 'unpublish',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+          dataAssemblyId: 'da123',
+          version: 1,
+        },
+      })
+      .then((r) => {
+        expect(r).to.eql(mockResponse)
+        expect(httpMock.delete.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/data_assemblies_temp/da123/published',
+        )
+        expect(httpMock.delete.mock.calls[0][1].headers['X-Contentful-Version']).to.eql(1)
+      })
+  })
 })
