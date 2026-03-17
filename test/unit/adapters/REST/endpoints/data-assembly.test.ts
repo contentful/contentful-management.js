@@ -93,6 +93,119 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
       })
   })
 
+  test('create calls correct URL with POST method', async () => {
+    const mockResponse = {
+      sys: { id: 'new123', type: 'DataAssembly', version: 1 },
+      name: 'New Assembly',
+    }
+
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'DataAssembly',
+        action: 'create',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+        },
+        payload: {
+          sys: { type: 'DataAssembly', dataType: [] },
+          metadata: { tags: [] },
+          name: 'New Assembly',
+          description: 'A data assembly',
+          parameters: {},
+          resolvers: {},
+          return: {},
+        },
+      })
+      .then((r) => {
+        expect(r).to.eql(mockResponse)
+        expect(httpMock.post.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/data_assemblies_temp',
+        )
+      })
+  })
+
+  test('create passes custom headers to the request', async () => {
+    const mockResponse = {
+      sys: { id: 'new123', type: 'DataAssembly', version: 1 },
+      name: 'New Assembly',
+    }
+
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'DataAssembly',
+        action: 'create',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+        },
+        payload: {
+          sys: { type: 'DataAssembly', dataType: [] },
+          metadata: { tags: [] },
+          name: 'New Assembly',
+          description: 'A data assembly',
+          parameters: {},
+          resolvers: {},
+          return: {},
+        },
+        headers: {
+          'X-Custom-Header': 'custom-value',
+        },
+      })
+      .then((r) => {
+        expect(r).to.eql(mockResponse)
+        expect(httpMock.post.mock.calls[0][2].headers['X-Custom-Header']).to.eql('custom-value')
+      })
+  })
+
+  test('update calls correct URL with version header', async () => {
+    const mockResponse = {
+      sys: { id: 'da123', type: 'DataAssembly', version: 2 },
+      name: 'Updated Assembly',
+      description: 'An updated data assembly',
+      metadata: { tags: [] },
+      parameters: {},
+      resolvers: {},
+      return: {},
+    }
+
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'DataAssembly',
+        action: 'update',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+          dataAssemblyId: 'da123',
+        },
+        payload: {
+          sys: { id: 'da123', type: 'DataAssembly', version: 1, dataType: [] },
+          name: 'Updated Assembly',
+          description: 'An updated data assembly',
+          metadata: { tags: [] },
+          parameters: {},
+          resolvers: {},
+          return: {},
+        },
+      })
+      .then((r) => {
+        expect(r).to.eql(mockResponse)
+        expect(httpMock.put.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/data_assemblies_temp/da123',
+        )
+        expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(1)
+      })
+  })
+
   test('delete calls correct URL', async () => {
     const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: '' }))
 
