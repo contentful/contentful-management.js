@@ -1,11 +1,7 @@
 import { describe, test, afterEach, expect, vi } from 'vitest'
 import createEntryApi from '../../lib/create-entry-api'
 import { wrapEntry, wrapEntryCollection } from '../../lib/entities/entry'
-import {
-  commentMock,
-  cloneMock,
-  taskMock,
-} from './mocks/entities'
+import { commentMock, cloneMock, taskMock } from './mocks/entities'
 import setupMakeRequest from './mocks/makeRequest'
 import {
   entityActionTest,
@@ -22,10 +18,8 @@ import {
   isPublishedTest,
   isUpdatedTest,
 } from './test-creators/instance-entity-methods'
-import {
-  makeEntityMethodFailingTest
-} from './test-creators/static-entity-methods'
-import createClientApi from "../../lib/create-contentful-api";
+import { makeEntityMethodFailingTest } from './test-creators/static-entity-methods'
+import createClientApi from '../../lib/create-contentful-api'
 
 function setup(promise: Promise<unknown>) {
   const makeRequest = setupMakeRequest(promise)
@@ -57,14 +51,18 @@ describe('createClientApi', () => {
 
     test('API call space create', async () => {
       const { api } = setup(Promise.resolve({}))
-      await expect(api.createSpace({name: 'test space', productId: 'test-product'}, 'test-org')).resolves.not.toThrow()
+      await expect(
+        api.createSpace({ name: 'test space', productId: 'test-product' }, 'test-org'),
+      ).resolves.not.toThrow()
     })
 
     test('API call space create fails', async () => {
       const error = cloneMock('error')
       const { api } = setup(Promise.reject(error))
 
-      await expect(api.createSpace({name: 'test space', productId: 'test-product'}, 'test-org')).rejects.toEqual(error)
+      await expect(
+        api.createSpace({ name: 'test space', productId: 'test-product' }, 'test-org'),
+      ).rejects.toEqual(error)
     })
   })
 })

@@ -1,6 +1,6 @@
 import { describe, it, beforeAll, afterAll } from 'vitest'
 import { expect } from 'vitest'
-import {defaultClient, getTestOrganization, timeoutToCalmRateLimiting} from '../helpers'
+import { defaultClient, getTestOrganization, timeoutToCalmRateLimiting } from '../helpers'
 import type { Organization } from '../../lib/export-types'
 
 describe('Space API', () => {
@@ -13,7 +13,6 @@ describe('Space API', () => {
 
   afterAll(timeoutToCalmRateLimiting)
 
-
   it('Gets organization spaces', async () => {
     const response = await organization.getUsers()
 
@@ -22,11 +21,14 @@ describe('Space API', () => {
   })
 
   it('crates and deletes a space', async () => {
-    const space = await defaultClient.createSpace({
-      name: 'test space',
-      productId: INTERNAL_OFFER_ID,
-      defaultLocale: 'en'
-    }, organization.sys.id)
+    const space = await defaultClient.createSpace(
+      {
+        name: 'test space',
+        productId: INTERNAL_OFFER_ID,
+        defaultLocale: 'en',
+      },
+      organization.sys.id,
+    )
     expect(space.name).toEqual('test space')
 
     await defaultClient.getSpace(space.sys.id).then((space) => {
