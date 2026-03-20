@@ -5,7 +5,7 @@ import type { Organization } from '../../lib/export-types'
 
 describe('Space API', () => {
   let organization: Organization
-  const INTERNAL_OFFER_ID = process.env.CONTENTFUL_OFFER_ID || '54jwueRJC2BOihxYMIdYoD'
+  const INTERNAL_PRODUCT_ID = process.env.CONTENTFUL_PRODUCT_ID || '54jwueRJC2BOihxYMIdYoD'
 
   beforeAll(async () => {
     organization = await getTestOrganization()
@@ -24,7 +24,7 @@ describe('Space API', () => {
     const space = await defaultClient.createSpace(
       {
         name: 'test space',
-        productId: INTERNAL_OFFER_ID,
+        productId: INTERNAL_PRODUCT_ID,
         defaultLocale: 'en',
       },
       organization.sys.id,
