@@ -271,6 +271,7 @@ export const createPlainClient = (
       create: wrap(wrapParams, 'DataAssembly', 'create'),
       update: wrap(wrapParams, 'DataAssembly', 'update'),
       delete: wrap(wrapParams, 'DataAssembly', 'delete'),
+      publish: wrap(wrapParams, 'DataAssembly', 'publish'),
       unpublish: wrap(wrapParams, 'DataAssembly', 'unpublish'),
     },
     user: {
