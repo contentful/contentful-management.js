@@ -20,7 +20,7 @@ describe('Space API', () => {
     expect(response.items).toBeTruthy()
   })
 
-  it('crates and deletes a space', async () => {
+  it('creates and deletes a space', async () => {
     const space = await defaultClient.createSpace(
       {
         name: 'test space',
