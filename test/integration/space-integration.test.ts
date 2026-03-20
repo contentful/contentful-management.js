@@ -5,7 +5,7 @@ import type { Organization } from '../../lib/export-types'
 
 describe('Space API', () => {
   let organization: Organization
-  const INTERNAL_OFFER_ID = '54jwueRJC2BOihxYMIdYoD'
+  const INTERNAL_OFFER_ID = process.env.CONTENTFUL_OFFER_ID || '54jwueRJC2BOihxYMIdYoD'
 
   beforeAll(async () => {
     organization = await getTestOrganization()
