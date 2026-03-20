@@ -32,7 +32,7 @@ import type {
 } from './export-types'
 
 export type ClientAPI = ReturnType<typeof createClientApi>
-type CreateSpaceProps = Omit<SpaceProps, 'sys'> & { defaultLocale?: string }
+type CreateSpaceProps = Omit<SpaceProps, 'sys'> & { defaultLocale?: string, productId?: string }
 
 /**
  * @private
