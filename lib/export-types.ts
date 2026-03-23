@@ -217,7 +217,12 @@ export type {
   ScheduledActionSysProps,
 } from './entities/scheduled-action'
 export type { Snapshot, SnapshotProps } from './entities/snapshot'
-export type { Space, SpaceProps } from './entities/space'
+export type {
+  EligibleLicenseProps,
+  EligibleLicenseQuotas,
+  Space,
+  SpaceProps,
+} from './entities/space'
 export type { SpaceMember, SpaceMemberProps } from './entities/space-member'
 export type {
   CreateSpaceMembershipProps,

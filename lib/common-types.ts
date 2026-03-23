@@ -98,7 +98,7 @@ import type {
 import type { CreateRoleProps, RoleProps } from './entities/role'
 import type { ScheduledActionProps } from './entities/scheduled-action'
 import type { SnapshotProps } from './entities/snapshot'
-import type { SpaceProps } from './entities/space'
+import type { EligibleLicenseProps, SpaceProps } from './entities/space'
 import type { SpaceMemberProps } from './entities/space-member'
 import type { CreateSpaceMembershipProps, SpaceMembershipProps } from './entities/space-membership'
 import type { CreateTagProps, DeleteTagParams, TagProps, UpdateTagProps } from './entities/tag'
@@ -2324,6 +2324,7 @@ export type MRActions = {
       return: SpaceProps
     }
     delete: { params: GetSpaceParams; return: void }
+    getEligibleLicenses: { params: GetSpaceParams; return: EligibleLicenseProps[] }
   }
   SpaceMember: {
     get: { params: GetSpaceParams & { spaceMemberId: string }; return: SpaceMemberProps }
