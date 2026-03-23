@@ -2902,6 +2902,10 @@ export type GetAutomationDefinitionParams = GetSpaceEnvironmentParams & {
   automationDefinitionId: string
 }
 /** @internal */
+export type GetAutomationExecutionParams = GetSpaceEnvironmentParams & {
+  automationExecutionId: string
+}
+/** @internal */
 export type GetWorkflowDefinitionParams = GetSpaceEnvironmentParams & {
   workflowDefinitionId: string
 }
