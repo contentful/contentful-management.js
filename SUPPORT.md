@@ -38,4 +38,3 @@ Contentful will not deactivate any published packages, so existing installations
 
 - **Supported versions**: File an issue on [GitHub](https://github.com/contentful/contentful-management.js/issues/new)
 - **Security vulnerabilities**: Please report security issues responsibly via [Contentful's security page](https://www.contentful.com/security/)
-- **General questions**: Reach out via the [Contentful Community Slack](https://www.contentful.com/slack/) or [Community Forum](https://support.contentful.com/)
