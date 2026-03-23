@@ -100,7 +100,11 @@ import type { GetSemanticRecommendationsProps } from './entities/semantic-recomm
 import type { GetSemanticReferenceSuggestionsProps } from './entities/semantic-reference-suggestions'
 import type { GetSemanticSearchProps } from './entities/semantic-search'
 import { wrapAgent, wrapAgentCollection } from './entities/agent'
-import { wrapAgentRun, wrapAgentRunCollection } from './entities/agent-run'
+import {
+  wrapAgentRun,
+  wrapAgentRunCollection,
+  wrapAgentGenerateResponse,
+} from './entities/agent-run'
 import { wrapSemanticDuplicates } from './entities/semantic-duplicates'
 import { wrapSemanticRecommendations } from './entities/semantic-recommendations'
 import { wrapSemanticReferenceSuggestions } from './entities/semantic-reference-suggestions'

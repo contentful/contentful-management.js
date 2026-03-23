@@ -42,7 +42,11 @@ import { wrapAppAction, wrapAppActionCollection } from './entities/app-action'
 import { wrapFunction, wrapFunctionCollection } from './entities/function'
 import { wrapRoleCollection } from './entities/role'
 import { wrapSpaceCollection } from './entities/space'
-import { wrapVectorizationStatus } from './entities/vectorization-status'
+import { wrapContentSemanticsSettings } from './entities/semantic-settings'
+import {
+  wrapContentSemanticsIndex,
+  wrapContentSemanticsIndexCollection,
+} from './entities/content-semantics-index'
 
 /**
  * @internal
