@@ -11,11 +11,12 @@
 <h3 align="center">JavaScript</h3>
 
 <p align="center">
-  <a href="README.md">Readme</a> · 
-  <a href="SETUP.md">Setup</a> · 
-  <a href="MIGRATION.md">Migration</a> · 
-  <a href="CHANGELOG.md">Changelog</a> · 
-  <a href="CONTRIBUTING.md">Contributing</a>
+  <a href="README.md">Readme</a> ·
+  <a href="SETUP.md">Setup</a> ·
+  <a href="MIGRATION.md">Migration</a> ·
+  <a href="CHANGELOG.md">Changelog</a> ·
+  <a href="CONTRIBUTING.md">Contributing</a> ·
+  <a href="SUPPORT.md">Support Policy</a>
 </p>
 
 <p align="center">
@@ -62,6 +63,7 @@
   - [Cursor Based Pagination](#cursor-based-pagination)
   - [REST API reference](#rest-api-reference)
 - [Versioning](#versioning)
+- [Support Policy](#support-policy)
 - [Reach out to us](#reach-out-to-us)
 - [Get involved](#get-involved)
 - [License](#license)
@@ -451,6 +453,12 @@ In addition, there may be some experimental features in the main build of this S
 
 - **AI Agents**: The Agent and Agent Run APIs (`getAgent`, `getAgents`, `getAgentRun`, `getAgentRuns`, `generateWithAgent`) are experimental and subject to breaking changes without notice.
 - **Component Types**: The Component Type `getMany` endpoint (`componentType.getMany`) is experimental and subject to breaking changes without notice.
+
+## Support Policy
+
+When a new major version is released, the previous major version enters a **6-month maintenance period** during which only critical bug fixes and security patches are provided. After this period, previous versions reach end-of-life and no longer receive updates.
+
+For full details, see our [Support and Maintenance Policy](SUPPORT.md).
 
 ## Reach out to us
 
