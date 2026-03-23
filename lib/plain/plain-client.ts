@@ -80,6 +80,22 @@ export const createPlainClient = (
       get: wrap(wrapParams, 'AgentRun', 'get'),
       getMany: wrap(wrapParams, 'AgentRun', 'getMany'),
     },
+    automationDefinition: {
+      get: wrap(wrapParams, 'AutomationDefinition', 'get'),
+      getMany: wrap(wrapParams, 'AutomationDefinition', 'getMany'),
+      create: wrap(wrapParams, 'AutomationDefinition', 'create'),
+      update: wrap(wrapParams, 'AutomationDefinition', 'update'),
+      delete: wrap(wrapParams, 'AutomationDefinition', 'delete'),
+    },
+    automationExecution: {
+      get: wrap(wrapParams, 'AutomationExecution', 'get'),
+      getMany: wrap(wrapParams, 'AutomationExecution', 'getMany'),
+      getForAutomationDefinition: wrap(
+        wrapParams,
+        'AutomationExecution',
+        'getForAutomationDefinition',
+      ),
+    },
     appAction: {
       get: wrap(wrapParams, 'AppAction', 'get'),
       getMany: wrap(wrapParams, 'AppAction', 'getMany'),
@@ -545,6 +561,16 @@ export const createPlainClient = (
     semanticSearch: {
       get: wrap(wrapParams, 'SemanticSearch', 'get'),
     },
+    semanticSettings: {
+      get: wrap(wrapParams, 'SemanticSettings', 'get'),
+    },
+    contentSemanticsIndex: {
+      get: wrap(wrapParams, 'ContentSemanticsIndex', 'get'),
+      getMany: wrap(wrapParams, 'ContentSemanticsIndex', 'getMany'),
+      getManyForEnvironment: wrap(wrapParams, 'ContentSemanticsIndex', 'getManyForEnvironment'),
+      create: wrap(wrapParams, 'ContentSemanticsIndex', 'create'),
+      delete: wrap(wrapParams, 'ContentSemanticsIndex', 'delete'),
+    },
     spaceMember: {
       get: wrap(wrapParams, 'SpaceMember', 'get'),
       getMany: wrap(wrapParams, 'SpaceMember', 'getMany'),
@@ -591,10 +617,6 @@ export const createPlainClient = (
     userUIConfig: {
       get: wrap(wrapParams, 'UserUIConfig', 'get'),
       update: wrap(wrapParams, 'UserUIConfig', 'update'),
-    },
-    vectorizationStatus: {
-      get: wrap(wrapParams, 'VectorizationStatus', 'get'),
-      update: wrap(wrapParams, 'VectorizationStatus', 'update'),
     },
     workflowDefinition: {
       get: wrap(wrapParams, 'WorkflowDefinition', 'get'),

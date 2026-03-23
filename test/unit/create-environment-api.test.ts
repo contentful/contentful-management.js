@@ -22,6 +22,7 @@ import {
   semanticRecommendationsMock,
   semanticReferenceSuggestionsMock,
   semanticSearchMock,
+  contentSemanticsIndexCollectionMock,
   mockCursorPaginatedCollection,
 } from './mocks/entities'
 import { describe, test, expect } from 'vitest'
@@ -901,6 +902,20 @@ describe('A createEnvironmentApi', () => {
   test('API call getSemanticSearch fails', async () => {
     return makeEntityMethodFailingTest(setup, {
       methodToTest: 'getSemanticSearch',
+    })
+  })
+
+  test('API call getContentSemanticsIndexes', async () => {
+    return makeGetEntityTest(setup, {
+      entityType: 'ContentSemanticsIndex',
+      mockToReturn: contentSemanticsIndexCollectionMock,
+      methodToTest: 'getContentSemanticsIndexes',
+    })
+  })
+
+  test('API call getContentSemanticsIndexes fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'getContentSemanticsIndexes',
     })
   })
 

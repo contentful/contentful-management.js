@@ -3,7 +3,7 @@ import copy from 'fast-copy'
 import type { DefaultElements, MakeRequest, MetaSysProps } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
-import { wrapAgentRun, type AgentRun } from './agent-run'
+import { wrapAgentGenerateResponse, type AgentGenerateResponse } from './agent-run'
 
 export type AgentToolLink = {
   sys: {
@@ -44,7 +44,7 @@ export type AgentGeneratePayload<TMetadata = Record<string, unknown>> = {
 }
 
 export interface Agent extends AgentProps, DefaultElements<AgentProps> {
-  generate(payload: AgentGeneratePayload): Promise<AgentRun>
+  generate(payload: AgentGeneratePayload): Promise<AgentGenerateResponse>
 }
 
 function createAgentApi(makeRequest: MakeRequest) {
@@ -62,7 +62,7 @@ function createAgentApi(makeRequest: MakeRequest) {
         action: 'generate',
         params: getParams(self),
         payload,
-      }).then((data) => wrapAgentRun(makeRequest, data))
+      }).then((data) => wrapAgentGenerateResponse(makeRequest, data))
     },
   }
 }

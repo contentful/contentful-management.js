@@ -58,7 +58,9 @@ describe.skipIf(!process.env.API_INTEGRATION_TESTS)('Agent api', { sequential: t
         },
       ],
     })
-    expect(result.result).to.be.ok
+    expect(result.sys.id, 'sys.id').to.be.ok
+    expect(result.sys.type, 'sys.type').equals('AgentRun')
+    expect(result.sys.status, 'sys.status').to.be.ok
   })
 
   test('Get specific ai agent run', async () => {

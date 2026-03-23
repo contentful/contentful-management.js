@@ -47,6 +47,11 @@ export type UserProps = {
 
   '2faEnabled': boolean
   cookieConsentData: string
+  /**
+   * Language used in the interface and email communications.
+   * Overrides the organization default language.
+   */
+  preferredLanguage: string | null
 }
 
 export interface User extends UserProps, DefaultElements<UserProps> {}

@@ -91,15 +91,16 @@ import {
   AiActionInvocationType,
 } from '../../../lib/entities/ai-action-invocation'
 import { AgentProps } from '../../../lib/entities/agent'
-import { AgentRunProps } from '../../../lib/entities/agent-run'
-import {
-  EmbeddingSetStatus,
-  VectorizationStatusProps,
-} from '../../../lib/entities/vectorization-status'
+import { AgentGenerateResponse, AgentRunProps } from '../../../lib/entities/agent-run'
 import { SemanticDuplicatesProps } from '../../../lib/entities/semantic-duplicates'
 import { SemanticReferenceSuggestionsProps } from '../../../lib/entities/semantic-reference-suggestions'
 import { SemanticSearchProps } from '../../../lib/entities/semantic-search'
 import { SemanticRecommendationsProps } from '../../../lib/entities/semantic-recommendations'
+import { ContentSemanticsSettingsProps } from '../../../lib/entities/semantic-settings'
+import {
+  ContentSemanticsIndexProps,
+  ContentSemanticsIndexCollectionProps,
+} from '../../../lib/entities/content-semantics-index'
 
 const linkMock: MetaLinkProps = {
   id: 'linkid',
@@ -208,6 +209,7 @@ const userMock: UserProps = {
   confirmed: true,
   '2faEnabled': true,
   cookieConsentData: 'mocked',
+  preferredLanguage: null,
 }
 
 const personalAccessTokenMock: PersonalAccessTokenProps = {
@@ -1022,6 +1024,14 @@ const agentRunMock: AgentRunProps = {
   ],
 }
 
+const agentGenerateResponseMock: AgentGenerateResponse = {
+  sys: {
+    id: 'mocked-agent-run-id',
+    type: 'AgentRun' as const,
+    status: 'IN_PROGRESS' as const,
+  },
+}
+
 const apiKeyMock: ApiKeyProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'ApiKey',
@@ -1047,6 +1057,7 @@ const organizationMock: OrganizationProps = {
     type: 'Organization',
   }),
   name: 'name',
+  defaultUserLanguage: 'en-US',
 }
 
 const usageMock: UsageProps = {
@@ -1475,21 +1486,32 @@ const functionLogCollectionMock = {
   skip: 0,
 }
 
-const vectorizationStatusMock: VectorizationStatusProps = {
+const semanticSettingsMock: ContentSemanticsSettingsProps = {
   sys: {
-    type: 'Array',
+    type: 'ContentSemanticsSettings',
   },
-  items: [
-    {
-      sys: {
-        space: makeLink('Space', 'mock-space-id'),
-        status: EmbeddingSetStatus.ACTIVE,
-        type: 'VectorizationStatus',
-        createdAt: '2025-01-01T10:00:00Z',
-        updatedAt: '2025-01-01T10:00:00Z',
-      },
-    },
-  ],
+  supportedLocalePrefixes: ['en', 'de'],
+}
+
+const contentSemanticsIndexMock: ContentSemanticsIndexProps = {
+  sys: {
+    id: 'mock-index-id',
+    type: 'ContentSemanticsIndex',
+    status: 'ACTIVE',
+    localeCode: 'en-US',
+    createdAt: '2025-01-01T10:00:00Z',
+    updatedAt: '2025-01-01T10:00:00Z',
+    createdBy: makeLink('User', 'mock-user-id'),
+    locale: makeLink('Locale', 'en-US'),
+    environment: makeLink('Environment', 'mock-environment-id'),
+    space: makeLink('Space', 'mock-space-id'),
+    organization: makeLink('Organization', 'mock-org-id'),
+  },
+}
+
+const contentSemanticsIndexCollectionMock: ContentSemanticsIndexCollectionProps = {
+  sys: { type: 'Array' },
+  items: [contentSemanticsIndexMock],
 }
 
 const semanticDuplicatesMock: SemanticDuplicatesProps = {
@@ -1563,6 +1585,7 @@ const mocks = {
   aiActionInvocationPayload: aiActionInvocationPayloadMock,
   agent: agentMock,
   agentRun: agentRunMock,
+  agentGenerateResponse: agentGenerateResponseMock,
   apiKey: apiKeyMock,
   appAction: appActionMock,
   appActionCall: appActionCallMock,
@@ -1620,6 +1643,9 @@ const mocks = {
   resourceProvider: resourceProviderMock,
   resourceType: resourceTypeMock,
   scheduledAction: scheduledActionMock,
+  semanticSettings: semanticSettingsMock,
+  contentSemanticsIndex: contentSemanticsIndexMock,
+  contentSemanticsIndexCollection: contentSemanticsIndexCollectionMock,
   semanticDuplicates: semanticDuplicatesMock,
   semanticRecommendations: semanticRecommendationsMock,
   semanticReferenceSuggestions: semanticReferenceSuggestionsMock,
@@ -1639,7 +1665,6 @@ const mocks = {
   uiConfig: uiConfigMock,
   user: userMock,
   userUIConfig: userUIConfigMock,
-  vectorizationStatus: vectorizationStatusMock,
   webhook: webhookMock,
   workflowStep: workflowStepMock,
   workflowDefinition: workflowDefinitionMock,
@@ -1693,6 +1718,7 @@ function setupEntitiesMock() {
     agentRun: {
       wrapAgentRun: vi.fn(),
       wrapAgentRunCollection: vi.fn(),
+      wrapAgentGenerateResponse: vi.fn(),
     },
     appAction: {
       wrapAppAction: vi.fn(),
@@ -1912,9 +1938,6 @@ function setupEntitiesMock() {
       wrapFunctionLog: vi.fn(),
       wrapFunctionLogCollection: vi.fn(),
     },
-    VectorizationStatus: {
-      wrapVectorizationStatus: vi.fn(),
-    },
     SemanticDuplicates: {
       wrapSemanticDuplicates: vi.fn(),
     },
@@ -1926,6 +1949,13 @@ function setupEntitiesMock() {
     },
     SemanticSearch: {
       wrapSemanticSearch: vi.fn(),
+    },
+    SemanticSettings: {
+      wrapSemanticSettings: vi.fn(),
+    },
+    ContentSemanticsIndex: {
+      wrapContentSemanticsIndex: vi.fn(),
+      wrapContentSemanticsIndexCollection: vi.fn(),
     },
   }
 
@@ -2001,7 +2031,9 @@ export {
   functionCollectionMock,
   functionLogMock,
   functionLogCollectionMock,
-  vectorizationStatusMock,
+  semanticSettingsMock,
+  contentSemanticsIndexMock,
+  contentSemanticsIndexCollectionMock,
   semanticDuplicatesMock,
   semanticRecommendationsMock,
   semanticReferenceSuggestionsMock,

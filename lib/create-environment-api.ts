@@ -100,12 +100,12 @@ import type { GetSemanticRecommendationsProps } from './entities/semantic-recomm
 import type { GetSemanticReferenceSuggestionsProps } from './entities/semantic-reference-suggestions'
 import type { GetSemanticSearchProps } from './entities/semantic-search'
 import { wrapAgent, wrapAgentCollection } from './entities/agent'
-import { wrapAgentRun, wrapAgentRunCollection } from './entities/agent-run'
+import { wrapAgentRun, wrapAgentRunCollection, wrapAgentGenerateResponse } from './entities/agent-run'
 import { wrapSemanticDuplicates } from './entities/semantic-duplicates'
 import { wrapSemanticRecommendations } from './entities/semantic-recommendations'
 import { wrapSemanticReferenceSuggestions } from './entities/semantic-reference-suggestions'
 import { wrapSemanticSearch } from './entities/semantic-search'
-
+import { wrapContentSemanticsIndexCollection } from './entities/content-semantics-index'
 /**
  * @internal
  */
@@ -2851,14 +2851,14 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     },
 
     /**
-     * Retrieves Semantic Recommendations for the given entity ID
-     * @param payload - Object containing the entityId and optional filters
+     * Retrieves Semantic Recommendations for the given entity IDs
+     * @param payload - Object containing the entityIds and optional filters
      * @returns Promise for Semantic Recommendations
      * @example ```javascript
      * client.getSpace('<space_id>')
      *   .then(space => space.getEnvironment('<environment_id>'))
      *   .then(environment => environment.getSemanticRecommendations({
-     *      entityId: '<entity_id>',
+     *      entityIds: ['<entity_id>'],
      *      filters: {
      *        contentTypeIds: ['<content_type_id1>', '<content_type_id2>'],
      *      }
@@ -2879,17 +2879,14 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
 
     /**
      * Retrieves Semantic Reference Suggestions for the given entity ID and its reference field ID
-     * @param payload - Object containing the entityId and optional filters
+     * @param payload - Object containing the entityId and referenceFieldId
      * @returns Promise for Semantic Reference Suggestions
      * @example ```javascript
      * client.getSpace('<space_id>')
      *   .then(space => space.getEnvironment('<environment_id>'))
-     *   .then(environment => environment.getSemanticRecommendations({
+     *   .then(environment => environment.getSemanticReferenceSuggestions({
      *      entityId: '<entity_id>',
      *      referenceFieldId: '<reference_field_id>',
-     *      filters: {
-     *        contentTypeIds: ['<content_type_id1>', '<content_type_id2>'],
-     *      }
      *    })
      */
     getSemanticReferenceSuggestions(payload: GetSemanticReferenceSuggestionsProps) {
@@ -2930,6 +2927,27 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
         },
         payload,
       }).then((data) => wrapSemanticSearch(makeRequest, data))
+    },
+
+    /**
+     * Gets all content semantics indexes for the environment
+     * @return Promise for a collection of ContentSemanticsIndex
+     * @example ```javascript
+     * client.getSpace('<space_id>')
+     *   .then(space => space.getEnvironment('<environment_id>'))
+     *   .then(environment => environment.getContentSemanticsIndexes())
+     */
+    getContentSemanticsIndexes() {
+      const raw = this.toPlainObject() as EnvironmentProps
+
+      return makeRequest({
+        entityType: 'ContentSemanticsIndex',
+        action: 'getManyForEnvironment',
+        params: {
+          spaceId: raw.sys.space.sys.id,
+          environmentId: raw.sys.id,
+        },
+      }).then((data) => wrapContentSemanticsIndexCollection(makeRequest, data))
     },
 
     /**
@@ -2996,31 +3014,38 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * Generates content using an AI Agent
      * @param agentId - AI Agent ID
      * @param payload - Generation payload
-     * @returns Promise for the generation response
+     * @returns Promise for a simplified response containing `sys.id`, `sys.type`, and `sys.status`.
+     *         Use `getAgentRun()` with the returned `sys.id` to poll for full results.
      * @example ```javascript
      * const contentful = require('contentful-management')
      *
-     * const client = contentful.createClient({
-     *   accessToken: '<content_management_api_key>'
-     * })
+     * async function generateContent() {
+     *   const client = contentful.createClient({
+     *     accessToken: '<content_management_api_key>'
+     *   })
      *
-     * client.getSpace('<space_id>')
-     *   .then((space) => space.getEnvironment('<environment_id>'))
-     *   .then((environment) => environment.generateWithAgent('<agent_id>', {
+     *   const space = await client.getSpace('<space_id>')
+     *   const environment = await space.getEnvironment('<environment_id>')
+     *
+     *   // Start generation (returns 202 Accepted)
+     *   const response = await environment.generateWithAgent('<agent_id>', {
      *     messages: [
      *       {
-     *         parts: [
-     *           {
-     *             type: 'text',
-     *             text: 'Write a short poem about Contentful'
-     *           }
-     *         ],
+     *         parts: [{ type: 'text', text: 'Write a short poem about Contentful' }],
      *         role: 'user'
      *       }
      *     ]
-     *   }))
-     *   .then((result) => console.log(result))
-     *   .catch(console.error)
+     *   })
+     *
+     *   // Poll for full results
+     *   let run = await environment.getAgentRun(response.sys.id)
+     *   while (run.sys.status === 'IN_PROGRESS') {
+     *     await new Promise((resolve) => setTimeout(resolve, 1000))
+     *     run = await environment.getAgentRun(response.sys.id)
+     *   }
+     *
+     *   console.log(run)
+     * }
      * ```
      */
     generateWithAgent(agentId: string, payload: AgentGeneratePayload) {
@@ -3034,7 +3059,7 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
           agentId,
         },
         payload,
-      }).then((data) => wrapAgentRun(makeRequest, data))
+      }).then((data) => wrapAgentGenerateResponse(makeRequest, data))
     },
 
     /**

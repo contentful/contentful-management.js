@@ -192,11 +192,22 @@ import type {
   AiActionInvocationType,
 } from './entities/ai-action-invocation'
 import type { AgentGeneratePayload, AgentProps } from './entities/agent'
-import type { AgentRunProps, AgentRunQueryOptions } from './entities/agent-run'
 import type {
-  UpdateVectorizationStatusProps,
-  VectorizationStatusProps,
-} from './entities/vectorization-status'
+  AgentGenerateResponse,
+  AgentRunProps,
+  AgentRunQueryOptions,
+} from './entities/agent-run'
+import type {
+  AutomationDefinitionProps,
+  AutomationDefinitionQueryOptions,
+  CreateAutomationDefinitionProps,
+  UpdateAutomationDefinitionProps,
+} from './entities/automation-definition'
+import type {
+  AutomationExecutionByDefinitionQueryOptions,
+  AutomationExecutionProps,
+  AutomationExecutionQueryOptions,
+} from './entities/automation-execution'
 import type {
   GetSemanticDuplicatesProps,
   SemanticDuplicatesProps,
@@ -210,6 +221,12 @@ import type {
   SemanticReferenceSuggestionsProps,
 } from './entities/semantic-reference-suggestions'
 import type { GetSemanticSearchProps, SemanticSearchProps } from './entities/semantic-search'
+import type { ContentSemanticsSettingsProps } from './entities/semantic-settings'
+import type {
+  ContentSemanticsIndexProps,
+  ContentSemanticsIndexCollectionProps,
+  CreateContentSemanticsIndexProps,
+} from './entities/content-semantics-index'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -358,11 +375,11 @@ export interface CursorPaginatedCollectionProp<TObj>
 
 export interface Collection<T, TPlain>
   extends CollectionProp<T>,
-    DefaultElements<CollectionProp<TPlain>> {}
+  DefaultElements<CollectionProp<TPlain>> { }
 
 export interface CursorPaginatedCollection<T, TPlain>
   extends CursorPaginatedCollectionProp<T>,
-    DefaultElements<CursorPaginatedCollectionProp<TPlain>> {}
+  DefaultElements<CursorPaginatedCollectionProp<TPlain>> { }
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 export interface QueryOptions extends BasicQueryOptions {
@@ -891,14 +908,22 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'UserUIConfig', 'get', UA>): MRReturn<'UserUIConfig', 'update'>
   (opts: MROpts<'UserUIConfig', 'update', UA>): MRReturn<'UserUIConfig', 'update'>
 
-  (opts: MROpts<'VectorizationStatus', 'get', UA>): MRReturn<'VectorizationStatus', 'get'>
-  (opts: MROpts<'VectorizationStatus', 'update', UA>): MRReturn<'VectorizationStatus', 'update'>
   (opts: MROpts<'SemanticDuplicates', 'get', UA>): MRReturn<'SemanticDuplicates', 'get'>
   (opts: MROpts<'SemanticRecommendations', 'get', UA>): MRReturn<'SemanticRecommendations', 'get'>
   (
     opts: MROpts<'SemanticReferenceSuggestions', 'get', UA>,
   ): MRReturn<'SemanticReferenceSuggestions', 'get'>
   (opts: MROpts<'SemanticSearch', 'get', UA>): MRReturn<'SemanticSearch', 'get'>
+  (opts: MROpts<'SemanticSettings', 'get', UA>): MRReturn<'SemanticSettings', 'get'>
+  (opts: MROpts<'ContentSemanticsIndex', 'get', UA>): MRReturn<'ContentSemanticsIndex', 'get'>
+  (
+    opts: MROpts<'ContentSemanticsIndex', 'getMany', UA>,
+  ): MRReturn<'ContentSemanticsIndex', 'getMany'>
+  (
+    opts: MROpts<'ContentSemanticsIndex', 'getManyForEnvironment', UA>,
+  ): MRReturn<'ContentSemanticsIndex', 'getManyForEnvironment'>
+  (opts: MROpts<'ContentSemanticsIndex', 'create', UA>): MRReturn<'ContentSemanticsIndex', 'create'>
+  (opts: MROpts<'ContentSemanticsIndex', 'delete', UA>): MRReturn<'ContentSemanticsIndex', 'delete'>
 
   (opts: MROpts<'Webhook', 'get', UA>): MRReturn<'Webhook', 'get'>
   (opts: MROpts<'Webhook', 'getMany', UA>): MRReturn<'Webhook', 'getMany'>
@@ -1091,7 +1116,7 @@ export type MRActions = {
       params: GetSpaceEnvironmentParams & { agentId: string }
       payload: AgentGeneratePayload
       headers?: RawAxiosRequestHeaders
-      return: AgentRunProps
+      return: AgentGenerateResponse
     }
   }
   AgentRun: {
@@ -1104,6 +1129,55 @@ export type MRActions = {
       params: GetSpaceEnvironmentParams & { query?: AgentRunQueryOptions }
       headers?: RawAxiosRequestHeaders
       return: CollectionProp<AgentRunProps>
+    }
+  }
+  AutomationDefinition: {
+    get: {
+      params: GetSpaceEnvironmentParams & { automationDefinitionId: string }
+      headers?: RawAxiosRequestHeaders
+      return: AutomationDefinitionProps
+    }
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query?: AutomationDefinitionQueryOptions }
+      headers?: RawAxiosRequestHeaders
+      return: CursorPaginatedCollectionProp<AutomationDefinitionProps>
+    }
+    create: {
+      params: GetSpaceEnvironmentParams
+      payload: CreateAutomationDefinitionProps
+      headers?: RawAxiosRequestHeaders
+      return: AutomationDefinitionProps
+    }
+    update: {
+      params: GetSpaceEnvironmentParams & { automationDefinitionId: string }
+      payload: UpdateAutomationDefinitionProps
+      headers?: RawAxiosRequestHeaders
+      return: AutomationDefinitionProps
+    }
+    delete: {
+      params: GetSpaceEnvironmentParams & { automationDefinitionId: string; version: number }
+      headers?: RawAxiosRequestHeaders
+      return: void
+    }
+  }
+  AutomationExecution: {
+    get: {
+      params: GetSpaceEnvironmentParams & { automationExecutionId: string }
+      headers?: RawAxiosRequestHeaders
+      return: AutomationExecutionProps
+    }
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query?: AutomationExecutionQueryOptions }
+      headers?: RawAxiosRequestHeaders
+      return: CursorPaginatedCollectionProp<AutomationExecutionProps>
+    }
+    getForAutomationDefinition: {
+      params: GetSpaceEnvironmentParams & {
+        automationDefinitionId: string
+        query?: AutomationExecutionByDefinitionQueryOptions
+      }
+      headers?: RawAxiosRequestHeaders
+      return: CursorPaginatedCollectionProp<AutomationExecutionProps>
     }
   }
   AppAction: {
@@ -1453,50 +1527,50 @@ export type MRActions = {
   }
   Comment: {
     get:
-      | { params: GetCommentParams & PlainTextBodyFormat; return: CommentProps }
-      | { params: GetCommentParams & RichTextBodyFormat; return: RichTextCommentProps }
+    | { params: GetCommentParams & PlainTextBodyFormat; return: CommentProps }
+    | { params: GetCommentParams & RichTextBodyFormat; return: RichTextCommentProps }
     getMany:
-      | {
-          params: GetManyCommentsParams & PlainTextBodyFormat & QueryParams
-          return: CollectionProp<CommentProps>
-        }
-      | {
-          params: GetManyCommentsParams & QueryParams & RichTextBodyFormat
-          return: CollectionProp<RichTextCommentProps>
-        }
+    | {
+      params: GetManyCommentsParams & PlainTextBodyFormat & QueryParams
+      return: CollectionProp<CommentProps>
+    }
+    | {
+      params: GetManyCommentsParams & QueryParams & RichTextBodyFormat
+      return: CollectionProp<RichTextCommentProps>
+    }
     getAll:
-      | {
-          params: GetManyCommentsParams & QueryParams & PlainTextBodyFormat
-          return: CollectionProp<CommentProps>
-        }
-      | {
-          params: GetManyCommentsParams & QueryParams & RichTextBodyFormat
-          return: CollectionProp<RichTextCommentProps>
-        }
+    | {
+      params: GetManyCommentsParams & QueryParams & PlainTextBodyFormat
+      return: CollectionProp<CommentProps>
+    }
+    | {
+      params: GetManyCommentsParams & QueryParams & RichTextBodyFormat
+      return: CollectionProp<RichTextCommentProps>
+    }
     create:
-      | {
-          params: CreateCommentParams & PlainTextBodyFormat
-          payload: CreateCommentProps
-          return: CommentProps
-        }
-      | {
-          params: CreateCommentParams & RichTextBodyFormat
-          payload: RichTextCommentBodyPayload
-          return: RichTextCommentProps
-        }
+    | {
+      params: CreateCommentParams & PlainTextBodyFormat
+      payload: CreateCommentProps
+      return: CommentProps
+    }
+    | {
+      params: CreateCommentParams & RichTextBodyFormat
+      payload: RichTextCommentBodyPayload
+      return: RichTextCommentProps
+    }
     update:
-      | {
-          params: UpdateCommentParams
-          payload: UpdateCommentProps
-          headers?: RawAxiosRequestHeaders
-          return: CommentProps
-        }
-      | {
-          params: UpdateCommentParams
-          payload: Omit<UpdateCommentProps, 'body'> & RichTextCommentBodyPayload
-          headers?: RawAxiosRequestHeaders
-          return: RichTextCommentProps
-        }
+    | {
+      params: UpdateCommentParams
+      payload: UpdateCommentProps
+      headers?: RawAxiosRequestHeaders
+      return: CommentProps
+    }
+    | {
+      params: UpdateCommentParams
+      payload: Omit<UpdateCommentProps, 'body'> & RichTextCommentBodyPayload
+      headers?: RawAxiosRequestHeaders
+      return: RichTextCommentProps
+    }
     delete: { params: DeleteCommentParams; return: void }
   }
   ComponentType: {
@@ -1752,9 +1826,9 @@ export type MRActions = {
     }
     getForEnvironment: {
       params: BasicCursorPaginationOptions &
-        EnvironmentTemplateParams & {
-          installationId?: string
-        }
+      EnvironmentTemplateParams & {
+        installationId?: string
+      }
       return: CursorPaginatedCollectionProp<EnvironmentTemplateInstallationProps>
     }
   }
@@ -2201,6 +2275,35 @@ export type MRActions = {
       return: SemanticSearchProps
     }
   }
+  SemanticSettings: {
+    get: {
+      params: GetOrganizationParams
+      return: ContentSemanticsSettingsProps
+    }
+  }
+  ContentSemanticsIndex: {
+    get: {
+      params: GetContentSemanticsIndexParams
+      return: ContentSemanticsIndexProps
+    }
+    getMany: {
+      params: GetManyContentSemanticsIndexParams
+      return: ContentSemanticsIndexCollectionProps
+    }
+    getManyForEnvironment: {
+      params: GetManyContentSemanticsIndexForEnvironmentParams
+      return: ContentSemanticsIndexCollectionProps
+    }
+    create: {
+      params: GetOrganizationParams
+      payload: CreateContentSemanticsIndexProps
+      return: ContentSemanticsIndexProps
+    }
+    delete: {
+      params: GetContentSemanticsIndexParams
+      return: void
+    }
+  }
   Snapshot: {
     getManyForEntry: {
       params: GetSnapshotForEntryParams & QueryParams
@@ -2419,19 +2522,6 @@ export type MRActions = {
     get: { params: GetUserUIConfigParams; return: UserUIConfigProps }
     update: { params: GetUserUIConfigParams; payload: UserUIConfigProps; return: UserUIConfigProps }
   }
-  VectorizationStatus: {
-    get: {
-      params: GetOrganizationParams
-      headers?: RawAxiosRequestHeaders
-      return: VectorizationStatusProps
-    }
-    update: {
-      params: GetOrganizationParams
-      headers?: RawAxiosRequestHeaders
-      payload: UpdateVectorizationStatusProps
-      return: VectorizationStatusProps
-    }
-  }
   Webhook: {
     get: { params: GetWebhookParams; return: WebhookProps }
     getMany: { params: GetSpaceParams & QueryParams; return: CollectionProp<WebhookProps> }
@@ -2555,18 +2645,18 @@ export type MROpts<
 } & (UA extends true ? { userAgent: string } : {}) &
   ('params' extends keyof MRActions[ET][Action]
     ? undefined extends MRActions[ET][Action]['params']
-      ? { params?: MRActions[ET][Action]['params'] }
-      : { params: MRActions[ET][Action]['params'] }
+    ? { params?: MRActions[ET][Action]['params'] }
+    : { params: MRActions[ET][Action]['params'] }
     : {}) &
   ('payload' extends keyof MRActions[ET][Action]
     ? undefined extends MRActions[ET][Action]['payload']
-      ? { payload?: MRActions[ET][Action]['payload'] }
-      : { payload: MRActions[ET][Action]['payload'] }
+    ? { payload?: MRActions[ET][Action]['payload'] }
+    : { payload: MRActions[ET][Action]['payload'] }
     : {}) &
   ('headers' extends keyof MRActions[ET][Action]
     ? undefined extends MRActions[ET][Action]['headers']
-      ? { headers?: MRActions[ET][Action]['headers'] }
-      : { headers: MRActions[ET][Action]['headers'] }
+    ? { headers?: MRActions[ET][Action]['headers'] }
+    : { headers: MRActions[ET][Action]['headers'] }
     : {})
 
 /**
@@ -2579,7 +2669,7 @@ export type MRReturn<
 
 /** Base interface for all Payload interfaces. Used as part of the MakeRequestOptions to simplify payload definitions. */
 
-export interface MakeRequestPayload {}
+export interface MakeRequestPayload { }
 
 export interface MakeRequestOptions {
   entityType: keyof MRActions
@@ -2779,9 +2869,9 @@ export type GetConceptDescendantsParams = GetOrganizationParams & { conceptId: s
 /** @internal */
 export type GetManyConceptParams = GetOrganizationParams & {
   query?:
-    | { pageUrl?: string }
-    | ({ conceptScheme?: string; query?: string } & BasicCursorPaginationOptions &
-        Omit<PaginationQueryOptions, 'skip'>)
+  | { pageUrl?: string }
+  | ({ conceptScheme?: string; query?: string } & BasicCursorPaginationOptions &
+    Omit<PaginationQueryOptions, 'skip'>)
 }
 
 /** @internal */
@@ -2789,8 +2879,8 @@ export type GetConceptSchemeParams = GetOrganizationParams & { conceptSchemeId: 
 /** @internal */
 export type GetManyConceptSchemeParams = GetOrganizationParams & {
   query?:
-    | { pageUrl?: string }
-    | ({ query?: string } & BasicCursorPaginationOptions & Omit<PaginationQueryOptions, 'skip'>)
+  | { pageUrl?: string }
+  | ({ query?: string } & BasicCursorPaginationOptions & Omit<PaginationQueryOptions, 'skip'>)
 }
 /** @internal */
 export type DeleteConceptSchemeParams = GetOrganizationParams & {
@@ -2807,6 +2897,10 @@ export type UpdateConceptSchemeParams = GetOrganizationParams & {
 export type GetAppKeyParams = GetAppDefinitionParams & { fingerprint: string }
 /** @internal */
 export type GetAppUploadParams = GetOrganizationParams & { appUploadId: string }
+/** @internal */
+export type GetAutomationDefinitionParams = GetSpaceEnvironmentParams & {
+  automationDefinitionId: string
+}
 /** @internal */
 export type GetWorkflowDefinitionParams = GetSpaceEnvironmentParams & {
   workflowDefinitionId: string
@@ -2867,4 +2961,10 @@ export type ReleaseEnvironmentParams = GetSpaceEnvironmentParams & {
 export type SemanticRequestFilter = {
   entityType?: 'Entry'
   contentTypeIds?: string[]
+}
+
+export type GetContentSemanticsIndexParams = GetOrganizationParams & { indexId: string }
+export type GetManyContentSemanticsIndexParams = GetOrganizationParams & { status?: string }
+export type GetManyContentSemanticsIndexForEnvironmentParams = GetSpaceEnvironmentParams & {
+  status?: string
 }

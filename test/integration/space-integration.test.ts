@@ -1,10 +1,11 @@
 import { describe, it, beforeAll, afterAll } from 'vitest'
 import { expect } from 'vitest'
-import { getTestOrganization, timeoutToCalmRateLimiting } from '../helpers'
+import { defaultClient, getTestOrganization, timeoutToCalmRateLimiting } from '../helpers'
 import type { Organization } from '../../lib/export-types'
 
 describe('Space API', () => {
   let organization: Organization
+  const INTERNAL_PRODUCT_ID = process.env.CONTENTFUL_PRODUCT_ID || '54jwueRJC2BOihxYMIdYoD'
 
   beforeAll(async () => {
     organization = await getTestOrganization()
@@ -17,5 +18,21 @@ describe('Space API', () => {
 
     expect(response.sys).toBeTruthy()
     expect(response.items).toBeTruthy()
+  })
+
+  it('creates and deletes a space', async () => {
+    const space = await defaultClient.createSpace(
+      {
+        name: 'test space',
+        productId: INTERNAL_PRODUCT_ID,
+        defaultLocale: 'en',
+      },
+      organization.sys.id,
+    )
+    expect(space.name).toEqual('test space')
+
+    await defaultClient.getSpace(space.sys.id).then((space) => {
+      space.delete()
+    })
   })
 })

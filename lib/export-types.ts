@@ -16,6 +16,7 @@ export type { AiAction, AiActionProps, CreateAiActionProps } from './entities/ai
 export type { AiActionInvocation, AiActionInvocationProps } from './entities/ai-action-invocation'
 export type { Agent, AgentGeneratePayload, AgentProps, AgentToolLink } from './entities/agent'
 export type {
+  AgentGenerateResponse,
   AgentRun,
   AgentRunMessage,
   AgentRunMessagePart,
@@ -319,7 +320,6 @@ export type {
   SpaceEnvResourceTypeProps,
   UpsertResourceTypeProps,
 } from './entities/resource-type'
-export type { VectorizationStatusProps, VectorizationStatus } from './entities/vectorization-status'
 export type { SemanticDuplicatesProps, SemanticDuplicates } from './entities/semantic-duplicates'
 export type {
   SemanticRecommendationsProps,
