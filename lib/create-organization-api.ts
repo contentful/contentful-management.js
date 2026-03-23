@@ -43,7 +43,10 @@ import { wrapFunction, wrapFunctionCollection } from './entities/function'
 import { wrapRoleCollection } from './entities/role'
 import { wrapSpaceCollection } from './entities/space'
 import { wrapContentSemanticsSettings } from './entities/semantic-settings'
-import { wrapContentSemanticsIndex, wrapContentSemanticsIndexCollection } from './entities/content-semantics-index'
+import {
+  wrapContentSemanticsIndex,
+  wrapContentSemanticsIndexCollection,
+} from './entities/content-semantics-index'
 
 /**
  * @internal
