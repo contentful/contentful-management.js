@@ -116,7 +116,8 @@
     "vitest": "^2.1.5"
   },
   "optionalDependencies":  {  
-    "@rollup/rollup-linux-arm64-gnu": "^4.60.0"  
+    "@rollup/rollup-linux-arm64-gnu": "^4.60.0",
+    "@esbuild/linux-x64": "^0.24.0"
   },
   "config": {
     "commitizen": {
