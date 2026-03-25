@@ -250,7 +250,7 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
       .then((r) => {
         expect(r).to.eql(mockResponse)
         expect(httpMock.get.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/data_assemblies_temp/published',
+          '/spaces/space123/environments/master/public/data_assemblies_temp',
         )
         expect(httpMock.get.mock.calls[0][1].params).to.eql({})
       })
@@ -282,7 +282,7 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
       .then((r) => {
         expect(r).to.eql(mockResponse)
         expect(httpMock.get.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/data_assemblies_temp/published',
+          '/spaces/space123/environments/master/public/data_assemblies_temp',
         )
         expect(httpMock.get.mock.calls[0][1].params).to.eql({
           limit: 20,

@@ -18,6 +18,9 @@ import * as raw from './raw'
 const getBaseUrl = (params: GetSpaceEnvironmentParams) =>
   `/spaces/${params.spaceId}/environments/${params.environmentId}/data_assemblies_temp`
 
+const getPublicUrl = (params: GetSpaceEnvironmentParams) =>
+  `/spaces/${params.spaceId}/environments/${params.environmentId}/public/data_assemblies_temp`
+
 export const getMany: RestEndpoint<'DataAssembly', 'getMany'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { query: DataAssemblyQueryOptions },
@@ -78,7 +81,7 @@ export const getManyPublished: RestEndpoint<'DataAssembly', 'getManyPublished'> 
 ) => {
   return raw.get<CursorPaginatedCollectionProp<DataAssemblyProps>>(
     http,
-    getBaseUrl(params) + '/published',
+    getPublicUrl(params),
     {
       params: params.query,
       headers,
