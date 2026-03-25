@@ -71,6 +71,21 @@ export const del: RestEndpoint<'DataAssembly', 'delete'> = (
   return raw.del(http, getBaseUrl(params) + `/${params.dataAssemblyId}`)
 }
 
+export const getManyPublished: RestEndpoint<'DataAssembly', 'getManyPublished'> = (
+  http: AxiosInstance,
+  params: GetSpaceEnvironmentParams & { query: DataAssemblyQueryOptions },
+  headers?: RawAxiosRequestHeaders,
+) => {
+  return raw.get<CursorPaginatedCollectionProp<DataAssemblyProps>>(
+    http,
+    getBaseUrl(params) + '/published',
+    {
+      params: params.query,
+      headers,
+    },
+  )
+}
+
 export const unpublish: RestEndpoint<'DataAssembly', 'unpublish'> = (
   http: AxiosInstance,
   params: GetDataAssemblyParams & { version: number },

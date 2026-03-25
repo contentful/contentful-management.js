@@ -267,6 +267,7 @@ export const createPlainClient = (
     },
     dataAssembly: {
       getMany: wrap(wrapParams, 'DataAssembly', 'getMany'),
+      getManyPublished: wrap(wrapParams, 'DataAssembly', 'getManyPublished'),
       get: wrap(wrapParams, 'DataAssembly', 'get'),
       create: wrap(wrapParams, 'DataAssembly', 'create'),
       update: wrap(wrapParams, 'DataAssembly', 'update'),
