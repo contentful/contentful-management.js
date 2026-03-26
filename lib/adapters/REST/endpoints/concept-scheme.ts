@@ -1,7 +1,7 @@
 import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
-import type { OpPatch } from 'json-patch'
 import type {
+  OpPatch,
   CursorPaginatedCollectionProp,
   DeleteConceptSchemeParams,
   GetConceptSchemeParams,
@@ -91,26 +91,6 @@ export const patch: RestEndpoint<'ConceptScheme', 'patch'> = (
 }
 
 export const update: RestEndpoint<'ConceptScheme', 'update'> = (
-  http: AxiosInstance,
-  params: UpdateConceptSchemeParams,
-  data: OpPatch[],
-  headers?: RawAxiosRequestHeaders,
-) => {
-  return raw.patch<ConceptSchemeProps>(
-    http,
-    `${basePath(params.organizationId)}/${params.conceptSchemeId}`,
-    data,
-    {
-      headers: {
-        'X-Contentful-Version': params.version,
-        'Content-Type': 'application/json-patch+json',
-        ...headers,
-      },
-    },
-  )
-}
-
-export const updatePut: RestEndpoint<'ConceptScheme', 'updatePut'> = (
   http: AxiosInstance,
   params: UpdateConceptSchemeParams,
   data: CreateConceptSchemeProps,

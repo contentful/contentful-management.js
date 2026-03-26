@@ -40,14 +40,14 @@ export interface WorkflowsChangelogEntry
     DefaultElements<WorkflowsChangelogEntryProps> {}
 
 /**
- * @private
+ * @internal
  */
 function createWorkflowsChangelogEntryApi() {
   return {}
 }
 
 /**
- * @private
+ * @internal
  */
 export function wrapWorkflowsChangelogEntry(
   _makeRequest: MakeRequest,
@@ -62,6 +62,6 @@ export function wrapWorkflowsChangelogEntry(
 }
 
 /**
- * @private
+ * @internal
  */
 export const wrapWorkflowsChangelogEntryCollection = wrapCollection(wrapWorkflowsChangelogEntry)

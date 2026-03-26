@@ -1,11 +1,15 @@
+/* eslint-disable no-undef */
 async function run() {
-  if (!createClient) {
+  if (!contentfulManagement) {
     throw 'contentful-management.js could not be loaded. Please check the build output.'
   }
 
-  const client = createClient({
-    accessToken: process.env.CONTENTFUL_INTEGRATION_TEST_CMA_TOKEN,
-  })
+  const client = contentfulManagement.createClient(
+    {
+      accessToken: process.env.CONTENTFUL_INTEGRATION_TEST_CMA_TOKEN,
+    },
+    { type: 'legacy' },
+  )
 
   const response = await client.getSpace('segpl12szpe6')
 

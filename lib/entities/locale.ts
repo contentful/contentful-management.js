@@ -52,7 +52,7 @@ export type CreateLocaleProps = Omit<
 export interface Locale extends LocaleProps, DefaultElements<LocaleProps> {
   /**
    * Deletes this object on the server.
-   * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
+   * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
    * @example ```javascript
    * const contentful = require('contentful-management')
    *
@@ -71,7 +71,7 @@ export interface Locale extends LocaleProps, DefaultElements<LocaleProps> {
   delete(): Promise<void>
   /**
    * Sends an update to the server with any changes made to the object's properties
-   * @return Object returned from the server with updated changes.
+   * @returns Object returned from the server with updated changes.
    * @example ```javascript
    * const contentful = require('contentful-management')
    *
@@ -94,7 +94,7 @@ export interface Locale extends LocaleProps, DefaultElements<LocaleProps> {
 }
 
 /**
- * @private
+ * @internal
  */
 function createLocaleApi(makeRequest: MakeRequest) {
   const getParams = (locale: LocaleProps) => ({
@@ -128,10 +128,10 @@ function createLocaleApi(makeRequest: MakeRequest) {
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw locale data
- * @return Wrapped locale data
+ * @returns Wrapped locale data
  */
 export function wrapLocale(makeRequest: MakeRequest, data: LocaleProps): Locale {
   delete (data as SetOptional<LocaleProps, 'internal_code'>).internal_code
@@ -141,6 +141,6 @@ export function wrapLocale(makeRequest: MakeRequest, data: LocaleProps): Locale 
 }
 
 /**
- * @private
+ * @internal
  */
 export const wrapLocaleCollection = wrapCollection(wrapLocale)

@@ -6,7 +6,7 @@ import {
   createAppInstallation,
   timeoutToCalmRateLimiting,
 } from '../helpers'
-import type { Organization, AppInstallation } from '../../lib/contentful-management'
+import type { Organization, AppInstallation } from '../../lib/index'
 
 describe('AppDefinition api', { sequential: true }, () => {
   let organization: Organization
