@@ -25,7 +25,7 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
       .then((r) => {
         expect(r).to.eql(mockResponse)
         expect(httpMock.get.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/data_assemblies_temp',
+          '/spaces/space123/environments/master/data_assemblies',
         )
         expect(httpMock.get.mock.calls[0][1].params).to.eql({})
       })
@@ -57,7 +57,7 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
       .then((r) => {
         expect(r).to.eql(mockResponse)
         expect(httpMock.get.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/data_assemblies_temp',
+          '/spaces/space123/environments/master/data_assemblies',
         )
         expect(httpMock.get.mock.calls[0][1].params).to.eql({
           limit: 20,
@@ -88,7 +88,7 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
       .then((r) => {
         expect(r).to.eql(mockResponse)
         expect(httpMock.get.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/data_assemblies_temp/da123',
+          '/spaces/space123/environments/master/data_assemblies/da123',
         )
       })
   })
@@ -123,7 +123,7 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
       .then((r) => {
         expect(r).to.eql(mockResponse)
         expect(httpMock.post.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/data_assemblies_temp',
+          '/spaces/space123/environments/master/data_assemblies',
         )
       })
   })
@@ -200,7 +200,7 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
       .then((r) => {
         expect(r).to.eql(mockResponse)
         expect(httpMock.put.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/data_assemblies_temp/da123',
+          '/spaces/space123/environments/master/data_assemblies/da123',
         )
         expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(1)
       })
@@ -222,7 +222,7 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
       })
       .then(() => {
         expect(httpMock.delete.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/data_assemblies_temp/da123',
+          '/spaces/space123/environments/master/data_assemblies/da123',
         )
       })
   })
@@ -250,7 +250,7 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
       .then((r) => {
         expect(r).to.eql(mockResponse)
         expect(httpMock.get.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/public/data_assemblies_temp',
+          '/spaces/space123/environments/master/public/data_assemblies',
         )
         expect(httpMock.get.mock.calls[0][1].params).to.eql({})
       })
@@ -282,7 +282,7 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
       .then((r) => {
         expect(r).to.eql(mockResponse)
         expect(httpMock.get.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/public/data_assemblies_temp',
+          '/spaces/space123/environments/master/public/data_assemblies',
         )
         expect(httpMock.get.mock.calls[0][1].params).to.eql({
           limit: 20,
@@ -314,7 +314,7 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
       .then((r) => {
         expect(r).to.eql(mockResponse)
         expect(httpMock.delete.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/data_assemblies_temp/da123/published',
+          '/spaces/space123/environments/master/data_assemblies/da123/published',
         )
         expect(httpMock.delete.mock.calls[0][1].headers['X-Contentful-Version']).to.eql(1)
       })
