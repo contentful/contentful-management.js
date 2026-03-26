@@ -41,10 +41,10 @@ interface View {
 export interface UserUIConfig extends UserUIConfigProps, DefaultElements<UserUIConfigProps> {}
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw data
- * @return Wrapped UserUIConfig
+ * @returns Wrapped UserUIConfig
  */
 export function wrapUserUIConfig(makeRequest: MakeRequest, data: UserUIConfigProps) {
   const user = toPlainObject(copy(data))

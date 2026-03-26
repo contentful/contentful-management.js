@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/ban-ts-comment */
-
 import { toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type {
@@ -13,13 +11,13 @@ import type {
 } from './common-types'
 
 /**
- * @private
+ * @internal
  */
 export const wrapCollection =
   <R, T, Rest extends any[]>(fn: (makeRequest: MakeRequest, entity: T, ...rest: Rest) => R) =>
   (makeRequest: MakeRequest, data: CollectionProp<T>, ...rest: Rest): Collection<R, T> => {
     const collectionData = toPlainObject(copy(data))
-    // @ts-expect-error
+    // @ts-expect-error toPlainObject adds non-enumerable toPlainObject method that would be lost with spread
     collectionData.items = collectionData.items.map((entity) => fn(makeRequest, entity, ...rest))
     // @ts-expect-error
     return collectionData
@@ -33,7 +31,7 @@ export const wrapCursorPaginatedCollection =
     ...rest: Rest
   ): CursorPaginatedCollection<R, T> => {
     const collectionData = toPlainObject(copy(data))
-    // @ts-expect-error
+    // @ts-expect-error toPlainObject adds non-enumerable toPlainObject method that would be lost with spread
     collectionData.items = collectionData.items.map((entity) => fn(makeRequest, entity, ...rest))
     // @ts-expect-error
     return collectionData

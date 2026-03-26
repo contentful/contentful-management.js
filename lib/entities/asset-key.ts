@@ -17,10 +17,10 @@ export type CreateAssetKeyProps = {
 export interface AssetKey extends AssetKeyProps, DefaultElements<AssetKeyProps> {}
 
 /**
- * @private
+ * @internal
  * @param http - HTTP client instance
  * @param data - Raw asset key data
- * @return Wrapped asset key data
+ * @returns Wrapped asset key data
  */
 export function wrapAssetKey(_makeRequest: MakeRequest, data: AssetKeyProps): AssetKey {
   const assetKey = toPlainObject(copy(data))

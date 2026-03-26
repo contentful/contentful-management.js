@@ -1,24 +1,30 @@
 import { createRequestConfig } from 'contentful-sdk-core'
 import type { BasicCursorPaginationOptions, MakeRequest } from './common-types'
-import entities from './entities'
 import type { EnvironmentTemplateProps } from './entities/environment-template'
 import type {
   CreateEnvironmentTemplateInstallationProps,
   ValidateEnvironmentTemplateInstallationProps,
 } from './entities/environment-template-installation'
 
-export type ContentfulEnvironmentTemplateApi = ReturnType<typeof createEnvironmentTemplateApi>
+/**
+ * @internal
+ */
+export type ContentfulEnvironmentTemplateAPI = ReturnType<typeof createEnvironmentTemplateApi>
 
+import {
+  wrapEnvironmentTemplate,
+  wrapEnvironmentTemplateCollection,
+} from './entities/environment-template'
+import { wrapEnvironmentTemplateInstallationCollection } from './entities/environment-template-installation'
+
+/**
+ * @internal
+ */
 export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizationId: string) {
-  const { wrapEnvironmentTemplate, wrapEnvironmentTemplateCollection } =
-    entities.environmentTemplate
-
-  const { wrapEnvironmentTemplateInstallationCollection } = entities.environmentTemplateInstallation
-
   return {
     /**
      * Updates a environment template
-     * @return Promise for new version of the template
+     * @returns Promise for new version of the template
      * ```javascript
      * const contentful = require('contentful-management')
      *
@@ -49,7 +55,7 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
      * Updates environment template version data
      * @param version.versionName - Name of the environment template version
      * @param version.versionDescription - Description of the environment template version
-     * @return Promise for an updated EnvironmentTemplate
+     * @returns Promise for an updated EnvironmentTemplate
      * ```javascript
      * const contentful = require('contentful-management')
      *
@@ -86,7 +92,7 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
     },
     /**
      * Deletes the environment template
-     * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
+     * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
      * @example ```javascript
      * const contentful = require('contentful-management')
      *
@@ -110,7 +116,7 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
     },
     /**
      * Gets a collection of all versions for the environment template
-     * @return Promise for a EnvironmentTemplate
+     * @returns Promise for a EnvironmentTemplate
      * ```javascript
      * const contentful = require('contentful-management')
      *
@@ -139,7 +145,7 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
      * @param [installationParams.spaceId] - Space ID to filter installations by space and environment
      * @param [installationParams.environmentId] - Environment ID to filter installations by space and environment
      * @param [installationParams.latestOnly] - Boolean flag to only return the latest installation per environment
-     * @return Promise for a collection of EnvironmentTemplateInstallations
+     * @returns Promise for a collection of EnvironmentTemplateInstallations
      * ```javascript
      * const contentful = require('contentful-management')
      *
@@ -186,7 +192,7 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
      * @param [params.version] - Version of the template
      * @param [params.installation.takeover] - Already existing Content types to takeover in the target environment
      * @param [params.changeSet] - Change set which should be applied
-     * @return Promise for a EnvironmentTemplateValidation
+     * @returns Promise for a EnvironmentTemplateValidation
      * ```javascript
      * const contentful = require('contentful-management')
      *
@@ -238,7 +244,7 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
      * @param params.installation.version- Template version which should be installed
      * @param [params.installation.takeover] - Already existing Content types tp takeover in the target environment
      * @param [params.changeSet] - Change set which should be applied
-     * @return Promise for a EnvironmentTemplateInstallation
+     * @returns Promise for a EnvironmentTemplateInstallation
      * ```javascript
      * const contentful = require('contentful-management')
      *
@@ -283,7 +289,7 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
      * Disconnects the template from a given environment
      * @param params.spaceId - Space ID where the template should be installed into
      * @param params.environmentId - Environment ID where the template should be installed into
-     * @return Promise for the disconnection with no data
+     * @returns Promise for the disconnection with no data
      * ```javascript
      * const contentful = require('contentful-management')
      *
