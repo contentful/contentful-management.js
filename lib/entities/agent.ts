@@ -75,6 +75,12 @@ function createAgentApi(makeRequest: MakeRequest) {
   }
 }
 
+/**
+ * @internal
+ * @param makeRequest - function to make requests via an adapter
+ * @param data - Raw Agent data
+ * @returns Wrapped Agent data
+ */
 export function wrapAgent(makeRequest: MakeRequest, data: AgentProps): Agent {
   const agent = toPlainObject(copy(data))
   const agentWithMethods = enhanceWithMethods(agent, createAgentApi(makeRequest))

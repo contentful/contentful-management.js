@@ -13,6 +13,12 @@ export interface ContentSemanticsSettings
   extends ContentSemanticsSettingsProps,
     DefaultElements<ContentSemanticsSettingsProps> {}
 
+/**
+ * @internal
+ * @param _makeRequest - function to make requests via an adapter
+ * @param data - Raw Content Semantics Settings data
+ * @returns Wrapped Content Semantics Settings data
+ */
 export function wrapContentSemanticsSettings(
   _makeRequest: MakeRequest,
   data: ContentSemanticsSettingsProps,

@@ -50,6 +50,12 @@ export type ResourceProps = {
     }
   }
 }
+/**
+ * @internal
+ * @param makeRequest - function to make requests via an adapter
+ * @param data - Raw Resource data
+ * @returns Wrapped Resource data
+ */
 export function wrapResource(makeRequest: MakeRequest, data: ResourceProps) {
   const resource = toPlainObject(data)
   return freezeSys(resource)
