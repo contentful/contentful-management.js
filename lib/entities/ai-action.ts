@@ -180,6 +180,12 @@ function createAiActionApi(makeRequest: MakeRequest) {
   }
 }
 
+/**
+ * @internal
+ * @param makeRequest - function to make requests via an adapter
+ * @param data - Raw AI Action data
+ * @returns Wrapped AI Action data
+ */
 export function wrapAiAction(makeRequest: MakeRequest, data: AiActionProps): AiAction {
   const aiAction = toPlainObject(copy(data))
   const aiActionWithMethods = enhanceWithMethods(aiAction, createAiActionApi(makeRequest))
