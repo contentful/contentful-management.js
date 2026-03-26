@@ -1,10 +1,3 @@
-# [11.75.0](https://github.com/contentful/contentful-management.js/compare/v11.74.0...v11.75.0) (2026-03-23)
-
-
-### Features
-
-* add new param to create space and add specs for space creation HEJO-8501 ([#2931](https://github.com/contentful/contentful-management.js/issues/2931)) ([c42d7db](https://github.com/contentful/contentful-management.js/commit/c42d7dbd011c59c9abc327a6a34b0e4bee43a97f))
-
 <!-- shared header  START -->
 
 <p align="center">
