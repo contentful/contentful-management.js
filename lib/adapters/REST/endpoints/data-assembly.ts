@@ -79,14 +79,10 @@ export const getManyPublished: RestEndpoint<'DataAssembly', 'getManyPublished'> 
   params: GetSpaceEnvironmentParams & { query: DataAssemblyQueryOptions },
   headers?: RawAxiosRequestHeaders,
 ) => {
-  return raw.get<CursorPaginatedCollectionProp<DataAssemblyProps>>(
-    http,
-    getPublicUrl(params),
-    {
-      params: params.query,
-      headers,
-    },
-  )
+  return raw.get<CursorPaginatedCollectionProp<DataAssemblyProps>>(http, getPublicUrl(params), {
+    params: params.query,
+    headers,
+  })
 }
 
 export const unpublish: RestEndpoint<'DataAssembly', 'unpublish'> = (
