@@ -16,10 +16,10 @@ import type { RestEndpoint } from '../types'
 import * as raw from './raw'
 
 const getBaseUrl = (params: GetSpaceEnvironmentParams) =>
-  `/spaces/${params.spaceId}/environments/${params.environmentId}/data_assemblies_temp`
+  `/spaces/${params.spaceId}/environments/${params.environmentId}/data_assemblies`
 
 const getPublicUrl = (params: GetSpaceEnvironmentParams) =>
-  `/spaces/${params.spaceId}/environments/${params.environmentId}/public/data_assemblies_temp`
+  `/spaces/${params.spaceId}/environments/${params.environmentId}/public/data_assemblies`
 
 export const getMany: RestEndpoint<'DataAssembly', 'getMany'> = (
   http: AxiosInstance,
