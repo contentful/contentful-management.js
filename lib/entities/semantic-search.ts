@@ -34,6 +34,11 @@ export type SemanticSearchProps = {
 /** A semantic search result entity */
 export interface SemanticSearch extends SemanticSearchProps, DefaultElements<SemanticSearchProps> {}
 
+/**
+ * @param _makeRequest - function to make requests via an adapter
+ * @param data - Raw semantic search data
+ * @returns Wrapped semantic search data
+ */
 export function wrapSemanticSearch(
   _makeRequest: MakeRequest,
   data: SemanticSearchProps,

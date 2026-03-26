@@ -36,6 +36,11 @@ export interface SemanticReferenceSuggestions
   extends SemanticReferenceSuggestionsProps,
     DefaultElements<SemanticReferenceSuggestionsProps> {}
 
+/**
+ * @param _makeRequest - function to make requests via an adapter
+ * @param data - Raw semantic reference suggestions data
+ * @returns Wrapped semantic reference suggestions data
+ */
 export function wrapSemanticReferenceSuggestions(
   _makeRequest: MakeRequest,
   data: SemanticReferenceSuggestionsProps,

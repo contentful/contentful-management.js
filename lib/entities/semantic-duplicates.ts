@@ -40,6 +40,11 @@ export interface SemanticDuplicates
   extends SemanticDuplicatesProps,
     DefaultElements<SemanticDuplicatesProps> {}
 
+/**
+ * @param _makeRequest - function to make requests via an adapter
+ * @param data - Raw semantic duplicates data
+ * @returns Wrapped semantic duplicates data
+ */
 export function wrapSemanticDuplicates(
   _makeRequest: MakeRequest,
   data: SemanticDuplicatesProps,

@@ -57,6 +57,12 @@ export type EnvironmentTemplate = EnvironmentTemplateProps &
   DefaultElements<EnvironmentTemplateProps> &
   ContentfulEnvironmentTemplateAPI
 
+/**
+ * @param makeRequest - function to make requests via an adapter
+ * @param data - Raw environment template data
+ * @param organizationId - Organization ID the environment template belongs to
+ * @returns Wrapped environment template data
+ */
 export function wrapEnvironmentTemplate(
   makeRequest: MakeRequest,
   data: EnvironmentTemplateProps,

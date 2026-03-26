@@ -86,6 +86,11 @@ export type EnvironmentTemplateValidationProps<T = ValidationFinding> = {
 export type EnvironmentTemplateInstallation = EnvironmentTemplateInstallationProps &
   DefaultElements<EnvironmentTemplateInstallationProps>
 
+/**
+ * @param makeRequest - function to make requests via an adapter
+ * @param data - Raw environment template installation data
+ * @returns Wrapped environment template installation data
+ */
 export function wrapEnvironmentTemplateInstallation(
   makeRequest: MakeRequest,
   data: EnvironmentTemplateInstallationProps,
