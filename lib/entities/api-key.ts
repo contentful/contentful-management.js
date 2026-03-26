@@ -1,9 +1,14 @@
+/**
+ * @module
+ * @category Entities
+ */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type { DefaultElements, MakeRequest, MetaLinkProps, MetaSysProps } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
 
+/** Properties of a Contentful Content Delivery API key. */
 export type ApiKeyProps = {
   sys: MetaSysProps
   name: string
@@ -16,13 +21,16 @@ export type ApiKeyProps = {
   policies?: { effect: string; action: string }[]
 }
 
+/** Properties required to create a new Content Delivery API key. */
 export type CreateApiKeyProps = Pick<ApiKeyProps, 'name' | 'environments' | 'description'>
 
+/** A Contentful Content Delivery API key with methods for updating and deleting. */
 export interface ApiKey extends ApiKeyProps, DefaultElements<ApiKeyProps> {
   /**
    * Deletes this object on the server.
    * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -39,7 +47,8 @@ export interface ApiKey extends ApiKeyProps, DefaultElements<ApiKeyProps> {
   /**
    * Sends an update to the server with any changes made to the object's properties
    * @returns Object returned from the server with updated changes.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({

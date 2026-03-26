@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import type {
   BasicCursorPaginationOptions,
   CursorPaginatedCollectionProp,
@@ -7,6 +11,7 @@ import type {
 import { wrapCursorPaginatedCollection } from '../common-utils'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 
+/** Query options for looking up or searching external resources */
 export type ResourceQueryOptions = LookupQueryOptions | SearchQueryOptions
 
 type LookupQueryOptions = {
@@ -21,6 +26,7 @@ type SearchQueryOptions = {
   referencingEntryId?: string
 } & BasicCursorPaginationOptions
 
+/** Properties of an external resource linked via a resource provider */
 export type ResourceProps = {
   sys: {
     type: 'Resource'

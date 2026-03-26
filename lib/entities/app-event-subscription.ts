@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import copy from 'fast-copy'
 import { toPlainObject } from 'contentful-sdk-core'
 import type { Except } from 'type-fest'
@@ -15,6 +19,7 @@ type AppEventSubscriptionSys = Except<BasicMetaSysProps, 'version' | 'id'> & {
   organization: SysLink
 }
 
+/** Properties of a Contentful app event subscription. */
 export type AppEventSubscriptionProps = {
   /**
    * System metadata
@@ -32,22 +37,25 @@ export type AppEventSubscriptionProps = {
   }
 }
 
+/** Properties required to create a new app event subscription. */
 export type CreateAppEventSubscriptionProps = Except<AppEventSubscriptionProps, 'sys'>
 
+/** A Contentful app event subscription with methods for deleting. */
 export interface AppEventSubscription
   extends AppEventSubscriptionProps,
     DefaultElements<AppEventSubscriptionProps> {
   /**
    * Deletes this object on the server.
    * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
    *   accessToken: '<content_management_api_key>'
    * })
    * client.getOrganization('<organization_id>')
-   * .then((organization) => organization.getAppEventSubscription(<app-definition-id>))
+   * .then((organization) => organization.getAppEventSubscription('<app_definition_id>'))
    * .then((eventSubscription) => eventSubscription.delete())
    * .then(() => console.log('eventSubscription deleted'))
    * .catch(console.error)
@@ -76,7 +84,7 @@ function createEventSubscriptionApi(makeRequest: MakeRequest) {
 
 /**
  * @internal
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw AppEventSubscription data
  * @returns Wrapped AppEventSubscription data
  */

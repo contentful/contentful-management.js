@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import copy from 'fast-copy'
 import { toPlainObject } from 'contentful-sdk-core'
 import type { Except } from 'type-fest'
@@ -10,6 +14,7 @@ type AppKeySys = Except<BasicMetaSysProps, 'version'> & {
   organization: SysLink
 }
 
+/** A JSON Web Key used for app authentication. */
 export interface JWK {
   alg: 'RS256'
   kty: 'RSA'
@@ -19,6 +24,7 @@ export interface JWK {
   x5t: string
 }
 
+/** Properties of a Contentful app key. */
 export type AppKeyProps = {
   /**
    * System metadata
@@ -39,6 +45,7 @@ export type AppKeyProps = {
   }
 }
 
+/** Properties required to create a new app key. */
 export type CreateAppKeyProps = {
   /**
    * Toggle for automatic private key generation
@@ -50,20 +57,22 @@ export type CreateAppKeyProps = {
   jwk?: JWK
 }
 
+/** A Contentful app key with methods for deleting. */
 export interface AppKey extends AppKeyProps, DefaultElements<AppKeyProps> {
   /**
    * Deletes this object on the server.
    * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
    *   accessToken: '<content_management_api_key>'
    * })
    * client.getOrganization('<organization_id>')
-   * .then((organization) => organization.getAppKey(<api-key-id>))
-   * .then((signingSecret) => signingSecret.delete())
-   * .then(() => console.log('signingSecret deleted'))
+   * .then((organization) => organization.getAppKey('<app_definition_id>', '<fingerprint>'))
+   * .then((appKey) => appKey.delete())
+   * .then(() => console.log('appKey deleted'))
    * .catch(console.error)
    * ```
    */
@@ -91,7 +100,7 @@ function createKeyApi(makeRequest: MakeRequest) {
 
 /**
  * @internal
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw AppKey data
  * @returns Wrapped AppKey data
  */

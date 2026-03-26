@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -6,10 +10,12 @@ import createOrganizationApi from '../create-organization-api'
 import { wrapCollection } from '../common-utils'
 import type { MetaSysProps, DefaultElements, MakeRequest } from '../common-types'
 
+/** A Contentful organization with methods to manage members, teams, and app definitions */
 export type Organization = DefaultElements<OrganizationProps> &
   OrganizationProps &
   ContentfulOrganizationAPI
 
+/** Properties of a Contentful organization */
 export type OrganizationProps = {
   /**
    * System metadata

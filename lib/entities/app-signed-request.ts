@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import copy from 'fast-copy'
 import { toPlainObject } from 'contentful-sdk-core'
 import type { Except } from 'type-fest'
@@ -9,6 +13,7 @@ type AppSignedRequestSys = Except<BasicMetaSysProps, 'version' | 'id'> & {
   environment: SysLink
 }
 
+/** Properties of a Contentful app signed request. */
 export type AppSignedRequestProps = {
   /**
    * System metadata
@@ -25,6 +30,7 @@ export type AppSignedRequestProps = {
   }
 }
 
+/** Properties required to create a new app signed request. */
 export type CreateAppSignedRequestProps = {
   /** the request method */
   method: 'GET' | 'PUT' | 'POST' | 'DELETE' | 'PATCH' | 'HEAD'
@@ -36,13 +42,14 @@ export type CreateAppSignedRequestProps = {
   headers?: Record<string, string>
 }
 
+/** A Contentful app signed request containing verification headers. */
 export interface AppSignedRequest
   extends AppSignedRequestProps,
     DefaultElements<AppSignedRequestProps> {}
 
 /**
  * @internal
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw AppSignedRequest data
  * @returns Wrapped AppSignedRequest data
  */

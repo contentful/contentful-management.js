@@ -1,9 +1,14 @@
+/**
+ * @module
+ * @category Entities
+ */
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
 import type { MetaSysProps, DefaultElements, MetaLinkProps, MakeRequest } from '../common-types'
 
+/** Properties of a user's membership in an organization */
 export type OrganizationMembershipProps = {
   /**
    * System metadata
@@ -16,18 +21,20 @@ export type OrganizationMembershipProps = {
   role: string
 
   /**
-   * status
+   * Status of the membership
    */
   status: boolean
 }
 
+/** An organization membership with methods to update and delete */
 export interface OrganizationMembership
   extends OrganizationMembershipProps,
     DefaultElements<OrganizationMembershipProps> {
   /**
    * Sends an update to the server with any changes made to the object's properties
    * @returns Object returned from the server with updated changes.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -38,15 +45,17 @@ export interface OrganizationMembership
    * .then(org => org.getOrganizationMembership('organizationMembership_id'))
    * .then((organizationMembership) => {
    *  organizationMembership.role = 'member';
-   *  organizationMembership.update();
+   *  return organizationMembership.update();
    * })
    * .catch(console.error)
+   * ```
    */
   update(): Promise<OrganizationMembership>
 
   /**
    * Deletes this object on the server.
-   * @example```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({

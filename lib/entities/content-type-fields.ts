@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import type { KeyValueMap } from '../common-types'
 import type { INLINES, BLOCKS } from '@contentful/rich-text-types'
 
@@ -45,6 +49,7 @@ interface NodesValidation {
   }
 }
 
+/** Validation rules that can be applied to a content type field. */
 export interface ContentTypeFieldValidation {
   linkContentType?: string[]
   in?: (string | number)[]
@@ -74,16 +79,19 @@ interface Item {
 
 type ContentTypeAllowedResources = ContentfulEntryResource | ExternalResource
 
+/** A Contentful entry resource allowed in cross-space references. */
 export interface ContentfulEntryResource {
   type: 'Contentful:Entry'
   source: string
   contentTypes: string[]
 }
 
+/** An external resource type allowed in resource link fields. */
 export interface ExternalResource {
   type: string
 }
 
+/** Definition of a field within a content type. */
 export interface ContentFields<T = KeyValueMap> extends Item {
   id: string
   name: string

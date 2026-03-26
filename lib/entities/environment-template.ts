@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type { BasicMetaSysProps, Link, MakeRequest, DefaultElements } from '../common-types'
@@ -8,16 +12,19 @@ import enhanceWithMethods from '../enhance-with-methods'
 import type { ContentTypeProps } from './content-type'
 import type { EditorInterfaceProps } from './editor-interface'
 
+/** A migration hint describing a field operation such as renaming */
 export type Hint = {
   operation: 'renameFieldId'
   fieldId: string
   previousFieldId: string
 }
 
+/** Editor interface configuration within an environment template */
 export interface EditorInterfaceTemplateProps extends Omit<EditorInterfaceProps, 'sys'> {
   contentTypeTemplate: Link<'ContentTypeTemplate'>
 }
 
+/** Content type definition within an environment template */
 export interface ContentTypeTemplateProps extends Omit<ContentTypeProps, 'sys'> {
   id: string
   basedOn?: {
@@ -28,6 +35,7 @@ export interface ContentTypeTemplateProps extends Omit<ContentTypeProps, 'sys'> 
   hints?: Array<Hint>
 }
 
+/** Properties of an environment template containing content type and editor interface definitions */
 export type EnvironmentTemplateProps = {
   sys: BasicMetaSysProps & { version: number; organization: Link<'Organization'> }
   name: string
@@ -41,8 +49,10 @@ export type EnvironmentTemplateProps = {
   forTemplatedSpaces?: boolean
 }
 
+/** Properties required to create a new environment template */
 export type CreateEnvironmentTemplateProps = Omit<EnvironmentTemplateProps, 'sys'>
 
+/** An environment template with methods to update, version, install, and validate */
 export type EnvironmentTemplate = EnvironmentTemplateProps &
   DefaultElements<EnvironmentTemplateProps> &
   ContentfulEnvironmentTemplateAPI

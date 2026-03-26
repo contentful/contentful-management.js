@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import copy from 'fast-copy'
 import { toPlainObject } from 'contentful-sdk-core'
 import type { Except } from 'type-fest'
@@ -9,12 +13,15 @@ type AppDetailsSys = Except<BasicMetaSysProps, 'version' | 'id'> & {
   organization: SysLink
 }
 
+/** Encoding type for app icons. */
 export type IconType = 'base64'
+/** An icon representing a Contentful app. */
 export interface AppIcon {
   value: string
   type: IconType
 }
 
+/** Properties of Contentful app details including icon metadata. */
 export type AppDetailsProps = {
   /**
    * System metadata
@@ -26,6 +33,7 @@ export type AppDetailsProps = {
   icon?: AppIcon
 }
 
+/** Properties required to create or update app details. */
 export type CreateAppDetailsProps = {
   /**
    * An Icon that represents the App
@@ -33,18 +41,20 @@ export type CreateAppDetailsProps = {
   icon?: AppIcon
 }
 
+/** A Contentful app details entity with methods for deleting. */
 export interface AppDetails extends AppDetailsProps, DefaultElements<AppDetailsProps> {
   /**
    * Deletes this object on the server.
    * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
    *   accessToken: '<content_management_api_key>'
    * })
    * client.getOrganization('<organization_id>')
-   * .then((organization) => organization.getAppDetails(<app-id>))
+   * .then((organization) => organization.getAppDetails('<app_definition_id>'))
    * .then((appDetails) => appDetails.delete())
    * .then(() => console.log('appDetails deleted'))
    * .catch(console.error)
@@ -78,7 +88,7 @@ function createAppDetailsApi(makeRequest: MakeRequest) {
 
 /**
  * @internal
- * @param http - HTTP client instance
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw AppDetails data
  * @returns Wrapped AppDetails data
  */

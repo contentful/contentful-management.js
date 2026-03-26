@@ -1,9 +1,14 @@
+/**
+ * @module
+ * @category Entities
+ */
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
 import type { MetaSysProps, DefaultElements, MakeRequest } from '../common-types'
 
+/** Properties of a personal access token for API authentication */
 export type PersonalAccessTokenProps = {
   sys: MetaSysProps & { expiresAt?: string }
   name: string
@@ -17,21 +22,24 @@ export type PersonalAccessTokenProps = {
  */
 export type PersonalAccessTokenProp = PersonalAccessTokenProps
 
+/** Properties required to create a new personal access token */
 export type CreatePersonalAccessTokenProps = Pick<PersonalAccessToken, 'name' | 'scopes'> & {
   expiresIn?: number
 }
 
+/** A personal access token with a method to revoke it */
 export interface PersonalAccessToken
   extends PersonalAccessTokenProps,
     DefaultElements<PersonalAccessTokenProps> {
   /**
    * Revokes a personal access token
    * @returns Object the revoked personal access token
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
-   *  accessToken: <content_management_api_key>
+   *  accessToken: '<content_management_api_key>'
    * })
    *
    * client.getPersonalAccessToken('<token-id>')

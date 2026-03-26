@@ -1,9 +1,14 @@
+/**
+ * @module
+ * @category Entities
+ */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type { BasicMetaSysProps, DefaultElements, MakeRequest, SysLink } from '../common-types'
 import createUserUIConfigApi from '../create-user-ui-config-api'
 import enhanceWithMethods from '../enhance-with-methods'
 
+/** Properties of a user-specific UI configuration for an environment */
 export type UserUIConfigProps = {
   /**
    * System metadata
@@ -14,6 +19,7 @@ export type UserUIConfigProps = {
   entryListViews: ViewFolder[]
 }
 
+/** System metadata properties for a user UI configuration */
 export interface UserUIConfigSysProps extends BasicMetaSysProps {
   space: SysLink
   environment: SysLink
@@ -38,6 +44,7 @@ interface View {
   searchFilters?: [string, string, string][]
 }
 
+/** A user UI configuration entity */
 export interface UserUIConfig extends UserUIConfigProps, DefaultElements<UserUIConfigProps> {}
 
 /**

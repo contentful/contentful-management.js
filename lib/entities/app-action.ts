@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type { Except } from 'type-fest'
@@ -17,8 +21,10 @@ type AppActionSys = Except<BasicMetaSysProps, 'version'> & {
   organization: SysLink
 }
 
+/** Definition of a parameter for an app action. */
 export type AppActionParameterDefinition = Omit<ParameterDefinition, 'labels'>
 
+/** Properties of an app action category. */
 export type AppActionCategoryProps = {
   sys: {
     id: AppActionCategoryType
@@ -46,6 +52,7 @@ type CustomAppActionProps = {
 }
 
 type AppActionCategory = BuiltInCategoriesProps | CustomAppActionProps
+/** Union of valid app action category identifiers. */
 export type AppActionCategoryType = AppActionCategory['category']
 
 /**
@@ -135,6 +142,7 @@ type LegacyFunctionAppActionProps = Record<string, unknown> & {
   type: 'function'
 }
 
+/** Properties required to create a new app action. */
 export type CreateAppActionProps = AppActionCategory & {
   name: string
   description?: string
@@ -148,15 +156,18 @@ export type CreateAppActionProps = AppActionCategory & {
   resultSchema?: Record<string, unknown>
 } & (CreateEndpointAppActionProps | CreateFunctionAppActionProps | LegacyFunctionAppActionProps)
 
+/** Properties of a Contentful app action. */
 export type AppActionProps = BaseAppActionProps &
   (EndpointAppActionProps | FunctionAppActionProps | LegacyFunctionAppActionProps)
 
+/** A Contentful app action with methods for deleting. */
 export type AppAction = AppActionProps &
   DefaultElements<AppActionProps> & {
     /**
      * Deletes this object on the server.
      * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -198,8 +209,8 @@ function createAppActionApi(makeRequest: MakeRequest) {
 /**
  * @internal
  * @param makeRequest - function to make requests via an adapter
- * @param data - Raw App Bundle data
- * @returns Wrapped App Bundle data
+ * @param data - Raw App Action data
+ * @returns Wrapped App Action data
  */
 export function wrapAppAction(makeRequest: MakeRequest, data: AppActionProps): AppAction {
   const appAction = toPlainObject(copy(data))
@@ -212,7 +223,7 @@ export function wrapAppAction(makeRequest: MakeRequest, data: AppActionProps): A
 /**
  * @internal
  * @param makeRequest - function to make requests via an adapter
- * @param data - Raw App Bundle collection data
- * @returns Wrapped App Bundle collection data
+ * @param data - Raw App Action collection data
+ * @returns Wrapped App Action collection data
  */
 export const wrapAppActionCollection = wrapCollection(wrapAppAction)
