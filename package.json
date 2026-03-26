@@ -98,7 +98,7 @@
     "husky": "^9.1.7",
     "in-publish": "^2.0.1",
     "jsonwebtoken": "^9.0.2",
-    "lint-staged": "^15.2.5",
+    "lint-staged": "^16.3.3",
     "lodash": "^4.17.20",
     "nodemon": "^3.1.2",
     "playwright": "^1.49.0",
