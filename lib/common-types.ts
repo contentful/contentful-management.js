@@ -984,6 +984,9 @@ export type MakeRequest = MRInternal<false>
  */
 type Without<T, U> = { [P in Exclude<keyof T, keyof U>]?: never }
 
+/**
+ * @internal
+ */
 export type XOR<T, U> = T | U extends object ? (Without<T, U> & U) | (Without<U, T> & T) : T | U
 
 export interface Adapter {
@@ -2696,8 +2699,11 @@ export type EnvironmentTemplateParams = {
   environmentTemplateId: string
 }
 
+/** @internal */
 export type GetAppActionParams = GetAppDefinitionParams & { appActionId: string }
+/** @internal */
 export type GetAppActionsForEnvParams = GetSpaceParams & { environmentId?: string }
+/** @internal */
 export type GetAppActionCallParams = GetAppInstallationParams & { appActionId: string }
 
 /** @internal */
@@ -2706,43 +2712,61 @@ export type AppActionCallRetryOptions = {
   retryInterval?: number
 }
 
+/** @internal */
 export type CreateWithResponseParams = GetAppActionCallParams & AppActionCallRetryOptions
 
+/** @internal */
 export type CreateWithResultParams = GetAppActionCallParams & AppActionCallRetryOptions
+/** @internal */
 export type GetAppActionCallDetailsParams = GetSpaceEnvironmentParams & {
   appActionId: string
   callId: string
 }
 
+/** @internal */
 export type GetAppActionCallParamsWithId = GetAppActionCallParams & { callId: string }
+/** @internal */
 export type GetAppBundleParams = GetAppDefinitionParams & { appBundleId: string }
+/** @internal */
 export type GetAppDefinitionParams = GetOrganizationParams & { appDefinitionId: string }
 /** @internal */
 export type GetAppInstallationsForOrgParams = GetOrganizationParams & {
   appDefinitionId: string
 }
+/** @internal */
 export type GetAppInstallationParams = GetSpaceEnvironmentParams & { appDefinitionId: string }
 /** @internal */
 export type GetBulkActionParams = GetSpaceEnvironmentParams & { bulkActionId: string }
+/** @internal */
 export type GetCommentParams = (GetEntryParams | GetCommentParentEntityParams) & {
   commentId: string
 }
+/** @internal */
 export type GetContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
+/** @internal */
 export type GetEditorInterfaceParams = GetSpaceEnvironmentParams & { contentTypeId: string }
+/** @internal */
 export type GetEntryParams = GetSpaceEnvironmentParams & { entryId: string }
+/** @internal */
 export type GetExtensionParams = GetSpaceEnvironmentParams & { extensionId: string }
 /** @internal */
 export type GetEnvironmentTemplateParams = GetOrganizationParams & { environmentTemplateId: string }
+/** @internal */
 export type GetFunctionParams = GetAppDefinitionParams & { functionId: string }
+/** @internal */
 export type GetManyFunctionParams = AcceptsQueryParams & GetAppDefinitionParams
+/** @internal */
 export type GetFunctionForEnvParams = AcceptsQueryParams &
   GetSpaceEnvironmentParams & {
     appInstallationId: string
   }
+/** @internal */
 export type GetManyFunctionLogParams = CursorBasedParams &
   CreatedAtIntervalParams &
   GetFunctionForEnvParams & { functionId: string }
+/** @internal */
 export type GetFunctionLogParams = GetManyFunctionLogParams & { logId: string }
+/** @internal */
 export type GetOrganizationParams = { organizationId: string }
 /** @internal */
 export type GetReleaseParams = ReleaseEnvironmentParams & { releaseId: string }
@@ -2816,28 +2840,45 @@ export type CreateWithIdReleaseEntryParams = GetSpaceEnvironmentParams & {
 export type GetSnapshotForContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 /** @internal */
 export type GetSnapshotForEntryParams = GetSpaceEnvironmentParams & { entryId: string }
+/** @internal */
 export type GetSpaceEnvAliasParams = GetSpaceParams & { environmentAliasId: string }
+/** @internal */
 export type GetSpaceEnvironmentParams = { spaceId: string; environmentId: string }
+/** @internal */
 export type GetSpaceEnvironmentUploadParams = GetSpaceEnvironmentParams & { uploadId: string }
+/** @internal */
 export type GetSpaceMembershipProps = GetSpaceParams & { spaceMembershipId: string }
+/** @internal */
 export type GetSpaceParams = { spaceId: string }
+/** @internal */
 export type GetTagParams = GetSpaceEnvironmentParams & { tagId: string }
+/** @internal */
 export type GetTaskParams = GetEntryParams & { taskId: string }
+/** @internal */
 export type GetTeamMembershipParams = GetTeamParams & { teamMembershipId: string }
+/** @internal */
 export type GetTeamParams = { organizationId: string; teamId: string }
+/** @internal */
 export type GetTeamSpaceMembershipParams = GetSpaceParams & { teamSpaceMembershipId: string }
+/** @internal */
 export type GetWebhookCallDetailsUrl = GetWebhookParams & { callId: string }
+/** @internal */
 export type GetWebhookParams = GetSpaceParams & { webhookDefinitionId: string }
 /** @internal */
 export type GetOrganizationMembershipParams = GetOrganizationParams & {
   organizationMembershipId: string
 }
+/** @internal */
 export type GetConceptParams = GetOrganizationParams & { conceptId: string }
+/** @internal */
 export type UpdateConceptParams = GetOrganizationParams & { conceptId: string; version: number }
+/** @internal */
 export type DeleteConceptParams = GetOrganizationParams & { conceptId: string; version: number }
+/** @internal */
 export type GetConceptDescendantsParams = GetOrganizationParams & { conceptId: string } & {
   query?: { depth?: number; pageUrl?: string }
 }
+/** @internal */
 export type GetManyConceptParams = GetOrganizationParams & {
   query?:
     | { pageUrl?: string }
@@ -2845,16 +2886,20 @@ export type GetManyConceptParams = GetOrganizationParams & {
         Omit<PaginationQueryOptions, 'skip'>)
 }
 
+/** @internal */
 export type GetConceptSchemeParams = GetOrganizationParams & { conceptSchemeId: string }
+/** @internal */
 export type GetManyConceptSchemeParams = GetOrganizationParams & {
   query?:
     | { pageUrl?: string }
     | ({ query?: string } & BasicCursorPaginationOptions & Omit<PaginationQueryOptions, 'skip'>)
 }
+/** @internal */
 export type DeleteConceptSchemeParams = GetOrganizationParams & {
   conceptSchemeId: string
   version: number
 }
+/** @internal */
 export type UpdateConceptSchemeParams = GetOrganizationParams & {
   conceptSchemeId: string
   version: number
@@ -2862,6 +2907,7 @@ export type UpdateConceptSchemeParams = GetOrganizationParams & {
 
 /** @internal */
 export type GetAppKeyParams = GetAppDefinitionParams & { fingerprint: string }
+/** @internal */
 export type GetAppUploadParams = GetOrganizationParams & { appUploadId: string }
 /** @internal */
 export type GetAutomationDefinitionParams = GetSpaceEnvironmentParams & {
