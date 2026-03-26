@@ -1,0 +1,5 @@
+{
+  "entryPoints": ["lib/index.ts"],
+  "out": "out",
+  "tsconfig": "tsconfig.json"
+}
