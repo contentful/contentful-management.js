@@ -77,11 +77,21 @@ export type AgentRunQueryOptions = {
 /** A Contentful agent run representing a single execution of an agent. */
 export interface AgentRun extends AgentRunProps, DefaultElements<AgentRunProps> {}
 
+/**
+ * @param _makeRequest - function to make requests via an adapter
+ * @param data - Raw AgentRun data
+ * @returns Wrapped AgentRun data
+ */
 export function wrapAgentRun(_makeRequest: MakeRequest, data: AgentRunProps): AgentRun {
   const agentRun = toPlainObject(copy(data))
   return freezeSys(agentRun)
 }
 
+/**
+ * @param _makeRequest - function to make requests via an adapter
+ * @param data - Raw Agent generate response data
+ * @returns Wrapped Agent generate response data
+ */
 export function wrapAgentGenerateResponse(
   _makeRequest: MakeRequest,
   data: AgentGenerateResponse,
