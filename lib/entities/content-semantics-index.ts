@@ -40,6 +40,12 @@ export interface ContentSemanticsIndexCollection
   extends ContentSemanticsIndexCollectionProps,
     DefaultElements<ContentSemanticsIndexCollectionProps> {}
 
+/**
+ * @internal
+ * @param _makeRequest - function to make requests via an adapter
+ * @param data - Raw Content Semantics Index data
+ * @returns Wrapped Content Semantics Index data
+ */
 export function wrapContentSemanticsIndex(
   _makeRequest: MakeRequest,
   data: ContentSemanticsIndexProps,
@@ -48,6 +54,12 @@ export function wrapContentSemanticsIndex(
   return freezeSys(result)
 }
 
+/**
+ * @internal
+ * @param _makeRequest - function to make requests via an adapter
+ * @param data - Raw Content Semantics Index collection data
+ * @returns Wrapped Content Semantics Index collection data
+ */
 export function wrapContentSemanticsIndexCollection(
   _makeRequest: MakeRequest,
   data: ContentSemanticsIndexCollectionProps,

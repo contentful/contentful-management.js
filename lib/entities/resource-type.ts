@@ -169,6 +169,12 @@ export function wrapResourceType(makeRequest: MakeRequest, data: ResourceTypePro
   return freezeSys(ResourceTypeWithMethods)
 }
 
+/**
+ * @internal
+ * @param makeRequest - function to make requests via an adapter
+ * @param data - Raw Resource Type data scoped to a space environment
+ * @returns Wrapped Resource Type data scoped to a space environment
+ */
 export function wrapResourceTypeforEnvironment(
   makeRequest: MakeRequest,
   data: SpaceEnvResourceTypeProps,
