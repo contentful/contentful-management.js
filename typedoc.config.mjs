@@ -61,6 +61,9 @@ export default {
   hostedBaseUrl,
   favicon: 'images/contentful-icon.png',
   searchInComments: true,
+  searchInDocuments: true,
+  cacheBust: true,
+  useHostedBaseUrlForAbsoluteLinks: true,
   searchCategoryBoosts: {
     'Plain Client': 2,
     'Entities': 1.5,
