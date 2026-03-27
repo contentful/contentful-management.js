@@ -13,6 +13,19 @@ export type SpaceProps = {
 
 export type Space = SpaceProps & DefaultElements<SpaceProps> & ContentfulSpaceAPI
 
+export type EligibleLicenseQuotas = {
+  contentTypes: number
+  records: number
+  environments: number
+}
+
+export type EligibleLicenseProps = {
+  name: string
+  id: string
+  count: number
+  quotas: EligibleLicenseQuotas
+}
+
 /**
  * This method creates the API for the given space with all the methods for
  * reading and creating other entities. It also passes down a clone of the

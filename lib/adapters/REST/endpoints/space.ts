@@ -8,7 +8,7 @@ import type {
   GetSpaceParams,
   QueryParams,
 } from '../../../common-types'
-import type { SpaceProps } from '../../../entities/space'
+import type { EligibleLicenseProps, SpaceProps } from '../../../entities/space'
 import type { RestEndpoint } from '../types'
 import * as raw from './raw'
 
@@ -63,3 +63,8 @@ export const update: RestEndpoint<'Space', 'update'> = (
 
 export const del: RestEndpoint<'Space', 'delete'> = (http: AxiosInstance, params: GetSpaceParams) =>
   raw.del(http, `/spaces/${params.spaceId}`)
+
+export const getEligibleLicenses: RestEndpoint<'Space', 'getEligibleLicenses'> = (
+  http: AxiosInstance,
+  params: GetSpaceParams,
+) => raw.get<EligibleLicenseProps[]>(http, `/spaces/${params.spaceId}/eligible_licenses`)

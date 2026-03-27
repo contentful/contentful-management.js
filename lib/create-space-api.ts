@@ -10,7 +10,7 @@ import type { CreateEnvironmentProps } from './entities/environment'
 import type { CreateEnvironmentAliasProps } from './entities/environment-alias'
 import type { CreateRoleProps, RoleProps } from './entities/role'
 import type { ScheduledActionProps, ScheduledActionQueryOptions } from './entities/scheduled-action'
-import type { SpaceProps } from './entities/space'
+import type { EligibleLicenseProps, SpaceProps } from './entities/space'
 import type { CreateSpaceMembershipProps } from './entities/space-membership'
 import type { CreateTeamSpaceMembershipProps } from './entities/team-space-membership'
 import type {
@@ -103,6 +103,30 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
         payload: raw,
         headers: {},
       }).then((data) => wrapSpace(makeRequest, data))
+    },
+    /**
+     * Gets eligible licenses for the space
+     * @return Promise for a list of eligible licenses
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     *   .then((space) => space.getEligibleLicenses())
+     *   .then((licenses) => console.log(licenses))
+     *   .catch(console.error)
+     * ```
+     */
+    getEligibleLicenses(): Promise<EligibleLicenseProps[]> {
+      const raw = this.toPlainObject() as SpaceProps
+      return makeRequest({
+        entityType: 'Space',
+        action: 'getEligibleLicenses',
+        params: { spaceId: raw.sys.id },
+      })
     },
     /**
      * Gets an environment
