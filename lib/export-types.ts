@@ -231,6 +231,12 @@ export type {
 } from './entities/scheduled-action'
 export type { Snapshot, SnapshotProps } from './entities/snapshot'
 export type { Space, SpaceProps } from './entities/space'
+export type {
+  SpaceAddOn,
+  SpaceAddOnProps,
+  SpaceAddOnType,
+  UpdateSpaceAddOnAllocationProps,
+} from './entities/space-add-on'
 export type { SpaceMember, SpaceMemberProps } from './entities/space-member'
 export type {
   CreateSpaceMembershipProps,
