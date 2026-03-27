@@ -13,6 +13,7 @@ import type {
 } from '../../../lib/common-types'
 import type { AppEventSubscriptionProps } from '../../../lib/entities/app-event-subscription'
 import type { SpaceProps } from '../../../lib/entities/space'
+import type { SpaceAddOnProps } from '../../../lib/entities/space-add-on'
 import type { EnvironmentProps } from '../../../lib/entities/environment'
 import type { EnvironmentTemplateProps } from '../../../lib/entities/environment-template'
 import type {
@@ -123,6 +124,18 @@ const spaceMock: SpaceProps = {
     organization: makeLink('Organization', 'mock-organization-id'),
   }),
   name: 'name',
+}
+
+const spaceAddOnMock: SpaceAddOnProps = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'SpaceAddOn',
+    id: 'contentTypes',
+    organization: makeLink('Organization', 'mock-organization-id'),
+    space: makeLink('Space', 'mock-space-id'),
+  }),
+  name: 'ContentTypes',
+  used: 2,
+  allocated: 5,
 }
 
 const environmentMock: EnvironmentProps = {
@@ -1651,6 +1664,7 @@ const mocks = {
   semanticReferenceSuggestions: semanticReferenceSuggestionsMock,
   semanticSearch: semanticSearchMock,
   snapshot: snapShotMock,
+  spaceAddOn: spaceAddOnMock,
   spaceMember: spaceMemberMock,
   spaceMembership: spaceMembershipMock,
   sys: sysMock,
@@ -1828,6 +1842,10 @@ function setupEntitiesMock() {
       wrapRole: vi.fn(),
       wrapRoleCollection: vi.fn(),
     },
+    spaceAddOn: {
+      wrapSpaceAddOn: vi.fn(),
+      wrapSpaceAddOnCollection: vi.fn(),
+    },
     release: {
       wrapRelease: vi.fn(),
       wrapReleaseCollection: vi.fn(),
@@ -1978,6 +1996,7 @@ export {
   linkMock,
   sysMock,
   spaceMock,
+  spaceAddOnMock,
   bulkActionMock,
   bulkActionPublishMock,
   commentMock,
