@@ -41,7 +41,7 @@
     "build:types": "rimraf dist/typings && tsc --declaration --noEmit false --emitDeclarationOnly true --allowJs false",
     "docs:build": "typedoc",
     "docs:dev": "npm run docs:build -- --watch",
-    "docs:publish": "npm run docs:build && ./node_modules/contentful-sdk-jsdoc/bin/publish-docs.sh contentful-management.js contentful-management",
+    "docs:publish": "npm run docs:build",
     "lint": "eslint lib test",
     "lint:fix": "eslint lib test --fix",
     "test": "npm run test:unit:cover && npm run test:types && npm run test:integration:cover && npm run test:size",
@@ -91,7 +91,6 @@
     "@types/node": "^20.12.13",
     "@vitest/browser": "^2.1.5",
     "@vitest/coverage-v8": "^2.1.5",
-    "contentful-sdk-jsdoc": "^3.1.5",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^9.15.0",
     "express": "^5.2.1",
@@ -117,7 +116,7 @@
     "typescript-eslint": "^8.16.0",
     "vitest": "^2.1.5"
   },
-  "optionalDependencies":  {  
+  "optionalDependencies": {
     "@rollup/rollup-linux-arm64-gnu": "^4.60.0",
     "@esbuild/linux-x64": "^0.24.0"
   },

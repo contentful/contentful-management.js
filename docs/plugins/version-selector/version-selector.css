@@ -1,0 +1,47 @@
+.tsd-version-selector {
+  display: block;
+  padding: 0.5rem 0.75rem 0.75rem;
+  border-bottom: 1px solid var(--color-accent, #ccc);
+  margin-bottom: 0.5rem;
+}
+.tsd-version-selector label {
+  display: block;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-aside, #666);
+  margin-bottom: 0.25rem;
+}
+.tsd-version-selector select {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 100%;
+  background: var(--color-background-secondary, #f5f5f5);
+  color: var(--color-text, #222);
+  border: 1px solid var(--color-accent, #ccc);
+  border-radius: 4px;
+  padding: 0.35rem 1.75rem 0.35rem 0.5rem;
+  font-size: 0.85rem;
+  font-family: inherit;
+  cursor: pointer;
+  line-height: 1.4;
+}
+.tsd-version-selector select:hover {
+  border-color: var(--color-ts-function, #6f42c1);
+}
+.tsd-version-selector .tsd-version-select-wrap {
+  position: relative;
+  display: block;
+}
+.tsd-version-selector .tsd-version-select-wrap::after {
+  content: '';
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 5px solid var(--color-text, #222);
+  pointer-events: none;
+}

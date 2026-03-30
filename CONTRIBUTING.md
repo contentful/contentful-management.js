@@ -38,13 +38,7 @@ This project is written in TypeScript. Sources live in `lib/` and are bundled to
 
 Run `npm install` to install all necessary dependencies. All tools can be accessed via npm scripts — there is no need to install anything globally.
 
-All necessary dependencies are installed under `node_modules` and any necessary tools can be accessed via npm scripts. There is no need to install anything globally.
-
-When importing local, in development code, via `index.js`, this file checks if `dist` exists and uses that. Otherwise, it uses the code from `lib`.
-
-If you have a `dist` directory, run `npm run clean`.
-
-Axios, one of the main dependencies is vendored. This generally shouldn't matter, but if you'd like to understand why, check [SETUP.md](SETUP.md)
+If you have a `dist` directory from a previous build, run `npm run clean`.
 
 # Code style
 
@@ -58,29 +52,21 @@ This project uses the [Angular JS Commit Message Conventions](https://docs.googl
 
 # Running tests
 
-This project has unit and integration tests. Both of these run on both Node.js and Browser environments.
+This project has unit, type, and integration tests, powered by Vitest.
 
-Both of these test environments are setup to deal with Babel and code transpiling, so there's no need to worry about that
-
-- `npm test` runs all three kinds of tests and generates a coverage report
-- `npm run test:unit` runs Node.js unit tests without coverage. `npm run test:cover` to run Node.js unit tests with coverage. `npm run test:debug` runs babel-node in debug mode (same as running `node debug`). In order to see an output of the tests in the terminal run `npm run test:unit-watch`.
-- `npm run test:integration` runs the integration tests against the Contentful CDA API. Note: these are tricky to run locally since they currently run against a real contentful org. Focus on unit tests during development as integration tests will be run as part of CI/CD.
-- `npm run test:browser` runs both the unit and integration tests using Karma against local browsers.
-- `npm run test:ci` runs tests in CI
-- `npm run test:browser-remote` runs both the unit and integration tests using Karma against Sauce Labs. This is only usable in the CI environment, as it expects the credentials and connection tunnel to be present.
+- `npm test` runs the full test suite (unit + types + integration + size)
+- `npx vitest --project unit --run` runs unit tests
+- `npx vitest --project types --run` runs type tests
+- `npm run test:integration` runs integration tests against the Contentful CMA API. These run against a real Contentful org, so focus on unit tests during development — integration tests run as part of CI/CD.
 
 # Documentation
 
-Code is documented using Typedoc, and reference documentation is published automatically with each new version.
+Code is documented using [TypeDoc](https://typedoc.org/), and reference documentation is published automatically to GitHub Pages with each release.
 
-- `npm run docs:watch` watches code directory, and rebuilds documentation when anything changes. Useful for documentation writing and development.
-- `npm run docs:dev` builds code and builds docs afterwards. Used by `npm run docs:watch`. Code building is required as the documentation is generated from the unminified ES5 compiled sources, rather than the original ES6 sources. You should then open the generated `out/index.html` in your browser.
-- `npm run build:docs` builds documentation.
-- `npm run docs:publish` builds documentation and publishes it to github pages.
+- `npm run docs:build` generates documentation into `out/`
+- `npm run docs:dev` builds documentation in watch mode
 
 # Other tasks
 
-- `npm run clean` removes any built files
-- `npm run build` builds vendored files, node package and browser version
-- `npm run build:dist` builds ES5 sources from ES6 ones
-- `npm run build:standalone` builds unminified and minified sources for browsers
+- `npm run clean` removes built files
+- `npm run build` builds all bundles (ESM, CJS, types, browser) via Rollup

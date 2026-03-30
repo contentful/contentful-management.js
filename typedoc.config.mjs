@@ -1,8 +1,7 @@
-const hostedBaseUrl = 'https://contentful.github.io/contentful-management.js/'
-const basePath = new URL(hostedBaseUrl).pathname
-
-/** @param {string} path - path relative to the doc root */
-const sidebarLink = (path) => `${basePath}${path}`
+// In versioned deployments, docs live at <root>/contentful-management/<version>/
+// CI sets DOCS_BASE_URL at build time; locally it falls back to the repo root.
+const hostedBaseUrl =
+  process.env.DOCS_BASE_URL || 'https://contentful.github.io/contentful-management.js/'
 
 /** @type {Partial<import('typedoc').TypeDocOptions>} */
 export default {
@@ -56,7 +55,11 @@ export default {
   treatWarningsAsErrors: false,
   useFirstParagraphOfCommentAsSummary: true,
   sort: ['source-order'],
-  plugin: ['typedoc-plugin-missing-exports', 'typedoc-github-theme'],
+  plugin: [
+    'typedoc-plugin-missing-exports',
+    'typedoc-github-theme',
+    './docs/plugins/version-selector/typedoc-version-selector.mjs',
+  ],
   hideGenerator: true,
   hostedBaseUrl,
   favicon: 'images/contentful-icon.png',
@@ -66,7 +69,7 @@ export default {
   useHostedBaseUrlForAbsoluteLinks: true,
   searchCategoryBoosts: {
     'Plain Client': 2,
-    'Entities': 1.5,
+    Entities: 1.5,
     'Legacy Client': 0.5,
   },
   searchGroupBoosts: {
@@ -76,17 +79,19 @@ export default {
   navigationLinks: {
     GitHub: 'https://github.com/contentful/contentful-management.js',
     npm: 'https://www.npmjs.com/package/contentful-management',
-    'CMA Reference': 'https://www.contentful.com/developers/docs/references/content-management-api/',
+    'CMA Reference':
+      'https://www.contentful.com/developers/docs/references/content-management-api/',
   },
   sidebarLinks: {
-    'Getting Started': sidebarLink('Getting_Started'),
-    PlainClientAPI: sidebarLink('plain/plain-client-types/PlainClientAPI'),
-    'Legacy ClientAPI': sidebarLink('create-contentful-api/default'),
+    'Getting Started': `${hostedBaseUrl}Getting_Started`,
+    PlainClientAPI: `${hostedBaseUrl}plain/plain-client-types/PlainClientAPI`,
+    'Legacy ClientAPI': `${hostedBaseUrl}create-contentful-api/default`,
   },
-  navigationLeaves: ['DefaultElements', 'OptionalDefaults'],
+  navigationLeaves: ['DefaultElements', 'OptionalDefaults', 'Getting Started'],
   externalSymbolLinkMappings: {
     typescript: {
-      Iterator: 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Iterator',
+      Iterator:
+        'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Iterator',
     },
   },
   navigation: {
