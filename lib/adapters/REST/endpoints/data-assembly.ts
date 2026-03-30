@@ -71,6 +71,19 @@ export const del: RestEndpoint<'DataAssembly', 'delete'> = (
   return raw.del(http, getBaseUrl(params) + `/${params.dataAssemblyId}`)
 }
 
+export const publish: RestEndpoint<'DataAssembly', 'publish'> = (
+  http: AxiosInstance,
+  params: GetDataAssemblyParams & { version: number },
+  headers?: RawAxiosRequestHeaders,
+) => {
+  return raw.put(http, `${getBaseUrl(params)}/${params.dataAssemblyId}/published`, null, {
+    headers: {
+      'X-Contentful-Version': params.version,
+      ...headers,
+    },
+  })
+}
+
 export const unpublish: RestEndpoint<'DataAssembly', 'unpublish'> = (
   http: AxiosInstance,
   params: GetDataAssemblyParams & { version: number },
