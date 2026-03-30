@@ -87,6 +87,16 @@ export const publish: RestEndpoint<'DataAssembly', 'publish'> = (
   })
 }
 
+export const getPublished: RestEndpoint<'DataAssembly', 'getPublished'> = (
+  http: AxiosInstance,
+  params: GetDataAssemblyParams,
+  headers?: RawAxiosRequestHeaders,
+) => {
+  return raw.get<DataAssemblyProps>(http, getPublicUrl(params) + `/${params.dataAssemblyId}`, {
+    headers,
+  })
+}
+
 export const getManyPublished: RestEndpoint<'DataAssembly', 'getManyPublished'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { query: DataAssemblyQueryOptions },

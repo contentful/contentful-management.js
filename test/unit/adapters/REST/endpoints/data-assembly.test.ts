@@ -250,9 +250,36 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
       .then((r) => {
         expect(r).to.eql(mockResponse)
         expect(httpMock.put.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/data_assemblies_temp/da123/published',
+          '/spaces/space123/environments/master/data_assemblies/da123/published',
         )
         expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(1)
+      })
+  })
+
+  test('getPublished calls correct public URL', async () => {
+    const mockResponse = {
+      sys: { id: 'da123', type: 'DataAssembly' },
+      name: 'Test Assembly',
+    }
+
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'DataAssembly',
+        action: 'getPublished',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+          dataAssemblyId: 'da123',
+        },
+      })
+      .then((r) => {
+        expect(r).to.eql(mockResponse)
+        expect(httpMock.get.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/public/data_assemblies/da123',
+        )
       })
   })
 

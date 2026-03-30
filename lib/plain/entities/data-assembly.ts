@@ -184,4 +184,21 @@ export type DataAssemblyPlainClientAPI = {
   getManyPublished(
     params: OptionalDefaults<GetSpaceEnvironmentParams & { query: DataAssemblyQueryOptions }>,
   ): Promise<CursorPaginatedCollectionProp<DataAssemblyProps>>
+
+  /**
+   * Fetches a single published data assembly by ID
+   * @param params the space, environment, and data assembly IDs
+   * @returns the published data assembly
+   * @throws if the request fails, or the data assembly is not found
+   * @internal - Experimental endpoint, subject to breaking changes without notice
+   * @example
+   * ```javascript
+   * const dataAssembly = await client.dataAssembly.getPublished({
+   *   spaceId: '<space_id>',
+   *   environmentId: '<environment_id>',
+   *   dataAssemblyId: '<data_assembly_id>',
+   * });
+   * ```
+   */
+  getPublished(params: OptionalDefaults<GetDataAssemblyParams>): Promise<DataAssemblyProps>
 }

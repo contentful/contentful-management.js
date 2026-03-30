@@ -648,6 +648,7 @@ type MRInternal<UA extends boolean> = {
   (
     opts: MROpts<'DataAssembly', 'getManyPublished', UA>,
   ): MRReturn<'DataAssembly', 'getManyPublished'>
+  (opts: MROpts<'DataAssembly', 'getPublished', UA>): MRReturn<'DataAssembly', 'getPublished'>
   (opts: MROpts<'DataAssembly', 'get', UA>): MRReturn<'DataAssembly', 'get'>
   (opts: MROpts<'DataAssembly', 'create', UA>): MRReturn<'DataAssembly', 'create'>
   (opts: MROpts<'DataAssembly', 'update', UA>): MRReturn<'DataAssembly', 'update'>
@@ -1746,6 +1747,10 @@ export type MRActions = {
     getManyPublished: {
       params: GetSpaceEnvironmentParams & { query: DataAssemblyQueryOptions }
       return: CursorPaginatedCollectionProp<DataAssemblyProps>
+    }
+    getPublished: {
+      params: GetDataAssemblyParams
+      return: DataAssemblyProps
     }
     get: {
       params: GetDataAssemblyParams
