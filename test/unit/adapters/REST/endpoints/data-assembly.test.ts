@@ -250,7 +250,7 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
       .then((r) => {
         expect(r).to.eql(mockResponse)
         expect(httpMock.put.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/data_assemblies_temp/da123/published',
+          '/spaces/space123/environments/master/data_assemblies/da123/published',
         )
         expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(1)
       })
