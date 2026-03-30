@@ -42,16 +42,6 @@ export const get: RestEndpoint<'DataAssembly', 'get'> = (
   })
 }
 
-export const getPublished: RestEndpoint<'DataAssembly', 'getPublished'> = (
-  http: AxiosInstance,
-  params: GetDataAssemblyParams,
-  headers?: RawAxiosRequestHeaders,
-) => {
-  return raw.get<DataAssemblyProps>(http, getPublicUrl(params) + `/${params.dataAssemblyId}`, {
-    headers,
-  })
-}
-
 export const create: RestEndpoint<'DataAssembly', 'create'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams,
@@ -94,6 +84,16 @@ export const publish: RestEndpoint<'DataAssembly', 'publish'> = (
       'X-Contentful-Version': params.version,
       ...headers,
     },
+  })
+}
+
+export const getPublished: RestEndpoint<'DataAssembly', 'getPublished'> = (
+  http: AxiosInstance,
+  params: GetDataAssemblyParams,
+  headers?: RawAxiosRequestHeaders,
+) => {
+  return raw.get<DataAssemblyProps>(http, getPublicUrl(params) + `/${params.dataAssemblyId}`, {
+    headers,
   })
 }
 
