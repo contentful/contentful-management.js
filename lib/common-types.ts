@@ -652,6 +652,7 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'DataAssembly', 'create', UA>): MRReturn<'DataAssembly', 'create'>
   (opts: MROpts<'DataAssembly', 'update', UA>): MRReturn<'DataAssembly', 'update'>
   (opts: MROpts<'DataAssembly', 'delete', UA>): MRReturn<'DataAssembly', 'delete'>
+  (opts: MROpts<'DataAssembly', 'publish', UA>): MRReturn<'DataAssembly', 'publish'>
   (opts: MROpts<'DataAssembly', 'unpublish', UA>): MRReturn<'DataAssembly', 'unpublish'>
 
   (opts: MROpts<'EditorInterface', 'get', UA>): MRReturn<'EditorInterface', 'get'>
@@ -1765,6 +1766,10 @@ export type MRActions = {
     delete: {
       params: GetDataAssemblyParams
       return: void
+    }
+    publish: {
+      params: GetDataAssemblyParams & { version: number }
+      return: DataAssemblyProps
     }
     unpublish: {
       params: GetDataAssemblyParams & { version: number }
