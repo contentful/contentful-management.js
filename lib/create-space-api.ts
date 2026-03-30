@@ -10,6 +10,7 @@ import type { CreateEnvironmentProps } from './entities/environment'
 import type { CreateEnvironmentAliasProps } from './entities/environment-alias'
 import type { CreateRoleProps, RoleProps } from './entities/role'
 import type { ScheduledActionProps, ScheduledActionQueryOptions } from './entities/scheduled-action'
+import type { UpdateSpaceAddOnAllocationProps } from './entities/space-add-on'
 import type { SpaceProps } from './entities/space'
 import type { CreateSpaceMembershipProps } from './entities/space-membership'
 import type { CreateTeamSpaceMembershipProps } from './entities/team-space-membership'
@@ -25,6 +26,7 @@ import { wrapEnvironment, wrapEnvironmentCollection } from './entities/environme
 import { wrapWebhook, wrapWebhookCollection } from './entities/webhook'
 import { wrapRole, wrapRoleCollection } from './entities/role'
 import { wrapUser, wrapUserCollection } from './entities/user'
+import { wrapSpaceAddOn, wrapSpaceAddOnCollection } from './entities/space-add-on'
 import { wrapSpaceMember, wrapSpaceMemberCollection } from './entities/space-member'
 import { wrapSpaceMembership, wrapSpaceMembershipCollection } from './entities/space-membership'
 import {
@@ -1656,6 +1658,62 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
         action: 'delete',
         params: { spaceId: raw.sys.id, aiActionId },
       })
+    },
+
+    /**
+     * Gets a collection of Space Add-ons
+     * @param query - Object with search parameters (skip, limit)
+     * @returns Promise for a collection of Space Add-ons
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getSpaceAddOns())
+     * .then((response) => console.log(response.items))
+     * .catch(console.error)
+     * ```
+     */
+    getSpaceAddOns(query: QueryOptions = {}) {
+      const raw = this.toPlainObject() as SpaceProps
+      return makeRequest({
+        entityType: 'SpaceAddOn',
+        action: 'getMany',
+        params: { spaceId: raw.sys.id, query: createRequestConfig({ query }).params },
+      }).then((data) => wrapSpaceAddOnCollection(makeRequest, data))
+    },
+
+    /**
+     * Updates Space Add-on allocations
+     * @param allocations - Array of add-on allocation updates
+     * @returns Promise for the updated collection of Space Add-ons
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.updateSpaceAddOnAllocations([
+     *   { add_on: 'contentTypes', allocation: 10 },
+     *   { add_on: 'records', allocation: 1000 }
+     * ]))
+     * .then((response) => console.log(response.items))
+     * .catch(console.error)
+     * ```
+     */
+    updateSpaceAddOnAllocations(allocations: UpdateSpaceAddOnAllocationProps[]) {
+      const raw = this.toPlainObject() as SpaceProps
+      return makeRequest({
+        entityType: 'SpaceAddOn',
+        action: 'updateAllocations',
+        params: { spaceId: raw.sys.id },
+        payload: allocations,
+      }).then((data) => wrapSpaceAddOnCollection(makeRequest, data))
     },
   }
 }

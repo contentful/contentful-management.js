@@ -98,6 +98,7 @@ import type { CreateRoleProps, RoleProps } from './entities/role'
 import type { ScheduledActionProps } from './entities/scheduled-action'
 import type { SnapshotProps } from './entities/snapshot'
 import type { SpaceProps } from './entities/space'
+import type { SpaceAddOnProps, UpdateSpaceAddOnAllocationProps } from './entities/space-add-on'
 import type { SpaceMemberProps } from './entities/space-member'
 import type { CreateSpaceMembershipProps, SpaceMembershipProps } from './entities/space-membership'
 import type { CreateTagProps, DeleteTagParams, TagProps, UpdateTagProps } from './entities/tag'
@@ -843,6 +844,9 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'SpaceMembership', 'createWithId', UA>): MRReturn<'SpaceMembership', 'createWithId'>
   (opts: MROpts<'SpaceMembership', 'update', UA>): MRReturn<'SpaceMembership', 'update'>
   (opts: MROpts<'SpaceMembership', 'delete', UA>): MRReturn<'SpaceMembership', 'delete'>
+
+  (opts: MROpts<'SpaceAddOn', 'getMany', UA>): MRReturn<'SpaceAddOn', 'getMany'>
+  (opts: MROpts<'SpaceAddOn', 'updateAllocations', UA>): MRReturn<'SpaceAddOn', 'updateAllocations'>
 
   (opts: MROpts<'Tag', 'get', UA>): MRReturn<'Tag', 'get'>
   (opts: MROpts<'Tag', 'getMany', UA>): MRReturn<'Tag', 'getMany'>
@@ -2377,6 +2381,18 @@ export type MRActions = {
       return: SpaceMembershipProps
     }
     delete: { params: GetSpaceMembershipProps; return: any }
+  }
+  SpaceAddOn: {
+    getMany: {
+      params: GetSpaceParams & QueryParams
+      return: CollectionProp<SpaceAddOnProps>
+    }
+    updateAllocations: {
+      params: GetSpaceParams
+      payload: UpdateSpaceAddOnAllocationProps[]
+      headers?: RawAxiosRequestHeaders
+      return: CollectionProp<SpaceAddOnProps>
+    }
   }
   Tag: {
     get: { params: GetTagParams; return: TagProps }
