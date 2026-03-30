@@ -105,6 +105,7 @@ import { wrapSemanticDuplicates } from './entities/semantic-duplicates'
 import { wrapSemanticRecommendations } from './entities/semantic-recommendations'
 import { wrapSemanticReferenceSuggestions } from './entities/semantic-reference-suggestions'
 import { wrapSemanticSearch } from './entities/semantic-search'
+import { wrapContentSemanticsIndexCollection } from './entities/content-semantics-index'
 
 /**
  * Methods available on an {@link Environment} object for managing content types, entries, assets, and other environment-level resources.
