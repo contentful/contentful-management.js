@@ -79,6 +79,7 @@ export const createPlainClient = (
     agentRun: {
       get: wrap(wrapParams, 'AgentRun', 'get'),
       getMany: wrap(wrapParams, 'AgentRun', 'getMany'),
+      resumeRun: wrap(wrapParams, 'AgentRun', 'resumeRun'),
     },
     automationDefinition: {
       get: wrap(wrapParams, 'AutomationDefinition', 'get'),

@@ -97,6 +97,43 @@ describe('AgentRun', () => {
     )
   })
 
+  test('resumeRun', async () => {
+    const mockResponse = {
+      sys: {
+        id: runId,
+        type: 'AgentRun' as const,
+        status: 'IN_PROGRESS' as const,
+      },
+    }
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
+    const plainClient = createClient({ apiAdapter: adapterMock }, { type: 'plain' })
+
+    const payload = {
+      resumePayload: { someKey: 'someValue' },
+    }
+
+    const response = await plainClient.agentRun.resumeRun(
+      { spaceId, environmentId, runId },
+      payload,
+    )
+
+    expect(response).toBeInstanceOf(Object)
+    expect(response.sys.id).toBe(runId)
+    expect(response.sys.type).toBe('AgentRun')
+    expect(response.sys.status).toBe('IN_PROGRESS')
+
+    expect(httpMock.post).toHaveBeenCalledWith(
+      `/spaces/${spaceId}/environments/${environmentId}/ai/agents/runs/${runId}/resume`,
+      payload,
+      expect.objectContaining({
+        baseURL: 'https://api.contentful.com',
+        headers: expect.objectContaining({
+          'x-contentful-enable-alpha-feature': 'agents-api',
+        }),
+      }),
+    )
+  })
+
   test('getMany with agentIn filter', async () => {
     const { httpMock, adapterMock } = setupRestAdapter(
       Promise.resolve({ data: { items: [mockAgentRun], total: 1 } }),

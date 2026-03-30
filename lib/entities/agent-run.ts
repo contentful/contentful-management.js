@@ -13,6 +13,10 @@ export type AgentGenerateResponse = {
   }
 }
 
+export type AgentResumeRunPayload = {
+  resumePayload: Record<string, unknown>
+}
+
 export type AgentRunMessageRole = 'system' | 'user' | 'assistant' | 'tool'
 
 export type AgentRunMessageTextPart = {
