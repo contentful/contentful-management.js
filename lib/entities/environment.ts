@@ -35,10 +35,10 @@ export type Environment = ContentfulEnvironmentAPI &
  * reading and creating other entities. It also passes down a clone of the
  * http client with a environment id, so the base path for requests now has the
  * environment id already set.
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - API response for a Environment
- * @return
+ * @returns
  */
 export function wrapEnvironment(makeRequest: MakeRequest, data: EnvironmentProps): Environment {
   // do not pollute generated typings
@@ -51,6 +51,6 @@ export function wrapEnvironment(makeRequest: MakeRequest, data: EnvironmentProps
 /**
  * This method wraps each environment in a collection with the environment API. See wrapEnvironment
  * above for more details.
- * @private
+ * @internal
  */
 export const wrapEnvironmentCollection = wrapCollection(wrapEnvironment)

@@ -1,7 +1,9 @@
 export * from './common-types'
 export type {
   AccessToken,
+  /** @deprecated Use `AccessTokenProps` instead */
   AccessTokenProps as AccessTokenProp,
+  /** @deprecated Use `CreatePersonalAccessTokenProps` instead */
   CreatePersonalAccessTokenProps as CreatePATProps,
 } from './entities/access-token'
 export type { ApiKey, ApiKeyProps, CreateApiKeyProps } from './entities/api-key'
@@ -38,6 +40,7 @@ export type {
   AppActionCall,
   AppActionCallProps,
   AppActionCallErrorProps,
+  AppActionCallResponse,
   AppActionCallRawResponseProps,
   AppActionCallStatus,
   CreateAppActionCallProps,
@@ -106,6 +109,7 @@ export type {
 export type {
   Comment,
   CommentProps,
+  CommentStatus,
   CreateCommentProps,
   DeleteCommentParams,
   GetCommentParentEntityParams,
@@ -138,7 +142,13 @@ export type {
   GroupControl,
   SidebarItem,
 } from './entities/editor-interface'
-export type { CreateEntryProps, Entry, EntryProps, WithResourceName } from './entities/entry'
+export type {
+  CreateEntryProps,
+  Entry,
+  EntryProps,
+  EntryReferenceProps,
+  WithResourceName,
+} from './entities/entry'
 export type { CreateEnvironmentProps, Environment, EnvironmentProps } from './entities/environment'
 export type {
   CreateEnvironmentAliasProps,
@@ -163,8 +173,11 @@ export type {
   ValidationFinding,
 } from './entities/environment-template-installation'
 export type {
+  /** @deprecated Use `CreateExtensionProps` instead */
   CreateExtensionProps as CreateUIExtensionProps,
+  /** @deprecated Use `Extension` instead */
   Extension as UIExtension,
+  /** @deprecated Use `ExtensionProps` instead */
   ExtensionProps as UIExtensionProps,
 } from './entities/extension'
 export type { FieldType } from './entities/field-type'
@@ -210,7 +223,7 @@ export type {
   ReleaseActionSysProps,
   ReleaseActionTypes,
 } from './entities/release-action'
-export type { CreateRoleProps, Role, RoleProps } from './entities/role'
+export type { ActionType, ConstraintType, CreateRoleProps, Role, RoleProps } from './entities/role'
 export type {
   ScheduledAction,
   ScheduledActionProps,
@@ -218,13 +231,19 @@ export type {
 } from './entities/scheduled-action'
 export type { Snapshot, SnapshotProps } from './entities/snapshot'
 export type { Space, SpaceProps } from './entities/space'
+export type {
+  SpaceAddOn,
+  SpaceAddOnProps,
+  SpaceAddOnType,
+  UpdateSpaceAddOnAllocationProps,
+} from './entities/space-add-on'
 export type { SpaceMember, SpaceMemberProps } from './entities/space-member'
 export type {
   CreateSpaceMembershipProps,
   SpaceMembership,
   SpaceMembershipProps,
 } from './entities/space-membership'
-export type { CreateTagProps, Tag, TagProps, TagVisibility } from './entities/tag'
+export type { CreateTagProps, Tag, TagProps, TagSysProps, TagVisibility } from './entities/tag'
 export type { CreateTaskProps, Task, TaskProps, UpdateTaskProps } from './entities/task'
 export type { CreateTeamProps, Team, TeamProps } from './entities/team'
 export type {
@@ -248,8 +267,11 @@ export type {
   UpdateWebhookProps,
   UpsertWebhookSigningSecretPayload,
   WebHooks,
+  WebhookCallDetailsProps,
   WebhookCallRequest,
+  WebhookCallOverviewProps,
   WebhookFilter,
+  WebhookHealthProps,
   WebhookProps,
   WebhookSigningSecretProps,
   WebhookTransformation,
@@ -281,7 +303,8 @@ export type {
   WorkflowStepProps,
   WorkflowStepTaskAction,
 } from './entities/workflow-definition'
-export * from './plain/common-types'
+export * from './plain/plain-client-types'
+export { OptionalDefaults } from './plain/wrappers/wrap'
 
 export {
   WorkflowStepPermissionAction,

@@ -245,7 +245,7 @@ export default function getInstanceMethods(makeRequest: MakeRequest): ScheduledA
 }
 
 /**
- * @private
+ * @internal
  */
 export function wrapScheduledAction(
   makeRequest: MakeRequest,
@@ -260,6 +260,6 @@ export function wrapScheduledAction(
 }
 
 /**
- * @private
+ * @internal
  */
 export const wrapScheduledActionCollection = wrapCollection(wrapScheduledAction)

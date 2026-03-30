@@ -6,9 +6,12 @@ import * as contentfulManagement from 'contentful-management'
  * Mostly useful for changes to building/transpiling/bundling/...
  */
 
-const client = contentfulManagement.createClient({
-  accessToken: process.env.CONTENTFUL_INTEGRATION_TEST_CMA_TOKEN || '',
-})
+const client = contentfulManagement.createClient(
+  {
+    accessToken: process.env.CONTENTFUL_INTEGRATION_TEST_CMA_TOKEN || '',
+  },
+  { type: 'legacy' },
+)
 
 const PERMANENT_SPACE_ID = 'segpl12szpe6'
 

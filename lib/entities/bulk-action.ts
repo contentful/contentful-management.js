@@ -141,7 +141,7 @@ export interface BulkActionApiMethods {
 }
 
 /**
- * @private
+ * @internal
  */
 function createBulkActionApi(makeRequest: MakeRequest) {
   const getParams = (self: BulkAction) => {
@@ -177,10 +177,10 @@ export interface BulkAction<T extends BulkActionPayload | BulkActionV2Payload = 
     DefaultElements<BulkActionProps<T>> {}
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw BulkAction data
- * @return Wrapped BulkAction data
+ * @returns Wrapped BulkAction data
  */
 export function wrapBulkAction<TPayload extends BulkActionPayload | BulkActionV2Payload = any>(
   makeRequest: MakeRequest,

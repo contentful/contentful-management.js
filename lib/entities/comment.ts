@@ -136,7 +136,7 @@ export interface RichTextComment
     CommentApi {}
 
 /**
- * @private
+ * @internal
  */
 export default function createCommentApi(makeRequest: MakeRequest): CommentApi {
   const getParams = (comment: CommentProps): GetCommentParams => ({
@@ -175,7 +175,7 @@ export default function createCommentApi(makeRequest: MakeRequest): CommentApi {
 }
 
 /**
- * @private
+ * @internal
  */
 export function wrapComment(
   makeRequest: MakeRequest,
@@ -187,6 +187,6 @@ export function wrapComment(
 }
 
 /**
- * @private
+ * @internal
  */
 export const wrapCommentCollection = wrapCollection(wrapComment)

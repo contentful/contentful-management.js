@@ -17,7 +17,7 @@ export type AppUploadProps = {
 export interface AppUpload extends AppUploadProps, DefaultElements<AppUploadProps> {
   /**
    * Deletes this object on the server.
-   * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
+   * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
    * @example ```javascript
    * const contentful = require('contentful-management')
    *
@@ -36,7 +36,7 @@ export interface AppUpload extends AppUploadProps, DefaultElements<AppUploadProp
 }
 
 /**
- * @private
+ * @internal
  */
 function createAppUploadApi(makeRequest: MakeRequest) {
   const getParams = (data: AppUploadProps) => ({
@@ -57,10 +57,10 @@ function createAppUploadApi(makeRequest: MakeRequest) {
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw App Upload data
- * @return Wrapped App Upload data
+ * @returns Wrapped App Upload data
  */
 export function wrapAppUpload(makeRequest: MakeRequest, data: AppUploadProps): AppUpload {
   const appUpload = toPlainObject(copy(data))
@@ -70,9 +70,9 @@ export function wrapAppUpload(makeRequest: MakeRequest, data: AppUploadProps): A
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw App Upload collection data
- * @return Wrapped App Upload collection data
+ * @returns Wrapped App Upload collection data
  */
 export const wrapAppUploadCollection = wrapCollection(wrapAppUpload)

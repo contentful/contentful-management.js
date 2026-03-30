@@ -1,5 +1,5 @@
 import { expect, describe, it, beforeAll, afterAll } from 'vitest'
-import type { PlainClientAPI } from '../../lib/contentful-management'
+import type { PlainClientAPI } from '../../lib/index'
 import type { Environment } from '../../lib/entities/environment'
 import type { Space } from '../../lib/entities/space'
 import { TestDefaults } from '../defaults'

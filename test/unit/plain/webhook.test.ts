@@ -1,5 +1,5 @@
 import { describe, test, expect } from 'vitest'
-import { createClient } from '../../../lib/contentful-management'
+import { createClient } from '../../../lib/index'
 import setupRestAdapter from '../adapters/REST/helpers/setupRestAdapter'
 
 describe('Webhook', () => {

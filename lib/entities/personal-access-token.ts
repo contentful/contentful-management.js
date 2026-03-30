@@ -26,7 +26,7 @@ export interface PersonalAccessToken
     DefaultElements<PersonalAccessTokenProps> {
   /**
    * Revokes a personal access token
-   * @return Object the revoked personal access token
+   * @returns Object the revoked personal access token
    * @example ```javascript
    * const contentful = require('contentful-management')
    *
@@ -45,10 +45,10 @@ export interface PersonalAccessToken
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw  personal access token data
- * @return Wrapped personal access token
+ * @returns Wrapped personal access token
  */
 export function wrapPersonalAccessToken(
   makeRequest: MakeRequest,
@@ -68,9 +68,9 @@ export function wrapPersonalAccessToken(
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw personal access collection data
- * @return Wrapped personal access token collection data
+ * @returns Wrapped personal access token collection data
  */
 export const wrapPersonalAccessTokenCollection = wrapCollection(wrapPersonalAccessToken)

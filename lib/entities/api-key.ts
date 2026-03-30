@@ -21,7 +21,7 @@ export type CreateApiKeyProps = Pick<ApiKeyProps, 'name' | 'environments' | 'des
 export interface ApiKey extends ApiKeyProps, DefaultElements<ApiKeyProps> {
   /**
    * Deletes this object on the server.
-   * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
+   * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
    * @example ```javascript
    * const contentful = require('contentful-management')
    *
@@ -38,7 +38,7 @@ export interface ApiKey extends ApiKeyProps, DefaultElements<ApiKeyProps> {
   delete(): Promise<void>
   /**
    * Sends an update to the server with any changes made to the object's properties
-   * @return Object returned from the server with updated changes.
+   * @returns Object returned from the server with updated changes.
    * @example ```javascript
    * const contentful = require('contentful-management')
    *
@@ -59,7 +59,7 @@ export interface ApiKey extends ApiKeyProps, DefaultElements<ApiKeyProps> {
 }
 
 /**
- * @private
+ * @internal
  */
 function createApiKeyApi(makeRequest: MakeRequest) {
   const getParams = (data: ApiKeyProps) => ({
@@ -91,7 +91,7 @@ function createApiKeyApi(makeRequest: MakeRequest) {
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw api key data
  */
@@ -102,9 +102,9 @@ export function wrapApiKey(makeRequest: MakeRequest, data: ApiKeyProps): ApiKey 
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw api key collection data
- * @return Wrapped api key collection data
+ * @returns Wrapped api key collection data
  */
 export const wrapApiKeyCollection = wrapCollection(wrapApiKey)

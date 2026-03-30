@@ -5,8 +5,7 @@ import type {
   QueryParams,
   CollectionProp,
 } from '../../common-types'
-import type { UpdateTagProps, DeleteTagParams } from '../../entities/tag'
-import type { TagProps, CreateTagProps } from '../../export-types'
+import type { TagProps, CreateTagProps, UpdateTagProps, DeleteTagParams } from '../../entities/tag'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type TagPlainClientAPI = {

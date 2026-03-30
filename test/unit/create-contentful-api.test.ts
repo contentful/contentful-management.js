@@ -19,14 +19,18 @@ import {
   isUpdatedTest,
 } from './test-creators/instance-entity-methods'
 import { makeEntityMethodFailingTest } from './test-creators/static-entity-methods'
+import createClientApi from '../../lib/create-contentful-api'
 
 function setup(promise: Promise<unknown>) {
   const makeRequest = setupMakeRequest(promise)
-  const api = createEntryApi(makeRequest)
+  const api = createClientApi(makeRequest)
+
+  const entryApi = createEntryApi(makeRequest)
   const entryMock = cloneMock('entry')
 
   return {
     api: {
+      ...entryApi,
       ...api,
       toPlainObject: () => entryMock,
     },
@@ -34,6 +38,34 @@ function setup(promise: Promise<unknown>) {
     entityMock: entryMock,
   }
 }
+
+describe('createClientApi', () => {
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  describe('spaces', () => {
+    afterEach(() => {
+      vi.restoreAllMocks()
+    })
+
+    test('API call space create', async () => {
+      const { api } = setup(Promise.resolve({}))
+      await expect(
+        api.createSpace({ name: 'test space', productId: 'test-product' }, 'test-org'),
+      ).resolves.not.toThrow()
+    })
+
+    test('API call space create fails', async () => {
+      const error = cloneMock('error')
+      const { api } = setup(Promise.reject(error))
+
+      await expect(
+        api.createSpace({ name: 'test space', productId: 'test-product' }, 'test-org'),
+      ).rejects.toEqual(error)
+    })
+  })
+})
 
 describe('createEntryApi', () => {
   afterEach(() => {

@@ -1,6 +1,6 @@
 import type { RawAxiosRequestConfig, RawAxiosRequestHeaders } from 'axios'
-import type { OpPatch } from 'json-patch'
 import type {
+  OpPatch,
   BasicCursorPaginationOptions,
   CollectionProp,
   CreateReleaseAssetParams,
@@ -135,7 +135,7 @@ import type { WebhookPlainClientAPI } from './entities/webhook'
 import type { WorkflowPlainClientAPI } from './entities/workflow'
 import type { WorkflowDefinitionPlainClientAPI } from './entities/workflow-definition'
 import type { WorkflowsChangelogPlainClientAPI } from './entities/workflows-changelog'
-import type { DefaultParams, OptionalDefaults } from './wrappers/wrap'
+import type { PlainClientDefaultParams, OptionalDefaults } from './wrappers/wrap'
 import type { OAuthApplicationPlainClientAPI } from './entities/oauth-application'
 import type { FunctionLogPlainClientAPI } from './entities/function-log'
 import type { AiActionPlainClientAPI } from './entities/ai-action'
@@ -156,7 +156,7 @@ import type { ViewPlainClientAPI } from './entities/view'
 
 export type PlainClientAPI = {
   raw: {
-    getDefaultParams(): DefaultParams | undefined
+    getDefaultParams(): PlainClientDefaultParams | undefined
     get<T = unknown>(url: string, config?: RawAxiosRequestConfig): Promise<T>
     post<T = unknown>(url: string, payload?: any, config?: RawAxiosRequestConfig): Promise<T>
     patch<T = unknown>(url: string, payload?: any, config?: RawAxiosRequestConfig): Promise<T>
@@ -358,7 +358,7 @@ export type PlainClientAPI = {
     ): Promise<EntryProps<T>>
     patch<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<
-        GetSpaceEnvironmentParams & { entryId: string; version?: number; releaseId?: string }
+        GetSpaceEnvironmentParams & { entryId: string; version: number; releaseId?: string }
       >,
       rawData: OpPatch[],
       headers?: RawAxiosRequestHeaders,

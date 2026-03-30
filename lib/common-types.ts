@@ -1,5 +1,4 @@
 import type { RawAxiosRequestConfig, RawAxiosRequestHeaders } from 'axios'
-import type { OpPatch } from 'json-patch'
 import type { Stream } from 'stream'
 import type {
   AccessTokenProps,
@@ -105,6 +104,7 @@ import type { CreateRoleProps, RoleProps } from './entities/role'
 import type { ScheduledActionProps } from './entities/scheduled-action'
 import type { SnapshotProps } from './entities/snapshot'
 import type { SpaceProps } from './entities/space'
+import type { SpaceAddOnProps, UpdateSpaceAddOnAllocationProps } from './entities/space-add-on'
 import type { SpaceMemberProps } from './entities/space-member'
 import type { CreateSpaceMembershipProps, SpaceMembershipProps } from './entities/space-membership'
 import type { CreateTagProps, DeleteTagParams, TagProps, UpdateTagProps } from './entities/tag'
@@ -299,6 +299,7 @@ export interface QueryOptions extends PaginationQueryOptions {
   [key: string]: any
 }
 
+/** @internal */
 export interface SpaceQueryOptions extends PaginationQueryOptions {
   spaceId?: string
 }
@@ -461,7 +462,9 @@ type IntervalQuery<P extends string> =
   | Partial<WithEndOperator<P>>
   | (Partial<WithStartOperator<P>> & Partial<WithEndOperator<P>>)
 
+/** @internal */
 export type CreatedAtIntervalQueryOptions = IntervalQuery<'sys.createdAt'>
+/** @internal */
 export interface AcceptsQueryOptions {
   'accepts[all]'?: string
 }
@@ -469,7 +472,7 @@ export interface AcceptsQueryOptions {
 export type KeyValueMap = Record<string, any>
 
 /**
- * @private
+ * @internal
  */
 type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Http', 'get', UA>): MRReturn<'Http', 'get'>
@@ -619,7 +622,6 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Concept', 'createWithId', UA>): MRReturn<'Concept', 'createWithId'>
   (opts: MROpts<'Concept', 'patch', UA>): MRReturn<'Concept', 'patch'>
   (opts: MROpts<'Concept', 'update', UA>): MRReturn<'Concept', 'update'>
-  (opts: MROpts<'Concept', 'updatePut', UA>): MRReturn<'Concept', 'updatePut'>
   (opts: MROpts<'Concept', 'delete', UA>): MRReturn<'Concept', 'delete'>
 
   (opts: MROpts<'ConceptScheme', 'get', UA>): MRReturn<'ConceptScheme', 'get'>
@@ -629,7 +631,6 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'ConceptScheme', 'createWithId', UA>): MRReturn<'ConceptScheme', 'createWithId'>
   (opts: MROpts<'ConceptScheme', 'patch', UA>): MRReturn<'ConceptScheme', 'patch'>
   (opts: MROpts<'ConceptScheme', 'update', UA>): MRReturn<'ConceptScheme', 'update'>
-  (opts: MROpts<'ConceptScheme', 'updatePut', UA>): MRReturn<'ConceptScheme', 'updatePut'>
   (opts: MROpts<'ConceptScheme', 'delete', UA>): MRReturn<'ConceptScheme', 'delete'>
 
   (opts: MROpts<'ContentType', 'get', UA>): MRReturn<'ContentType', 'get'>
@@ -874,6 +875,9 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'SpaceMembership', 'update', UA>): MRReturn<'SpaceMembership', 'update'>
   (opts: MROpts<'SpaceMembership', 'delete', UA>): MRReturn<'SpaceMembership', 'delete'>
 
+  (opts: MROpts<'SpaceAddOn', 'getMany', UA>): MRReturn<'SpaceAddOn', 'getMany'>
+  (opts: MROpts<'SpaceAddOn', 'updateAllocations', UA>): MRReturn<'SpaceAddOn', 'updateAllocations'>
+
   (opts: MROpts<'Tag', 'get', UA>): MRReturn<'Tag', 'get'>
   (opts: MROpts<'Tag', 'getMany', UA>): MRReturn<'Tag', 'getMany'>
   (opts: MROpts<'Tag', 'createWithId', UA>): MRReturn<'Tag', 'createWithId'>
@@ -996,22 +1000,22 @@ type MRInternal<UA extends boolean> = {
 }
 
 /**
- * @private
+ * @internal
  */
 export type MakeRequestWithUserAgent = MRInternal<true>
 
 /**
- * @private
+ * @internal
  */
 export type MakeRequest = MRInternal<false>
 
 /**
- * @private
+ * @internal
  */
 type Without<T, U> = { [P in Exclude<keyof T, keyof U>]?: never }
 
 /**
- * @private
+ * @internal
  */
 export type XOR<T, U> = T | U extends object ? (Without<T, U> & U) | (Without<U, T> & T) : T | U
 
@@ -1019,8 +1023,36 @@ export interface Adapter {
   makeRequest: MakeRequestWithUserAgent
 }
 
+export type OpPatch = AddPatch | RemovePatch | ReplacePatch | MovePatch | CopyPatch | TestPatch
+interface Patch {
+  path: string
+}
+interface AddPatch extends Patch {
+  op: 'add'
+  value: any
+}
+interface RemovePatch extends Patch {
+  op: 'remove'
+}
+interface ReplacePatch extends Patch {
+  op: 'replace'
+  value: any
+}
+interface MovePatch extends Patch {
+  op: 'move'
+  from: string
+}
+interface CopyPatch extends Patch {
+  op: 'copy'
+  from: string
+}
+interface TestPatch extends Patch {
+  op: 'test'
+  value: any
+}
+
 /**
- * @private
+ * @internal
  */
 export type MRActions = {
   Resource: {
@@ -1633,11 +1665,6 @@ export type MRActions = {
     }
     update: {
       params: UpdateConceptParams
-      payload: OpPatch[]
-      return: ConceptProps
-    }
-    updatePut: {
-      params: UpdateConceptParams
       payload: CreateConceptProps
       return: ConceptProps
     }
@@ -1683,11 +1710,6 @@ export type MRActions = {
       return: ConceptSchemeProps
     }
     update: {
-      params: UpdateConceptSchemeParams
-      payload: OpPatch[]
-      return: ConceptSchemeProps
-    }
-    updatePut: {
       params: UpdateConceptSchemeParams
       payload: CreateConceptSchemeProps
       return: ConceptSchemeProps
@@ -2466,6 +2488,18 @@ export type MRActions = {
     }
     delete: { params: GetSpaceMembershipProps; return: any }
   }
+  SpaceAddOn: {
+    getMany: {
+      params: GetSpaceParams & QueryParams
+      return: CollectionProp<SpaceAddOnProps>
+    }
+    updateAllocations: {
+      params: GetSpaceParams
+      payload: UpdateSpaceAddOnAllocationProps[]
+      headers?: RawAxiosRequestHeaders
+      return: CollectionProp<SpaceAddOnProps>
+    }
+  }
   Tag: {
     get: { params: GetTagParams; return: TagProps }
     getMany: { params: GetSpaceEnvironmentParams & QueryParams; return: CollectionProp<TagProps> }
@@ -2753,7 +2787,7 @@ export type MRActions = {
 }
 
 /**
- * @private
+ * @internal
  */
 export type MROpts<
   ET extends keyof MRActions,
@@ -2780,7 +2814,7 @@ export type MROpts<
     : {})
 
 /**
- * @private
+ * @internal
  */
 export type MRReturn<
   ET extends keyof MRActions,
@@ -2800,137 +2834,196 @@ export interface MakeRequestOptions {
   userAgent: string
 }
 
+/** @internal */
 export type EnvironmentTemplateParams = {
   spaceId: string
   environmentId: string
   environmentTemplateId: string
 }
 
+/** @internal */
 export type GetAppActionParams = GetAppDefinitionParams & { appActionId: string }
+/** @internal */
 export type GetAppActionsForEnvParams = GetSpaceParams & { environmentId?: string }
+/** @internal */
 export type GetAppActionCallParams = GetAppInstallationParams & { appActionId: string }
 
-// Retry options used by createWithResponse and createWithResult. Kept separate for clarity.
+/** @internal */
 export type AppActionCallRetryOptions = {
   retries?: number
   retryInterval?: number
 }
 
+/** @internal */
 export type CreateWithResponseParams = GetAppActionCallParams & AppActionCallRetryOptions
 
+/** @internal */
 export type CreateWithResultParams = GetAppActionCallParams & AppActionCallRetryOptions
+/** @internal */
 export type GetAppActionCallDetailsParams = GetSpaceEnvironmentParams & {
   appActionId: string
   callId: string
 }
 
-// New route params for fetching structured call or raw response
+/** @internal */
 export type GetAppActionCallParamsWithId = GetAppActionCallParams & { callId: string }
+/** @internal */
 export type GetAppBundleParams = GetAppDefinitionParams & { appBundleId: string }
+/** @internal */
 export type GetAppDefinitionParams = GetOrganizationParams & { appDefinitionId: string }
+/** @internal */
 export type GetAppInstallationsForOrgParams = GetOrganizationParams & {
   appDefinitionId: string
 }
+/** @internal */
 export type GetAppInstallationParams = GetSpaceEnvironmentParams & { appDefinitionId: string }
+/** @internal */
 export type GetBulkActionParams = GetSpaceEnvironmentParams & { bulkActionId: string }
+/** @internal */
 export type GetCommentParams = (GetEntryParams | GetCommentParentEntityParams) & {
   commentId: string
 }
+/** @internal */
 export type GetComponentTypeParams = GetSpaceEnvironmentParams & { componentTypeId: string }
 export type GetViewParams = GetSpaceEnvironmentParams & { viewId: string }
 export type GetDataAssemblyParams = GetSpaceEnvironmentParams & { dataAssemblyId: string }
 export type GetContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
+/** @internal */
 export type GetEditorInterfaceParams = GetSpaceEnvironmentParams & { contentTypeId: string }
+/** @internal */
 export type GetEntryParams = GetSpaceEnvironmentParams & { entryId: string }
+/** @internal */
 export type GetExtensionParams = GetSpaceEnvironmentParams & { extensionId: string }
+/** @internal */
 export type GetEnvironmentTemplateParams = GetOrganizationParams & { environmentTemplateId: string }
+/** @internal */
 export type GetFunctionParams = GetAppDefinitionParams & { functionId: string }
+/** @internal */
 export type GetManyFunctionParams = AcceptsQueryParams & GetAppDefinitionParams
+/** @internal */
 export type GetFunctionForEnvParams = AcceptsQueryParams &
   GetSpaceEnvironmentParams & {
     appInstallationId: string
   }
+/** @internal */
 export type GetManyFunctionLogParams = CursorBasedParams &
   CreatedAtIntervalParams &
   GetFunctionForEnvParams & { functionId: string }
+/** @internal */
 export type GetFunctionLogParams = GetManyFunctionLogParams & { logId: string }
+/** @internal */
 export type GetOrganizationParams = { organizationId: string }
+/** @internal */
 export type GetReleaseParams = ReleaseEnvironmentParams & { releaseId: string }
+/** @internal */
 export type GetReleaseAssetParams = GetSpaceEnvironmentParams & {
   releaseId: string
   assetId: string
 }
+/** @internal */
 export type GetManyReleaseAssetParams = GetSpaceEnvironmentParams & { releaseId: string }
+/** @internal */
 export type GetReleaseEntryParams = GetSpaceEnvironmentParams & {
   releaseId: string
   entryId: string
 }
+/** @internal */
 export type CreateReleaseAssetParams = GetSpaceEnvironmentParams & {
   releaseId: string
 }
+/** @internal */
 export type CreateWithIdReleaseAssetParams = GetSpaceEnvironmentParams & {
   releaseId: string
   assetId: string
 }
+/** @internal */
 export type CreateWithFilesReleaseAssetParams = GetSpaceEnvironmentParams & {
   releaseId: string
   uploadTimeout?: number
 }
+/** @internal */
 export type UpdateReleaseAssetParams = GetSpaceEnvironmentParams & {
   releaseId: string
   assetId: string
 }
+/** @internal */
 export type ProcessForLocaleReleaseAssetParams = GetSpaceEnvironmentParams & {
   asset: AssetProps<{ release: Link<'Release'> }>
   locale: string
   options?: AssetProcessingForLocale
 }
+/** @internal */
 export type ProcessForAllLocalesReleaseAssetParams = GetSpaceEnvironmentParams & {
   asset: AssetProps<{ release: Link<'Release'> }>
   options?: AssetProcessingForLocale
 }
+/** @internal */
 export type GetManyReleaseEntryParams = GetSpaceEnvironmentParams & { releaseId: string }
+/** @internal */
 export type UpdateReleaseEntryParams = GetSpaceEnvironmentParams & {
   releaseId: string
   entryId: string
 }
+/** @internal */
 export type PatchReleaseEntryParams = GetSpaceEnvironmentParams & {
   releaseId: string
   entryId: string
   version: number
 }
+/** @internal */
 export type CreateReleaseEntryParams = GetSpaceEnvironmentParams & {
   releaseId: string
   contentTypeId: string
 }
+/** @internal */
 export type CreateWithIdReleaseEntryParams = GetSpaceEnvironmentParams & {
   releaseId: string
   entryId: string
   contentTypeId: string
 }
+/** @internal */
 export type GetSnapshotForContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
+/** @internal */
 export type GetSnapshotForEntryParams = GetSpaceEnvironmentParams & { entryId: string }
+/** @internal */
 export type GetSpaceEnvAliasParams = GetSpaceParams & { environmentAliasId: string }
+/** @internal */
 export type GetSpaceEnvironmentParams = { spaceId: string; environmentId: string }
+/** @internal */
 export type GetSpaceEnvironmentUploadParams = GetSpaceEnvironmentParams & { uploadId: string }
+/** @internal */
 export type GetSpaceMembershipProps = GetSpaceParams & { spaceMembershipId: string }
+/** @internal */
 export type GetSpaceParams = { spaceId: string }
+/** @internal */
 export type GetTagParams = GetSpaceEnvironmentParams & { tagId: string }
+/** @internal */
 export type GetTaskParams = GetEntryParams & { taskId: string }
+/** @internal */
 export type GetTeamMembershipParams = GetTeamParams & { teamMembershipId: string }
+/** @internal */
 export type GetTeamParams = { organizationId: string; teamId: string }
+/** @internal */
 export type GetTeamSpaceMembershipParams = GetSpaceParams & { teamSpaceMembershipId: string }
+/** @internal */
 export type GetWebhookCallDetailsUrl = GetWebhookParams & { callId: string }
+/** @internal */
 export type GetWebhookParams = GetSpaceParams & { webhookDefinitionId: string }
+/** @internal */
 export type GetOrganizationMembershipParams = GetOrganizationParams & {
   organizationMembershipId: string
 }
+/** @internal */
 export type GetConceptParams = GetOrganizationParams & { conceptId: string }
+/** @internal */
 export type UpdateConceptParams = GetOrganizationParams & { conceptId: string; version: number }
+/** @internal */
 export type DeleteConceptParams = GetOrganizationParams & { conceptId: string; version: number }
+/** @internal */
 export type GetConceptDescendantsParams = GetOrganizationParams & { conceptId: string } & {
   query?: { depth?: number; pageUrl?: string }
 }
+/** @internal */
 export type GetManyConceptParams = GetOrganizationParams & {
   query?:
     | { pageUrl?: string }
@@ -2938,67 +3031,94 @@ export type GetManyConceptParams = GetOrganizationParams & {
         Omit<PaginationQueryOptions, 'skip'>)
 }
 
+/** @internal */
 export type GetConceptSchemeParams = GetOrganizationParams & { conceptSchemeId: string }
+/** @internal */
 export type GetManyConceptSchemeParams = GetOrganizationParams & {
   query?:
     | { pageUrl?: string }
     | ({ query?: string } & BasicCursorPaginationOptions & Omit<PaginationQueryOptions, 'skip'>)
 }
+/** @internal */
 export type DeleteConceptSchemeParams = GetOrganizationParams & {
   conceptSchemeId: string
   version: number
 }
+/** @internal */
 export type UpdateConceptSchemeParams = GetOrganizationParams & {
   conceptSchemeId: string
   version: number
 }
 
+/** @internal */
 export type GetAppKeyParams = GetAppDefinitionParams & { fingerprint: string }
+/** @internal */
 export type GetAppUploadParams = GetOrganizationParams & { appUploadId: string }
+/** @internal */
 export type GetAutomationDefinitionParams = GetSpaceEnvironmentParams & {
   automationDefinitionId: string
 }
+/** @internal */
 export type GetAutomationExecutionParams = GetSpaceEnvironmentParams & {
   automationExecutionId: string
 }
+/** @internal */
 export type GetWorkflowDefinitionParams = GetSpaceEnvironmentParams & {
   workflowDefinitionId: string
 }
+/** @internal */
 export type GetWorkflowParams = GetSpaceEnvironmentParams & {
   workflowId: string
 }
+/** @internal */
 export type GetUIConfigParams = GetSpaceEnvironmentParams
+/** @internal */
 export type GetUserUIConfigParams = GetUIConfigParams
 
+/** @internal */
 export type GetResourceProviderParams = GetOrganizationParams & { appDefinitionId: string }
 
+/** @internal */
 export type GetResourceTypeParams = GetResourceProviderParams & { resourceTypeId: string }
 
+/** @internal */
 export type GetResourceParams = GetSpaceEnvironmentParams & { resourceTypeId: string }
 
+/** @internal */
 export type QueryParams = { query?: QueryOptions }
+/** @internal */
 export type SpaceQueryParams = { query?: SpaceQueryOptions }
+/** @internal */
 export type PaginationQueryParams = { query?: PaginationQueryOptions }
+/** @internal */
 export type CursorPaginationXORParams = {
   query?: (CursorPaginationPageNext | CursorPaginationPagePrev | CursorPaginationNone) & {
     limit?: number
   }
 }
+/** @internal */
 export type CursorBasedParams = CursorPaginationXORParams
+/** @internal */
 export type CreatedAtIntervalParams = { query?: CreatedAtIntervalQueryOptions }
+/** @internal */
 export type AcceptsQueryParams = { query?: AcceptsQueryOptions }
 
+/** @internal */
 export type GetOAuthApplicationParams = { userId: string; oauthApplicationId: string }
+/** @internal */
 export type GetUserParams = { userId: string }
 
+/** @internal */
 export enum ScheduledActionReferenceFilters {
   contentTypeAnnotationNotIn = 'sys.contentType.metadata.annotations.ContentType[nin]',
 }
 
+/** @internal */
 export type ReleaseEnvironmentParams = GetSpaceEnvironmentParams & {
   releaseSchemaVersion?: 'Release.v1' | 'Release.v2'
 }
 
+/** @internal */
 export type SemanticRequestFilter = {
   entityType?: 'Entry'
   contentTypeIds?: string[]

@@ -1,26 +1,17 @@
 {
   "compilerOptions": {
-    "target": "esnext",
-    "moduleResolution": "node",
-    "allowJs": true,
-    "noEmit": true,
-    "outDir": "./dist/typings",
+    "rootDir": "./lib",
+    "lib": ["dom", "esnext"],
+    "target": "ES2021",
+    "module": "esnext",
+    "moduleResolution": "bundler",
     "strict": true,
-    "isolatedModules": true,
+    "importHelpers": true,
     "esModuleInterop": true,
-    "noImplicitThis": false,
-    "typeRoots": ["node_modules/@types"],
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "noEmit": true,
+    "sourceMap": true,
+    "noImplicitThis": false
   },
-  "include": ["lib", "global-types"],
-  "typedocOptions": {
-    "out": "./out",
-    "entryPoints": ["./lib/contentful-management.ts"],
-    "readme": "README.md",
-    "name": "contentful-management.js",
-    "exclude": ["./lib/adapters/REST/endpoints/*"],
-    "includeVersion": true,
-    "hideGenerator": true,
-    "excludePrivate": true
-  }
+  "include": ["lib"]
 }

@@ -26,7 +26,7 @@ export type RestAdapterParams = CreateHttpClientParams & {
 }
 
 /**
- * @private
+ * @internal
  */
 const defaultHostParameters = {
   defaultHostname: 'api.contentful.com',

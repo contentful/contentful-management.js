@@ -1,5 +1,5 @@
 import { expect, describe, test, beforeAll, afterAll } from 'vitest'
-import type { AppActionProps, PlainClientAPI } from '../../lib/contentful-management'
+import type { AppActionProps, PlainClientAPI } from '../../lib/index'
 import {
   initPlainClient,
   getTestOrganization,

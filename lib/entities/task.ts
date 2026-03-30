@@ -47,7 +47,7 @@ type TaskApi = {
 export interface Task extends TaskProps, DefaultElements<TaskProps>, TaskApi {}
 
 /**
- * @private
+ * @internal
  */
 export default function createTaskApi(makeRequest: MakeRequest): TaskApi {
   const getParams = (task: TaskProps): GetTaskParams => ({
@@ -87,7 +87,7 @@ export default function createTaskApi(makeRequest: MakeRequest): TaskApi {
 }
 
 /**
- * @private
+ * @internal
  */
 export function wrapTask(makeRequest: MakeRequest, data: TaskProps): Task {
   const task = toPlainObject(copy(data))
@@ -96,6 +96,6 @@ export function wrapTask(makeRequest: MakeRequest, data: TaskProps): Task {
 }
 
 /**
- * @private
+ * @internal
  */
 export const wrapTaskCollection = wrapCollection(wrapTask)

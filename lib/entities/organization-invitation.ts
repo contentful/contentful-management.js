@@ -22,10 +22,10 @@ export interface OrganizationInvitation
     DefaultElements<OrganizationInvitationProps> {}
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw invitation data
- * @return {OrganizationInvitation} Wrapped Inviation data
+ * @returns {OrganizationInvitation} Wrapped Inviation data
  */
 export function wrapOrganizationInvitation(
   _makeRequest: MakeRequest,

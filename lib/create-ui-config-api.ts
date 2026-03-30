@@ -1,18 +1,17 @@
 import type { MakeRequest } from './common-types'
-import entities from './entities'
 import type { UIConfig } from './entities/ui-config'
 
-/**
- * @private
- */
-export type ContentfulUIConfigApi = ReturnType<typeof createUIConfigApi>
+import { wrapUIConfig } from './entities/ui-config'
 
 /**
- * @private
+ * @internal
+ */
+export type ContentfulUIConfigAPI = ReturnType<typeof createUIConfigApi>
+
+/**
+ * @internal
  */
 export default function createUIConfigApi(makeRequest: MakeRequest) {
-  const { wrapUIConfig } = entities.uiConfig
-
   const getParams = (self: UIConfig) => {
     const uiConfig = self.toPlainObject()
 
@@ -28,7 +27,7 @@ export default function createUIConfigApi(makeRequest: MakeRequest) {
   return {
     /**
      * Sends an update to the server with any changes made to the object's properties
-     * @return Object returned from the server with updated changes.
+     * @returns Object returned from the server with updated changes.
      * @example ```javascript
      * const contentful = require('contentful-management')
      *

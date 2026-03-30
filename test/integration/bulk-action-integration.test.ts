@@ -6,8 +6,8 @@ import type {
   BulkActionUnpublishPayload,
   BulkActionValidatePayload,
   UnpublishBulkActionV2Payload,
-} from '../../lib/contentful-management'
-import type { Environment, Space } from '../../lib/contentful-management'
+} from '../../lib/index'
+import type { Environment, Space } from '../../lib/index'
 import { TestDefaults } from '../defaults'
 import {
   getDefaultSpace,
