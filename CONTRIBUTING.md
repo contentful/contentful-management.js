@@ -34,9 +34,9 @@ It also explains what to do in case you want to setup the project locally and ru
 
 # Setup
 
-This project is written in ES2015 and transpiled to ES5 using Babel, to the `dist` directory. This should generally only happen at publishing time, or for testing purposes only.
+This project is written in TypeScript. Sources live in `lib/` and are bundled to `dist/` (ESM, CJS, types, browser) using Rollup.
 
-Run `npm install` to install all necessary dependencies. When running `npm install` locally, `dist` is not compiled.
+Run `npm install` to install all necessary dependencies. All tools can be accessed via npm scripts — there is no need to install anything globally.
 
 All necessary dependencies are installed under `node_modules` and any necessary tools can be accessed via npm scripts. There is no need to install anything globally.
 
@@ -48,9 +48,9 @@ Axios, one of the main dependencies is vendored. This generally shouldn't matter
 
 # Code style
 
-This project uses [standard](https://github.com/feross/standard). Install a relevant editor plugin if you'd like.
+This project uses ESLint and Prettier. Run `npm run lint` to check and `npm run prettier:write` to format.
 
-Everywhere where it isn't applicable, follow a style similar to the existing code.
+Follow a style similar to the existing code.
 
 # Commit messages and issues
 
