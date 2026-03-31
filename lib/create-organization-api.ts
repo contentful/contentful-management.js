@@ -502,7 +502,7 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
           organizationId: raw.sys.id,
           query: createRequestConfig({ query }).params,
         },
-      }).then((data) => wrapAvailableLicenseCollection(data))
+      }).then((data) => wrapAvailableLicenseCollection(makeRequest, data))
     },
     /**
      * Gets an Invitation in Organization
