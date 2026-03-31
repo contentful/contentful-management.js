@@ -1,4 +1,5 @@
 import { describe, expect, test } from 'vitest'
+import type { AgentResumeRunPayload } from '../../../lib/entities/agent-run'
 import { createClient } from '../../../lib/contentful-management'
 import setupRestAdapter from '../adapters/REST/helpers/setupRestAdapter'
 
@@ -90,6 +91,47 @@ describe('AgentRun', () => {
       expect.objectContaining({
         baseURL: 'https://api.contentful.com',
         params: { statusIn: ['COMPLETED'] },
+        headers: expect.objectContaining({
+          'x-contentful-enable-alpha-feature': 'agents-api',
+        }),
+      }),
+    )
+  })
+
+  test('resumeRun', async () => {
+    const mockResponse = {
+      sys: {
+        id: runId,
+        type: 'AgentRun' as const,
+        status: 'IN_PROGRESS' as const,
+      },
+    }
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
+    const plainClient = createClient({ apiAdapter: adapterMock }, { type: 'plain' })
+
+    type CustomResumePayload = {
+      someKey: string
+    }
+
+    const payload: AgentResumeRunPayload<CustomResumePayload> = {
+      resumePayload: { someKey: 'someValue' },
+    }
+
+    const response = await plainClient.agentRun.resumeRun(
+      { spaceId, environmentId, runId },
+      payload,
+    )
+
+    expect(response).toBeInstanceOf(Object)
+    expect(response.sys.id).toBe(runId)
+    expect(response.sys.type).toBe('AgentRun')
+    expect(response.sys.status).toBe('IN_PROGRESS')
+
+    expect(httpMock.post).toHaveBeenCalledWith(
+      `/spaces/${spaceId}/environments/${environmentId}/ai/agents/runs/${runId}/resume`,
+      payload,
+      expect.objectContaining({
+        baseURL: 'https://api.contentful.com',
         headers: expect.objectContaining({
           'x-contentful-enable-alpha-feature': 'agents-api',
         }),

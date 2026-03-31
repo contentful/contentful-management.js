@@ -195,6 +195,7 @@ import type {
 import type { AgentGeneratePayload, AgentProps } from './entities/agent'
 import type {
   AgentGenerateResponse,
+  AgentResumeRunPayload,
   AgentRunProps,
   AgentRunQueryOptions,
 } from './entities/agent-run'
@@ -484,6 +485,7 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'AgentRun', 'get', UA>): MRReturn<'AgentRun', 'get'>
   (opts: MROpts<'AgentRun', 'getMany', UA>): MRReturn<'AgentRun', 'getMany'>
+  (opts: MROpts<'AgentRun', 'resumeRun', UA>): MRReturn<'AgentRun', 'resumeRun'>
 
   (opts: MROpts<'AppAction', 'get', UA>): MRReturn<'AppAction', 'get'>
   (opts: MROpts<'AppAction', 'getMany', UA>): MRReturn<'AppAction', 'getMany'>
@@ -1101,6 +1103,12 @@ export type MRActions = {
       params: GetSpaceEnvironmentParams & { query?: AgentRunQueryOptions }
       headers?: RawAxiosRequestHeaders
       return: CollectionProp<AgentRunProps>
+    }
+    resumeRun: {
+      params: GetSpaceEnvironmentParams & { runId: string }
+      payload: AgentResumeRunPayload
+      headers?: RawAxiosRequestHeaders
+      return: AgentGenerateResponse
     }
   }
   AutomationDefinition: {
