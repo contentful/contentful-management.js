@@ -17,7 +17,7 @@ import type { RestEndpoint } from '../types'
 import * as raw from './raw'
 
 const getBaseUrl = (params: GetSpaceEnvironmentParams) =>
-  `/spaces/${params.spaceId}/environments/${params.environmentId}/views`
+  `/spaces/${params.spaceId}/environments/${params.environmentId}/experiences`
 
 export const getMany: RestEndpoint<'View', 'getMany'> = (
   http: AxiosInstance,
