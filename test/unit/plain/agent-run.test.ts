@@ -1,4 +1,5 @@
 import { describe, expect, test } from 'vitest'
+import type { AgentResumeRunPayload } from '../../../lib/entities/agent-run'
 import { createClient } from '../../../lib/index'
 import setupRestAdapter from '../adapters/REST/helpers/setupRestAdapter'
 
@@ -108,7 +109,11 @@ describe('AgentRun', () => {
     const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
     const plainClient = createClient({ apiAdapter: adapterMock }, { type: 'plain' })
 
-    const payload = {
+    type CustomResumePayload = {
+      someKey: string
+    }
+
+    const payload: AgentResumeRunPayload<CustomResumePayload> = {
       resumePayload: { someKey: 'someValue' },
     }
 
