@@ -64,7 +64,9 @@ export const update: RestEndpoint<'ComponentType', 'update'> = (
     data,
     {
       headers: {
-        'X-Contentful-Version': rawData.sys.version ?? 0,
+        ...(rawData.sys?.version !== undefined && {
+          'X-Contentful-Version': rawData.sys.version,
+        }),
         ...headers,
       },
     },
