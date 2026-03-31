@@ -238,6 +238,48 @@ describe('Rest ComponentType', { concurrent: true }, () => {
       })
   })
 
+  test('update (upsert) omits version header when sys.version is undefined', async () => {
+    const mockResponse = {
+      sys: { id: 'newcomp123', type: 'ComponentType', version: 1 },
+      name: 'New Component via Upsert',
+      description: 'A component type created via upsert',
+      viewports: [],
+      contentProperties: [],
+      designProperties: [],
+      dimensionKeyMap: { designProperties: {} },
+    }
+
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'ComponentType',
+        action: 'update',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+          componentTypeId: 'newcomp123',
+        },
+        payload: {
+          sys: {},
+          name: 'New Component via Upsert',
+          description: 'A component type created via upsert',
+          viewports: [],
+          contentProperties: [],
+          designProperties: [],
+          dimensionKeyMap: { designProperties: {} },
+        },
+      })
+      .then((r) => {
+        expect(r).to.eql(mockResponse)
+        expect(httpMock.put.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/component_types/newcomp123',
+        )
+        expect(httpMock.put.mock.calls[0][2].headers).to.not.have.property('X-Contentful-Version')
+      })
+  })
+
   test('create calls correct URL with POST', async () => {
     const mockResponse = {
       sys: { id: 'new123', type: 'ComponentType', version: 1 },
