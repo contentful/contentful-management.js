@@ -65,8 +65,8 @@ export type ManualDesignValue = {
 }
 
 export type DesignTokenValue = {
-  type: 'DesignValue'
-  token: string
+  type: 'DesignToken'
+  value: string
 }
 
 export type DesignPropertyValue =
