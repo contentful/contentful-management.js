@@ -35,7 +35,7 @@ export type ComponentTypeDesignPropertyValidation = {
 export type ComponentTypeDesignProperty = {
   id: string
   name: string
-  type: string
+  type: 'Symbol' | 'Number' | 'Boolean'
   required: boolean
   description?: string
   defaultValue?: unknown
