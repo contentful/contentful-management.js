@@ -24,7 +24,9 @@ describe('Rest View', { concurrent: true }, () => {
       })
       .then((r) => {
         expect(r).to.eql(mockResponse)
-        expect(httpMock.get.mock.calls[0][0]).to.eql('/spaces/space123/environments/master/views')
+        expect(httpMock.get.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/experiences',
+        )
         expect(httpMock.get.mock.calls[0][1].params).to.eql({})
       })
   })
@@ -54,7 +56,9 @@ describe('Rest View', { concurrent: true }, () => {
       })
       .then((r) => {
         expect(r).to.eql(mockResponse)
-        expect(httpMock.get.mock.calls[0][0]).to.eql('/spaces/space123/environments/master/views')
+        expect(httpMock.get.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/experiences',
+        )
         expect(httpMock.get.mock.calls[0][1].params).to.eql({
           limit: 20,
           pageNext: 'next-page-token',
@@ -64,7 +68,7 @@ describe('Rest View', { concurrent: true }, () => {
 
   test('get calls correct URL', async () => {
     const mockResponse = {
-      sys: { id: 'view123', type: 'View' },
+      sys: { id: 'view123', type: 'Experience' },
       title: 'Test View',
     }
 
@@ -84,7 +88,7 @@ describe('Rest View', { concurrent: true }, () => {
       .then((r) => {
         expect(r).to.eql(mockResponse)
         expect(httpMock.get.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/views/view123',
+          '/spaces/space123/environments/master/experiences/view123',
         )
       })
   })
@@ -93,7 +97,7 @@ describe('Rest View', { concurrent: true }, () => {
     const mockResponse = {
       sys: {
         id: 'view123',
-        type: 'View',
+        type: 'Experience',
         version: 2,
         space: { sys: { type: 'Link', linkType: 'Space', id: 'space123' } },
         environment: { sys: { type: 'Link', linkType: 'Environment', id: 'master' } },
@@ -123,7 +127,7 @@ describe('Rest View', { concurrent: true }, () => {
       .then((r) => {
         expect(r).to.eql(mockResponse)
         expect(httpMock.put.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/views/view123/published',
+          '/spaces/space123/environments/master/experiences/view123/published',
         )
         expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(1)
       })
@@ -131,7 +135,7 @@ describe('Rest View', { concurrent: true }, () => {
 
   test('create calls correct URL with POST', async () => {
     const mockResponse = {
-      sys: { id: 'new-view-123', type: 'View', version: 1 },
+      sys: { id: 'new-view-123', type: 'Experience', version: 1 },
       name: 'New View',
       description: 'A new view',
       viewports: [],
@@ -163,7 +167,9 @@ describe('Rest View', { concurrent: true }, () => {
       })
       .then((r) => {
         expect(r).to.eql(mockResponse)
-        expect(httpMock.post.mock.calls[0][0]).to.eql('/spaces/space123/environments/master/views')
+        expect(httpMock.post.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/experiences',
+        )
         expect(httpMock.post.mock.calls[0][1]).to.eql({
           name: 'New View',
           description: 'A new view',
@@ -178,7 +184,7 @@ describe('Rest View', { concurrent: true }, () => {
 
   test('update calls correct URL with version header', async () => {
     const mockResponse = {
-      sys: { id: 'view123', type: 'View', version: 2 },
+      sys: { id: 'view123', type: 'Experience', version: 2 },
       name: 'Updated View',
       description: 'An updated view',
       viewports: [],
@@ -217,7 +223,7 @@ describe('Rest View', { concurrent: true }, () => {
       .then((r) => {
         expect(r).to.eql(mockResponse)
         expect(httpMock.put.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/views/view123',
+          '/spaces/space123/environments/master/experiences/view123',
         )
         expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(1)
         const body = httpMock.put.mock.calls[0][1]
@@ -242,7 +248,7 @@ describe('Rest View', { concurrent: true }, () => {
       })
       .then(() => {
         expect(httpMock.delete.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/views/view456',
+          '/spaces/space123/environments/master/experiences/view456',
         )
       })
   })
@@ -251,7 +257,7 @@ describe('Rest View', { concurrent: true }, () => {
     const mockResponse = {
       sys: {
         id: 'view123',
-        type: 'View',
+        type: 'Experience',
         version: 3,
         space: { sys: { type: 'Link', linkType: 'Space', id: 'space123' } },
         environment: { sys: { type: 'Link', linkType: 'Environment', id: 'master' } },
@@ -281,7 +287,7 @@ describe('Rest View', { concurrent: true }, () => {
       .then((r) => {
         expect(r).to.eql(mockResponse)
         expect(httpMock.delete.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/views/view123/published',
+          '/spaces/space123/environments/master/experiences/view123/published',
         )
         expect(httpMock.delete.mock.calls[0][1].headers['X-Contentful-Version']).to.eql(2)
       })
