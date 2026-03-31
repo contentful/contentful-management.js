@@ -435,6 +435,14 @@ interface CursorPaginationNone extends CursorPaginationBase {
   pagePrev?: never
 }
 
+export type CursorPaginationParams = (
+  | CursorPaginationPageNext
+  | CursorPaginationPagePrev
+  | CursorPaginationNone
+) & {
+  limit?: number
+}
+
 type StartOperator = 'gt' | 'gte'
 type EndOperator = 'lt' | 'lte'
 type ComparisonOperator = StartOperator | EndOperator
@@ -1618,7 +1626,7 @@ export type MRActions = {
   ComponentType: {
     getMany: {
       params: GetSpaceEnvironmentParams & { query: ComponentTypeQueryOptions }
-      return: CollectionProp<ComponentTypeProps>
+      return: CursorPaginatedCollectionProp<ComponentTypeProps>
     }
     get: {
       params: GetComponentTypeParams
@@ -3092,9 +3100,7 @@ export type SpaceQueryParams = { query?: SpaceQueryOptions }
 export type PaginationQueryParams = { query?: PaginationQueryOptions }
 /** @internal */
 export type CursorPaginationXORParams = {
-  query?: (CursorPaginationPageNext | CursorPaginationPagePrev | CursorPaginationNone) & {
-    limit?: number
-  }
+  query?: CursorPaginationParams
 }
 /** @internal */
 export type CursorBasedParams = CursorPaginationXORParams

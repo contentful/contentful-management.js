@@ -1,4 +1,4 @@
-import type { Link, MetadataProps } from '../common-types'
+import type { CursorPaginationParams, Link, MetadataProps } from '../common-types'
 import type { ComponentTypeViewport, DesignPropertyValue, ViewNode } from './component-type'
 
 export type ViewDimensionKeyMap = {
@@ -50,11 +50,8 @@ export type ViewProps = ViewCommonProps & {
   sys: ViewSys
 }
 
-// Query options for getMany
-export type ViewQueryOptions = {
-  limit?: number
-  pageNext?: string
-  pagePrev?: string
+// Query options for getMany - cursor-based pagination with mutual exclusivity
+export type ViewQueryOptions = CursorPaginationParams & {
   order?: string
   [key: string]: unknown
 }

@@ -5,8 +5,6 @@ describe('Rest ComponentType', { concurrent: true }, () => {
   test('getMany calls correct URL', async () => {
     const mockResponse = {
       sys: { type: 'Array' },
-      total: 1,
-      skip: 0,
       limit: 100,
       items: [],
     }
@@ -36,8 +34,6 @@ describe('Rest ComponentType', { concurrent: true }, () => {
   test('getMany passes pagination query parameters', async () => {
     const mockResponse = {
       sys: { type: 'Array' },
-      total: 50,
-      skip: 10,
       limit: 20,
       items: [],
     }
@@ -53,8 +49,8 @@ describe('Rest ComponentType', { concurrent: true }, () => {
           spaceId: 'space123',
           environmentId: 'master',
           query: {
-            skip: 10,
             limit: 20,
+            pageNext: 'next-page-token',
           },
         },
       })
@@ -64,8 +60,8 @@ describe('Rest ComponentType', { concurrent: true }, () => {
           '/spaces/space123/environments/master/component_types',
         )
         expect(httpMock.get.mock.calls[0][1].params).to.eql({
-          skip: 10,
           limit: 20,
+          pageNext: 'next-page-token',
         })
       })
   })

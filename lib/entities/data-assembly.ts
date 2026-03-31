@@ -1,4 +1,4 @@
-import type { Link, MetadataProps } from '../common-types'
+import type { CursorPaginationParams, Link, MetadataProps } from '../common-types'
 
 export type DataAssemblyDataTypeField = {
   id: string
@@ -91,10 +91,7 @@ export type UpdateDataAssemblyProps = DataAssemblyCommonProps & {
   }
 }
 
-// Query options for getMany
-export type DataAssemblyQueryOptions = {
-  pageNext?: string
-  pagePrev?: string
-  limit?: number
+// Query options for getMany - cursor-based pagination with mutual exclusivity
+export type DataAssemblyQueryOptions = CursorPaginationParams & {
   'sys.id[in]'?: string
 }
