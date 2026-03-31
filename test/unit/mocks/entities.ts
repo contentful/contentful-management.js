@@ -102,6 +102,8 @@ import {
   ContentSemanticsIndexProps,
   ContentSemanticsIndexCollectionProps,
 } from '../../../lib/entities/content-semantics-index'
+import type { AvailableLicenseProps } from '../../../lib/entities/available-license'
+import type { EligibleLicenseProps } from '../../../lib/entities/eligible-license'
 
 const linkMock: MetaLinkProps = {
   id: 'linkid',
@@ -1527,6 +1529,33 @@ const contentSemanticsIndexCollectionMock: ContentSemanticsIndexCollectionProps 
   items: [contentSemanticsIndexMock],
 }
 
+const availableLicenseMock: AvailableLicenseProps = {
+  id: 'mock-license-offer-id',
+  name: 'Community',
+  count: 5,
+  quotas: {
+    contentTypes: 10,
+    records: 10000,
+    environments: 3,
+  },
+}
+
+const eligibleLicenseMock: EligibleLicenseProps = {
+  id: 'mock-eligible-license-offer-id',
+  name: 'Professional',
+  count: 2,
+  requiredAddOnAllocation: {
+    contentTypes: 5,
+    records: 5000,
+    environments: 1,
+  },
+  quotas: {
+    contentTypes: 25,
+    records: 50000,
+    environments: 'unlimited',
+  },
+}
+
 const semanticDuplicatesMock: SemanticDuplicatesProps = {
   sys: {
     type: 'Array',
@@ -1799,6 +1828,14 @@ function setupEntitiesMock() {
     assetKey: {
       wrapAssetKey: vi.fn(),
     },
+    availableLicense: {
+      wrapAvailableLicense: vi.fn(),
+      wrapAvailableLicenseCollection: vi.fn(),
+    },
+    eligibleLicense: {
+      wrapEligibleLicense: vi.fn(),
+      wrapEligibleLicenseCollection: vi.fn(),
+    },
     locale: {
       wrapLocale: vi.fn(),
       wrapLocaleCollection: vi.fn(),
@@ -2009,6 +2046,8 @@ export {
   assetMock,
   assetWithFilesMock,
   assetKeyMock,
+  availableLicenseMock,
+  eligibleLicenseMock,
   localeMock,
   webhookMock,
   spaceMemberMock,
