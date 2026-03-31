@@ -65,7 +65,7 @@ export type ManualDesignValue = {
 }
 
 export type DesignTokenValue = {
-  type: 'DesignValue'
+  type: 'DesignToken'
   value: string
 }
 
