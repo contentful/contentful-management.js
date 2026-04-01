@@ -1,7 +1,7 @@
 import type {
   GetSpaceEnvironmentParams,
   GetComponentTypeParams,
-  CollectionProp,
+  CursorPaginatedCollectionProp,
 } from '../../common-types'
 import type {
   ComponentTypeQueryOptions,
@@ -16,8 +16,9 @@ export type ComponentTypePlainClientAPI = {
    * Fetches all component types for a space and environment
    * @param params the space and environment IDs and query parameters
    * @param params.query.limit the maximum number of component types to return
-   * @param params.query.skip the number of component types to skip
-   * @returns a collection of component types
+   * @param params.query.pageNext cursor for the next page
+   * @param params.query.pagePrev cursor for the previous page
+   * @returns a cursor-paginated collection of component types
    * @throws if the request fails, or the space, environment, or experience component type is not found
    * @internal - Experimental endpoint, subject to breaking changes without notice
    * @example
@@ -27,14 +28,13 @@ export type ComponentTypePlainClientAPI = {
    *   environmentId: '<environment_id>',
    *   query: {
    *     limit: 10,
-   *     skip: 0,
    *   },
    * });
    * ```
    */
   getMany(
     params: OptionalDefaults<GetSpaceEnvironmentParams & { query: ComponentTypeQueryOptions }>,
-  ): Promise<CollectionProp<ComponentTypeProps>>
+  ): Promise<CursorPaginatedCollectionProp<ComponentTypeProps>>
 
   /**
    * Fetches a single component type by ID

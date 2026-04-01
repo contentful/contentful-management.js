@@ -1618,7 +1618,7 @@ export type MRActions = {
   ComponentType: {
     getMany: {
       params: GetSpaceEnvironmentParams & { query: ComponentTypeQueryOptions }
-      return: CollectionProp<ComponentTypeProps>
+      return: CursorPaginatedCollectionProp<ComponentTypeProps>
     }
     get: {
       params: GetComponentTypeParams
