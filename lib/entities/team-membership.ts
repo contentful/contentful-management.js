@@ -1,9 +1,14 @@
+/**
+ * @module
+ * @category Entities
+ */
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
 import type { DefaultElements, MetaSysProps, MetaLinkProps, MakeRequest } from '../common-types'
 
+/** Properties of a team membership linking a user to a team */
 export type TeamMembershipProps = {
   /**
    * System metadata
@@ -25,13 +30,16 @@ export type TeamMembershipProps = {
   organizationMembershipId: string
 }
 
+/** Properties required to create a new team membership */
 export type CreateTeamMembershipProps = Omit<TeamMembershipProps, 'sys'>
 
+/** A team membership with methods to update and delete */
 export interface TeamMembership extends TeamMembershipProps, DefaultElements<TeamMembershipProps> {
   /**
    * Deletes this object on the server.
    * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -51,7 +59,8 @@ export interface TeamMembership extends TeamMembershipProps, DefaultElements<Tea
   /**
    * Sends an update to the server with any changes made to the object's properties
    * @returns Object returned from the server with updated changes.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({

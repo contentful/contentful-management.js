@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -13,6 +17,12 @@ type EnvironmentMetaSys = BasicMetaSysProps & {
   aliasedEnvironment?: SysLink
 }
 
+/**
+ * Properties of a Contentful environment
+ *
+ * @see {@link CreateEnvironmentProps} for the properties required to create a new environment
+ * @see {@link Environment} for the full environment type with methods
+ */
 export type EnvironmentProps = {
   /**
    * System metadata
@@ -24,11 +34,25 @@ export type EnvironmentProps = {
   name: string
 }
 
+/**
+ * Properties required to create a new environment
+ *
+ * @see {@link EnvironmentProps} for the full environment properties including sys metadata
+ */
 export type CreateEnvironmentProps = Partial<Omit<EnvironmentProps, 'sys'>>
 
-export type Environment = ContentfulEnvironmentAPI &
-  EnvironmentProps &
-  DefaultElements<EnvironmentProps>
+/**
+ * A Contentful environment with methods to manage content types, entries, assets, and other entities
+ *
+ * @remarks
+ * This type is used with the legacy client. For the plain client, use {@link EnvironmentProps} directly.
+ *
+ * @see {@link EnvironmentProps} for the underlying data properties
+ */
+export interface Environment
+  extends ContentfulEnvironmentAPI,
+    EnvironmentProps,
+    DefaultElements<EnvironmentProps> {}
 
 /**
  * This method creates the API for the given environment with all the methods for

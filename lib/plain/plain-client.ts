@@ -1,9 +1,15 @@
+/**
+ * @module
+ * @category Plain Client
+ */
+
 import type { GetContentTypeParams, GetSpaceEnvironmentParams, MakeRequest } from '../common-types'
 import { omitAndDeleteField } from '../methods/content-type'
 import type { PlainClientAPI } from './plain-client-types'
 import type { PlainClientDefaultParams } from './wrappers/wrap'
 import { wrap } from './wrappers/wrap'
 
+export type { PlainClientAPI } from './plain-client-types'
 export type { PlainClientDefaultParams } from './wrappers/wrap'
 
 /**
@@ -79,7 +85,6 @@ export const createPlainClient = (
     agentRun: {
       get: wrap(wrapParams, 'AgentRun', 'get'),
       getMany: wrap(wrapParams, 'AgentRun', 'getMany'),
-      resumeRun: wrap(wrapParams, 'AgentRun', 'resumeRun'),
     },
     automationDefinition: {
       get: wrap(wrapParams, 'AutomationDefinition', 'get'),

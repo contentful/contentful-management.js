@@ -1,6 +1,104 @@
+// In versioned deployments, docs live at <root>/contentful-management/<version>/
+// CI sets DOCS_BASE_URL at build time; locally it falls back to the repo root.
+const hostedBaseUrl =
+  process.env.DOCS_BASE_URL || 'https://contentful.github.io/contentful-management.js/'
+
 /** @type {Partial<import('typedoc').TypeDocOptions>} */
 export default {
-  entryPoints: ['lib/index.ts'],
+  name: 'contentful-management.js',
+  entryPoints: [
+    'lib/index.ts',
+    'lib/create-contentful-api.ts',
+    'lib/plain/plain-client.ts',
+    'lib/plain/plain-client-types.ts',
+    'lib/plain/checks.ts',
+    'lib/entities/*.ts',
+  ],
   out: 'out',
-  tsconfig: 'tsconfig.json',
+  includeVersion: true,
+  categorizeByGroup: false,
+  categoryOrder: ['Core', 'Plain Client', 'Legacy Client', 'Entities', '*'],
+  defaultCategory: 'Other',
+  kindSortOrder: [
+    'Project',
+    'Module',
+    'Namespace',
+    'Constructor',
+    'Property',
+    'Function',
+    'Enum',
+    'EnumMember',
+    'Class',
+    'Interface',
+    'TypeAlias',
+    'Variable',
+    'Reference',
+    'Accessor',
+    'Method',
+    'Parameter',
+    'TypeParameter',
+    'TypeLiteral',
+    'CallSignature',
+    'ConstructorSignature',
+    'IndexSignature',
+    'GetSignature',
+    'SetSignature',
+  ],
+  groupOrder: ['Functions', 'Interfaces', 'Modules', '*'],
+  projectDocuments: ['docs/getting-started.md'],
+  sortEntryPoints: false,
+  readme: 'README.md',
+  excludePrivate: true,
+  excludeInternal: true,
+  excludeProtected: false,
+  excludePrivateClassFields: true,
+  treatWarningsAsErrors: false,
+  useFirstParagraphOfCommentAsSummary: true,
+  sort: ['source-order'],
+  plugin: [
+    'typedoc-plugin-missing-exports',
+    'typedoc-github-theme',
+    './docs/plugins/version-selector/typedoc-version-selector.mjs',
+  ],
+  hideGenerator: true,
+  hostedBaseUrl,
+  favicon: 'images/contentful-icon.png',
+  searchInComments: true,
+  searchInDocuments: true,
+  cacheBust: true,
+  useHostedBaseUrlForAbsoluteLinks: true,
+  searchCategoryBoosts: {
+    'Plain Client': 2,
+    Entities: 1.5,
+    'Legacy Client': 0.5,
+  },
+  searchGroupBoosts: {
+    Functions: 1.5,
+    Interfaces: 1.2,
+  },
+  navigationLinks: {
+    GitHub: 'https://github.com/contentful/contentful-management.js',
+    npm: 'https://www.npmjs.com/package/contentful-management',
+    'CMA Reference':
+      'https://www.contentful.com/developers/docs/references/content-management-api/',
+  },
+  sidebarLinks: {
+    'Getting Started': `${hostedBaseUrl}Getting_Started`,
+    PlainClientAPI: `${hostedBaseUrl}plain/plain-client-types/PlainClientAPI`,
+    'Legacy ClientAPI': `${hostedBaseUrl}create-contentful-api/default`,
+  },
+  navigationLeaves: ['DefaultElements', 'OptionalDefaults', 'Getting Started'],
+  externalSymbolLinkMappings: {
+    typescript: {
+      Iterator:
+        'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Iterator',
+    },
+  },
+  navigation: {
+    includeGroups: false,
+    includeCategories: true,
+    includeFolders: false,
+    excludeReferences: true,
+  },
+  router: 'structure',
 }

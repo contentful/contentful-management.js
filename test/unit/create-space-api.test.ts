@@ -5,12 +5,10 @@ import {
   apiKeyMock,
   cloneMock,
   environmentAliasMock,
-  mockCollection,
   roleMock,
   scheduledActionCollectionMock,
   scheduledActionMock,
   setupEntitiesMock,
-  spaceAddOnMock,
   spaceMemberMock,
   spaceMembershipMock,
   spaceMock,
@@ -601,44 +599,5 @@ describe('A createSpaceApi', () => {
     const { api } = setup(Promise.reject(error))
 
     await expect(api.deleteAiAction('aiActionId')).rejects.toEqual(error)
-  })
-
-  test('API call getSpaceAddOns', async () => {
-    await makeGetCollectionTest(setup, {
-      entityType: 'spaceAddOn',
-      mockToReturn: spaceAddOnMock,
-      methodToTest: 'getSpaceAddOns',
-    })
-  })
-
-  test('API call getSpaceAddOns fails', async () => {
-    await makeEntityMethodFailingTest(setup, {
-      methodToTest: 'getSpaceAddOns',
-    })
-  })
-
-  test('API call updateSpaceAddOnAllocations', async () => {
-    const allocations = [
-      { add_on: 'contentTypes' as const, allocation: 10 },
-      { add_on: 'records' as const, allocation: 1000 },
-    ]
-    const responseData = mockCollection(spaceAddOnMock)
-    const { api, makeRequest, entitiesMock } = setup(Promise.resolve(responseData))
-    entitiesMock.spaceAddOn.wrapSpaceAddOnCollection.mockReturnValue(responseData)
-
-    await api.updateSpaceAddOnAllocations(allocations).then((r) => {
-      expect(r).toEqual(responseData)
-      expect(makeRequest.mock.calls[0][0].entityType).toBe('SpaceAddOn')
-      expect(makeRequest.mock.calls[0][0].action).toBe('updateAllocations')
-      expect(makeRequest.mock.calls[0][0].payload).toEqual(allocations)
-    })
-  })
-
-  test('API call updateSpaceAddOnAllocations fails', async () => {
-    const error = cloneMock('error')
-    const allocations = [{ add_on: 'contentTypes' as const, allocation: 10 }]
-    const { api } = setup(Promise.reject(error))
-
-    await expect(api.updateSpaceAddOnAllocations(allocations)).rejects.toEqual(error)
   })
 })

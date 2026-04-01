@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type {
@@ -12,8 +16,10 @@ import type {
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
 
+/** Status of a task */
 export type TaskStatus = 'active' | 'resolved'
 
+/** System metadata properties for a task */
 export type TaskSysProps = Pick<
   BasicMetaSysProps,
   'id' | 'version' | 'createdAt' | 'createdBy' | 'updatedAt' | 'updatedBy'
@@ -24,6 +30,7 @@ export type TaskSysProps = Pick<
   parentEntity: Link<'Entry'>
 }
 
+/** Properties of a task assigned to a user or team on an entry */
 export type TaskProps = {
   sys: TaskSysProps
   body: string
@@ -32,11 +39,16 @@ export type TaskProps = {
   dueDate?: string
 }
 
+/** Properties required to create a new task */
 export type CreateTaskProps = Omit<TaskProps, 'sys'>
+/** Properties for updating an existing task */
 export type UpdateTaskProps = Omit<TaskProps, 'sys'> & { sys: Pick<TaskSysProps, 'version'> }
 
+/** Parameters required to create a task on an entry */
 export type CreateTaskParams = GetEntryParams
+/** Parameters required to update a task */
 export type UpdateTaskParams = GetTaskParams
+/** Parameters required to delete a task */
 export type DeleteTaskParams = GetTaskParams & { version: number }
 
 type TaskApi = {
@@ -44,6 +56,7 @@ type TaskApi = {
   delete(): Promise<void>
 }
 
+/** A task with methods to update and delete */
 export interface Task extends TaskProps, DefaultElements<TaskProps>, TaskApi {}
 
 /**

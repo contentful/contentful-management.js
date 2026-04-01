@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import type { Link, DefaultElements } from '../common-types'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
@@ -5,6 +9,7 @@ import { wrapCollection } from '../common-utils'
 import type { MakeRequest } from '../common-types'
 import enhanceWithMethods from '../enhance-with-methods'
 
+/** Properties of a function execution log entry */
 export type FunctionLogProps = {
   sys: {
     id: string
@@ -34,13 +39,14 @@ export type FunctionLogProps = {
   }>
 }
 
+/** A function log entity */
 export interface FunctionLog extends FunctionLogProps, DefaultElements<FunctionLogProps> {}
 
 /**
  * @internal
  * @param makeRequest - function to make requests via an adapter
- * @param data - raw contentful-Function data
- * @returns Wrapped Function data
+ * @param data - Raw FunctionLog data
+ * @returns Wrapped FunctionLog data
  */
 export function wrapFunctionLog(
   makeRequest: MakeRequest,
@@ -53,7 +59,7 @@ export function wrapFunctionLog(
 /**
  * @internal
  * @param makeRequest - function to make requests via an adapter
- * @param data - raw contentful-function data
- * @returns Wrapped App Function collection data
+ * @param data - Raw FunctionLog collection data
+ * @returns Wrapped FunctionLog collection data
  */
 export const wrapFunctionLogCollection = wrapCollection(wrapFunctionLog)

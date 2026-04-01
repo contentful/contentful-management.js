@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -17,6 +21,7 @@ type ExtensionSysProps = BasicMetaSysProps & {
   srcdocSha256?: string
 }
 
+/** Properties of a UI extension for customizing the Contentful web app */
 export type ExtensionProps = {
   sys: ExtensionSysProps
   extension: {
@@ -54,6 +59,7 @@ export type ExtensionProps = {
   parameters?: DefinedParameters
 }
 
+/** Properties required to create a new UI extension */
 export type CreateExtensionProps = {
   extension: RequireExactlyOne<
     SetRequired<ExtensionProps['extension'], 'name' | 'fieldTypes' | 'sidebar'>,
@@ -61,11 +67,13 @@ export type CreateExtensionProps = {
   >
 }
 
+/** A UI extension with methods to update and delete */
 export interface Extension extends ExtensionProps, DefaultElements<ExtensionProps> {
   /**
    * Sends an update to the server with any changes made to the object's properties
    * @returns Object returned from the server with updated changes.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -87,7 +95,8 @@ export interface Extension extends ExtensionProps, DefaultElements<ExtensionProp
   /**
    * Deletes this object on the server.
    * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
