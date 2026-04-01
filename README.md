@@ -11,12 +11,10 @@
 <h3 align="center">JavaScript</h3>
 
 <p align="center">
-  <a href="README.md">Readme</a> ·
-  <a href="SETUP.md">Setup</a> ·
-  <a href="MIGRATION.md">Migration</a> ·
-  <a href="CHANGELOG.md">Changelog</a> ·
-  <a href="CONTRIBUTING.md">Contributing</a> ·
-  <a href="SUPPORT.md">Support Policy</a>
+  <a href="README.md">Readme</a> · 
+  <a href="SETUP.md">Setup</a> · 
+  <a href="CHANGELOG.md">Changelog</a> · 
+  <a href="CONTRIBUTING.md">Contributing</a>
 </p>
 
 <p align="center">
@@ -43,27 +41,25 @@
 
 <!-- TOC -->
 
-- [Features](#features)
-- [Supported Environments](#supported-environments)
-- [Getting Started](#getting-started)
+- [Getting started](#getting-started)
   - [Installation](#installation)
-    - [Node](#node)
-    - [Browser](#browser-bundle-in-script-tag)
-    - [Typings](#typings)
+    - [Node:](#node)
+    - [Browser bundle in script tag:](#browser-bundle-in-script-tag)
+  - [Typings](#typings)
   - [Authentication](#authentication)
   - [Using ES6 import](#using-es6-import)
-  - [Your first Request](#your-first-request)
+  - [Using CommonJS require imports](#using-commonjs-require-imports)
+  - [Your first request](#your-first-request)
   - [Legacy Client Interface](#legacy-client-interface)
-- [App Framework](#app-framework)
-- [Troubleshooting](#troubleshooting)
-- [Documentation/References](#documentationreferences)
+  - [App Framework](#app-framework)
+  - [Troubleshooting](#troubleshooting)
+  - [Documentation/References](#documentationreferences)
   - [Configuration](#configuration)
   - [Reference Documentation](#reference-documentation)
   - [Contentful Javascript resources](#contentful-javascript-resources)
   - [Cursor Based Pagination](#cursor-based-pagination)
   - [REST API reference](#rest-api-reference)
 - [Versioning](#versioning)
-- [Support Policy](#support-policy)
 - [Reach out to us](#reach-out-to-us)
 - [Get involved](#get-involved)
 - [License](#license)
@@ -173,7 +169,7 @@ You can use the commonjs require with the library as follows
 
 ```js
 // import createClient directly
-const contentful = require('contentful-management');
+const contentful = require('contentful-management')
 const client = contentful.createClient({
   // This is the access token for this space. Normally you get the token in the Contentful web app
   accessToken: 'YOUR_ACCESS_TOKEN',
@@ -226,8 +222,8 @@ const entries = await scopedClient.entry.getMany({
   },
 })
 ```
- 
-You can try and change the above example on [Runkit](https://npm.runkit.com/contentful-management). 
+
+You can try and change the above example on [Runkit](https://npm.runkit.com/contentful-management).
 
 The benefits of the default client are:
 
@@ -463,14 +459,8 @@ In addition, there may be some experimental features in the main build of this S
 
 ### Current experimental features
 
-- **AI Agents**: The Agent and Agent Run APIs (`getAgent`, `getAgents`, `getAgentRun`, `getAgentRuns`, `generateWithAgent`, `resumeAgentRun`) are experimental and subject to breaking changes without notice.
+- **AI Agents**: The Agent and Agent Run APIs (`getAgent`, `getAgents`, `getAgentRun`, `getAgentRuns`, `generateWithAgent`) are experimental and subject to breaking changes without notice.
 - **Component Types**: The Component Type `getMany` endpoint (`componentType.getMany`) is experimental and subject to breaking changes without notice.
-
-## Support Policy
-
-When a new major version is released, the previous major version enters a **6-month maintenance period** during which only critical bug fixes and security patches are provided. After this period, previous versions reach end-of-life and no longer receive updates.
-
-For full details, see our [Support and Maintenance Policy](SUPPORT.md).
 
 ## Reach out to us
 

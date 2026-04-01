@@ -1,3 +1,8 @@
+/**
+ * @module
+ * @category Plain Client
+ */
+
 import type { RawAxiosRequestConfig, RawAxiosRequestHeaders } from 'axios'
 import type {
   OpPatch,
@@ -152,38 +157,95 @@ import type { SemanticSettingsPlainClientAPI } from './entities/semantic-setting
 import type { ContentSemanticsIndexPlainClientAPI } from './entities/content-semantics-index'
 import type { ComponentTypePlainClientAPI } from './entities/component-type'
 
+/**
+ * The plain client API surface returned by `createClient()`.
+ *
+ * Provides flat, Promise-based access to all Contentful Management API endpoints.
+ * Methods are organized by resource type (e.g. `client.entry.get()`, `client.asset.create()`).
+ *
+ * @example
+ * ```typescript
+ * import { createClient } from 'contentful-management'
+ *
+ * const client = createClient({ accessToken: 'YOUR_ACCESS_TOKEN' })
+ *
+ * // Fetch entries
+ * const entries = await client.entry.getMany({
+ *   spaceId: '<space_id>',
+ *   environmentId: '<environment_id>',
+ * })
+ *
+ * // With scoped defaults
+ * const scoped = createClient(
+ *   { accessToken: 'YOUR_ACCESS_TOKEN' },
+ *   { defaults: { spaceId: '<space_id>', environmentId: '<environment_id>' } },
+ * )
+ * const entries = await scoped.entry.getMany({})
+ * ```
+ */
 export type PlainClientAPI = {
+  /** @group HTTP */
   raw: {
+    /** Returns the default parameters configured on this client instance. */
     getDefaultParams(): PlainClientDefaultParams | undefined
+    /** Performs a raw GET request to the Contentful Management API. */
     get<T = unknown>(url: string, config?: RawAxiosRequestConfig): Promise<T>
+    /** Performs a raw POST request to the Contentful Management API. */
     post<T = unknown>(url: string, payload?: any, config?: RawAxiosRequestConfig): Promise<T>
+    /** Performs a raw PATCH request to the Contentful Management API. */
     patch<T = unknown>(url: string, payload?: any, config?: RawAxiosRequestConfig): Promise<T>
+    /** Performs a raw PUT request to the Contentful Management API. */
     put<T = unknown>(url: string, payload?: any, config?: RawAxiosRequestConfig): Promise<T>
+    /** Performs a raw DELETE request to the Contentful Management API. */
     delete<T = unknown>(url: string, config?: RawAxiosRequestConfig): Promise<T>
+    /** Performs a raw HTTP request to the Contentful Management API. */
     http<T = unknown>(url: string, config?: RawAxiosRequestConfig): Promise<T>
   }
+  /** @group AI */
   aiAction: AiActionPlainClientAPI
+  /** @group AI */
   aiActionInvocation: AiActionInvocationPlainClientAPI
+  /** @group AI */
   agent: AgentPlainClientAPI
+  /** @group AI */
   agentRun: AgentRunPlainClientAPI
+  /** @group AI */
   automationDefinition: AutomationDefinitionPlainClientAPI
+  /** @group AI */
   automationExecution: AutomationExecutionPlainClientAPI
+  /** @group Apps */
   appAction: AppActionPlainClientAPI
+  /** @group Apps */
   appActionCall: AppActionCallPlainClientAPI
+  /** @group Apps */
   appBundle: AppBundlePlainClientAPI
+  /** @group Apps */
   appDetails: AppDetailsPlainClientAPI
+  /** @group Apps */
   appEventSubscription: AppEventSubscriptionPlainClientAPI
+  /** @group Apps */
   appKey: AppKeyPlainClientAPI
+  /** @group Apps */
   appSignedRequest: AppSignedRequestPlainClientAPI
+  /** @group Apps */
   appSigningSecret: AppSigningSecretPlainClientAPI
+  /** @group Apps */
   appAccessToken: AppAccessTokenPlainClientAPI
+  /** @group Apps */
   function: FunctionPlainClientAPI
+  /** @group Apps */
   functionLog: FunctionLogPlainClientAPI
+  /** @group Content */
   editorInterface: EditorInterfacePlainClientAPI
+  /** @group Spaces & Environments */
   space: SpacePlainClientAPI
+  /** @group Spaces & Environments */
   environment: EnvironmentPlainClientAPI
+  /** @group Spaces & Environments */
   environmentAlias: EnvironmentAliasPlainClientAPI
+  /** @group Spaces & Environments */
   environmentTemplate: {
+    /** Fetches a single environment template by ID. */
     get(
       params: GetEnvironmentTemplateParams & {
         version?: number
@@ -191,34 +253,41 @@ export type PlainClientAPI = {
       },
       headers?: RawAxiosRequestHeaders,
     ): Promise<EnvironmentTemplateProps>
+    /** Fetches all environment templates for an organization. */
     getMany(
       params: GetOrganizationParams & {
         query?: BasicCursorPaginationOptions & { select?: string; forTemplatedSpaces?: boolean }
       },
       headers?: RawAxiosRequestHeaders,
     ): Promise<CursorPaginatedCollectionProp<EnvironmentTemplateProps>>
+    /** Creates a new environment template in an organization. */
     create(
       params: GetOrganizationParams,
       rawData: CreateEnvironmentTemplateProps,
       headers?: RawAxiosRequestHeaders,
     ): Promise<EnvironmentTemplateProps>
+    /** Updates the name or description of a specific environment template version. */
     versionUpdate(
       params: GetEnvironmentTemplateParams & { version: number },
       rawData: { versionName?: string; versionDescription?: string },
       headers?: RawAxiosRequestHeaders,
     ): Promise<EnvironmentTemplateProps>
+    /** Updates an environment template. */
     update(
       params: GetEnvironmentTemplateParams,
       rawData: EnvironmentTemplateProps,
       headers?: RawAxiosRequestHeaders,
     ): Promise<EnvironmentTemplateProps>
+    /** Deletes an environment template. */
     delete(params: GetEnvironmentTemplateParams, headers?: RawAxiosRequestHeaders): Promise<void>
+    /** Lists all versions of an environment template. */
     versions(
       params: GetEnvironmentTemplateParams & {
         query?: BasicCursorPaginationOptions & { select?: string; installable?: boolean }
       },
       headers?: RawAxiosRequestHeaders,
     ): Promise<CursorPaginatedCollectionProp<EnvironmentTemplateProps>>
+    /** Validates an environment template against a target environment. */
     validate(
       params: EnvironmentTemplateParams & {
         version?: number
@@ -226,14 +295,18 @@ export type PlainClientAPI = {
       rawData: ValidateEnvironmentTemplateInstallationProps,
       headers?: RawAxiosRequestHeaders,
     ): Promise<EnvironmentTemplateValidationProps>
+    /** Installs an environment template into a target environment. */
     install(
       params: EnvironmentTemplateParams,
       rawData: CreateEnvironmentTemplateInstallationProps,
       headers?: RawAxiosRequestHeaders,
     ): Promise<EnvironmentTemplateInstallationProps>
+    /** Disconnects an environment from an environment template. */
     disconnect(params: EnvironmentTemplateParams, headers?: RawAxiosRequestHeaders): Promise<void>
   }
+  /** @group Spaces & Environments */
   environmentTemplateInstallation: {
+    /** Fetches all installations of an environment template. */
     getMany(
       params: BasicCursorPaginationOptions & {
         environmentId?: string
@@ -244,6 +317,7 @@ export type PlainClientAPI = {
       },
       headers?: RawAxiosRequestHeaders,
     ): Promise<CursorPaginatedCollectionProp<EnvironmentTemplateInstallationProps>>
+    /** Fetches template installations for a specific environment. */
     getForEnvironment(
       params: BasicCursorPaginationOptions &
         EnvironmentTemplateParams & {
@@ -252,29 +326,38 @@ export type PlainClientAPI = {
       headers?: RawAxiosRequestHeaders,
     ): Promise<CursorPaginatedCollectionProp<EnvironmentTemplateInstallationProps>>
   }
+  /** @group Publishing */
   bulkAction: {
+    /** Fetches a bulk action by ID. */
     get<T extends BulkActionPayload = any>(params: GetBulkActionParams): Promise<BulkActionProps<T>>
+    /** Publishes multiple entities in a single bulk action. */
     publish(
       params: GetSpaceEnvironmentParams,
       payload: BulkActionPublishPayload,
     ): Promise<BulkActionProps<BulkActionPublishPayload>>
+    /** Unpublishes multiple entities in a single bulk action. */
     unpublish(
       params: GetSpaceEnvironmentParams,
       payload: BulkActionUnpublishPayload,
     ): Promise<BulkActionProps<BulkActionUnpublishPayload>>
+    /** Validates multiple entities in a single bulk action. */
     validate(
       params: GetSpaceEnvironmentParams,
       payload: BulkActionValidatePayload,
     ): Promise<BulkActionProps<BulkActionValidatePayload>>
+    /** Fetches a V2 bulk action by ID. */
     getV2(params: GetBulkActionParams): Promise<BulkActionProps<BulkActionV2Payload>>
+    /** Publishes multiple entities using the V2 bulk action API. */
     publishV2(
       params: GetSpaceEnvironmentParams,
       payload: PublishBulkActionV2Payload<'add'>,
     ): Promise<BulkActionProps<PublishBulkActionV2Payload<'add'>>>
+    /** Unpublishes multiple entities using the V2 bulk action API. */
     unpublishV2(
       params: GetSpaceEnvironmentParams,
       payload: PublishBulkActionV2Payload<'remove'> | UnpublishBulkActionV2Payload,
     ): Promise<BulkActionProps<PublishBulkActionV2Payload<'remove'> | UnpublishBulkActionV2Payload>>
+    /** Validates multiple entities using the V2 bulk action API. */
     validateV2(
       params: GetSpaceEnvironmentParams,
       payload: ValidateBulkActionV2Payload<'add'> | ValidateBulkActionV2Payload<'remove'>,
@@ -282,60 +365,81 @@ export type PlainClientAPI = {
       BulkActionProps<ValidateBulkActionV2Payload<'add'> | ValidateBulkActionV2Payload<'remove'>>
     >
   }
+  /** @group Collaboration */
   comment: CommentPlainClientAPI
+  /** @group Content */
   componentType: ComponentTypePlainClientAPI
+  /** @group Taxonomy */
   concept: ConceptPlainClientAPI
+  /** @group Taxonomy */
   conceptScheme: ConceptSchemePlainClientAPI
+  /** @group Content */
   contentType: {
+    /** Fetches a single content type by ID. */
     get(params: OptionalDefaults<GetContentTypeParams & QueryParams>): Promise<ContentTypeProps>
+    /** Fetches all content types in an environment. */
     getMany(
       params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
     ): Promise<CollectionProp<ContentTypeProps>>
+    /** Fetches content types with cursor-based pagination. */
     getManyWithCursor(
       params: OptionalDefaults<GetSpaceEnvironmentParams & CursorBasedParams>,
     ): Promise<CursorPaginatedCollectionProp<ContentTypeProps>>
+    /** Updates an existing content type. */
     update(
       params: OptionalDefaults<GetContentTypeParams>,
       rawData: ContentTypeProps,
       headers?: RawAxiosRequestHeaders,
     ): Promise<ContentTypeProps>
+    /** Deletes a content type. */
     delete(params: OptionalDefaults<GetContentTypeParams>): Promise<any>
+    /** Publishes a content type. */
     publish(
       params: OptionalDefaults<GetContentTypeParams>,
       rawData: ContentTypeProps,
     ): Promise<ContentTypeProps>
+    /** Unpublishes a content type. */
     unpublish(params: OptionalDefaults<GetContentTypeParams>): Promise<ContentTypeProps>
+    /** Creates a new content type with an auto-generated ID. */
     create(
       params: OptionalDefaults<GetSpaceEnvironmentParams>,
       rawData: CreateContentTypeProps,
     ): Promise<ContentTypeProps>
+    /** Creates a new content type with a specified ID. */
     createWithId(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { contentTypeId: string }>,
       rawData: CreateContentTypeProps,
     ): Promise<ContentTypeProps>
+    /** Omits a field from a content type and then deletes it. */
     omitAndDeleteField(
       params: OptionalDefaults<GetContentTypeParams>,
       contentType: ContentTypeProps,
       fieldId: string,
     ): Promise<ContentTypeProps>
   }
+  /** @group Users & Access */
   user: UserPlainClientAPI
+  /** @group Content */
   entry: {
+    /** Fetches all published entries in an environment. */
     getPublished<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
       rawData?: unknown,
       headers?: RawAxiosRequestHeaders,
     ): Promise<CollectionProp<EntryProps<T>>>
+    /** Fetches published entries with cursor-based pagination. */
     getPublishedWithCursor<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & CursorBasedParams>,
       rawData?: unknown,
       headers?: RawAxiosRequestHeaders,
     ): Promise<CursorPaginatedCollectionProp<EntryProps<T>>>
+    /** Fetches all entries in an environment. */
     getMany<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams & { releaseId?: string }>,
       rawData?: unknown,
       headers?: RawAxiosRequestHeaders,
     ): Promise<CollectionProp<EntryProps<T>>>
+    /** Fetches entries with cursor-based pagination. */
     getManyWithCursor<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<
         GetSpaceEnvironmentParams & CursorBasedParams & { releaseId?: string }
@@ -343,16 +447,19 @@ export type PlainClientAPI = {
       rawData?: unknown,
       headers?: RawAxiosRequestHeaders,
     ): Promise<CursorPaginatedCollectionProp<EntryProps<T>>>
+    /** Fetches a single entry by ID. */
     get<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string; releaseId?: string }>,
       rawData?: unknown,
       headers?: RawAxiosRequestHeaders,
     ): Promise<EntryProps<T>>
+    /** Updates an existing entry. */
     update<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string; releaseId?: string }>,
       rawData: EntryProps<T>,
       headers?: RawAxiosRequestHeaders,
     ): Promise<EntryProps<T>>
+    /** Patches an entry using JSON patch operations. */
     patch<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<
         GetSpaceEnvironmentParams & { entryId: string; version: number; releaseId?: string }
@@ -360,33 +467,41 @@ export type PlainClientAPI = {
       rawData: OpPatch[],
       headers?: RawAxiosRequestHeaders,
     ): Promise<EntryProps<T>>
+    /** Deletes an entry. */
     delete(params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>): Promise<any>
+    /** Publishes an entry. */
     publish<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string; locales?: string[] }>,
       rawData: EntryProps<T>,
     ): Promise<EntryProps<T>>
+    /** Unpublishes an entry. */
     unpublish<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string; locales?: string[] }>,
       rawData?: EntryProps<T>,
     ): Promise<EntryProps<T>>
+    /** Archives an entry. */
     archive<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>,
     ): Promise<EntryProps<T>>
+    /** Unarchives an entry. */
     unarchive<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>,
     ): Promise<EntryProps<T>>
+    /** Creates a new entry with an auto-generated ID. */
     create<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<
         GetSpaceEnvironmentParams & { contentTypeId: string; releaseId?: string }
       >,
       rawData: CreateEntryProps<T>,
     ): Promise<EntryProps<T>>
+    /** Creates a new entry with a specified ID. */
     createWithId<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<
         GetSpaceEnvironmentParams & { entryId: string; contentTypeId: string; releaseId?: string }
       >,
       rawData: CreateEntryProps<T>,
     ): Promise<EntryProps<T>>
+    /** Fetches references for an entry. */
     references(
       params: OptionalDefaults<
         GetSpaceEnvironmentParams & {
@@ -396,22 +511,27 @@ export type PlainClientAPI = {
       >,
     ): Promise<EntryReferenceProps>
   }
+  /** @group Content */
   asset: {
+    /** Fetches all published assets in an environment. */
     getPublished(
       params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
       rawData?: unknown,
       headers?: RawAxiosRequestHeaders,
     ): Promise<CollectionProp<AssetProps>>
+    /** Fetches published assets with cursor-based pagination. */
     getPublishedWithCursor(
       params: OptionalDefaults<GetSpaceEnvironmentParams & CursorBasedParams>,
       rawData?: unknown,
       headers?: RawAxiosRequestHeaders,
     ): Promise<CursorPaginatedCollectionProp<AssetProps>>
+    /** Fetches all assets in an environment. */
     getMany(
       params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams & { releaseId?: string }>,
       rawData?: unknown,
       headers?: RawAxiosRequestHeaders,
     ): Promise<CollectionProp<AssetProps>>
+    /** Fetches assets with cursor-based pagination. */
     getManyWithCursor(
       params: OptionalDefaults<
         GetSpaceEnvironmentParams & CursorBasedParams & { releaseId?: string }
@@ -419,6 +539,7 @@ export type PlainClientAPI = {
       rawData?: unknown,
       headers?: RawAxiosRequestHeaders,
     ): Promise<CursorPaginatedCollectionProp<AssetProps>>
+    /** Fetches a single asset by ID. */
     get(
       params: OptionalDefaults<
         GetSpaceEnvironmentParams & { assetId: string; releaseId?: string } & QueryParams
@@ -426,43 +547,54 @@ export type PlainClientAPI = {
       rawData?: unknown,
       headers?: RawAxiosRequestHeaders,
     ): Promise<AssetProps>
+    /** Updates an existing asset. */
     update(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string; releaseId?: string }>,
       rawData: AssetProps,
       headers?: RawAxiosRequestHeaders,
     ): Promise<AssetProps>
+    /** Deletes an asset. */
     delete(params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string }>): Promise<any>
+    /** Publishes an asset. */
     publish(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string; locales?: string[] }>,
       rawData: AssetProps,
     ): Promise<AssetProps>
+    /** Unpublishes an asset. */
     unpublish(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string; locales?: string[] }>,
       rawData?: AssetProps,
     ): Promise<AssetProps>
+    /** Archives an asset. */
     archive(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string }>,
     ): Promise<AssetProps>
+    /** Unarchives an asset. */
     unarchive(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string }>,
     ): Promise<AssetProps>
+    /** Creates a new asset with an auto-generated ID. */
     create(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { releaseId?: string }>,
       rawData: CreateAssetProps,
     ): Promise<AssetProps>
+    /** Creates a new asset with a specified ID. */
     createWithId(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string; releaseId?: string }>,
       rawData: CreateAssetProps,
     ): Promise<AssetProps>
+    /** Creates a new asset by uploading files directly. */
     createFromFiles(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { releaseId?: string }>,
       data: Omit<AssetFileProp, 'sys'>,
     ): Promise<AssetProps>
+    /** Processes an asset's files for all locales. */
     processForAllLocales(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { releaseId?: string }>,
       asset: AssetProps,
       processingOptions?: AssetProcessingForLocale,
     ): Promise<AssetProps>
+    /** Processes an asset's file for a specific locale. */
     processForLocale(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { releaseId?: string }>,
       asset: AssetProps,
@@ -470,78 +602,105 @@ export type PlainClientAPI = {
       processingOptions?: AssetProcessingForLocale,
     ): Promise<AssetProps>
   }
+  /** @group Apps */
   appUpload: AppUploadPlainClientAPI
+  /** @group Content */
   assetKey: {
+    /** Creates a new asset key for signing URLs. */
     create(
       params: OptionalDefaults<GetSpaceEnvironmentParams>,
       data: CreateAssetKeyProps,
     ): Promise<AssetKeyProps>
   }
+  /** @group Content */
   upload: UploadPlainClientAPI
+  /** @group Content */
   uploadCredential: UploadCredentialAPI
+  /** @group Content */
   locale: LocalePlainClientAPI
+  /** @group Users & Access */
   personalAccessToken: {
+    /** Fetches a single personal access token by ID. */
     get(params: OptionalDefaults<{ tokenId: string }>): Promise<PersonalAccessTokenProps>
+    /** Fetches all personal access tokens for the authenticated user. */
     getMany(
       params: OptionalDefaults<QueryParams>,
     ): Promise<CollectionProp<PersonalAccessTokenProps>>
+    /** Creates a new personal access token. */
     create(
       rawData: CreatePersonalAccessTokenProps,
       headers?: RawAxiosRequestHeaders,
     ): Promise<PersonalAccessTokenProps>
+    /** Revokes a personal access token. */
     revoke(params: OptionalDefaults<{ tokenId: string }>): Promise<PersonalAccessTokenProps>
   }
+  /** @group Users & Access */
   accessToken: {
+    /** Fetches a single access token by ID. */
     get(params: OptionalDefaults<{ tokenId: string }>): Promise<AccessTokenProps>
+    /** Fetches all access tokens for the authenticated user. */
     getMany(params: OptionalDefaults<QueryParams>): Promise<CollectionProp<AccessTokenProps>>
+    /** Creates a new personal access token. */
     createPersonalAccessToken(
       rawData: CreatePATProps,
       headers?: RawAxiosRequestHeaders,
     ): Promise<AccessTokenProps>
+    /** Revokes an access token. */
     revoke(params: OptionalDefaults<{ tokenId: string }>): Promise<AccessTokenProps>
+    /** Fetches all access tokens for an organization. */
     getManyForOrganization(
       params: OptionalDefaults<GetOrganizationParams & QueryParams>,
     ): Promise<CollectionProp<AccessTokenProps>>
   }
+  /** @group Usage */
   usage: UsagePlainClientAPI
+  /** @group Publishing */
   release: {
     asset: {
+      /** Fetches a single asset within a release. */
       get(
         params: OptionalDefaults<GetReleaseAssetParams & QueryParams>,
         rawData?: unknown,
         headers?: RawAxiosRequestHeaders,
       ): Promise<AssetProps<{ release: Link<'Release'> }>>
+      /** Fetches all assets within a release. */
       getMany(
         params: OptionalDefaults<GetManyReleaseAssetParams & QueryParams>,
         rawData?: unknown,
         headers?: RawAxiosRequestHeaders,
       ): Promise<CollectionProp<AssetProps<{ release: Link<'Release'> }>>>
+      /** Updates an asset within a release. */
       update(
         params: OptionalDefaults<UpdateReleaseAssetParams & QueryParams>,
         rawData: AssetProps,
         headers?: RawAxiosRequestHeaders,
       ): Promise<AssetProps<{ release: Link<'Release'> }>>
+      /** Creates a new asset within a release with an auto-generated ID. */
       create(
         params: OptionalDefaults<CreateReleaseAssetParams & QueryParams>,
         rawData: CreateAssetProps,
         headers?: RawAxiosRequestHeaders,
       ): Promise<AssetProps<{ release: Link<'Release'> }>>
+      /** Creates a new asset within a release with a specified ID. */
       createWithId(
         params: OptionalDefaults<CreateWithIdReleaseAssetParams & QueryParams>,
         rawData: CreateAssetProps,
         headers?: RawAxiosRequestHeaders,
       ): Promise<AssetProps<{ release: Link<'Release'> }>>
+      /** Creates a new asset within a release by uploading files directly. */
       createFromFiles(
         params: OptionalDefaults<CreateWithFilesReleaseAssetParams & QueryParams>,
         data: Omit<AssetFileProp, 'sys'>,
         headers?: RawAxiosRequestHeaders,
       ): Promise<AssetProps<{ release: Link<'Release'> }>>
+      /** Processes a release asset's file for a specific locale. */
       processForLocale(
         params: OptionalDefaults<GetSpaceEnvironmentParams>,
         asset: AssetProps<{ release: Link<'Release'> }>,
         locale: string,
         processingOptions?: AssetProcessingForLocale,
       ): Promise<AssetProps<{ release: Link<'Release'> }>>
+      /** Processes a release asset's files for all locales. */
       processForAllLocales(
         params: OptionalDefaults<GetSpaceEnvironmentParams>,
         asset: AssetProps<{ release: Link<'Release'> }>,
@@ -549,192 +708,267 @@ export type PlainClientAPI = {
       ): Promise<AssetProps<{ release: Link<'Release'> }>>
     }
     entry: {
+      /** Fetches a single entry within a release. */
       get<T extends KeyValueMap = KeyValueMap>(
         params: OptionalDefaults<GetReleaseEntryParams & QueryParams>,
         rawData?: unknown,
         headers?: RawAxiosRequestHeaders,
       ): Promise<EntryProps<T, { release: Link<'Release'> }>>
+      /** Fetches all entries within a release. */
       getMany<T extends KeyValueMap = KeyValueMap>(
         params: OptionalDefaults<GetManyReleaseEntryParams & QueryParams>,
         rawData?: unknown,
         headers?: RawAxiosRequestHeaders,
       ): Promise<CollectionProp<EntryProps<T, { release: Link<'Release'> }>>>
+      /** Updates an entry within a release. */
       update<T extends KeyValueMap = KeyValueMap>(
         params: OptionalDefaults<UpdateReleaseEntryParams & QueryParams>,
         rawData: EntryProps<T>,
         headers?: RawAxiosRequestHeaders,
       ): Promise<EntryProps<T, { release: Link<'Release'> }>>
+      /** Patches an entry within a release using JSON patch operations. */
       patch<T extends KeyValueMap = KeyValueMap>(
         params: OptionalDefaults<PatchReleaseEntryParams & QueryParams>,
         rawData: OpPatch[],
         headers?: RawAxiosRequestHeaders,
       ): Promise<EntryProps<T, { release: Link<'Release'> }>>
+      /** Creates a new entry within a release with an auto-generated ID. */
       create<T extends KeyValueMap = KeyValueMap>(
         params: OptionalDefaults<CreateReleaseEntryParams & QueryParams>,
         rawData: CreateEntryProps<T>,
         headers?: RawAxiosRequestHeaders,
       ): Promise<EntryProps<T, { release: Link<'Release'> }>>
+      /** Creates a new entry within a release with a specified ID. */
       createWithId<T extends KeyValueMap = KeyValueMap>(
         params: OptionalDefaults<CreateWithIdReleaseEntryParams & QueryParams>,
         rawData: CreateEntryProps<T>,
         headers?: RawAxiosRequestHeaders,
       ): Promise<EntryProps<T, { release: Link<'Release'> }>>
     }
+    /** Archives a release. */
     archive(params: OptionalDefaults<GetReleaseParams & { version: number }>): Promise<ReleaseProps>
+    /** Fetches a single release by ID. */
     get(params: OptionalDefaults<GetReleaseParams>): Promise<ReleaseProps>
+    /** Queries releases in an environment with optional filters. */
     query(
       params: OptionalDefaults<ReleaseEnvironmentParams> & { query?: ReleaseQueryOptions },
     ): Promise<CursorPaginatedCollectionProp<ReleaseProps>>
+    /** Creates a new release. */
     create(
       params: OptionalDefaults<ReleaseEnvironmentParams>,
       data: ReleasePayload | ReleasePayloadV2,
     ): Promise<ReleaseProps>
+    /** Updates an existing release. */
     update(
       params: OptionalDefaults<GetReleaseParams & { version: number }>,
       data: ReleasePayload | ReleasePayloadV2,
     ): Promise<ReleaseProps>
+    /** Deletes a release. */
     delete(params: OptionalDefaults<GetReleaseParams>): Promise<void>
+    /** Publishes all entities in a release. */
     publish(
       params: OptionalDefaults<GetReleaseParams & { version: number }>,
     ): Promise<ReleaseActionProps<'publish'>>
+    /** Unarchives a release. */
     unarchive(
       params: OptionalDefaults<GetReleaseParams & { version: number }>,
     ): Promise<ReleaseProps>
+    /** Unpublishes all entities in a release. */
     unpublish(
       params: OptionalDefaults<GetReleaseParams & { version: number }>,
     ): Promise<ReleaseActionProps<'unpublish'>>
+    /** Validates all entities in a release. */
     validate(
       params: OptionalDefaults<GetReleaseParams>,
       data?: ReleaseValidatePayload,
     ): Promise<ReleaseActionProps<'validate'>>
   }
+  /** @group Publishing */
   releaseAction: {
+    /** Fetches a single release action by ID. */
     get(
       params: OptionalDefaults<GetReleaseParams> & { actionId: string },
     ): Promise<ReleaseActionProps>
+    /** Fetches all release actions in an environment. */
     getMany(
       params: OptionalDefaults<GetSpaceEnvironmentParams> & { query?: ReleaseActionQueryOptions },
     ): Promise<CollectionProp<ReleaseActionProps>>
+    /** Queries release actions for a specific release. */
     queryForRelease(
       params: OptionalDefaults<GetReleaseParams> & { query?: ReleaseActionQueryOptions },
     ): Promise<CollectionProp<ReleaseActionProps>>
   }
+  /** @group Resources */
   resource: ResourcePlainAPI
+  /** @group Resources */
   resourceProvider: ResourceProviderPlainClientAPI
+  /** @group Resources */
   resourceType: ResourceTypePlainClientAPI
+  /** @group Users & Access */
   role: RolePlainClientAPI
+  /** @group Publishing */
   scheduledActions: {
+    /** Fetches a single scheduled action by ID. */
     get(
       params: OptionalDefaults<GetSpaceParams> & {
         scheduledActionId: string
         environmentId: string
       },
     ): Promise<ScheduledActionProps>
+    /** Fetches all scheduled actions in a space. */
     getMany(
       params: OptionalDefaults<GetSpaceParams & QueryParams>,
     ): Promise<CursorPaginatedCollectionProp<ScheduledActionProps>>
+    /** Creates a new scheduled action. */
     create(
       params: OptionalDefaults<GetSpaceParams>,
       data: CreateUpdateScheduledActionProps,
     ): Promise<ScheduledActionProps>
+    /** Deletes a scheduled action. */
     delete(
       params: OptionalDefaults<GetSpaceEnvironmentParams & { scheduledActionId: string }>,
     ): Promise<ScheduledActionProps>
+    /** Updates an existing scheduled action. */
     update(
       params: OptionalDefaults<GetSpaceParams & { scheduledActionId: string; version: number }>,
       data: CreateUpdateScheduledActionProps,
     ): Promise<ScheduledActionProps>
   }
+  /** @group Users & Access */
   previewApiKey: {
+    /** Fetches a single preview API key by ID. */
     get(
       params: OptionalDefaults<GetSpaceParams & { previewApiKeyId: string }>,
     ): Promise<PreviewApiKeyProps>
+    /** Fetches all preview API keys in a space. */
     getMany(
       params: OptionalDefaults<GetSpaceParams & QueryParams>,
     ): Promise<CollectionProp<PreviewApiKeyProps>>
   }
+  /** @group Users & Access */
   apiKey: {
+    /** Fetches a single API key by ID. */
     get(params: OptionalDefaults<GetSpaceParams & { apiKeyId: string }>): Promise<ApiKeyProps>
+    /** Fetches all API keys in a space. */
     getMany(
       params: OptionalDefaults<GetSpaceParams & QueryParams>,
     ): Promise<CollectionProp<ApiKeyProps>>
+    /** Creates a new API key with an auto-generated ID. */
     create(
       params: OptionalDefaults<GetSpaceParams>,
       data: CreateApiKeyProps,
       headers?: RawAxiosRequestHeaders,
     ): Promise<ApiKeyProps>
+    /** Creates a new API key with a specified ID. */
     createWithId(
       params: OptionalDefaults<GetSpaceParams & { apiKeyId: string }>,
       data: CreateApiKeyProps,
       headers?: RawAxiosRequestHeaders,
     ): Promise<ApiKeyProps>
+    /** Updates an existing API key. */
     update(
       params: OptionalDefaults<GetSpaceParams & { apiKeyId: string }>,
       rawData: ApiKeyProps,
       headers?: RawAxiosRequestHeaders,
     ): Promise<ApiKeyProps>
+    /** Deletes an API key. */
     delete(params: OptionalDefaults<GetSpaceParams & { apiKeyId: string }>): Promise<any>
   }
+  /** @group Apps */
   appDefinition: AppDefinitionPlainClientAPI
+  /** @group Apps */
   appInstallation: AppInstallationPlainClientAPI
+  /** @group Content */
   extension: ExtensionPlainClientAPI
+  /** @group Webhooks */
   webhook: WebhookPlainClientAPI
+  /** @group Content */
   snapshot: {
+    /** Fetches all snapshots for an entry. */
     getManyForEntry<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSnapshotForEntryParams & QueryParams>,
     ): Promise<CollectionProp<SnapshotProps<Omit<EntryProps<T>, 'metadata'>>>>
+    /** Fetches a single snapshot for an entry. */
     getForEntry<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSnapshotForEntryParams & { snapshotId: string }>,
     ): Promise<SnapshotProps<Omit<EntryProps<T>, 'metadata'>>>
+    /** Fetches all snapshots for a content type. */
     getManyForContentType(
       params: OptionalDefaults<GetSnapshotForContentTypeParams & QueryParams>,
     ): Promise<CollectionProp<SnapshotProps<ContentTypeProps>>>
+    /** Fetches a single snapshot for a content type. */
     getForContentType(
       params: OptionalDefaults<GetSnapshotForContentTypeParams & { snapshotId: string }>,
     ): Promise<SnapshotProps<ContentTypeProps>>
   }
+  /** @group Content */
   tag: TagPlainClientAPI
+  /** @group Users & Access */
   organization: OrganizationPlainClientAPI
+  /** @group Users & Access */
   organizationInvitation: {
+    /** Fetches a single organization invitation by ID. */
     get(
       params: OptionalDefaults<{ organizationId: string; invitationId: string }>,
       headers?: RawAxiosRequestHeaders,
     ): Promise<OrganizationInvitationProps>
+    /** Creates a new organization invitation. */
     create(
       params: OptionalDefaults<{ organizationId: string }>,
       data: CreateOrganizationInvitationProps,
       headers?: RawAxiosRequestHeaders,
     ): Promise<OrganizationInvitationProps>
   }
+  /** @group Users & Access */
   organizationMembership: {
+    /** Fetches a single organization membership by ID. */
     get(
       params: OptionalDefaults<GetOrganizationMembershipParams>,
     ): Promise<OrganizationMembershipProps>
+    /** Fetches all memberships in an organization. */
     getMany(
       params: OptionalDefaults<GetOrganizationParams & QueryParams>,
     ): Promise<CollectionProp<OrganizationMembershipProps>>
+    /** Updates an organization membership. */
     update(
       params: OptionalDefaults<GetOrganizationMembershipParams>,
       rawData: OrganizationMembershipProps,
       headers?: RawAxiosRequestHeaders,
     ): Promise<OrganizationMembershipProps>
+    /** Deletes an organization membership. */
     delete(params: OptionalDefaults<GetOrganizationMembershipParams>): Promise<any>
   }
+  /** @group Users & Access */
   spaceMember: SpaceMemberPlainClientAPI
+  /** @group Users & Access */
   spaceMembership: SpaceMembershipPlainClientAPI
+  /** @group Collaboration */
   task: TaskPlainClientAPI
+  /** @group Users & Access */
   team: TeamPlainClientAPI
+  /** @group Users & Access */
   teamMembership: TeamMembershipPlainClientAPI
+  /** @group Users & Access */
   teamSpaceMembership: TeamSpaceMembershipPlainClientAPI
+  /** @group Configuration */
   uiConfig: UIConfigPlainClientAPI
+  /** @group Configuration */
   userUIConfig: UserUIConfigPlainClientAPI
+  /** @group Workflows */
   workflowDefinition: WorkflowDefinitionPlainClientAPI
+  /** @group Workflows */
   workflow: WorkflowPlainClientAPI
+  /** @group Workflows */
   workflowsChangelog: WorkflowsChangelogPlainClientAPI
+  /** @group Users & Access */
   oauthApplication: OAuthApplicationPlainClientAPI
+  /** @group AI */
   semanticSearch: SemanticSearchPlainClientAPI
+  /** @group AI */
   semanticDuplicates: SemanticDuplicatesPlainClientAPI
+  /** @group AI */
   semanticRecommendations: SemanticRecommendationsPlainClientAPI
+  /** @group AI */
   semanticReferenceSuggestions: SemanticReferenceSuggestionsPlainClientAPI
   semanticSettings: SemanticSettingsPlainClientAPI
   contentSemanticsIndex: ContentSemanticsIndexPlainClientAPI

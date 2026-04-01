@@ -60,7 +60,6 @@ import * as SemanticSearch from './semantic-search'
 import * as SemanticSettings from './semantic-settings'
 import * as Snapshot from './snapshot'
 import * as Space from './space'
-import * as SpaceAddOn from './space-add-on'
 import * as SpaceMember from './space-member'
 import * as SpaceMembership from './space-membership'
 import * as Tag from './tag'
@@ -142,7 +141,6 @@ export default {
   SemanticSettings,
   Snapshot,
   Space,
-  SpaceAddOn,
   SpaceMember,
   SpaceMembership,
   Tag,

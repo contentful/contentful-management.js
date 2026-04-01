@@ -38,7 +38,7 @@ jobs:
         run: |
           git config --global user.name 'contentful-automation[bot]'
           git config --global user.email '${{ steps.get-user-id.outputs.user-id }}+contentful-automation[bot]@users.noreply.github.com'
-      
+
       - name: Checkout code
         uses: actions/checkout@v5
         with:
@@ -72,19 +72,51 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Publish Docs
-        if: github.event_name == 'push' && contains(fromJSON('["refs/heads/master"]'), github.ref)
-        run: |
-          echo "Publishing Documentation"
-          npm run docs:publish
-        env:
-          GITHUB_TOKEN: ${{ steps.vault.outputs.GITHUB_TOKEN }}
-
       - name: Get latest release tag
         id: get-tag
         run: |
           TAG=$(gh api repos/${{ github.repository }}/releases/latest --jq .tag_name)
           echo "tag=$TAG" >> $GITHUB_OUTPUT
+        env:
+          GITHUB_TOKEN: ${{ steps.vault.outputs.GITHUB_TOKEN }}
+
+      - name: Publish Docs
+        run: |
+          VERSION=$(echo "${{ steps.get-tag.outputs.tag }}" | sed 's/^v//')
+          NAMESPACE="contentful-management"
+          REPO_URL="https://x-access-token:${GITHUB_TOKEN}@github.com/${{ github.repository }}.git"
+          PAGES_URL="https://${{ github.repository_owner }}.github.io/${{ github.event.repository.name }}"
+
+          echo "Publishing docs for v${VERSION}..."
+          DOCS_BASE_URL="${PAGES_URL}/${NAMESPACE}/latest/" npm run docs:build
+
+          PAGES_DIR=$(mktemp -d)
+          git clone --single-branch --branch gh-pages "$REPO_URL" "$PAGES_DIR"
+
+          mkdir -p "$PAGES_DIR/$NAMESPACE/$VERSION"
+          cp -r ./out/* "$PAGES_DIR/$NAMESPACE/$VERSION/"
+          rm -rf "$PAGES_DIR/$NAMESPACE/latest"
+          cp -r "$PAGES_DIR/$NAMESPACE/$VERSION" "$PAGES_DIR/$NAMESPACE/latest"
+
+          # Generate versions.json from existing version directories
+          ls -d "$PAGES_DIR/$NAMESPACE"/*/ 2>/dev/null \
+            | xargs -I{} basename {} \
+            | grep -v latest \
+            | sort -rV \
+            | jq -R . | jq -s '["latest"] + .' \
+            > "$PAGES_DIR/$NAMESPACE/versions.json"
+
+          # Root redirect
+          echo "<meta http-equiv=\"refresh\" content=\"0; url=${NAMESPACE}/latest/\">" \
+            > "$PAGES_DIR/index.html"
+
+          cd "$PAGES_DIR"
+          git add .
+          git commit -m "docs: publish v${VERSION} [skip ci]" || echo "No changes to commit"
+          git push origin gh-pages
+          rm -rf "$PAGES_DIR"
+
+          echo "Docs published to ${PAGES_URL}/${NAMESPACE}/latest/"
         env:
           GITHUB_TOKEN: ${{ steps.vault.outputs.GITHUB_TOKEN }}
 

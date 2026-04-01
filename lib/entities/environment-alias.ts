@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -10,6 +14,7 @@ import type {
   MakeRequest,
 } from '../common-types'
 
+/** Properties of an environment alias that points to a specific environment */
 export type EnvironmentAliasProps = {
   /**
    * System meta data
@@ -18,15 +23,15 @@ export type EnvironmentAliasProps = {
   environment: { sys: MetaLinkProps }
 }
 
+/** Properties required to create a new environment alias */
 export type CreateEnvironmentAliasProps = Omit<EnvironmentAliasProps, 'sys'>
 
+/** An environment alias with methods to update and delete */
 export interface EnvironmentAlias
   extends EnvironmentAliasProps,
     DefaultElements<EnvironmentAliasProps> {
   /**
    * Sends an update to the server with any changes made to the object's properties. Currently, you can only change the id of the alias's underlying environment. See the example below.
-   * @memberof EnvironmentAlias
-   * @func update
    * @returns {Promise<EnvironmentAlias>} Object returned from the server with updated changes.
    * ```javascript
    * const contentful = require('contentful-management')
@@ -49,8 +54,6 @@ export interface EnvironmentAlias
 
   /**
    * Deletes this object on the server.
-   * @memberof EnvironmentAlias
-   * @func delete
    * @returns {Promise<void>} Promise for the deletion. It contains no data, but the Promise error case should be handled.
    * ```javascript
    * const contentful = require('contentful-management')

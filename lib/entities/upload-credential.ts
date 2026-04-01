@@ -1,8 +1,13 @@
+/**
+ * @module
+ * @category Entities
+ */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type { DefaultElements, MakeRequest, MetaSysProps, SysLink } from '../common-types'
 import enhanceWithMethods from '../enhance-with-methods'
 
+/** Properties of an upload credential for authenticated file uploads */
 export type UploadCredentialProps = {
   /**
    * System metadata
@@ -10,6 +15,7 @@ export type UploadCredentialProps = {
   sys: MetaSysProps & { space: SysLink; environment?: SysLink }
 }
 
+/** An upload credential with a method to create new credentials */
 export interface UploadCredential
   extends UploadCredentialProps,
     DefaultElements<UploadCredentialProps> {

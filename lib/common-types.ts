@@ -98,7 +98,6 @@ import type { CreateRoleProps, RoleProps } from './entities/role'
 import type { ScheduledActionProps } from './entities/scheduled-action'
 import type { SnapshotProps } from './entities/snapshot'
 import type { SpaceProps } from './entities/space'
-import type { SpaceAddOnProps, UpdateSpaceAddOnAllocationProps } from './entities/space-add-on'
 import type { SpaceMemberProps } from './entities/space-member'
 import type { CreateSpaceMembershipProps, SpaceMembershipProps } from './entities/space-membership'
 import type { CreateTagProps, DeleteTagParams, TagProps, UpdateTagProps } from './entities/tag'
@@ -195,7 +194,6 @@ import type {
 import type { AgentGeneratePayload, AgentProps } from './entities/agent'
 import type {
   AgentGenerateResponse,
-  AgentResumeRunPayload,
   AgentRunProps,
   AgentRunQueryOptions,
 } from './entities/agent-run'
@@ -235,7 +233,7 @@ export interface DefaultElements<TPlainObject extends object = object> {
 }
 
 /**
- * Link is a reference object to another entity that can be resolved using tools such as contentful-resolve
+ * Link is a reference to another Contentful entity, identified by link type and ID
  */
 export interface Link<T extends string> {
   sys: {
@@ -293,6 +291,7 @@ export interface SpaceQueryOptions extends PaginationQueryOptions {
   spaceId?: string
 }
 
+/** Base system metadata properties present on all Contentful resources. */
 export interface BasicMetaSysProps {
   type: string
   id: string
@@ -303,6 +302,7 @@ export interface BasicMetaSysProps {
   updatedAt: string
 }
 
+/** Extended system metadata with publishing, archiving, and deletion tracking. */
 export interface MetaSysProps extends BasicMetaSysProps {
   space?: SysLink
   /**
@@ -319,6 +319,7 @@ export interface MetaSysProps extends BasicMetaSysProps {
   deletedAt?: string
 }
 
+/** System metadata for space-scoped entities (entries, assets, etc.) including environment and publishing info. */
 export interface EntityMetaSysProps extends MetaSysProps {
   /**
    * @deprecated `contentType` only exists on entries. Please refactor to use a
@@ -337,26 +338,31 @@ export interface EntityMetaSysProps extends MetaSysProps {
   release?: Link<'Release'>
 }
 
+/** System metadata specific to entries, including content type reference and automation tags. */
 export interface EntryMetaSysProps extends EntityMetaSysProps {
   contentType: SysLink
   automationTags: Link<'Tag'>[]
 }
 
+/** Properties of a link reference to another Contentful resource. */
 export interface MetaLinkProps {
   type: string
   linkType: string
   id: string
 }
 
+/** Entity metadata including tags and taxonomy concepts. */
 export interface MetadataProps {
   tags: Link<'Tag'>[]
   concepts?: Link<'TaxonomyConcept'>[]
 }
 
+/** A system link wrapper containing a {@link MetaLinkProps} reference. */
 export interface SysLink {
   sys: MetaLinkProps
 }
 
+/** Paginated collection response from the Contentful API. */
 export interface CollectionProp<TObj> {
   sys: {
     type: 'Array'
@@ -367,6 +373,7 @@ export interface CollectionProp<TObj> {
   items: TObj[]
 }
 
+/** Cursor-based paginated collection response, used for large result sets that don't support offset-based pagination. */
 export interface CursorPaginatedCollectionProp<TObj>
   extends Omit<CollectionProp<TObj>, 'total' | 'skip'> {
   pages?: {
@@ -390,6 +397,7 @@ export interface QueryOptions extends BasicQueryOptions {
   select?: string
 }
 
+/** Base query options for paginated API requests. */
 export interface BasicQueryOptions {
   skip?: number
   limit?: number
@@ -397,6 +405,7 @@ export interface BasicQueryOptions {
   [key: string]: any
 }
 
+/** Query options for cursor-based pagination, using page tokens instead of offset-based skip. */
 export interface BasicCursorPaginationOptions extends Omit<BasicQueryOptions, 'skip'> {
   skip?: never
   pageNext?: string
@@ -458,6 +467,7 @@ export interface AcceptsQueryOptions {
   'accepts[all]'?: string
 }
 
+/** Generic key-value map used for entry fields and other dynamic data structures. */
 export type KeyValueMap = Record<string, any>
 
 /**
@@ -488,7 +498,6 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'AgentRun', 'get', UA>): MRReturn<'AgentRun', 'get'>
   (opts: MROpts<'AgentRun', 'getMany', UA>): MRReturn<'AgentRun', 'getMany'>
-  (opts: MROpts<'AgentRun', 'resumeRun', UA>): MRReturn<'AgentRun', 'resumeRun'>
 
   (opts: MROpts<'AppAction', 'get', UA>): MRReturn<'AppAction', 'get'>
   (opts: MROpts<'AppAction', 'getMany', UA>): MRReturn<'AppAction', 'getMany'>
@@ -847,9 +856,6 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'SpaceMembership', 'update', UA>): MRReturn<'SpaceMembership', 'update'>
   (opts: MROpts<'SpaceMembership', 'delete', UA>): MRReturn<'SpaceMembership', 'delete'>
 
-  (opts: MROpts<'SpaceAddOn', 'getMany', UA>): MRReturn<'SpaceAddOn', 'getMany'>
-  (opts: MROpts<'SpaceAddOn', 'updateAllocations', UA>): MRReturn<'SpaceAddOn', 'updateAllocations'>
-
   (opts: MROpts<'Tag', 'get', UA>): MRReturn<'Tag', 'get'>
   (opts: MROpts<'Tag', 'getMany', UA>): MRReturn<'Tag', 'getMany'>
   (opts: MROpts<'Tag', 'createWithId', UA>): MRReturn<'Tag', 'createWithId'>
@@ -1135,12 +1141,6 @@ export type MRActions = {
       params: GetSpaceEnvironmentParams & { query?: AgentRunQueryOptions }
       headers?: RawAxiosRequestHeaders
       return: CollectionProp<AgentRunProps>
-    }
-    resumeRun: {
-      params: GetSpaceEnvironmentParams & { runId: string }
-      payload: AgentResumeRunPayload
-      headers?: RawAxiosRequestHeaders
-      return: AgentGenerateResponse
     }
   }
   AutomationDefinition: {
@@ -2390,18 +2390,6 @@ export type MRActions = {
     }
     delete: { params: GetSpaceMembershipProps; return: any }
   }
-  SpaceAddOn: {
-    getMany: {
-      params: GetSpaceParams & QueryParams
-      return: CollectionProp<SpaceAddOnProps>
-    }
-    updateAllocations: {
-      params: GetSpaceParams
-      payload: UpdateSpaceAddOnAllocationProps[]
-      headers?: RawAxiosRequestHeaders
-      return: CollectionProp<SpaceAddOnProps>
-    }
-  }
   Tag: {
     get: { params: GetTagParams; return: TagProps }
     getMany: { params: GetSpaceEnvironmentParams & QueryParams; return: CollectionProp<TagProps> }
@@ -2929,33 +2917,23 @@ export type GetAutomationDefinitionParams = GetSpaceEnvironmentParams & {
 export type GetAutomationExecutionParams = GetSpaceEnvironmentParams & {
   automationExecutionId: string
 }
-/** @internal */
 export type GetWorkflowDefinitionParams = GetSpaceEnvironmentParams & {
   workflowDefinitionId: string
 }
-/** @internal */
 export type GetWorkflowParams = GetSpaceEnvironmentParams & {
   workflowId: string
 }
-/** @internal */
 export type GetUIConfigParams = GetSpaceEnvironmentParams
-/** @internal */
 export type GetUserUIConfigParams = GetUIConfigParams
 
-/** @internal */
 export type GetResourceProviderParams = GetOrganizationParams & { appDefinitionId: string }
 
-/** @internal */
 export type GetResourceTypeParams = GetResourceProviderParams & { resourceTypeId: string }
 
-/** @internal */
 export type GetResourceParams = GetSpaceEnvironmentParams & { resourceTypeId: string }
 
-/** @internal */
 export type QueryParams = { query?: QueryOptions }
-/** @internal */
 export type SpaceQueryParams = { query?: SpaceQueryOptions }
-/** @internal */
 export type PaginationQueryParams = { query?: PaginationQueryOptions }
 /** @internal */
 export type CursorPaginationXORParams = {
@@ -2970,9 +2948,7 @@ export type CreatedAtIntervalParams = { query?: CreatedAtIntervalQueryOptions }
 /** @internal */
 export type AcceptsQueryParams = { query?: AcceptsQueryOptions }
 
-/** @internal */
 export type GetOAuthApplicationParams = { userId: string; oauthApplicationId: string }
-/** @internal */
 export type GetUserParams = { userId: string }
 
 /** @internal */

@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import { toPlainObject, freezeSys } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -6,6 +10,7 @@ import type { DefaultElements, BasicMetaSysProps, SysLink, MakeRequest } from '.
 import type { Except } from 'type-fest'
 import type { FreeFormParameters } from './widget-parameters'
 
+/** Properties of a Contentful app installation. */
 export type AppInstallationProps = {
   sys: Omit<BasicMetaSysProps, 'id'> & {
     appDefinition: SysLink
@@ -19,15 +24,18 @@ export type AppInstallationProps = {
   parameters?: FreeFormParameters
 }
 
+/** Properties required to create or update an app installation. */
 export type CreateAppInstallationProps = Except<AppInstallationProps, 'sys'>
 
+/** A Contentful app installation with methods for updating and deleting. */
 export interface AppInstallation
   extends AppInstallationProps,
     DefaultElements<AppInstallationProps> {
   /**
    * Sends an update to the server with any changes made to the object's properties
    * @returns Object returned from the server with updated changes.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -49,7 +57,8 @@ export interface AppInstallation
   /**
    * Deletes this object on the server.
    * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
