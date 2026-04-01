@@ -62,7 +62,9 @@ export type ComponentTypeDimensionKeyMap = {
 
 // Content property value types
 /** A reference to a content property or content binding value. */
-export type ContentPropertyPointerValue = `$contentProperties/${string}` | `$contentBindings/${string}`
+export type ContentPropertyPointerValue =
+  | `$contentProperties/${string}`
+  | `$contentBindings/${string}`
 
 // Design property pointer value types
 /** A reference to a design property value. */
