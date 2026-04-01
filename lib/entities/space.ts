@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type { BasicMetaSysProps, DefaultElements, MakeRequest } from '../common-types'
@@ -6,12 +10,25 @@ import type { ContentfulSpaceAPI } from '../create-space-api'
 import createSpaceApi from '../create-space-api'
 import enhanceWithMethods from '../enhance-with-methods'
 
+/**
+ * Properties of a Contentful space
+ *
+ * @see {@link Space} for the full space type with methods
+ */
 export type SpaceProps = {
   sys: BasicMetaSysProps & { organization: { sys: { id: string } }; archivedAt?: string }
   name: string
 }
 
-export type Space = SpaceProps & DefaultElements<SpaceProps> & ContentfulSpaceAPI
+/**
+ * A Contentful space with methods to manage environments, memberships, and webhooks
+ *
+ * @remarks
+ * This type is used with the legacy client. For the plain client, use {@link SpaceProps} directly.
+ *
+ * @see {@link SpaceProps} for the underlying data properties
+ */
+export interface Space extends SpaceProps, DefaultElements<SpaceProps>, ContentfulSpaceAPI {}
 
 /**
  * This method creates the API for the given space with all the methods for

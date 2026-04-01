@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type {
@@ -15,24 +19,29 @@ import enhanceWithMethods from '../enhance-with-methods'
 
 /* Workflow Step Permission */
 type NonEmptyArray<T> = [T, ...T[]]
+/** Actors for a workflow step permission: all users or specific users/teams */
 export type WorkflowStepPermissionActors = 'all' | NonEmptyArray<Link<'User'> | Link<'Team'>>
 
+/** Types of permissions that can be applied to a workflow step */
 export enum WorkflowStepPermissionType {
   EntityPermission = 'entity_permission',
   WorkflowPermission = 'workflow_permission',
 }
 
+/** Actions that can be controlled by a workflow step permission */
 export enum WorkflowStepPermissionAction {
   Edit = 'edit',
   Publish = 'publish',
   Delete = 'delete',
 }
 
+/** Whether a workflow step permission allows or denies an action */
 export enum WorkflowStepPermissionEffect {
   Allow = 'allow',
   Deny = 'deny',
 }
 
+/** A permission rule for a workflow step controlling who can perform actions */
 export interface WorkflowStepPermission {
   type: WorkflowStepPermissionType
   configuration: {
@@ -43,18 +52,22 @@ export interface WorkflowStepPermission {
 }
 
 /* Workflow Step Action */
+/** Types of actions that can be triggered by a workflow step */
 export enum WorkflowStepActionType {
   App = 'app',
   Email = 'email',
   Task = 'task',
 }
+/** An action triggered when a workflow step is reached */
 export type WorkflowStepAction =
   | WorkflowStepEmailAction
   | WorkflowStepTaskAction
   | WorkflowStepAppAction
 
+/** A recipient of a workflow step email action */
 export type WorkflowStepEmailActionRecipient = string | Link<'User'> | Link<'Team'>
 
+/** A workflow step action that sends an email notification */
 export type WorkflowStepEmailAction = {
   type: 'email'
   configuration: {
@@ -62,6 +75,7 @@ export type WorkflowStepEmailAction = {
   }
 }
 
+/** A workflow step action that creates a task */
 export type WorkflowStepTaskAction = {
   type: 'task'
   configuration: {
@@ -71,6 +85,7 @@ export type WorkflowStepTaskAction = {
   }
 }
 
+/** A workflow step action that triggers an app action */
 export type WorkflowStepAppAction = {
   type: 'app'
   appId: string
@@ -82,6 +97,7 @@ export type WorkflowStepAppAction = {
 }
 
 /* Workflow Step */
+/** Properties of a workflow step within a workflow definition */
 export type WorkflowStepProps = {
   id: string
   name: string
@@ -91,11 +107,14 @@ export type WorkflowStepProps = {
   permissions?: WorkflowStepPermission[]
 }
 
+/** Properties for updating an existing workflow step */
 export type UpdateWorkflowStepProps = WorkflowStepProps
+/** Properties required to create a new workflow step */
 export type CreateWorkflowStepProps = Omit<WorkflowStepProps, 'id'>
 
 /* Workflow Definition */
 
+/** System metadata properties for a workflow definition */
 export type WorkflowDefinitionSysProps = Pick<
   BasicMetaSysProps,
   'id' | 'version' | 'createdAt' | 'createdBy' | 'updatedAt' | 'updatedBy'
@@ -106,6 +125,7 @@ export type WorkflowDefinitionSysProps = Pick<
   isLocked: boolean
 }
 
+/** A link constraint defining which content types a workflow definition applies to */
 export type WorkflowDefinitionValidationLink = {
   type: 'Link'
   validations: Array<{
@@ -114,6 +134,7 @@ export type WorkflowDefinitionValidationLink = {
   linkType: 'Entry'
 }
 
+/** Properties of a workflow definition containing steps and configuration */
 export type WorkflowDefinitionProps = {
   sys: WorkflowDefinitionSysProps
   name: string
@@ -124,16 +145,21 @@ export type WorkflowDefinitionProps = {
   flowType?: 'no_restriction' | 'strict_neighbor'
 }
 
+/** Properties required to create a new workflow definition */
 export type CreateWorkflowDefinitionProps = Omit<WorkflowDefinitionProps, 'sys' | 'steps'> & {
   steps: CreateWorkflowStepProps[]
 }
+/** Properties for updating an existing workflow definition */
 export type UpdateWorkflowDefinitionProps = Omit<WorkflowDefinitionProps, 'sys' | 'steps'> & {
   sys: Pick<WorkflowDefinitionSysProps, 'version'>
   steps: Array<CreateWorkflowStepProps | UpdateWorkflowStepProps>
 }
 
+/** Parameters required to create a workflow definition */
 export type CreateWorkflowDefinitionParams = GetSpaceEnvironmentParams
+/** Parameters required to update a workflow definition */
 export type UpdateWorkflowDefinitionParams = GetWorkflowDefinitionParams
+/** Parameters required to delete a workflow definition */
 export type DeleteWorkflowDefinitionParams = GetWorkflowDefinitionParams & { version: number }
 
 type WorkflowDefinitionApi = {
@@ -141,11 +167,13 @@ type WorkflowDefinitionApi = {
   delete(): Promise<void>
 }
 
+/** A workflow definition with methods to update and delete */
 export interface WorkflowDefinition
   extends WorkflowDefinitionProps,
     DefaultElements<WorkflowDefinitionProps>,
     WorkflowDefinitionApi {}
 
+/** Query options for filtering workflow definitions */
 export type WorkflowDefinitionQueryOptions = Omit<PaginationQueryOptions, 'order'>
 
 /**

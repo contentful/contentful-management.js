@@ -49,15 +49,17 @@ import {
 } from './entities/content-semantics-index'
 
 /**
- * @internal
+ * Methods available on an {@link Organization} object for managing app definitions, users, teams, and memberships.
+ *
+ * @deprecated Use the plain client (`createClient()`) instead.
  */
 export type ContentfulOrganizationAPI = ReturnType<typeof createOrganizationApi>
 
 /**
  * Creates API object with methods to access the Organization API
- * @param {MakeRequest} makeRequest - function to make requests via an adapter
- * @returns {ContentfulOrganizationAPI}
- * @internal
+ * @param makeRequest - function to make requests via an adapter
+ * @returns Organization API methods
+ * @deprecated Use the plain client (`createClient()`) instead.
  */
 export default function createOrganizationApi(makeRequest: MakeRequest) {
   return {
@@ -65,7 +67,8 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * Gets a collection of spaces in the organization
      * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
      * @returns Promise a collection of Spaces in the organization
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -92,7 +95,8 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
     /**
      * Gets a User
      * @returns Promise for a User
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -116,7 +120,8 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * Gets a collection of Users in organization
      * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
      * @returns Promise a collection of Users in organization
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -143,7 +148,8 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * Gets an Organization Membership
      * @param id - Organization Membership ID
      * @returns Promise for an Organization Membership
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -171,7 +177,8 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * Gets a collection of Organization Memberships
      * @param  params - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
      * @returns Promise for a collection of Organization Memberships
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -198,7 +205,8 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
     /**
      * Creates a Team
      * @param data representation of the Team to be created
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -225,7 +233,8 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
     },
     /**
      * Gets an Team
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -248,7 +257,8 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
     },
     /**
      * Gets all Teams in an organization
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -277,7 +287,8 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * @param teamId - Id of the team the membership will be created in
      * @param data - Object representation of the Team Membership to be created
      * @returns Promise for the newly created TeamMembership
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -305,7 +316,8 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
     /**
      * Gets an Team Membership from the team with given teamId
      * @returns Promise for an Team Membership
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -329,7 +341,8 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
     /**
      * Get all Team Memberships. If teamID is provided in the optional config object, it will return all Team Memberships in that team. By default, returns all team memberships for the organization.
      * @returns Promise for a Team Membership Collection
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -370,7 +383,8 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
     /**
      * Get all Team Space Memberships. If teamID is provided in the optional config object, it will return all Team Space Memberships in that team. By default, returns all team space memberships across all teams in the organization.
      * @returns Promise for a Team Space Membership Collection
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -398,7 +412,8 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
     /**
      * Get a Team Space Membership with given teamSpaceMembershipId
      * @returns Promise for a Team Space Membership
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -426,7 +441,8 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * Gets an Space Membership in Organization
      * @param id - Organiztion Space Membership ID
      * @returns Promise for a Space Membership in an organization
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -453,7 +469,8 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * Gets a collection Space Memberships in organization
      * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
      * @returns Promise for a Space Membership collection across all spaces in the organization
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -479,7 +496,8 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
     /**
      * Gets an Invitation in Organization
      * @returns Promise for a OrganizationInvitation in an organization
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -505,7 +523,8 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
     /**
      * Create an Invitation in Organization
      * @returns Promise for a OrganizationInvitation in an organization
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -535,7 +554,8 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
     /**
      * Gets a collection of Roles
      * @returns Promise for a collection of Roles
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -558,9 +578,9 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
     },
     /**
      * Creates an app definition
-     * @param Object representation of the App Definition to be created
      * @returns Promise for the newly created AppDefinition
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -588,7 +608,8 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
     /**
      * Gets all app definitions
      * @returns Promise for a collection of App Definitions
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -612,7 +633,8 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
     /**
      * Gets an app definition
      * @returns Promise for an App Definition
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -636,7 +658,8 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
     /**
      * Gets an app upload
      * @returns Promise for an App Upload
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -661,7 +684,8 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
     /**
      * Creates an app upload
      * @returns Promise for an App Upload
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -686,7 +710,8 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
     /**
      * Creates or updates an app signing secret
      * @returns Promise for an App SigningSecret
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -711,7 +736,8 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
     /**
      * Gets an app signing secret
      * @returns Promise for an App SigningSecret
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -735,7 +761,8 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
     /**
      * Deletes an app signing secret
      * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -761,7 +788,8 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
     /**
      * Creates or updates an app event subscription
      * @returns Promise for an App Event Subscription
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -786,7 +814,8 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
     /**
      * Gets an app event subscription
      * @returns Promise for an App Event Subscription
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -810,7 +839,8 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
     /**
      * Deletes the current App Event Subscription for the given App
      * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -836,7 +866,8 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
     /**
      * Creates or updates an app event subscription
      * @returns Promise for an App Event Subscription
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -868,7 +899,8 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
     /**
      * Gets an app key by fingerprint
      * @returns Promise for an App Key
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -892,7 +924,8 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
     /**
      * Gets all keys for the given app
      * @returns Promise for an array of App Keys
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -927,7 +960,8 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
     /**
      * Deletes an app key by fingerprint.
      * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -953,7 +987,8 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
     /**
      * Creates or updates an app details entity
      * @returns Promise for an App Details
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -980,7 +1015,8 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
     /**
      * Gets an app details entity
      * @returns Promise for an App Details
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -1004,7 +1040,8 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
     /**
      * Deletes an app details entity.
      * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -1030,7 +1067,8 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
     /**
      * Creates an app action entity.
      * @returns Promise that resolves an App Action entity
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -1059,7 +1097,8 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
     /**
      * Updates an existing app action entity.
      * @returns Promise that resolves an App Action entity
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -1088,7 +1127,8 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
     /**
      * Deletes an app action entity.
      * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -1114,7 +1154,8 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
     /**
      * Gets an existing app action entity.
      * @returns Promise that resolves an App Action entity
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -1138,7 +1179,8 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
     /**
      * Gets existing app actions for an App Definition.
      * @returns Promise that resolves an App Action entity
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -1164,7 +1206,8 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * @param appDefinitionId
      * @param functionId
      * @returns Promise for a Function
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -1187,7 +1230,8 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
      * @param appDefinitionId
      * @param {import('../common-types').AcceptsQueryOptions} query  - optional query parameter for filtering functions by action
      * @returns Promise for a Function
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -1207,8 +1251,9 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
 
     /**
      * Gets the semantic settings for the organization
-     * @return Promise for ContentSemanticsSettings
-     * @example ```javascript
+     * @returns Promise for ContentSemanticsSettings
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
@@ -1228,8 +1273,9 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
 
     /**
      * Gets all content semantics indexes for the organization
-     * @return Promise for a collection of ContentSemanticsIndex
-     * @example ```javascript
+     * @returns Promise for a collection of ContentSemanticsIndex
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'

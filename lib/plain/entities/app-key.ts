@@ -51,8 +51,7 @@ export type AppKeyPlainClientAPI = {
   ): Promise<AppKeyProps>
   /**
    * Fetches all Keys for the given App
-   * @param params entity IDs to identify the App
-   * @param payload optional pagination query, see example for details
+   * @param params entity IDs to identify the App, along with optional pagination query parameters
    * @returns the App Keys
    * @throws if the request fails, or the App is not found
    * @example

@@ -1,7 +1,12 @@
+/**
+ * @module
+ * @category Entities
+ */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type { DefaultElements, MakeRequest, MetaLinkProps, MetaSysProps } from '../common-types'
 
+/** Properties of an invitation to join an organization */
 export type OrganizationInvitationProps = {
   sys: MetaSysProps & {
     organizationMembership: { sys: MetaLinkProps }
@@ -15,8 +20,10 @@ export type OrganizationInvitationProps = {
   role: string
 }
 
+/** Properties required to create a new organization invitation */
 export type CreateOrganizationInvitationProps = Omit<OrganizationInvitationProps, 'sys'>
 
+/** An organization invitation entity */
 export interface OrganizationInvitation
   extends OrganizationInvitationProps,
     DefaultElements<OrganizationInvitationProps> {}

@@ -1,22 +1,31 @@
+/**
+ * @module
+ * @category Entities
+ */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type { DefaultElements, MakeRequest, SysLink } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import type { Document as RichTextDocument } from '@contentful/rich-text-types'
 
+/** Possible statuses of an AI action invocation. */
 export type InvocationStatus = 'SCHEDULED' | 'IN_PROGRESS' | 'FAILED' | 'COMPLETED' | 'CANCELLED'
 
+/** The type of result returned by an AI action invocation. */
 export type InvocationResultType = 'text'
 
+/** Available output formats for AI action results. */
 export const AiActionOutputFormat = {
   RichText: 'RichText',
   Markdown: 'Markdown',
   PlainText: 'PlainText',
 } as const
 
+/** Union type of available AI action output format values. */
 export type AiActionOutputFormatType =
   (typeof AiActionOutputFormat)[keyof typeof AiActionOutputFormat]
 
+/** Metadata about an AI action invocation including model details and status history. */
 export type AiActionInvocationMetadata = {
   invocationResult?: {
     modelProvider?: string
@@ -30,12 +39,14 @@ export type AiActionInvocationMetadata = {
   }[]
 }
 
+/** The result returned by an AI action invocation. */
 export interface InvocationResult {
   content: string | RichTextDocument
   type: InvocationResultType
   metadata: AiActionInvocationMetadata
 }
 
+/** Properties of a Contentful AI action invocation. */
 export type AiActionInvocationProps = {
   sys: {
     id: string
@@ -49,6 +60,7 @@ export type AiActionInvocationProps = {
   result?: InvocationResult
 }
 
+/** Payload for invoking an AI action with output format and variable values. */
 export type AiActionInvocationType = {
   outputFormat?: 'RichText' | 'Markdown' | 'PlainText'
   variables?: Array<

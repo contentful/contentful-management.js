@@ -7,7 +7,9 @@ import type {
 } from './entities/environment-template-installation'
 
 /**
- * @internal
+ * Methods available on an {@link EnvironmentTemplate} object for managing template versions and installations.
+ *
+ * @deprecated Use the plain client (`createClient()`) instead.
  */
 export type ContentfulEnvironmentTemplateAPI = ReturnType<typeof createEnvironmentTemplateApi>
 
@@ -18,7 +20,7 @@ import {
 import { wrapEnvironmentTemplateInstallationCollection } from './entities/environment-template-installation'
 
 /**
- * @internal
+ * @deprecated Use the plain client (`createClient()`) instead.
  */
 export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizationId: string) {
   return {
@@ -53,8 +55,6 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
     },
     /**
      * Updates environment template version data
-     * @param version.versionName - Name of the environment template version
-     * @param version.versionDescription - Description of the environment template version
      * @returns Promise for an updated EnvironmentTemplate
      * ```javascript
      * const contentful = require('contentful-management')
@@ -93,7 +93,8 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
     /**
      * Deletes the environment template
      * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -142,9 +143,6 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
     },
     /**
      * Gets a collection of all installations for the environment template
-     * @param [installationParams.spaceId] - Space ID to filter installations by space and environment
-     * @param [installationParams.environmentId] - Environment ID to filter installations by space and environment
-     * @param [installationParams.latestOnly] - Boolean flag to only return the latest installation per environment
      * @returns Promise for a collection of EnvironmentTemplateInstallations
      * ```javascript
      * const contentful = require('contentful-management')
@@ -187,11 +185,6 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
     },
     /**
      * Validates an environment template against a given space and environment
-     * @param params.spaceId - Space ID where the template should be installed into
-     * @param params.environmentId - Environment ID where the template should be installed into
-     * @param [params.version] - Version of the template
-     * @param [params.installation.takeover] - Already existing Content types to takeover in the target environment
-     * @param [params.changeSet] - Change set which should be applied
      * @returns Promise for a EnvironmentTemplateValidation
      * ```javascript
      * const contentful = require('contentful-management')
@@ -239,11 +232,6 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
     },
     /**
      * Installs a template against a given space and environment
-     * @param params.spaceId - Space ID where the template should be installed into
-     * @param params.environmentId - Environment ID where the template should be installed into
-     * @param params.installation.version- Template version which should be installed
-     * @param [params.installation.takeover] - Already existing Content types tp takeover in the target environment
-     * @param [params.changeSet] - Change set which should be applied
      * @returns Promise for a EnvironmentTemplateInstallation
      * ```javascript
      * const contentful = require('contentful-management')
@@ -287,8 +275,6 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
     },
     /**
      * Disconnects the template from a given environment
-     * @param params.spaceId - Space ID where the template should be installed into
-     * @param params.environmentId - Environment ID where the template should be installed into
      * @returns Promise for the disconnection with no data
      * ```javascript
      * const contentful = require('contentful-management')

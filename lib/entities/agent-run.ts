@@ -3,6 +3,7 @@ import copy from 'fast-copy'
 import type { DefaultElements, Link, MakeRequest, MetaSysProps } from '../common-types'
 import { wrapCollection } from '../common-utils'
 
+/** Possible statuses for an agent run */
 export type AgentRunStatus = 'IN_PROGRESS' | 'FAILED' | 'COMPLETED' | 'PENDING_REVIEW' | 'DRAFT'
 
 export type AgentGenerateResponse = {
@@ -42,6 +43,7 @@ export type AgentRunMessage = {
   }
 }
 
+/** Properties of an AgentRun */
 export type AgentRunProps = {
   sys: MetaSysProps & {
     type: 'AgentRun'
@@ -65,6 +67,7 @@ export type AgentRunQueryOptions = {
   statusIn?: AgentRunStatus[]
 }
 
+/** @category Entity */
 export interface AgentRun extends AgentRunProps, DefaultElements<AgentRunProps> {}
 
 export function wrapAgentRun(_makeRequest: MakeRequest, data: AgentRunProps): AgentRun {
