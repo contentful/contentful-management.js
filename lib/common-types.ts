@@ -435,6 +435,11 @@ interface CursorPaginationNone extends CursorPaginationBase {
   pagePrev?: never
 }
 
+export type CursorPaginationParams =
+  | CursorPaginationPageNext
+  | CursorPaginationPagePrev
+  | CursorPaginationNone
+
 type StartOperator = 'gt' | 'gte'
 type EndOperator = 'lt' | 'lte'
 type ComparisonOperator = StartOperator | EndOperator
@@ -3092,9 +3097,7 @@ export type SpaceQueryParams = { query?: SpaceQueryOptions }
 export type PaginationQueryParams = { query?: PaginationQueryOptions }
 /** @internal */
 export type CursorPaginationXORParams = {
-  query?: (CursorPaginationPageNext | CursorPaginationPagePrev | CursorPaginationNone) & {
-    limit?: number
-  }
+  query?: CursorPaginationParams
 }
 /** @internal */
 export type CursorBasedParams = CursorPaginationXORParams
