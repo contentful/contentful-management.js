@@ -1,10 +1,9 @@
 import type { Except } from 'type-fest'
-import type { Link, MetadataProps, SysLink } from '../common-types'
+import type { CursorPaginationParams, Link, MetadataProps, SysLink } from '../common-types'
 
-// Query options for getMany - matches Bridge API contract
-export type ComponentTypeQueryOptions = {
-  skip?: number
-  limit?: number
+// Query options for getMany - cursor-based pagination with mutual exclusivity
+export type ComponentTypeQueryOptions = CursorPaginationParams & {
+  order?: string
 }
 
 // Viewport definition
