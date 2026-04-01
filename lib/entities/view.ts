@@ -56,8 +56,9 @@ export type ViewQueryOptions = CursorPaginationParams & {
   [key: string]: unknown
 }
 
-// Locale-based publish payload — add or remove specific locales, or null for full publish
-export type ViewLocalePublishPayload = { add: string[] } | { remove: string[] } | null
+// Locale-based publish payload — add or remove specific locales.
+// Omit the payload entirely for a full publish (all locales).
+export type ViewLocalePublishPayload = { add: string[] } | { remove: string[] }
 
 // Create payload — no sys, uses componentTypeId instead of sys.componentType link
 export type CreateViewProps = ViewCommonProps & {

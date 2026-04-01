@@ -10,6 +10,7 @@ import type {
 import type {
   CreateViewProps,
   UpdateViewProps,
+  ViewLocalePublishPayload,
   ViewProps,
   ViewQueryOptions,
 } from '../../../entities/view'
@@ -74,9 +75,10 @@ export const del: RestEndpoint<'View', 'delete'> = (http: AxiosInstance, params:
 export const publish: RestEndpoint<'View', 'publish'> = (
   http: AxiosInstance,
   params: GetViewParams & { version: number },
+  payload?: ViewLocalePublishPayload,
   headers?: RawAxiosRequestHeaders,
 ) => {
-  return raw.put(http, getBaseUrl(params) + `/${params.viewId}/published`, null, {
+  return raw.put(http, getBaseUrl(params) + `/${params.viewId}/published`, payload ?? null, {
     headers: {
       'X-Contentful-Version': params.version,
       ...headers,

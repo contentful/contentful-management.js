@@ -66,7 +66,13 @@ import type {
   CreateComponentTypeProps,
   UpdateComponentTypeProps,
 } from './entities/component-type'
-import type { CreateViewProps, UpdateViewProps, ViewProps, ViewQueryOptions } from './entities/view'
+import type {
+  CreateViewProps,
+  UpdateViewProps,
+  ViewLocalePublishPayload,
+  ViewProps,
+  ViewQueryOptions,
+} from './entities/view'
 import type { ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
 import type { EditorInterfaceProps } from './entities/editor-interface'
 import type { CreateEntryProps, EntryProps, EntryReferenceProps } from './entities/entry'
@@ -2674,6 +2680,7 @@ export type MRActions = {
     }
     publish: {
       params: GetViewParams & { version: number }
+      payload?: ViewLocalePublishPayload
       return: ViewProps
     }
     unpublish: {
