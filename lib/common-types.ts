@@ -435,13 +435,10 @@ interface CursorPaginationNone extends CursorPaginationBase {
   pagePrev?: never
 }
 
-export type CursorPaginationParams = (
+export type CursorPaginationParams =
   | CursorPaginationPageNext
   | CursorPaginationPagePrev
   | CursorPaginationNone
-) & {
-  limit?: number
-}
 
 type StartOperator = 'gt' | 'gte'
 type EndOperator = 'lt' | 'lte'
