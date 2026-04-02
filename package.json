@@ -90,7 +90,7 @@
     "@types/lodash": "^4.14.168",
     "@types/node": "^20.12.13",
     "@vitest/browser": "^2.1.5",
-    "@vitest/coverage-v8": "^2.1.5",
+    "@vitest/coverage-v8": "^4.1.0",
     "contentful-sdk-jsdoc": "^3.1.5",
     "cz-conventional-changelog": "^3.3.0",
     "eslint": "^9.15.0",
