@@ -66,6 +66,43 @@ describe('Rest ComponentType', { concurrent: true }, () => {
       })
   })
 
+  test('getMany passes filter query parameters', async () => {
+    const mockResponse = {
+      sys: { type: 'Array' },
+      limit: 100,
+      items: [],
+    }
+
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'ComponentType',
+        action: 'getMany',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+          query: {
+            order: 'sys.createdAt',
+            'sys.id[in]': 'id1,id2,id3',
+            'metadata.tags.sys.id[in]': 'tag1,tag2',
+          },
+        },
+      })
+      .then((r) => {
+        expect(r).to.eql(mockResponse)
+        expect(httpMock.get.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/component_types',
+        )
+        expect(httpMock.get.mock.calls[0][1].params).to.eql({
+          order: 'sys.createdAt',
+          'sys.id[in]': 'id1,id2,id3',
+          'metadata.tags.sys.id[in]': 'tag1,tag2',
+        })
+      })
+  })
+
   test('get calls correct URL', async () => {
     const mockResponse = {
       sys: { id: 'component123', type: 'ComponentType' },

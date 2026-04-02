@@ -1,9 +1,10 @@
 import type { Except } from 'type-fest'
 import type { CursorPaginationParams, Link, MetadataProps, SysLink } from '../common-types'
 
-// Query options for getMany - cursor-based pagination with mutual exclusivity
+// Query options for getMany - cursor-based pagination with mutual exclusivity & query filters
 export type ComponentTypeQueryOptions = CursorPaginationParams & {
   order?: string
+  [key: string]: unknown
 }
 
 // Viewport definition
