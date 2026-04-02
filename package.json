@@ -89,7 +89,7 @@
     "@size-limit/file": "^11.1.6",
     "@types/lodash": "^4.14.168",
     "@types/node": "^20.12.13",
-    "@vitest/browser": "^2.1.5",
+    "@vitest/browser": "^4.1.0",
     "@vitest/coverage-v8": "^2.1.5",
     "contentful-sdk-jsdoc": "^3.1.5",
     "cz-conventional-changelog": "^3.3.0",
