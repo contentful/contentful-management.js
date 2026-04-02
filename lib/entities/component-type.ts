@@ -2,14 +2,8 @@ import type { Except } from 'type-fest'
 import type { CursorPaginationParams, Link, MetadataProps, SysLink } from '../common-types'
 
 // Query options for getMany - cursor-based pagination with filters
-export type ComponentTypeQueryOptions = {
-  limit?: number
-  pageNext?: string
-  pagePrev?: string
+export type ComponentTypeQueryOptions = CursorPaginationParams & {
   order?: string
-  'sys.id[in]'?: string
-  'metadata.tags.sys.id[in]'?: string
-  'metadata.tags.sys.id[all]'?: string
   [key: string]: unknown
 }
 
