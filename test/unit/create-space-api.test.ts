@@ -18,6 +18,7 @@ import {
   teamSpaceMembershipMock,
   userMock,
   webhookMock,
+  eligibleLicenseMock,
 } from './mocks/entities'
 import {
   makeCreateEntityTest,
@@ -640,5 +641,19 @@ describe('A createSpaceApi', () => {
     const { api } = setup(Promise.reject(error))
 
     await expect(api.updateSpaceAddOnAllocations(allocations)).rejects.toEqual(error)
+  })
+
+  test('API call getEligibleLicenses', async () => {
+    await makeGetCollectionTest(setup, {
+      entityType: 'eligibleLicense',
+      mockToReturn: eligibleLicenseMock,
+      methodToTest: 'getEligibleLicenses',
+    })
+  })
+
+  test('API call getEligibleLicenses fails', async () => {
+    await makeEntityMethodFailingTest(setup, {
+      methodToTest: 'getEligibleLicenses',
+    })
   })
 })
