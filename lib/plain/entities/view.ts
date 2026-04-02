@@ -6,6 +6,7 @@ import type {
 import type {
   CreateViewProps,
   UpdateViewProps,
+  ViewLocalePublishPayload,
   ViewProps,
   ViewQueryOptions,
 } from '../../entities/view'
@@ -114,22 +115,49 @@ export type ViewPlainClientAPI = {
   delete(params: OptionalDefaults<GetViewParams>): Promise<void>
 
   /**
-   * Publishes a view
+   * Publishes a view, optionally targeting specific locales.
+   *
+   * When called without a payload, the view is fully published across all locales.
+   * Pass `{ add: ['en-US'] }` to publish specific locales, or `{ remove: ['de-DE'] }`
+   * to remove specific locales from an already-published view.
+   * The payload is a union — only `add` or `remove` can be sent per request, not both.
+   *
    * @param params the space ID, environment ID, view ID, and the version number
+   * @param payload optional locale-based publish payload
    * @returns the published view
    * @throws if the request fails, or the view is not found
    * @internal - Experimental endpoint, subject to breaking changes without notice
    * @example
    * ```javascript
+   * // Full publish (all locales)
    * const view = await client.view.publish({
    *   spaceId: '<space_id>',
    *   environmentId: '<environment_id>',
    *   viewId: '<view_id>',
-   *   version: <version>,
+   *   version: 1,
    * });
+   *
+   * // Publish specific locales
+   * const view = await client.view.publish({
+   *   spaceId: '<space_id>',
+   *   environmentId: '<environment_id>',
+   *   viewId: '<view_id>',
+   *   version: 1,
+   * }, { add: ['en-US', 'de-DE'] });
+   *
+   * // Remove specific locales from publishing
+   * const view = await client.view.publish({
+   *   spaceId: '<space_id>',
+   *   environmentId: '<environment_id>',
+   *   viewId: '<view_id>',
+   *   version: 1,
+   * }, { remove: ['de-DE'] });
    * ```
    */
-  publish(params: OptionalDefaults<GetViewParams & { version: number }>): Promise<ViewProps>
+  publish(
+    params: OptionalDefaults<GetViewParams & { version: number }>,
+    payload?: ViewLocalePublishPayload,
+  ): Promise<ViewProps>
 
   /**
    * Unpublishes a view

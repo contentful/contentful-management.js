@@ -129,6 +129,75 @@ describe('Rest View', { concurrent: true }, () => {
         expect(httpMock.put.mock.calls[0][0]).to.eql(
           '/spaces/space123/environments/master/experiences/view123/published',
         )
+        expect(httpMock.put.mock.calls[0][1]).to.eql(null)
+        expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(1)
+      })
+  })
+
+  test('publish with locale add payload sends correct body', async () => {
+    const mockResponse = {
+      sys: {
+        id: 'view123',
+        type: 'Experience',
+        version: 2,
+      },
+    }
+
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'View',
+        action: 'publish',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+          viewId: 'view123',
+          version: 1,
+        },
+        payload: { add: ['en-US', 'de-DE'] },
+      })
+      .then((r) => {
+        expect(r).to.eql(mockResponse)
+        expect(httpMock.put.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/experiences/view123/published',
+        )
+        expect(httpMock.put.mock.calls[0][1]).to.eql({ add: ['en-US', 'de-DE'] })
+        expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(1)
+      })
+  })
+
+  test('publish with locale remove payload sends correct body', async () => {
+    const mockResponse = {
+      sys: {
+        id: 'view123',
+        type: 'Experience',
+        version: 2,
+      },
+    }
+
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'View',
+        action: 'publish',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+          viewId: 'view123',
+          version: 1,
+        },
+        payload: { remove: ['de-DE'] },
+      })
+      .then((r) => {
+        expect(r).to.eql(mockResponse)
+        expect(httpMock.put.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/experiences/view123/published',
+        )
+        expect(httpMock.put.mock.calls[0][1]).to.eql({ remove: ['de-DE'] })
         expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(1)
       })
   })
