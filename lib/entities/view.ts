@@ -43,7 +43,7 @@ type ViewCommonProps = {
   dimensionKeyMap: ViewDimensionKeyMap
   contentBindings?: ViewContentBindings
   metadata?: Pick<MetadataProps, 'tags'>
-  slots?: Record<string, ViewNode[]>
+  slots?: Record<string, Array<ViewNode | InlineFragmentNode>>
 }
 
 export type ViewProps = ViewCommonProps & {
@@ -65,3 +65,12 @@ export type CreateViewProps = ViewCommonProps & {
 }
 
 export type UpdateViewProps = ViewProps
+
+export type InlineFragmentNode = {
+  id: string
+  nodeType: 'InlineFragment'
+  componentTypeId: string
+  designProperties: Record<string, DesignPropertyValue>
+  contentBindings?: ViewContentBindings
+  slots?: Record<string, Array<ViewNode | InlineFragmentNode>>
+}
