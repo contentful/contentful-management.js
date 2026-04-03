@@ -9,6 +9,8 @@ export type DataAssemblyDataTypeField = {
 }
 
 export type DataAssemblyLinkParameter = {
+  name?: string
+  description?: string
   type: 'Link'
   linkType: string
   allowedContentTypes: string[]
