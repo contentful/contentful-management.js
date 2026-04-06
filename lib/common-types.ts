@@ -2899,6 +2899,8 @@ export type GetCommentParams = (GetEntryParams | GetCommentParentEntityParams) &
 export type GetComponentTypeParams = GetSpaceEnvironmentParams & { componentTypeId: string }
 export type GetViewParams = GetSpaceEnvironmentParams & { viewId: string }
 export type GetDataAssemblyParams = GetSpaceEnvironmentParams & { dataAssemblyId: string }
+/** @internal */
+export type GetTemplateParams = GetSpaceEnvironmentParams & { templateId: string }
 export type GetContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 /** @internal */
 export type GetEditorInterfaceParams = GetSpaceEnvironmentParams & { contentTypeId: string }
