@@ -627,6 +627,7 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'ComponentType', 'unpublish', UA>): MRReturn<'ComponentType', 'unpublish'>
 
   (opts: MROpts<'Template', 'getMany', UA>): MRReturn<'Template', 'getMany'>
+  (opts: MROpts<'Template', 'get', UA>): MRReturn<'Template', 'get'>
 
   (opts: MROpts<'Concept', 'get', UA>): MRReturn<'Concept', 'get'>
   (opts: MROpts<'Concept', 'getMany', UA>): MRReturn<'Concept', 'getMany'>
@@ -1665,6 +1666,10 @@ export type MRActions = {
     getMany: {
       params: GetSpaceEnvironmentParams & { query: TemplateQueryOptions }
       return: CursorPaginatedCollectionProp<TemplateProps>
+    }
+    get: {
+      params: GetTemplateParams
+      return: TemplateProps
     }
   }
   Concept: {

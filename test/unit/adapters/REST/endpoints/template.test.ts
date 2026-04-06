@@ -98,4 +98,31 @@ describe('Rest Template', { concurrent: true }, () => {
         })
       })
   })
+
+  test('get calls correct URL', async () => {
+    const mockResponse = {
+      sys: { id: 'template123', type: 'Template' },
+      name: 'Test Template',
+    }
+
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'Template',
+        action: 'get',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+          templateId: 'template123',
+        },
+      })
+      .then((r) => {
+        expect(r).to.eql(mockResponse)
+        expect(httpMock.get.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/templates/template123',
+        )
+      })
+  })
 })

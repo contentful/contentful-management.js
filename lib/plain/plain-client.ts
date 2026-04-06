@@ -248,6 +248,7 @@ export const createPlainClient = (
     },
     template: {
       getMany: wrap(wrapParams, 'Template', 'getMany'),
+      get: wrap(wrapParams, 'Template', 'get'),
     },
     contentType: {
       get: wrap(wrapParams, 'ContentType', 'get'),
