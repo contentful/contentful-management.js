@@ -626,9 +626,6 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'ComponentType', 'publish', UA>): MRReturn<'ComponentType', 'publish'>
   (opts: MROpts<'ComponentType', 'unpublish', UA>): MRReturn<'ComponentType', 'unpublish'>
 
-  (opts: MROpts<'Template', 'getMany', UA>): MRReturn<'Template', 'getMany'>
-  (opts: MROpts<'Template', 'get', UA>): MRReturn<'Template', 'get'>
-
   (opts: MROpts<'Concept', 'get', UA>): MRReturn<'Concept', 'get'>
   (opts: MROpts<'Concept', 'getMany', UA>): MRReturn<'Concept', 'getMany'>
   (opts: MROpts<'Concept', 'getTotal', UA>): MRReturn<'Concept', 'getTotal'>
@@ -935,6 +932,9 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'TeamSpaceMembership', 'create', UA>): MRReturn<'TeamSpaceMembership', 'create'>
   (opts: MROpts<'TeamSpaceMembership', 'update', UA>): MRReturn<'TeamSpaceMembership', 'update'>
   (opts: MROpts<'TeamSpaceMembership', 'delete', UA>): MRReturn<'TeamSpaceMembership', 'delete'>
+
+  (opts: MROpts<'Template', 'getMany', UA>): MRReturn<'Template', 'getMany'>
+  (opts: MROpts<'Template', 'get', UA>): MRReturn<'Template', 'get'>
 
   (opts: MROpts<'UIConfig', 'get', UA>): MRReturn<'UIConfig', 'get'>
   (opts: MROpts<'UIConfig', 'update', UA>): MRReturn<'UIConfig', 'update'>
@@ -1660,16 +1660,6 @@ export type MRActions = {
     unpublish: {
       params: GetComponentTypeParams & { version: number }
       return: ComponentTypeProps
-    }
-  }
-  Template: {
-    getMany: {
-      params: GetSpaceEnvironmentParams & { query: TemplateQueryOptions }
-      return: CursorPaginatedCollectionProp<TemplateProps>
-    }
-    get: {
-      params: GetTemplateParams
-      return: TemplateProps
     }
   }
   Concept: {
@@ -2625,6 +2615,16 @@ export type MRActions = {
       return: TeamSpaceMembershipProps
     }
     delete: { params: GetTeamSpaceMembershipParams; return: any }
+  }
+  Template: {
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query: TemplateQueryOptions }
+      return: CursorPaginatedCollectionProp<TemplateProps>
+    }
+    get: {
+      params: GetTemplateParams
+      return: TemplateProps
+    }
   }
   UIConfig: {
     get: { params: GetUIConfigParams; return: UIConfigProps }

@@ -246,10 +246,6 @@ export const createPlainClient = (
       publish: wrap(wrapParams, 'ComponentType', 'publish'),
       unpublish: wrap(wrapParams, 'ComponentType', 'unpublish'),
     },
-    template: {
-      getMany: wrap(wrapParams, 'Template', 'getMany'),
-      get: wrap(wrapParams, 'Template', 'get'),
-    },
     contentType: {
       get: wrap(wrapParams, 'ContentType', 'get'),
       getMany: wrap(wrapParams, 'ContentType', 'getMany'),
@@ -630,6 +626,10 @@ export const createPlainClient = (
       create: wrap(wrapParams, 'TeamSpaceMembership', 'create'),
       update: wrap(wrapParams, 'TeamSpaceMembership', 'update'),
       delete: wrap(wrapParams, 'TeamSpaceMembership', 'delete'),
+    },
+    template: {
+      getMany: wrap(wrapParams, 'Template', 'getMany'),
+      get: wrap(wrapParams, 'Template', 'get'),
     },
     uiConfig: {
       get: wrap(wrapParams, 'UIConfig', 'get'),

@@ -125,6 +125,7 @@ import type { TaskPlainClientAPI } from './entities/task'
 import type { TeamPlainClientAPI } from './entities/team'
 import type { TeamMembershipPlainClientAPI } from './entities/team-membership'
 import type { TeamSpaceMembershipPlainClientAPI } from './entities/team-space-membership'
+import type { TemplatePlainClientAPI } from './entities/template'
 import type { UIConfigPlainClientAPI } from './entities/ui-config'
 import type { UploadPlainClientAPI } from './entities/upload'
 import type { UploadCredentialAPI } from './entities/upload-credential'
@@ -151,7 +152,6 @@ import type { SemanticSearchPlainClientAPI } from './entities/semantic-search'
 import type { SemanticSettingsPlainClientAPI } from './entities/semantic-settings'
 import type { ContentSemanticsIndexPlainClientAPI } from './entities/content-semantics-index'
 import type { ComponentTypePlainClientAPI } from './entities/component-type'
-import type { TemplatePlainClientAPI } from './entities/template'
 import type { DataAssemblyPlainClientAPI } from './entities/data-assembly'
 import type { ViewPlainClientAPI } from './entities/view'
 
@@ -287,7 +287,6 @@ export type PlainClientAPI = {
   }
   comment: CommentPlainClientAPI
   componentType: ComponentTypePlainClientAPI
-  template: TemplatePlainClientAPI
   dataAssembly: DataAssemblyPlainClientAPI
   concept: ConceptPlainClientAPI
   conceptScheme: ConceptSchemePlainClientAPI
@@ -731,6 +730,7 @@ export type PlainClientAPI = {
   team: TeamPlainClientAPI
   teamMembership: TeamMembershipPlainClientAPI
   teamSpaceMembership: TeamSpaceMembershipPlainClientAPI
+  template: TemplatePlainClientAPI
   uiConfig: UIConfigPlainClientAPI
   userUIConfig: UserUIConfigPlainClientAPI
   workflowDefinition: WorkflowDefinitionPlainClientAPI
