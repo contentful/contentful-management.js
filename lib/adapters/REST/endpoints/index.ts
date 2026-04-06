@@ -69,6 +69,7 @@ import * as Task from './task'
 import * as Team from './team'
 import * as TeamMembership from './team-membership'
 import * as TeamSpaceMembership from './team-space-membership'
+import * as Template from './template'
 import * as UIConfig from './ui-config'
 import * as Upload from './upload'
 import * as View from './view'
@@ -153,6 +154,7 @@ export default {
   Team,
   TeamMembership,
   TeamSpaceMembership,
+  Template,
   UIConfig,
   Upload,
   UploadCredential,

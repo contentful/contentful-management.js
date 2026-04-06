@@ -151,6 +151,7 @@ import type { SemanticSearchPlainClientAPI } from './entities/semantic-search'
 import type { SemanticSettingsPlainClientAPI } from './entities/semantic-settings'
 import type { ContentSemanticsIndexPlainClientAPI } from './entities/content-semantics-index'
 import type { ComponentTypePlainClientAPI } from './entities/component-type'
+import type { TemplatePlainClientAPI } from './entities/template'
 import type { DataAssemblyPlainClientAPI } from './entities/data-assembly'
 import type { ViewPlainClientAPI } from './entities/view'
 
@@ -286,6 +287,7 @@ export type PlainClientAPI = {
   }
   comment: CommentPlainClientAPI
   componentType: ComponentTypePlainClientAPI
+  template: TemplatePlainClientAPI
   dataAssembly: DataAssemblyPlainClientAPI
   concept: ConceptPlainClientAPI
   conceptScheme: ConceptSchemePlainClientAPI

@@ -66,6 +66,7 @@ import type {
   CreateComponentTypeProps,
   UpdateComponentTypeProps,
 } from './entities/component-type'
+import type { TemplateProps, TemplateQueryOptions } from './entities/template'
 import type {
   CreateViewProps,
   UpdateViewProps,
@@ -624,6 +625,8 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'ComponentType', 'delete', UA>): MRReturn<'ComponentType', 'delete'>
   (opts: MROpts<'ComponentType', 'publish', UA>): MRReturn<'ComponentType', 'publish'>
   (opts: MROpts<'ComponentType', 'unpublish', UA>): MRReturn<'ComponentType', 'unpublish'>
+
+  (opts: MROpts<'Template', 'getMany', UA>): MRReturn<'Template', 'getMany'>
 
   (opts: MROpts<'Concept', 'get', UA>): MRReturn<'Concept', 'get'>
   (opts: MROpts<'Concept', 'getMany', UA>): MRReturn<'Concept', 'getMany'>
@@ -1656,6 +1659,12 @@ export type MRActions = {
     unpublish: {
       params: GetComponentTypeParams & { version: number }
       return: ComponentTypeProps
+    }
+  }
+  Template: {
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query: TemplateQueryOptions }
+      return: CursorPaginatedCollectionProp<TemplateProps>
     }
   }
   Concept: {
