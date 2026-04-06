@@ -1,7 +1,7 @@
 import copy from 'fast-copy'
 import { toPlainObject } from 'contentful-sdk-core'
 import { wrapCollection } from '../common-utils'
-import type { DefaultElements } from '../common-types'
+import type { DefaultElements, MakeRequest } from '../common-types'
 
 /**
  * Available License quota information
@@ -47,10 +47,11 @@ export interface AvailableLicense
 /**
  * @internal
  * Wraps the raw available license data
+ * @param makeRequest - function to make requests via an adapter
  * @param data - Raw available license data
  * @returns Wrapped available license data
  */
-export function wrapAvailableLicense(data: AvailableLicenseProps): AvailableLicense {
+export function wrapAvailableLicense(makeRequest: MakeRequest, data: AvailableLicenseProps): AvailableLicense {
   return toPlainObject(copy(data))
 }
 

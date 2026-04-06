@@ -1713,7 +1713,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
           spaceId: raw.sys.id,
           query: createRequestConfig({ query }).params,
         },
-      }).then((data) => wrapEligibleLicenseCollection(data))
+      }).then((data) => wrapEligibleLicenseCollection(makeRequest, data))
     },
 
     /**
