@@ -633,6 +633,8 @@ export const createPlainClient = (
       create: wrap(wrapParams, 'Template', 'create'),
       update: wrap(wrapParams, 'Template', 'update'),
       delete: wrap(wrapParams, 'Template', 'delete'),
+      publish: wrap(wrapParams, 'Template', 'publish'),
+      unpublish: wrap(wrapParams, 'Template', 'unpublish'),
     },
     uiConfig: {
       get: wrap(wrapParams, 'UIConfig', 'get'),

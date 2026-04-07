@@ -113,4 +113,24 @@ export type TemplatePlainClientAPI = {
    * ```
    */
   delete(params: OptionalDefaults<GetTemplateParams>): Promise<void>
+
+  /**
+   * Publishes a template
+   * @param params the space, environment, and template IDs, plus the current version for optimistic locking
+   * @returns the published template
+   * @throws if the request fails, or the space, environment, or template is not found
+   * @internal - Experimental endpoint, subject to breaking changes without notice
+   */
+  publish(params: OptionalDefaults<GetTemplateParams & { version: number }>): Promise<TemplateProps>
+
+  /**
+   * Unpublishes a template
+   * @param params the space, environment, and template IDs, plus the current version for optimistic locking
+   * @returns the unpublished template
+   * @throws if the request fails, or the space, environment, or template is not found
+   * @internal - Experimental endpoint, subject to breaking changes without notice
+   */
+  unpublish(
+    params: OptionalDefaults<GetTemplateParams & { version: number }>,
+  ): Promise<TemplateProps>
 }

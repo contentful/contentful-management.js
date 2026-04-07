@@ -72,3 +72,34 @@ export const del: RestEndpoint<'Template', 'delete'> = (
 ) => {
   return raw.del(http, getBaseUrl(params) + `/${params.templateId}`)
 }
+
+export const publish: RestEndpoint<'Template', 'publish'> = (
+  http: AxiosInstance,
+  params: GetTemplateParams & { version: number },
+  headers?: RawAxiosRequestHeaders,
+) => {
+  return raw.put<TemplateProps>(
+    http,
+    getBaseUrl(params) + `/${params.templateId}/published`,
+    null,
+    {
+      headers: {
+        'X-Contentful-Version': params.version,
+        ...headers,
+      },
+    },
+  )
+}
+
+export const unpublish: RestEndpoint<'Template', 'unpublish'> = (
+  http: AxiosInstance,
+  params: GetTemplateParams & { version: number },
+  headers?: RawAxiosRequestHeaders,
+) => {
+  return raw.del<TemplateProps>(http, getBaseUrl(params) + `/${params.templateId}/published`, {
+    headers: {
+      'X-Contentful-Version': params.version,
+      ...headers,
+    },
+  })
+}
