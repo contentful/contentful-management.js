@@ -80,7 +80,7 @@ export type TemplatePlainClientAPI = {
   /**
    * Updates a template (upsert)
    * @param params the space, environment, and template IDs
-   * @param data the template data (including sys.version for optimistic locking)
+   * @param data the template data (including sys.version)
    * @returns the updated template
    * @throws if the request fails, or the space, environment, or template is not found
    * @internal - Experimental endpoint, subject to breaking changes without notice
@@ -116,7 +116,7 @@ export type TemplatePlainClientAPI = {
 
   /**
    * Publishes a template
-   * @param params the space, environment, and template IDs, plus the current version for optimistic locking
+   * @param params the space, environment, and template IDs, plus the current version
    * @returns the published template
    * @throws if the request fails, or the space, environment, or template is not found
    * @internal - Experimental endpoint, subject to breaking changes without notice
@@ -125,7 +125,7 @@ export type TemplatePlainClientAPI = {
 
   /**
    * Unpublishes a template
-   * @param params the space, environment, and template IDs, plus the current version for optimistic locking
+   * @param params the space, environment, and template IDs, plus the current version
    * @returns the unpublished template
    * @throws if the request fails, or the space, environment, or template is not found
    * @internal - Experimental endpoint, subject to breaking changes without notice
