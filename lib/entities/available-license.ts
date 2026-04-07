@@ -51,7 +51,10 @@ export interface AvailableLicense
  * @param data - Raw available license data
  * @returns Wrapped available license data
  */
-export function wrapAvailableLicense(makeRequest: MakeRequest, data: AvailableLicenseProps): AvailableLicense {
+export function wrapAvailableLicense(
+  makeRequest: MakeRequest,
+  data: AvailableLicenseProps,
+): AvailableLicense {
   return toPlainObject(copy(data))
 }
 

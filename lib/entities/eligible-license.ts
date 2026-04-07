@@ -65,7 +65,10 @@ export interface EligibleLicense
  * @param data - Raw eligible license data
  * @returns Wrapped eligible license data
  */
-export function wrapEligibleLicense(makeRequest: MakeRequest, data: EligibleLicenseProps): EligibleLicense {
+export function wrapEligibleLicense(
+  makeRequest: MakeRequest,
+  data: EligibleLicenseProps,
+): EligibleLicense {
   return toPlainObject(copy(data))
 }
 

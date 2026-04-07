@@ -1,9 +1,5 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import type {
-  CollectionProp,
-  GetOrganizationParams,
-  QueryParams,
-} from '../../../common-types'
+import type { CollectionProp, GetOrganizationParams, QueryParams } from '../../../common-types'
 import type { AvailableLicenseProps } from '../../../entities/available-license'
 import type { RestEndpoint } from '../types'
 import * as raw from './raw'
