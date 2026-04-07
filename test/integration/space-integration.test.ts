@@ -35,4 +35,22 @@ describe('Space API', () => {
       space.delete()
     })
   })
+
+  it('calls unarchive space correctly', async () => {
+    const space = await defaultClient.createSpace(
+      {
+        name: 'test space for unarchive',
+        productId: INTERNAL_PRODUCT_ID,
+        defaultLocale: 'en',
+      },
+      organization.sys.id,
+    )
+    try {
+      await space.unarchive(INTERNAL_PRODUCT_ID)
+    } catch (e) {
+      expect((e as { name: string }).name).toEqual('ValidationFailed')
+    } finally {
+      await space.delete()
+    }
+  })
 })

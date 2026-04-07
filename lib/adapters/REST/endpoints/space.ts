@@ -8,7 +8,7 @@ import type {
   GetSpaceParams,
   QueryParams,
 } from '../../../common-types'
-import type { SpaceProps } from '../../../entities/space'
+import type { SpaceProps, UnarchiveProps } from '../../../entities/space'
 import type { RestEndpoint } from '../types'
 import * as raw from './raw'
 
@@ -58,6 +58,17 @@ export const update: RestEndpoint<'Space', 'update'> = (
       'X-Contentful-Version': rawData.sys.version ?? 0,
       ...headers,
     },
+  })
+}
+
+export const unarchive: RestEndpoint<'Space', 'unarchive'> = (
+  http: AxiosInstance,
+  params: GetSpaceParams,
+  data: UnarchiveProps,
+  headers?: RawAxiosRequestHeaders,
+) => {
+  return raw.post<SpaceProps>(http, `/spaces/${params.spaceId}/unarchive`, data, {
+    headers,
   })
 }
 
