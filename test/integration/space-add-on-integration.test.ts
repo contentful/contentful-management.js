@@ -55,6 +55,7 @@ describe('Space Add-On API', () => {
       const license = response.items[0]
       expect(license.id).toBeDefined()
       expect(license.name).toBeDefined()
+      expect(typeof license.count).toBe('number')
       expect(license.quotas).toBeDefined()
       expect(license.requiredAddOnAllocation).toBeDefined()
     }
