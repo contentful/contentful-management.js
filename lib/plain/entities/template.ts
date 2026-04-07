@@ -7,6 +7,7 @@ import type {
   CreateTemplateProps,
   TemplateProps,
   TemplateQueryOptions,
+  UpdateTemplateProps,
 } from '../../entities/template'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
@@ -60,6 +61,19 @@ export type TemplatePlainClientAPI = {
   create(
     params: OptionalDefaults<GetSpaceEnvironmentParams>,
     data: CreateTemplateProps,
+  ): Promise<TemplateProps>
+
+  /**
+   * Updates a template (upsert)
+   * @param params the space, environment, and template IDs
+   * @param data the template data (including sys.version for optimistic locking)
+   * @returns the updated template
+   * @throws if the request fails, or the space, environment, or template is not found
+   * @internal - Experimental endpoint, subject to breaking changes without notice
+   */
+  update(
+    params: OptionalDefaults<GetTemplateParams>,
+    data: UpdateTemplateProps,
   ): Promise<TemplateProps>
 
   /**

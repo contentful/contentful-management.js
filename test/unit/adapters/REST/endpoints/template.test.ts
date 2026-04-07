@@ -153,6 +153,38 @@ describe('Rest Template', { concurrent: true }, () => {
       })
   })
 
+  test('update calls correct URL with PUT and X-Contentful-Version header', async () => {
+    const mockResponse = {
+      sys: { id: 'template123', type: 'Template', version: 2 },
+      name: 'Updated Template',
+    }
+
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'Template',
+        action: 'update',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+          templateId: 'template123',
+        },
+        payload: {
+          sys: { id: 'template123', type: 'Template', version: 1 },
+          name: 'Updated Template',
+        },
+      })
+      .then((r) => {
+        expect(r).to.eql(mockResponse)
+        expect(httpMock.put.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/templates/template123',
+        )
+        expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(1)
+      })
+  })
+
   test('delete calls correct URL', async () => {
     const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: '' }))
 
