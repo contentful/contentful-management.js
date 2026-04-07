@@ -66,7 +66,7 @@ import type {
   CreateComponentTypeProps,
   UpdateComponentTypeProps,
 } from './entities/component-type'
-import type { TemplateProps, TemplateQueryOptions } from './entities/template'
+import type { CreateTemplateProps, TemplateProps, TemplateQueryOptions } from './entities/template'
 import type {
   CreateViewProps,
   UpdateViewProps,
@@ -935,6 +935,8 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'Template', 'getMany', UA>): MRReturn<'Template', 'getMany'>
   (opts: MROpts<'Template', 'get', UA>): MRReturn<'Template', 'get'>
+  (opts: MROpts<'Template', 'create', UA>): MRReturn<'Template', 'create'>
+  (opts: MROpts<'Template', 'delete', UA>): MRReturn<'Template', 'delete'>
 
   (opts: MROpts<'UIConfig', 'get', UA>): MRReturn<'UIConfig', 'get'>
   (opts: MROpts<'UIConfig', 'update', UA>): MRReturn<'UIConfig', 'update'>
@@ -2624,6 +2626,15 @@ export type MRActions = {
     get: {
       params: GetTemplateParams
       return: TemplateProps
+    }
+    create: {
+      params: GetSpaceEnvironmentParams
+      payload: CreateTemplateProps
+      return: TemplateProps
+    }
+    delete: {
+      params: GetTemplateParams
+      return: void
     }
   }
   UIConfig: {

@@ -630,6 +630,8 @@ export const createPlainClient = (
     template: {
       getMany: wrap(wrapParams, 'Template', 'getMany'),
       get: wrap(wrapParams, 'Template', 'get'),
+      create: wrap(wrapParams, 'Template', 'create'),
+      delete: wrap(wrapParams, 'Template', 'delete'),
     },
     uiConfig: {
       get: wrap(wrapParams, 'UIConfig', 'get'),

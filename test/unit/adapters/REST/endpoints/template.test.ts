@@ -125,4 +125,52 @@ describe('Rest Template', { concurrent: true }, () => {
         )
       })
   })
+
+  test('create calls correct URL with POST', async () => {
+    const mockResponse = {
+      sys: { id: 'template123', type: 'Template' },
+      name: 'New Template',
+    }
+
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'Template',
+        action: 'create',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+        },
+        payload: { name: 'New Template' },
+      })
+      .then((r) => {
+        expect(r).to.eql(mockResponse)
+        expect(httpMock.post.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/templates',
+        )
+      })
+  })
+
+  test('delete calls correct URL', async () => {
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: '' }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'Template',
+        action: 'delete',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+          templateId: 'template123',
+        },
+      })
+      .then(() => {
+        expect(httpMock.delete.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/templates/template123',
+        )
+      })
+  })
 })

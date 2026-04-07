@@ -3,7 +3,11 @@ import type {
   GetSpaceEnvironmentParams,
   GetTemplateParams,
 } from '../../common-types'
-import type { TemplateProps, TemplateQueryOptions } from '../../entities/template'
+import type {
+  CreateTemplateProps,
+  TemplateProps,
+  TemplateQueryOptions,
+} from '../../entities/template'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type TemplatePlainClientAPI = {
@@ -44,4 +48,25 @@ export type TemplatePlainClientAPI = {
    * ```
    */
   get(params: OptionalDefaults<GetTemplateParams>): Promise<TemplateProps>
+
+  /**
+   * Creates a new template
+   * @param params the space and environment IDs
+   * @param data the template data
+   * @returns the created template
+   * @throws if the request fails, or the space or environment is not found
+   * @internal - Experimental endpoint, subject to breaking changes without notice
+   */
+  create(
+    params: OptionalDefaults<GetSpaceEnvironmentParams>,
+    data: CreateTemplateProps,
+  ): Promise<TemplateProps>
+
+  /**
+   * Deletes a template
+   * @param params the space, environment, and template IDs
+   * @throws if the request fails, or the space, environment, or template is not found
+   * @internal - Experimental endpoint, subject to breaking changes without notice
+   */
+  delete(params: OptionalDefaults<GetTemplateParams>): Promise<void>
 }
