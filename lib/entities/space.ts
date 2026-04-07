@@ -11,6 +11,10 @@ export type SpaceProps = {
   name: string
 }
 
+export type UnarchiveProps = {
+  productId: string
+}
+
 export type Space = SpaceProps & DefaultElements<SpaceProps> & ContentfulSpaceAPI
 
 /**

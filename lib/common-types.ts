@@ -97,7 +97,7 @@ import type {
 import type { CreateRoleProps, RoleProps } from './entities/role'
 import type { ScheduledActionProps } from './entities/scheduled-action'
 import type { SnapshotProps } from './entities/snapshot'
-import type { SpaceProps } from './entities/space'
+import type { SpaceProps, UnarchiveProps } from './entities/space'
 import type { SpaceAddOnProps, UpdateSpaceAddOnAllocationProps } from './entities/space-add-on'
 import type { SpaceMemberProps } from './entities/space-member'
 import type { CreateSpaceMembershipProps, SpaceMembershipProps } from './entities/space-membership'
@@ -829,6 +829,7 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Space', 'getManyForOrganization', UA>): MRReturn<'Space', 'getManyForOrganization'>
   (opts: MROpts<'Space', 'create', UA>): MRReturn<'Space', 'create'>
   (opts: MROpts<'Space', 'update', UA>): MRReturn<'Space', 'update'>
+  (opts: MROpts<'Space', 'unarchive', UA>): MRReturn<'Space', 'unarchive'>
   (opts: MROpts<'Space', 'delete', UA>): MRReturn<'Space', 'delete'>
 
   (opts: MROpts<'SpaceMember', 'get', UA>): MRReturn<'SpaceMember', 'get'>
@@ -2350,6 +2351,12 @@ export type MRActions = {
     update: {
       params: GetSpaceParams
       payload: SpaceProps
+      headers?: RawAxiosRequestHeaders
+      return: SpaceProps
+    }
+    unarchive: {
+      params: GetSpaceParams
+      payload: UnarchiveProps
       headers?: RawAxiosRequestHeaders
       return: SpaceProps
     }
