@@ -80,7 +80,7 @@ export type ViewPlainClientAPI = {
   ): Promise<ViewProps>
 
   /**
-   * Updates a view
+   * Updates a view with PUT
    * @param params the space ID, environment ID, and view ID
    * @param rawData the view data to update (must include sys.version)
    * @returns the updated view

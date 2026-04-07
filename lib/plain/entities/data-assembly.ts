@@ -82,7 +82,7 @@ export type DataAssemblyPlainClientAPI = {
   ): Promise<DataAssemblyProps>
 
   /**
-   * Updates a data assembly
+   * Updates a data assembly with PUT
    * @param params the space, environment, and data assembly IDs
    * @param rawData the data assembly data to update (must include sys.version)
    * @param headers optional custom headers
