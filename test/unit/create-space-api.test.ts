@@ -644,16 +644,21 @@ describe('A createSpaceApi', () => {
   })
 
   test('API call getEligibleLicenses', async () => {
-    await makeGetCollectionTest(setup, {
-      entityType: 'eligibleLicense',
-      mockToReturn: eligibleLicenseMock,
-      methodToTest: 'getEligibleLicenses',
-    })
+    const responseData = mockCollection(eligibleLicenseMock)
+    const { api, makeRequest, entitiesMock } = setup(Promise.resolve(responseData))
+    entitiesMock.eligibleLicense.wrapEligibleLicenseCollection.mockReturnValue(responseData)
+
+    const result = await api.getEligibleLicenses({ limit: 10, skip: 0 })
+
+    expect(result).toEqual(responseData)
+    expect(makeRequest.mock.calls[0][0].entityType).toBe('EligibleLicense')
+    expect(makeRequest.mock.calls[0][0].action).toBe('getMany')
   })
 
   test('API call getEligibleLicenses fails', async () => {
-    await makeEntityMethodFailingTest(setup, {
-      methodToTest: 'getEligibleLicenses',
-    })
+    const error = cloneMock('error')
+    const { api } = setup(Promise.reject(error))
+
+    await expect(api.getEligibleLicenses()).rejects.toEqual(error)
   })
 })
