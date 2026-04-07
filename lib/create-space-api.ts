@@ -107,6 +107,34 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
       }).then((data) => wrapSpace(makeRequest, data))
     },
     /**
+     * Unarchives the space
+     * @returns Promise for the unarchived space.
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => {
+     *   return space.unarchive({productId: 'id'})
+     * })
+     * .then((space) => console.log(`Space ${space.sys.id} unarchived.`)
+     * .catch(console.error)
+     * ```
+     */
+    unarchive: function unarchiveSpace(productId: string) {
+      const raw = this.toPlainObject() as SpaceProps
+      return makeRequest({
+        entityType: 'Space',
+        action: 'unarchive',
+        params: { spaceId: raw.sys.id },
+        payload: { productId },
+        headers: {},
+      }).then((data) => wrapSpace(makeRequest, data))
+    },
+    /**
      * Gets an environment
      * @param id - Environment ID
      * @returns Promise for an Environment
