@@ -36,6 +36,7 @@ import type {
   CreateAssetProps,
 } from './entities/asset'
 import type { AssetKeyProps, CreateAssetKeyProps } from './entities/asset-key'
+import type { AvailableLicenseProps } from './entities/available-license'
 import type {
   BulkActionProps,
   BulkActionPublishPayload,
@@ -63,6 +64,7 @@ import type {
 import type { ComponentTypeProps, ComponentTypeQueryOptions } from './entities/component-type'
 import type { ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
 import type { EditorInterfaceProps } from './entities/editor-interface'
+import type { EligibleLicenseProps } from './entities/eligible-license'
 import type { CreateEntryProps, EntryProps, EntryReferenceProps } from './entities/entry'
 import type { CreateEnvironmentProps, EnvironmentProps } from './entities/environment'
 import type {
@@ -580,6 +582,8 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'AssetKey', 'create', UA>): MRReturn<'AssetKey', 'create'>
 
+  (opts: MROpts<'AvailableLicense', 'getMany', UA>): MRReturn<'AvailableLicense', 'getMany'>
+
   (opts: MROpts<'BulkAction', 'get', UA>): MRReturn<'BulkAction', 'get'>
   (opts: MROpts<'BulkAction', 'publish', UA>): MRReturn<'BulkAction', 'publish'>
   (opts: MROpts<'BulkAction', 'unpublish', UA>): MRReturn<'BulkAction', 'unpublish'>
@@ -632,6 +636,8 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'EditorInterface', 'get', UA>): MRReturn<'EditorInterface', 'get'>
   (opts: MROpts<'EditorInterface', 'getMany', UA>): MRReturn<'EditorInterface', 'getMany'>
   (opts: MROpts<'EditorInterface', 'update', UA>): MRReturn<'EditorInterface', 'update'>
+
+  (opts: MROpts<'EligibleLicense', 'getMany', UA>): MRReturn<'EligibleLicense', 'getMany'>
 
   (opts: MROpts<'Environment', 'get', UA>): MRReturn<'Environment', 'get'>
   (opts: MROpts<'Environment', 'getMany', UA>): MRReturn<'Environment', 'getMany'>
@@ -1496,6 +1502,12 @@ export type MRActions = {
       return: AssetKeyProps
     }
   }
+  AvailableLicense: {
+    getMany: {
+      params: GetOrganizationParams & QueryParams
+      return: CollectionProp<AvailableLicenseProps>
+    }
+  }
   BulkAction: {
     get: {
       params: GetBulkActionParams
@@ -1717,6 +1729,12 @@ export type MRActions = {
       payload: EditorInterfaceProps
       headers?: RawAxiosRequestHeaders
       return: EditorInterfaceProps
+    }
+  }
+  EligibleLicense: {
+    getMany: {
+      params: GetSpaceParams & QueryParams
+      return: CollectionProp<EligibleLicenseProps>
     }
   }
   Environment: {

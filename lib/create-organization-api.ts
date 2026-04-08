@@ -39,6 +39,7 @@ import { wrapAppEventSubscription } from './entities/app-event-subscription'
 import { wrapAppKey, wrapAppKeyCollection } from './entities/app-key'
 import { wrapAppDetails } from './entities/app-details'
 import { wrapAppAction, wrapAppActionCollection } from './entities/app-action'
+import { wrapAvailableLicenseCollection } from './entities/available-license'
 import { wrapFunction, wrapFunctionCollection } from './entities/function'
 import { wrapRoleCollection } from './entities/role'
 import { wrapSpaceCollection } from './entities/space'
@@ -475,6 +476,33 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
           query: createRequestConfig({ query }).params,
         },
       }).then((data) => wrapSpaceMembershipCollection(makeRequest, data))
+    },
+    /**
+     * Gets a collection of Available Licenses for the organization
+     * @param query - Object with search parameters. The API supports pagination with skip and limit parameters.
+     * @returns Promise for a collection of Available Licenses
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getOrganization('organization_id')
+     * .then((organization) => organization.getAvailableLicenses({ limit: 10, skip: 0 }))
+     * .then((response) => console.log(response.items))
+     * .catch(console.error)
+     * ```
+     */
+    getAvailableLicenses(query: QueryOptions = {}) {
+      const raw = this.toPlainObject() as OrganizationProps
+      return makeRequest({
+        entityType: 'AvailableLicense',
+        action: 'getMany',
+        params: {
+          organizationId: raw.sys.id,
+          query: createRequestConfig({ query }).params,
+        },
+      }).then((data) => wrapAvailableLicenseCollection(makeRequest, data))
     },
     /**
      * Gets an Invitation in Organization

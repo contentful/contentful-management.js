@@ -42,4 +42,31 @@ describe('Space Add-On API', () => {
     expect(response.items).toBeDefined()
     expect(response.limit).toBe(1)
   })
+
+  it('Gets eligible licenses', async () => {
+    const response = await space.getEligibleLicenses()
+    expect(response.sys).toBeDefined()
+    expect(response.sys.type).toBe('Array')
+    expect(response.items).toBeDefined()
+    expect(Array.isArray(response.items)).toBe(true)
+
+    // Verify structure of returned items if any exist
+    if (response.items.length > 0) {
+      const license = response.items[0]
+      expect(license.id).toBeDefined()
+      expect(license.name).toBeDefined()
+      expect(typeof license.count).toBe('number')
+      expect(license.quotas).toBeDefined()
+      expect(license.requiredAddOnAllocation).toBeDefined()
+    }
+  })
+
+  it('Gets eligible licenses with pagination', async () => {
+    const response = await space.getEligibleLicenses({ limit: 5, skip: 0 })
+    expect(response.sys).toBeDefined()
+    expect(response.items).toBeDefined()
+    if (response.limit !== undefined) {
+      expect(response.limit).toBeLessThanOrEqual(5)
+    }
+  })
 })
