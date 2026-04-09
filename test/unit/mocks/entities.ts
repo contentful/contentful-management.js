@@ -339,6 +339,9 @@ const appDefinitionMock: AppDefinitionProps = {
     shared: true,
   }),
   name: 'AI Image Tagging',
+  agent: {
+    id: 'mocked-agent-id',
+  },
   src: 'https://ai-image-tagging.app-host.com/frontend/',
   locations: [
     {
