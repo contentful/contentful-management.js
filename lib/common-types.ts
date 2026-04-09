@@ -66,6 +66,7 @@ import type {
   CreateComponentTypeProps,
   UpdateComponentTypeProps,
 } from './entities/component-type'
+import type { TemplateProps, TemplateQueryOptions } from './entities/template'
 import type {
   CreateViewProps,
   UpdateViewProps,
@@ -931,6 +932,9 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'TeamSpaceMembership', 'create', UA>): MRReturn<'TeamSpaceMembership', 'create'>
   (opts: MROpts<'TeamSpaceMembership', 'update', UA>): MRReturn<'TeamSpaceMembership', 'update'>
   (opts: MROpts<'TeamSpaceMembership', 'delete', UA>): MRReturn<'TeamSpaceMembership', 'delete'>
+
+  (opts: MROpts<'Template', 'getMany', UA>): MRReturn<'Template', 'getMany'>
+  (opts: MROpts<'Template', 'get', UA>): MRReturn<'Template', 'get'>
 
   (opts: MROpts<'UIConfig', 'get', UA>): MRReturn<'UIConfig', 'get'>
   (opts: MROpts<'UIConfig', 'update', UA>): MRReturn<'UIConfig', 'update'>
@@ -2611,6 +2615,16 @@ export type MRActions = {
       return: TeamSpaceMembershipProps
     }
     delete: { params: GetTeamSpaceMembershipParams; return: any }
+  }
+  Template: {
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query: TemplateQueryOptions }
+      return: CursorPaginatedCollectionProp<TemplateProps>
+    }
+    get: {
+      params: GetTemplateParams
+      return: TemplateProps
+    }
   }
   UIConfig: {
     get: { params: GetUIConfigParams; return: UIConfigProps }

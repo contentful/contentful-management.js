@@ -125,6 +125,7 @@ import type { TaskPlainClientAPI } from './entities/task'
 import type { TeamPlainClientAPI } from './entities/team'
 import type { TeamMembershipPlainClientAPI } from './entities/team-membership'
 import type { TeamSpaceMembershipPlainClientAPI } from './entities/team-space-membership'
+import type { TemplatePlainClientAPI } from './entities/template'
 import type { UIConfigPlainClientAPI } from './entities/ui-config'
 import type { UploadPlainClientAPI } from './entities/upload'
 import type { UploadCredentialAPI } from './entities/upload-credential'
@@ -729,6 +730,7 @@ export type PlainClientAPI = {
   team: TeamPlainClientAPI
   teamMembership: TeamMembershipPlainClientAPI
   teamSpaceMembership: TeamSpaceMembershipPlainClientAPI
+  template: TemplatePlainClientAPI
   uiConfig: UIConfigPlainClientAPI
   userUIConfig: UserUIConfigPlainClientAPI
   workflowDefinition: WorkflowDefinitionPlainClientAPI
