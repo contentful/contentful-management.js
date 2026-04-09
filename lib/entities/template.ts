@@ -24,10 +24,12 @@ export type TemplateSys = {
   firstPublishedAt?: string
   publishedBy?: Link<'User'> | Link<'AppDefinition'>
   variant?: string
+  variantType?: string
+  variantDimension?: string
   createdAt: string
-  createdBy: Link<'User'> | Link<'App'>
+  createdBy: Link<'User'>
   updatedAt: string
-  updatedBy: Link<'User'> | Link<'App'>
+  updatedBy: Link<'User'>
 }
 
 // Main TemplateProps — config fields are identical to ComponentType (TemplateConfigSchema extends ComponentTypeConfigSchema upstream)
