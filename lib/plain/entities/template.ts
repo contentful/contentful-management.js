@@ -3,7 +3,12 @@ import type {
   GetSpaceEnvironmentParams,
   GetTemplateParams,
 } from '../../common-types'
-import type { TemplateProps, TemplateQueryOptions } from '../../entities/template'
+import type {
+  CreateTemplateProps,
+  TemplateProps,
+  TemplateQueryOptions,
+  UpdateTemplateProps,
+} from '../../entities/template'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type TemplatePlainClientAPI = {
@@ -44,4 +49,68 @@ export type TemplatePlainClientAPI = {
    * ```
    */
   get(params: OptionalDefaults<GetTemplateParams>): Promise<TemplateProps>
+
+  /**
+   * Creates a new template
+   * @param params the space and environment IDs
+   * @param data the template data
+   * @returns the created template
+   * @throws if the request fails, or the space or environment is not found
+   * @internal - Experimental endpoint, subject to breaking changes without notice
+   * @example
+   * ```javascript
+   * const template = await client.template.create({
+   *   spaceId: '<space_id>',
+   *   environmentId: '<environment_id>',
+   * }, {
+   *   name: 'My Template',
+   *   description: 'A new template',
+   *   viewports: [],
+   *   contentProperties: [],
+   *   designProperties: [],
+   *   dimensionKeyMap: { designProperties: {} },
+   * });
+   * ```
+   */
+  create(
+    params: OptionalDefaults<GetSpaceEnvironmentParams>,
+    data: CreateTemplateProps,
+  ): Promise<TemplateProps>
+
+  /**
+   * Updates a template (upsert)
+   * @param params the space, environment, and template IDs
+   * @param data the template data (including sys.version for optimistic locking)
+   * @returns the updated template
+   * @throws if the request fails, or the space, environment, or template is not found
+   * @internal - Experimental endpoint, subject to breaking changes without notice
+   * @example
+   * ```javascript
+   * const template = await client.template.update({
+   *   spaceId: '<space_id>',
+   *   environmentId: '<environment_id>',
+   *   templateId: '<template_id>',
+   * }, templateData);
+   * ```
+   */
+  update(
+    params: OptionalDefaults<GetTemplateParams>,
+    data: UpdateTemplateProps,
+  ): Promise<TemplateProps>
+
+  /**
+   * Deletes a template
+   * @param params the space, environment, and template IDs
+   * @throws if the request fails, or the space, environment, or template is not found
+   * @internal - Experimental endpoint, subject to breaking changes without notice
+   * @example
+   * ```javascript
+   * await client.template.delete({
+   *   spaceId: '<space_id>',
+   *   environmentId: '<environment_id>',
+   *   templateId: '<template_id>',
+   * });
+   * ```
+   */
+  delete(params: OptionalDefaults<GetTemplateParams>): Promise<void>
 }
