@@ -81,7 +81,7 @@ export type ComponentTypePlainClientAPI = {
   ): Promise<ComponentTypeProps>
 
   /**
-   * Updates a component type
+   * Updates a component type with PUT
    * @param params the space, environment, and component type IDs
    * @param rawData the component type data to update (must include sys.version)
    * @returns the updated component type
