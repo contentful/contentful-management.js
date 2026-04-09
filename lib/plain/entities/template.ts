@@ -57,6 +57,20 @@ export type TemplatePlainClientAPI = {
    * @returns the created template
    * @throws if the request fails, or the space or environment is not found
    * @internal - Experimental endpoint, subject to breaking changes without notice
+   * @example
+   * ```javascript
+   * const template = await client.template.create({
+   *   spaceId: '<space_id>',
+   *   environmentId: '<environment_id>',
+   * }, {
+   *   name: 'My Template',
+   *   description: 'A new template',
+   *   viewports: [],
+   *   contentProperties: [],
+   *   designProperties: [],
+   *   dimensionKeyMap: { designProperties: {} },
+   * });
+   * ```
    */
   create(
     params: OptionalDefaults<GetSpaceEnvironmentParams>,
@@ -70,6 +84,14 @@ export type TemplatePlainClientAPI = {
    * @returns the updated template
    * @throws if the request fails, or the space, environment, or template is not found
    * @internal - Experimental endpoint, subject to breaking changes without notice
+   * @example
+   * ```javascript
+   * const template = await client.template.update({
+   *   spaceId: '<space_id>',
+   *   environmentId: '<environment_id>',
+   *   templateId: '<template_id>',
+   * }, templateData);
+   * ```
    */
   update(
     params: OptionalDefaults<GetTemplateParams>,
@@ -81,6 +103,14 @@ export type TemplatePlainClientAPI = {
    * @param params the space, environment, and template IDs
    * @throws if the request fails, or the space, environment, or template is not found
    * @internal - Experimental endpoint, subject to breaking changes without notice
+   * @example
+   * ```javascript
+   * await client.template.delete({
+   *   spaceId: '<space_id>',
+   *   environmentId: '<environment_id>',
+   *   templateId: '<template_id>',
+   * });
+   * ```
    */
   delete(params: OptionalDefaults<GetTemplateParams>): Promise<void>
 }
