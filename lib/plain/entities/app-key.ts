@@ -1,3 +1,7 @@
+/**
+ * @module app-key
+ * @category Plain Client
+ */
 import type { CollectionProp, GetAppDefinitionParams, QueryParams } from '../../common-types'
 import type { AppKeyProps, CreateAppKeyProps } from '../../entities/app-key'
 import type { OptionalDefaults } from '../wrappers/wrap'

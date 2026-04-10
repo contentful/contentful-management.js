@@ -1,3 +1,7 @@
+/**
+ * @module usage
+ * @category Plain Client
+ */
 import type { CollectionProp, QueryParams } from '../../common-types'
 import type { UsageProps } from '../../entities/usage'
 import type { OptionalDefaults } from '../wrappers/wrap'

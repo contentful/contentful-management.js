@@ -1,3 +1,7 @@
+/**
+ * @module function-log
+ * @category Plain Client
+ */
 import type {
   CollectionProp,
   GetFunctionLogParams,

@@ -1,3 +1,7 @@
+/**
+ * @module space-member
+ * @category Plain Client
+ */
 import type { CollectionProp, GetSpaceParams, QueryParams } from '../../common-types'
 import type { SpaceMemberProps } from '../../entities/space-member'
 import type { OptionalDefaults } from '../wrappers/wrap'

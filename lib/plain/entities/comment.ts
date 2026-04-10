@@ -1,3 +1,7 @@
+/**
+ * @module comment
+ * @category Plain Client
+ */
 import type { RawAxiosRequestHeaders } from 'axios'
 import type { CollectionProp, GetCommentParams, QueryParams } from '../../common-types'
 import type {

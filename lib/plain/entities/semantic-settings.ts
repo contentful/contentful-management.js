@@ -1,3 +1,7 @@
+/**
+ * @module semantic-settings
+ * @category Plain Client
+ */
 import type { ContentSemanticsSettingsProps } from '../../entities/semantic-settings'
 import type { OptionalDefaults } from '../wrappers/wrap'
 import type { GetOrganizationParams } from '../../common-types'

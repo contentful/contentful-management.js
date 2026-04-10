@@ -1,3 +1,7 @@
+/**
+ * @module app-signed-request
+ * @category Plain Client
+ */
 import type { GetAppInstallationParams } from '../../common-types'
 import type {
   AppSignedRequestProps,

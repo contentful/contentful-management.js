@@ -1,3 +1,7 @@
+/**
+ * @module agent-run
+ * @category Plain Client
+ */
 import type { RawAxiosRequestHeaders } from 'axios'
 import type { CollectionProp, GetSpaceEnvironmentParams } from '../../common-types'
 import type {

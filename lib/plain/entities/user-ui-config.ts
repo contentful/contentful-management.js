@@ -1,3 +1,7 @@
+/**
+ * @module user-ui-config
+ * @category Plain Client
+ */
 import type { GetUserUIConfigParams } from '../../common-types'
 import type { UserUIConfigProps } from '../../entities/user-ui-config'
 import type { OptionalDefaults } from '../wrappers/wrap'

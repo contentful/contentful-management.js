@@ -1,3 +1,7 @@
+/**
+ * @module app-details
+ * @category Plain Client
+ */
 import type { GetAppDefinitionParams } from '../../common-types'
 import type { AppDetailsProps, CreateAppDetailsProps } from '../../entities/app-details'
 import type { OptionalDefaults } from '../wrappers/wrap'

@@ -1,3 +1,7 @@
+/**
+ * @module upload-credential
+ * @category Plain Client
+ */
 import type { GetSpaceEnvironmentParams, MetaSysProps } from '../../common-types'
 import type { OptionalDefaults } from '../wrappers/wrap'
 

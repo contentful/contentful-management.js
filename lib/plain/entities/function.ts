@@ -1,3 +1,7 @@
+/**
+ * @module function
+ * @category Plain Client
+ */
 import type {
   CollectionProp,
   GetFunctionParams,
