@@ -75,11 +75,44 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Set DOCS_BASE_URL
+        if: github.event_name == 'push' && contains(fromJSON('["refs/heads/master"]'), github.ref)
+        id: docs-env
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          BASE="https://contentful.github.io/contentful-management.js/contentful-management/${VERSION}/"
+          echo "DOCS_BASE_URL=${BASE}" >> $GITHUB_ENV
+          echo "version=${VERSION}" >> $GITHUB_OUTPUT
+
       - name: Publish Docs
         if: github.event_name == 'push' && contains(fromJSON('["refs/heads/master"]'), github.ref)
         run: |
-          echo "Publishing Documentation"
+          echo "Publishing Documentation for version ${{ steps.docs-env.outputs.version }}"
           npm run docs:publish
+        env:
+          GITHUB_TOKEN: ${{ steps.vault.outputs.GITHUB_TOKEN }}
+          DOCS_BASE_URL: ${{ env.DOCS_BASE_URL }}
+
+      - name: Generate versions.json
+        if: github.event_name == 'push' && contains(fromJSON('["refs/heads/master"]'), github.ref)
+        run: |
+          git fetch origin gh-pages
+          git checkout gh-pages
+          node -e "
+            const fs = require('fs');
+            const dirs = fs.readdirSync('contentful-management')
+              .filter(d => /^\d+\.\d+\.\d+/.test(d) && d !== 'latest');
+            dirs.sort((a, b) => b.localeCompare(a, undefined, { numeric: true, sensitivity: 'base' }));
+            fs.writeFileSync(
+              'contentful-management/versions.json',
+              JSON.stringify(dirs, null, 2) + '\n'
+            );
+            console.log('Updated versions.json with', dirs.length, 'version(s):', dirs.join(', '));
+          "
+          git add contentful-management/versions.json
+          git diff --staged --quiet || git commit -m "chore: update versions.json [skip ci]"
+          git push origin gh-pages
+          git checkout -
         env:
           GITHUB_TOKEN: ${{ steps.vault.outputs.GITHUB_TOKEN }}
 

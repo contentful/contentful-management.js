@@ -89,12 +89,23 @@ export default {
   treatWarningsAsErrors: false,
 
   // ---------------------------------------------------------------------------
+  // Project documents — rendered as top-level pages in the sidebar.
+  // The Getting Started guide is listed first so it appears above the API ref.
+  // ---------------------------------------------------------------------------
+  projectDocuments: ['docs/getting-started.md'],
+
+  // ---------------------------------------------------------------------------
   // Plugins
   //   typedoc-plugin-missing-exports — surfaces types that are used in the
   //     public API but not explicitly exported (e.g. PlainClientAPI sub-types)
   //   typedoc-github-theme — GitHub-styled output
+  //   version-selector — injects a version dropdown into every page
   // ---------------------------------------------------------------------------
-  plugin: ['typedoc-plugin-missing-exports', 'typedoc-github-theme'],
+  plugin: [
+    'typedoc-plugin-missing-exports',
+    'typedoc-github-theme',
+    './docs/plugins/version-selector/typedoc-version-selector.mjs',
+  ],
 
   // Places internal types next to the module that owns them rather than
   // collecting them in a separate "internals" section.
@@ -144,7 +155,7 @@ export default {
   },
 
   sidebarLinks: {
-    'Getting Started': `${hostedBaseUrl}Getting_Started`,
+    'Getting Started': `${hostedBaseUrl}getting-started`,
     PlainClientAPI: `${hostedBaseUrl}plain/plain-client-types/PlainClientAPI`,
     'Legacy ClientAPI': `${hostedBaseUrl}create-contentful-api/default`,
   },
