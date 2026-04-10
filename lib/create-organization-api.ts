@@ -1,3 +1,10 @@
+/**
+ * Contentful Organization API. Contains methods for managing teams,
+ * memberships, invitations, app definitions, and organization-level resources.
+ * @module
+ * @category Legacy Client
+ * @deprecated Use the plain client ({@link PlainClientAPI}) instead.
+ */
 import { createRequestConfig } from 'contentful-sdk-core'
 import type { Stream } from 'stream'
 import type { CreateTeamMembershipProps } from './entities/team-membership'

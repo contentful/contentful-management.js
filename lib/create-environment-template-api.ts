@@ -1,3 +1,10 @@
+/**
+ * Methods available on an {@link EnvironmentTemplate} instance in the legacy
+ * chainable client.
+ * @module
+ * @category Legacy Client
+ * @deprecated Use the plain client ({@link PlainClientAPI}) instead.
+ */
 import { createRequestConfig } from 'contentful-sdk-core'
 import type { BasicCursorPaginationOptions, MakeRequest } from './common-types'
 import type { EnvironmentTemplateProps } from './entities/environment-template'

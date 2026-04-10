@@ -1,3 +1,9 @@
+/**
+ * Methods available on an {@link Entry} instance in the legacy chainable client.
+ * @module
+ * @category Legacy Client
+ * @deprecated Use the plain client ({@link PlainClientAPI}) instead.
+ */
 import type { MakeRequest, OpPatch } from './common-types'
 import type { CreateCommentParams, CreateCommentProps } from './entities/comment'
 import type { Entry, EntryProps, EntryReferenceOptionsProps } from './entities/entry'

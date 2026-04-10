@@ -1,3 +1,10 @@
+/**
+ * Methods available on an {@link AppDefinition} instance in the legacy
+ * chainable client, including app bundle and resource provider management.
+ * @module
+ * @category Legacy Client
+ * @deprecated Use the plain client ({@link PlainClientAPI}) instead.
+ */
 import type { MakeRequest, QueryOptions, SpaceQueryOptions } from './common-types'
 import { wrapAppBundle, wrapAppBundleCollection } from './entities/app-bundle'
 import { wrapResourceProvider } from './entities/resource-provider'

@@ -1,6 +1,9 @@
 /**
  * Contentful Space API. Contains methods to access any operations at a space
  * level, such as creating and reading entities contained in a space.
+ * @module
+ * @category Legacy Client
+ * @deprecated Use the plain client ({@link PlainClientAPI}) instead.
  */
 
 import { createRequestConfig } from 'contentful-sdk-core'

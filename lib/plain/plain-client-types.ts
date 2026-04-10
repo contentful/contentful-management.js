@@ -1,3 +1,10 @@
+/**
+ * Type definitions for the plain (Promise-based) client API. The root type is
+ * {@link PlainClientAPI}, which maps every CMA resource to a flat set of
+ * methods — no chaining required.
+ * @module
+ * @category Plain Client
+ */
 import type { RawAxiosRequestConfig, RawAxiosRequestHeaders } from 'axios'
 import type {
   OpPatch,

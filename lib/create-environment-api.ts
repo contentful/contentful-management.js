@@ -1,3 +1,10 @@
+/**
+ * Contentful Environment API. Contains methods for managing entries, assets,
+ * content types, locales, and other environment-scoped resources.
+ * @module
+ * @category Legacy Client
+ * @deprecated Use the plain client ({@link PlainClientAPI}) instead.
+ */
 import type { Stream } from 'stream'
 import { createRequestConfig } from 'contentful-sdk-core'
 import type {
