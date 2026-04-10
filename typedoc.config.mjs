@@ -30,7 +30,10 @@ export default {
     'lib/create-app-definition-api.ts',
     'lib/create-environment-template-api.ts',
 
-    // Entity types (both plain and chainable share these)
+    // Plain entity API types (one module page per resource)
+    'lib/plain/entities/*.ts',
+
+    // Chainable entity types (both plain and chainable share these)
     'lib/entities/*.ts',
   ],
 
