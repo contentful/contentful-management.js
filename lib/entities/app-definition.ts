@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import type {

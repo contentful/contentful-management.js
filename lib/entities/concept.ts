@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import type { Link } from '../common-types'
 import type { LocalizedEntity } from './utils'
 

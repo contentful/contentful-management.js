@@ -9,7 +9,7 @@ import type { OptionalDefaults } from '../wrappers/wrap'
 export type FunctionLogPlainClientAPI = {
   /**
    * Fetches the specified FunctionLog
-   * @params spaceId, environmentId, appInstallationId, functionId, logId
+   * @param params the space ID, environment ID, app installation ID, function ID, and log ID
    * @returns the FunctionLog
    * @throws if the request fails, or the FunctionLog is not found
    * @example
@@ -27,7 +27,7 @@ export type FunctionLogPlainClientAPI = {
 
   /**
    * Fetches all FunctionLogs for the given function
-   * @params spaceId, environmentId, appInstallationId, functionId, query
+   * @param params the space ID, environment ID, app installation ID, function ID, and query options
    * @returns an object containing an array of FunctionLogs
    * @throws if the request fails, or the FunctionLogs are not found
    * @example

@@ -125,7 +125,7 @@ export default {
   // Promote plain-client results; demote legacy so new users land on the right API
   searchCategoryBoosts: {
     'Plain Client': 2,
-    // Entities boost re-enabled in Phase 2 once @category Entities is added to entity files
+    Entities: 1.5,
     'Legacy Client': 0.5,
   },
   searchGroupBoosts: {

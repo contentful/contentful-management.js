@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import copy from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import type { Stream } from 'stream'
@@ -105,7 +109,7 @@ type AssetApi = {
   /**
    * Triggers asset processing after an upload, for the file uploaded to a specific locale.
    * @param locale - Locale which processing should be triggered for
-   * @param options - Additional options for processing
+   * @param Options - Additional options for processing
    * @prop options.processingCheckWait - Time in milliseconds to wait before checking again if the asset has been processed (default: 500ms)
    * @prop options.processingCheckRetries - Maximum amount of times to check if the asset has been processed (default: 5)
    * @returns Object returned from the server with updated metadata.

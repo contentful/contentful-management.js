@@ -257,12 +257,13 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
 
     /**
      *
-     * @description Get a BulkAction by ID.
-     *  See: https://www.contentful.com/developers/docs/references/content-management-api/#/reference/bulk-actions/bulk-action
+     * Get a BulkAction by ID.
+     * See: https://www.contentful.com/developers/docs/references/content-management-api/#/reference/bulk-actions/bulk-action
      * @param bulkActionId - ID of the BulkAction to fetch
-     * @returns - Promise with the BulkAction
+     * @returns Promise with the BulkAction
      *
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -290,10 +291,10 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     },
 
     /**
-     * @description Creates a BulkAction that will attempt to publish all items contained in the payload.
+     * Creates a BulkAction that will attempt to publish all items contained in the payload.
      * See: https://www.contentful.com/developers/docs/references/content-management-api/#/reference/bulk-actions/publish-bulk-action
-     * @param {BulkActionPayload} payload - Object containing the items to be processed in the bulkAction
-     * @returns - Promise with the BulkAction
+     * @param payload - Object containing the items to be processed in the bulkAction
+     * @returns Promise with the BulkAction
      *
      * @example
      *
@@ -349,10 +350,10 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     },
 
     /**
-     * @description Creates a BulkAction that will attempt to validate all items contained in the payload.
+     * Creates a BulkAction that will attempt to validate all items contained in the payload.
      * See: https://www.contentful.com/developers/docs/references/content-management-api/#/reference/bulk-actions/validate-bulk-action
-     * @param {BulkActionPayload} payload - Object containing the items to be processed in the bulkAction
-     * @returns - Promise with the BulkAction
+     * @param payload - Object containing the items to be processed in the bulkAction
+     * @returns Promise with the BulkAction
      *
      * @example
      *
@@ -409,10 +410,10 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     },
 
     /**
-     * @description Creates a BulkAction that will attempt to unpublish all items contained in the payload.
+     * Creates a BulkAction that will attempt to unpublish all items contained in the payload.
      * See: https://www.contentful.com/developers/docs/references/content-management-api/#/reference/bulk-actions/unpublish-bulk-action
-     * @param {BulkActionPayload} payload - Object containing the items to be processed in the bulkAction
-     * @returns - Promise with the BulkAction
+     * @param payload - Object containing the items to be processed in the bulkAction
+     * @returns Promise with the BulkAction
      *
      * @example
      *
@@ -2082,7 +2083,6 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     },
     /**
      * Gets all snapshots of an entry
-     * @func getEntrySnapshots
      * @param entryId - Entry ID
      * @param query - query additional query paramaters
      * @returns Promise for a collection of Entry Snapshots
@@ -2115,7 +2115,6 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     },
     /**
      * Gets all snapshots of a contentType
-     * @func getContentTypeSnapshots
      * @param contentTypeId - Content Type ID
      * @param query - query additional query paramaters
      * @returns Promise for a collection of Content Type Snapshots
@@ -2778,7 +2777,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * @param aiActionId - The ID of the AI Action to invoke.
      * @param payload - The invocation payload.
      * @returns Promise for an AI Action Invocation.
-     * @example ```javascript
+     * @example
+     * ```javascript
      * client.getSpace('<space_id>')
      *   .then(space => space.getEnvironment('<environment_id>'))
      *   .then(environment => environment.invokeAiAction('<ai_action_id>', {
@@ -2803,7 +2803,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * Retrieves an AI Action Invocation.
      * @param params - Object containing the AI Action ID and the Invocation ID.
      * @returns Promise for an AI Action Invocation.
-     * @example ```javascript
+     * @example
+     * ```javascript
      * client.getSpace('<space_id>')
      *   .then(space => space.getEnvironment('<environment_id>'))
      *   .then(environment => environment.getAiActionInvocation({

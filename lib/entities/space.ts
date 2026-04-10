@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Entities
+ */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type { BasicMetaSysProps, DefaultElements, MakeRequest } from '../common-types'

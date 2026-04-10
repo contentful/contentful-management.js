@@ -92,9 +92,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
     },
     /**
      * Gets the lasted version environment template if params.version is not specified
-     * @param params.organizationId - Organization ID
-     * @param params.environmentTemplateId - Environment template ID
-     * @param [params.version] - Template version number to return a specific version of the environment template
+     * @param params - organizationId, environmentTemplateId, and optional version number
      * @returns Promise for a EnvironmentTemplate
      * ```javascript
      * const contentful = require('contentful-management')
@@ -401,8 +399,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
     /**
      * Gets App Definition
      * @returns Promise for App Definition
-     * @param organizationId - Id of the organization where the app is installed
-     * @param appDefinitionId - Id of the app that will be returned
+     * @param params - organization ID and app definition ID
      * @example ```javascript
      * const contentful = require('contentful-management')
      *
@@ -468,7 +465,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * @deprecated - use getAccessToken instead
      *
      * Gets a personal access token
-     * @param data - personal access token config
+     * @param tokenId - personal access token ID
      * @returns Promise for a Token
      * @example ```javascript
      * const contentful = require('contentful-management')
@@ -517,7 +514,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
 
     /**
      * Gets a users access token
-     * @param data - users access token config
+     * @param tokenId - access token ID
      * @returns Promise for a Token
      * @example ```javascript
      * const contentful = require('contentful-management')
