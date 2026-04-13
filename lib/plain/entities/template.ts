@@ -80,7 +80,7 @@ export type TemplatePlainClientAPI = {
   /**
    * Updates a template (upsert)
    * @param params the space, environment, and template IDs
-   * @param data the template data (including sys.version for optimistic locking)
+   * @param data the template data (including sys.version)
    * @returns the updated template
    * @throws if the request fails, or the space, environment, or template is not found
    * @internal - Experimental endpoint, subject to breaking changes without notice
@@ -113,4 +113,42 @@ export type TemplatePlainClientAPI = {
    * ```
    */
   delete(params: OptionalDefaults<GetTemplateParams>): Promise<void>
+
+  /**
+   * Publishes a template
+   * @param params the space, environment, and template IDs, plus the current version
+   * @returns the published template
+   * @throws if the request fails, or the space, environment, or template is not found
+   * @internal - Experimental endpoint, subject to breaking changes without notice
+   * @example
+   * ```javascript
+   * const template = await client.template.publish({
+   *   spaceId: '<space_id>',
+   *   environmentId: '<environment_id>',
+   *   templateId: '<template_id>',
+   *   version: 1,
+   * });
+   * ```
+   */
+  publish(params: OptionalDefaults<GetTemplateParams & { version: number }>): Promise<TemplateProps>
+
+  /**
+   * Unpublishes a template
+   * @param params the space, environment, and template IDs, plus the current version
+   * @returns the unpublished template
+   * @throws if the request fails, or the space, environment, or template is not found
+   * @internal - Experimental endpoint, subject to breaking changes without notice
+   * @example
+   * ```javascript
+   * const template = await client.template.unpublish({
+   *   spaceId: '<space_id>',
+   *   environmentId: '<environment_id>',
+   *   templateId: '<template_id>',
+   *   version: 2,
+   * });
+   * ```
+   */
+  unpublish(
+    params: OptionalDefaults<GetTemplateParams & { version: number }>,
+  ): Promise<TemplateProps>
 }

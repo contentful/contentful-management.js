@@ -2647,6 +2647,14 @@ export type MRActions = {
       params: GetTemplateParams
       return: void
     }
+    publish: {
+      params: GetTemplateParams & { version: number }
+      return: TemplateProps
+    }
+    unpublish: {
+      params: GetTemplateParams & { version: number }
+      return: TemplateProps
+    }
   }
   UIConfig: {
     get: { params: GetUIConfigParams; return: UIConfigProps }

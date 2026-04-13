@@ -205,4 +205,62 @@ describe('Rest Template', { concurrent: true }, () => {
         )
       })
   })
+
+  test('publish calls correct URL with PUT and X-Contentful-Version header', async () => {
+    const mockResponse = {
+      sys: { id: 'template123', type: 'Template', version: 2, publishedVersion: 1 },
+      name: 'Test Template',
+    }
+
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'Template',
+        action: 'publish',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+          templateId: 'template123',
+          version: 1,
+        },
+      })
+      .then((r) => {
+        expect(r).to.eql(mockResponse)
+        expect(httpMock.put.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/templates/template123/published',
+        )
+        expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(1)
+      })
+  })
+
+  test('unpublish calls correct URL with DELETE and X-Contentful-Version header', async () => {
+    const mockResponse = {
+      sys: { id: 'template123', type: 'Template', version: 3 },
+      name: 'Test Template',
+    }
+
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'Template',
+        action: 'unpublish',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+          templateId: 'template123',
+          version: 2,
+        },
+      })
+      .then((r) => {
+        expect(r).to.eql(mockResponse)
+        expect(httpMock.delete.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/templates/template123/published',
+        )
+        expect(httpMock.delete.mock.calls[0][1].headers['X-Contentful-Version']).to.eql(2)
+      })
+  })
 })
