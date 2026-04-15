@@ -59,6 +59,24 @@ export type EntryReferenceOptionsProps = {
   include?: number
 }
 
+/**
+ * A Contentful entry as returned by the legacy chainable client.
+ *
+ * Extends {@link EntryProps} with instance methods for lifecycle operations.
+ * Use these methods to publish, archive, update, or delete an entry without
+ * constructing a full API request manually.
+ *
+ * **Legacy client only.** If you are using the plain client, you receive
+ * {@link EntryProps} directly and call methods via `client.entry.*` instead.
+ *
+ * @example
+ * ```javascript
+ * const entry = await environment.getEntry('<entry_id>')
+ * await entry.publish()
+ * await entry.update()
+ * await entry.delete()
+ * ```
+ */
 export interface Entry extends EntryProps, DefaultElements<EntryProps>, ContentfulEntryAPI {}
 
 export type WithResourceName<T extends { sys: unknown }> = T extends { sys: infer Sys }

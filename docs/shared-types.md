@@ -38,4 +38,5 @@ If you are using the **legacy client**, the wrapper classes are what you interac
 ## Where to find the methods
 
 - **Plain client methods** (`client.entry.get()`, `client.asset.create()`, etc.) — see the **Plain Client** section in the sidebar
-- **Legacy client methods** (`environment.getEntry()`, `entry.publish()`, etc.) — see the **Legacy Client** section in the sidebar
+- **Legacy client instance methods** (`entry.publish()`, `asset.archive()`, etc.) — these are documented here in **Shared Types**, on the `Entry`, `Asset`, `ContentType`, etc. pages, since the wrapper classes live alongside their props types in the same modules
+- **Legacy client factory methods** (`space.getEnvironment()`, `environment.getEntry()`, etc.) — see the **Legacy Client** section in the sidebar (`create-space-api`, `create-environment-api`, etc.)

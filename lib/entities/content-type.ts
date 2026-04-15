@@ -238,6 +238,21 @@ type ContentTypeApi = {
   getSnapshots(): Promise<Collection<Snapshot<ContentTypeProps>, SnapshotProps<ContentTypeProps>>>
 }
 
+/**
+ * A Contentful content type as returned by the legacy chainable client.
+ *
+ * Extends {@link ContentTypeProps} with instance methods for lifecycle operations.
+ *
+ * **Legacy client only.** If you are using the plain client, you receive
+ * {@link ContentTypeProps} directly and call methods via `client.contentType.*` instead.
+ *
+ * @example
+ * ```javascript
+ * const contentType = await environment.getContentType('<content_type_id>')
+ * await contentType.publish()
+ * await contentType.update()
+ * ```
+ */
 export interface ContentType
   extends ContentTypeProps,
     DefaultElements<ContentTypeProps>,
