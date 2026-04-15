@@ -1,6 +1,6 @@
 /**
  * @module
- * @category Entities
+ * @category Legacy Client
  */
 import copy from 'fast-copy'
 import { toPlainObject } from 'contentful-sdk-core'

@@ -1,6 +1,6 @@
 /**
  * @module
- * @category Entities
+ * @category Legacy Client
  */
 import type {
   BasicCursorPaginationOptions,
