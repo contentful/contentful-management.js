@@ -96,7 +96,7 @@ export default {
   // Project documents — rendered as top-level pages in the sidebar.
   // The Getting Started guide is listed first so it appears above the API ref.
   // ---------------------------------------------------------------------------
-  projectDocuments: ['docs/getting-started.md', 'docs/shared-types.md'],
+  projectDocuments: ['docs/Getting Started/', 'docs/shared-types.md'],
 
   // ---------------------------------------------------------------------------
   // Plugins
