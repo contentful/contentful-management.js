@@ -47,7 +47,7 @@ export default {
   // rather than TypeDoc's auto-grouping by kind (Interface, Function, etc.).
   // ---------------------------------------------------------------------------
   categorizeByGroup: false,
-  categoryOrder: ['Core', 'Plain Client', 'Legacy Client', 'Shared Types', '*'],
+  categoryOrder: ['Getting Started', 'Core', 'Plain Client', 'Legacy Client', 'Shared Types', '*'],
   defaultCategory: 'Other',
 
   kindSortOrder: [
