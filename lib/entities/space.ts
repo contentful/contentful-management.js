@@ -27,22 +27,6 @@ export type UnarchiveProps = {
   productId: string
 }
 
-/**
- * A Contentful space as returned by the legacy chainable client.
- *
- * Combines {@link SpaceProps} with the full {@link ContentfulSpaceAPI} — all
- * methods for managing environments, locales, webhooks, and other space-level
- * resources are available directly on this object.
- *
- * **Legacy client only.** If you are using the plain client, you pass
- * `spaceId` directly to each method call and never hold a `Space` instance.
- *
- * @example
- * ```javascript
- * const space = await client.getSpace('<space_id>')
- * const environment = await space.getEnvironment('master')
- * ```
- */
 export type Space = SpaceProps & DefaultElements<SpaceProps> & ContentfulSpaceAPI
 
 /**

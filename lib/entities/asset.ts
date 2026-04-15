@@ -283,21 +283,6 @@ type AssetApi = {
   isArchived(): boolean
 }
 
-/**
- * A Contentful asset as returned by the legacy chainable client.
- *
- * Extends {@link AssetProps} with instance methods for lifecycle operations.
- *
- * **Legacy client only.** If you are using the plain client, you receive
- * {@link AssetProps} directly and call methods via `client.asset.*` instead.
- *
- * @example
- * ```javascript
- * const asset = await environment.getAsset('<asset_id>')
- * await asset.processForAllLocales()
- * await asset.publish()
- * ```
- */
 export interface Asset extends AssetProps, DefaultElements<AssetProps>, AssetApi {}
 
 /**

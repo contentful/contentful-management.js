@@ -38,23 +38,6 @@ export type EnvironmentProps = {
 
 export type CreateEnvironmentProps = Partial<Omit<EnvironmentProps, 'sys'>>
 
-/**
- * A Contentful environment as returned by the legacy chainable client.
- *
- * Combines {@link EnvironmentProps} with the full {@link ContentfulEnvironmentAPI} —
- * all methods for managing entries, assets, content types, locales, and other
- * environment-scoped resources are available directly on this object.
- *
- * **Legacy client only.** If you are using the plain client, you pass
- * `environmentId` directly to each method call and never hold an `Environment` instance.
- *
- * @example
- * ```javascript
- * const space = await client.getSpace('<space_id>')
- * const environment = await space.getEnvironment('master')
- * const entry = await environment.getEntry('<entry_id>')
- * ```
- */
 export type Environment = ContentfulEnvironmentAPI &
   EnvironmentProps &
   DefaultElements<EnvironmentProps>
