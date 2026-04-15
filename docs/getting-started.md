@@ -1,3 +1,7 @@
+---
+category: Core
+---
+
 # Getting Started
 
 `contentful-management` is the official JavaScript SDK for the [Contentful Content Management API (CMA)](https://www.contentful.com/developers/docs/references/content-management-api/). It runs in Node.js and modern browsers, and ships full TypeScript types.

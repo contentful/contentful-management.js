@@ -158,12 +158,6 @@ export default {
       'https://www.contentful.com/developers/docs/references/content-management-api/',
   },
 
-  sidebarLinks: {
-    'Getting Started': `${hostedBaseUrl}getting-started`,
-    PlainClientAPI: `${hostedBaseUrl}plain/plain-client-types/PlainClientAPI`,
-    'Legacy ClientAPI': `${hostedBaseUrl}create-contentful-api/default`,
-  },
-
   navigationLeaves: ['DefaultElements', 'OptionalDefaults'],
 
   externalSymbolLinkMappings: {
