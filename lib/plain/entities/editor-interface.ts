@@ -12,7 +12,7 @@ import type {
 import type { EditorInterfaceProps } from '../../entities/editor-interface'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
-export type EditorInterfacePlainClientAPI = {
+export type EditorInterfaceAPI = {
   /**
    * Fetch an Editor Interface
    * @param params entity IDs to identify the Editor Interface

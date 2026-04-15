@@ -12,7 +12,7 @@ import type {
 import type { TagProps, CreateTagProps, UpdateTagProps, DeleteTagParams } from '../../entities/tag'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
-export type TagPlainClientAPI = {
+export type TagAPI = {
   /**
    * Fetch a single tag by ID
    * @param params the tag ID and the IDs of the space and environment

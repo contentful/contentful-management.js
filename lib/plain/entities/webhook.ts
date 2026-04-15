@@ -23,7 +23,7 @@ import type {
 } from '../../entities/webhook'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
-export type WebhookPlainClientAPI = {
+export type WebhookAPI = {
   // Webhooks
   /**
    * Fetches the Webhook

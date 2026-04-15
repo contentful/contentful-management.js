@@ -7,7 +7,7 @@ import type { GetAppUploadParams, GetOrganizationParams } from '../../common-typ
 import type { AppUploadProps } from '../../entities/app-upload'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
-export type AppUploadPlainClientAPI = {
+export type AppUploadAPI = {
   /**
    * Fetches the App Upload
    * @param params entity IDs to identify the App Upload

@@ -12,7 +12,7 @@ import type {
 import type { CreateExtensionProps, ExtensionProps } from '../../entities/extension'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
-export type ExtensionPlainClientAPI = {
+export type ExtensionAPI = {
   /**
    * Fetches the Extension
    * @param params entity IDs to identify the Extension

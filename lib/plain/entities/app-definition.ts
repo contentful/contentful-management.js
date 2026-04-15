@@ -16,7 +16,7 @@ import type {
 } from '../../entities/app-definition'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
-export type AppDefinitionPlainClientAPI = {
+export type AppDefinitionAPI = {
   /**
    * Fetch an App Definition
    * @param params entity IDs to identify the App Definition

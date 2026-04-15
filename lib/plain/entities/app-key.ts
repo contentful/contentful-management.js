@@ -6,7 +6,7 @@ import type { CollectionProp, GetAppDefinitionParams, QueryParams } from '../../
 import type { AppKeyProps, CreateAppKeyProps } from '../../entities/app-key'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
-export type AppKeyPlainClientAPI = {
+export type AppKeyAPI = {
   /**
    * Creates an App Key
    * @param params entity IDs to identify the App that the Key belongs to

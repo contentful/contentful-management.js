@@ -6,7 +6,7 @@ import type { OptionalDefaults } from '../wrappers/wrap'
 import type { CursorPaginatedCollectionProp, GetResourceParams } from '../../common-types'
 import type { ResourceProps, ResourceQueryOptions } from '../../entities/resource'
 
-export type ResourcePlainAPI = {
+export type ResourceAPI = {
   /**
    * Fetches all Resources.
    * Supports fetching specific Resources by URNs or searching by a text query.

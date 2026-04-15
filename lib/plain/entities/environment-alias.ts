@@ -15,7 +15,7 @@ import type {
 } from '../../entities/environment-alias'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
-export type EnvironmentAliasPlainClientAPI = {
+export type EnvironmentAliasAPI = {
   /**
    * Fetch an environment alias
    * @param params a space and environment alias id

@@ -11,7 +11,7 @@ import type {
 import type { UserProps } from '../../entities/user'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
-export type UserPlainClientAPI = {
+export type UserAPI = {
   /** Fetches all users in a space
    *
    * @param params space ID and query parameters

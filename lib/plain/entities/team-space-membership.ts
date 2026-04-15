@@ -16,7 +16,7 @@ import type {
 } from '../../entities/team-space-membership'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
-export type TeamSpaceMembershipPlainClientAPI = {
+export type TeamSpaceMembershipAPI = {
   /**
    * Fetch a single team space membership by its ID
    * @param params the team and space IDs

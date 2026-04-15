@@ -20,7 +20,7 @@ import type {
 } from '../../entities/workflow'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
-export type WorkflowPlainClientAPI = {
+export type WorkflowAPI = {
   /**
    * Get Workflow by ID
    * @param params entity IDs to identify the Space/Environment

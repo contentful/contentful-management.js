@@ -15,7 +15,7 @@ import type {
 import type { ConceptProps, CreateConceptProps } from '../../entities/concept'
 import type { SetOptional } from 'type-fest'
 
-export type ConceptPlainClientAPI = {
+export type ConceptAPI = {
   /**
    * Create Concept
    * @returns ConceptProps

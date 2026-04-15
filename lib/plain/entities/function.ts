@@ -12,7 +12,7 @@ import type {
 import type { FunctionProps } from '../../entities/function'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
-export type FunctionPlainClientAPI = {
+export type FunctionAPI = {
   /**
    * Fetches the specified Function
    * @param params the organization ID, app definition ID, and function ID

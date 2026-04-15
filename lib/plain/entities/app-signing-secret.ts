@@ -9,7 +9,7 @@ import type {
 } from '../../entities/app-signing-secret'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
-export type AppSigningSecretPlainClientAPI = {
+export type AppSigningSecretAPI = {
   /**
    * Creates or updates an App Signing Secret
    * @param params entity IDs to identify the App that the Signing Secret belongs to

@@ -7,7 +7,7 @@ import type { OptionalDefaults } from '../wrappers/wrap'
 import type { GetSpaceEnvironmentParams } from '../../common-types'
 import type { RawAxiosRequestHeaders } from 'axios'
 
-export type SemanticSearchPlainClientAPI = {
+export type SemanticSearchAPI = {
   /**
    * Retrieves Semantic Search results for the given query.
    * @param params Parameters for getting the space and environment IDs.

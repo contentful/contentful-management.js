@@ -14,7 +14,7 @@ import type {
 } from '../../entities/task'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
-export type TaskPlainClientAPI = {
+export type TaskAPI = {
   /** Fetches a task
    *
    * @param params Space ID, Entry ID, Environment ID, and Task ID

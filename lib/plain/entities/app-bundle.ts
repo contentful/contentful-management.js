@@ -11,7 +11,7 @@ import type {
 import type { AppBundleProps, CreateAppBundleProps } from '../../entities/app-bundle'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
-export type AppBundlePlainClientAPI = {
+export type AppBundleAPI = {
   /**
    * Fetches the App Bundle
    * @param params entity IDs to identify the App Bundle

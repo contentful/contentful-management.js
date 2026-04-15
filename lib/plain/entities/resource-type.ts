@@ -18,7 +18,7 @@ import type {
   UpsertResourceTypeProps,
 } from '../../entities/resource-type'
 
-export type ResourceTypePlainClientAPI = {
+export type ResourceTypeAPI = {
   /*
    * Fetches a Resource Type
    * @param params entity IDs to identify the Resource Type

@@ -6,7 +6,7 @@ import type { GetAppDefinitionParams } from '../../common-types'
 import type { AppDetailsProps, CreateAppDetailsProps } from '../../entities/app-details'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
-export type AppDetailsPlainClientAPI = {
+export type AppDetailsAPI = {
   /**
    * Creates or updates an App Detail
    * @param params entity IDs to identify the App Definition or App Details

@@ -6,7 +6,7 @@ import type { GetUIConfigParams } from '../../common-types'
 import type { UIConfigProps } from '../../entities/ui-config'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
-export type UIConfigPlainClientAPI = {
+export type UIConfigAPI = {
   /**
    * Fetch the UI Config for a given Space and Environment
    * @param params entity IDs to identify the UI Config

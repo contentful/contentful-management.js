@@ -12,7 +12,7 @@ import type {
 import type { OptionalDefaults } from '../wrappers/wrap'
 import type { SpaceProps } from '../../entities/space'
 
-export type SpacePlainClientAPI = {
+export type SpaceAPI = {
   /**
    * Fetches a space
    * @param params the space ID

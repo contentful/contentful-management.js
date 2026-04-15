@@ -12,7 +12,7 @@ import type {
 import type { AppActionProps, CreateAppActionProps } from '../../entities/app-action'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
-export type AppActionPlainClientAPI = {
+export type AppActionAPI = {
   /**
    * Fetches the App Action
    * @param params entity IDs to identify the App Action

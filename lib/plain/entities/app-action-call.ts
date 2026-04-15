@@ -17,7 +17,7 @@ import type {
 } from '../../entities/app-action-call'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
-export type AppActionCallPlainClientAPI = {
+export type AppActionCallAPI = {
   /**
    * Calls (triggers) an App Action
    * @param params entity IDs to identify the App Action to call

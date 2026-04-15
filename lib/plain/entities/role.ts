@@ -12,7 +12,7 @@ import type {
 import type { OptionalDefaults } from '../wrappers/wrap'
 import type { CreateRoleProps, RoleProps } from '../../entities/role'
 
-export type RolePlainClientAPI = {
+export type RoleAPI = {
   /** Fetches a Role
    *
    * @param params Space ID and Role ID

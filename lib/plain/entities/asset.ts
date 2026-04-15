@@ -18,7 +18,7 @@ import type {
 } from '../../entities/asset'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
-export type AssetPlainClientAPI = {
+export type AssetAPI = {
   /**
    * Fetch a collection of published assets, using offset/limit pagination.
    * Use {@link getPublishedWithCursor} when you need cursor-based pagination over large result sets.

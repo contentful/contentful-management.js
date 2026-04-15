@@ -14,7 +14,7 @@ import type {
 import type { ContentTypeProps, CreateContentTypeProps } from '../../entities/content-type'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
-export type ContentTypePlainClientAPI = {
+export type ContentTypeAPI = {
   /**
    * Fetch a single content type by ID
    * @param params the content type ID, space and environment IDs, and optional query parameters

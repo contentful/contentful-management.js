@@ -16,7 +16,7 @@ import type {
   SpaceMembershipProps,
 } from '../../entities/space-membership'
 
-export type SpaceMembershipPlainClientAPI = {
+export type SpaceMembershipAPI = {
   /**
    * Fetches a space membership for a given space
    * @param params the space and membership IDs

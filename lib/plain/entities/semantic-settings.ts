@@ -6,7 +6,7 @@ import type { ContentSemanticsSettingsProps } from '../../entities/semantic-sett
 import type { OptionalDefaults } from '../wrappers/wrap'
 import type { GetOrganizationParams } from '../../common-types'
 
-export type SemanticSettingsPlainClientAPI = {
+export type SemanticSettingsAPI = {
   /**
    * Fetches the semantic settings for an organization.
    * @param params Parameters for getting the organization.

@@ -19,7 +19,7 @@ import type {
 } from '../../entities/comment'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
-export type CommentPlainClientAPI = {
+export type CommentAPI = {
   /** Fetches a plain text comment
    *
    * @param params Space ID, Comment ID, Entry ID, Environment ID

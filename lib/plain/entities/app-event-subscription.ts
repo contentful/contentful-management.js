@@ -9,7 +9,7 @@ import type {
 } from '../../entities/app-event-subscription'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
-export type AppEventSubscriptionPlainClientAPI = {
+export type AppEventSubscriptionAPI = {
   /**
    * Creates or updates an App Event Subscription
    * @param params entity IDs to identify the App that the Event Subscription belongs to

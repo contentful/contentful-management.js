@@ -16,7 +16,7 @@ import type {
   UpdateOAuthApplicationProps,
 } from '../../entities/oauth-application'
 
-export type OAuthApplicationPlainClientAPI = {
+export type OAuthApplicationAPI = {
   /**
    * Retrieves a list of OAuth applications associated with the current user.
    * @param params the user ID and optional query parameters

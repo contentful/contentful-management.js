@@ -9,7 +9,7 @@ import type {
 } from '../../entities/app-signed-request'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
-export type AppSignedRequestPlainClientAPI = {
+export type AppSignedRequestAPI = {
   /**
    * Creates a Signed Request for an App
    * @param params entity IDs to identify the App to make a signed request to

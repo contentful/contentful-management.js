@@ -19,7 +19,7 @@ import type {
   WorkflowDefinitionQueryOptions,
 } from '../../entities/workflow-definition'
 
-export type WorkflowDefinitionPlainClientAPI = {
+export type WorkflowDefinitionAPI = {
   /**
    * Fetch a Workflow Definition
    * @param params entity IDs to identify the Workflow Definition

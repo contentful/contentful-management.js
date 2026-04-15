@@ -18,7 +18,7 @@ import type {
 } from '../../entities/app-installation'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
-export type AppInstallationPlainClientAPI = {
+export type AppInstallationAPI = {
   /**
    * Fetches the App Installation
    * @param params entity IDs to identify the App Installation
