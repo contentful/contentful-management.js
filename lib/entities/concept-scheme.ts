@@ -1,6 +1,6 @@
 /**
  * @module
- * @category Entities
+ * @category Shared Types
  */
 import type { Link } from '../common-types'
 import type { TaxonomyConceptLink } from './concept'

@@ -1,6 +1,6 @@
 /**
  * @module
- * @category Entities
+ * @category Shared Types
  */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import type { Node, Text } from '@contentful/rich-text-types'

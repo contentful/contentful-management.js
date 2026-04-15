@@ -1,6 +1,6 @@
 /**
  * @module
- * @category Entities
+ * @category Shared Types
  */
 import type {
   BasicMetaSysProps,

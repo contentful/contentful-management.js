@@ -1,6 +1,6 @@
 /**
  * @module
- * @category Entities
+ * @category Shared Types
  */
 export type ParameterType = 'Boolean' | 'Symbol' | 'Number' | 'Enum'
 export type InstallationParameterType = ParameterType | 'Secret'

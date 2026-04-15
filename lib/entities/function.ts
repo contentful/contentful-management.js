@@ -1,6 +1,6 @@
 /**
  * @module
- * @category Entities
+ * @category Shared Types
  */
 import type { Link, DefaultElements } from '../common-types'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'

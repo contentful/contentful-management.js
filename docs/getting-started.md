@@ -210,7 +210,7 @@ import { createClient } from 'contentful-management'
 import type { EntryProps, AssetProps, PlainClientAPI } from 'contentful-management'
 ```
 
-See the **Entities** section of the sidebar for the full type catalog.
+See the **Shared Types** section of the sidebar for the full type catalog.
 
 ---
 

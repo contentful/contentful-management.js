@@ -47,7 +47,7 @@ export default {
   // rather than TypeDoc's auto-grouping by kind (Interface, Function, etc.).
   // ---------------------------------------------------------------------------
   categorizeByGroup: false,
-  categoryOrder: ['Core', 'Plain Client', 'Legacy Client', 'Entities', '*'],
+  categoryOrder: ['Core', 'Plain Client', 'Legacy Client', 'Shared Types', '*'],
   defaultCategory: 'Other',
 
   kindSortOrder: [
@@ -139,7 +139,7 @@ export default {
   // Promote plain-client results; demote legacy so new users land on the right API
   searchCategoryBoosts: {
     'Plain Client': 2,
-    Entities: 1.5,
+    'Shared Types': 1.5,
     'Legacy Client': 0.5,
   },
   searchGroupBoosts: {

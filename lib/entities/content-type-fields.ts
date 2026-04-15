@@ -1,6 +1,6 @@
 /**
  * @module
- * @category Entities
+ * @category Shared Types
  */
 import type { KeyValueMap } from '../common-types'
 import type { INLINES, BLOCKS } from '@contentful/rich-text-types'

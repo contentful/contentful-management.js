@@ -1,6 +1,6 @@
 /**
  * @module
- * @category Entities
+ * @category Shared Types
  */
 import copy from 'fast-copy'
 import { toPlainObject } from 'contentful-sdk-core'

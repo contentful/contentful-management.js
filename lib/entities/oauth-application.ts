@@ -1,6 +1,6 @@
 /**
  * @module
- * @category Entities
+ * @category Shared Types
  */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import type { BasicMetaSysProps, DefaultElements, MakeRequest } from '../common-types'
