@@ -1,6 +1,6 @@
 /**
  * @module
- * @category Legacy Client
+ * @category Entities
  */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'

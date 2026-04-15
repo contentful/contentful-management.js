@@ -1,6 +1,6 @@
 /**
  * @module
- * @category Legacy Client
+ * @category Entities
  */
 import type { Link, DefaultElements } from '../common-types'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'

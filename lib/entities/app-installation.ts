@@ -1,6 +1,6 @@
 /**
  * @module
- * @category Legacy Client
+ * @category Entities
  */
 import { toPlainObject, freezeSys } from 'contentful-sdk-core'
 import copy from 'fast-copy'
