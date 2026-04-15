@@ -88,6 +88,7 @@ export default {
   excludeInternal: true,
   excludeProtected: false,
   excludePrivateClassFields: true,
+  excludeExternals: true,
   useFirstParagraphOfCommentAsSummary: true,
   treatWarningsAsErrors: false,
 
