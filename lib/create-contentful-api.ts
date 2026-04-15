@@ -3,7 +3,6 @@
  * token, and organization operations in the nested client interface.
  * @module
  * @category Legacy Client
- * @deprecated Use the plain client ({@link PlainClientAPI}) instead.
  */
 import { createRequestConfig } from 'contentful-sdk-core'
 import type {

@@ -3,7 +3,6 @@
  * chainable client.
  * @module
  * @category Legacy Client
- * @deprecated Use the plain client ({@link PlainClientAPI}) instead.
  */
 import { createRequestConfig } from 'contentful-sdk-core'
 import type { BasicCursorPaginationOptions, MakeRequest } from './common-types'
