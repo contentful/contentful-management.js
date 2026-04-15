@@ -1,4 +1,12 @@
 /**
+ * Space data shapes and legacy wrapper.
+ *
+ * **Shared (both clients):** `SpaceProps`
+ *
+ * **Legacy client only:** `Space` — combines `SpaceProps` with the full
+ * `ContentfulSpaceAPI` (all `getEnvironment`, `createEnvironment`, etc.
+ * methods). Plain client users pass `spaceId` directly to each method call
+ * and never hold a `Space` instance.
  * @module
  * @category Shared Types
  */

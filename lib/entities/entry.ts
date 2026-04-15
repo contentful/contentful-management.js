@@ -1,4 +1,12 @@
 /**
+ * Entry data shapes and legacy wrapper.
+ *
+ * **Shared (both clients):** `EntryProps`, `CreateEntryProps`, `EntryReferenceProps`
+ *
+ * **Legacy client only:** `Entry` — extends `EntryProps` with chainable instance
+ * methods (`.publish()`, `.archive()`, `.update()`, etc.). Plain client users
+ * receive `EntryProps` directly from `client.entry.get()` and never interact
+ * with `Entry`.
  * @module
  * @category Shared Types
  */

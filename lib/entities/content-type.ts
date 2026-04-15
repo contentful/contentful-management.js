@@ -1,4 +1,12 @@
 /**
+ * Content type data shapes and legacy wrapper.
+ *
+ * **Shared (both clients):** `ContentTypeProps`, `CreateContentTypeProps`, `ContentTypeMetadata`
+ *
+ * **Legacy client only:** `ContentType` — extends `ContentTypeProps` with
+ * chainable instance methods (`.publish()`, `.update()`, `.omitAndDeleteField()`,
+ * etc.). Plain client users receive `ContentTypeProps` directly from
+ * `client.contentType.get()` and never interact with `ContentType`.
  * @module
  * @category Shared Types
  */

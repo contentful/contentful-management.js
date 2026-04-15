@@ -1,4 +1,12 @@
 /**
+ * Asset data shapes and legacy wrapper.
+ *
+ * **Shared (both clients):** `AssetProps`, `CreateAssetProps`, `AssetFileProp`
+ *
+ * **Legacy client only:** `Asset` — extends `AssetProps` with chainable instance
+ * methods (`.publish()`, `.archive()`, `.processForAllLocales()`, etc.). Plain
+ * client users receive `AssetProps` directly from `client.asset.get()` and
+ * never interact with `Asset`.
  * @module
  * @category Shared Types
  */
