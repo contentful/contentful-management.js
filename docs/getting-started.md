@@ -16,13 +16,13 @@ npm install contentful-management
 
 The SDK exposes two distinct client styles. **Choose the plain client for all new code.**
 
-| | Plain Client | Legacy Client |
-|---|---|---|
-| **Style** | Flat, Promise-based | Nested, chainable |
-| **Recommended** | ✅ Yes | ❌ No — deprecated since v10 |
-| **Entry point** | `createClient({ ...options })` with `plainClient: true` | `createClient({ ...options })` |
-| **API surface** | `PlainClientAPI` | `ContentfulClientAPI` → `ContentfulSpaceAPI` → `ContentfulEnvironmentAPI` |
-| **Params** | All entity IDs passed as flat objects | Retrieved by calling `.getSpace()` → `.getEnvironment()` → … |
+|                 | Plain Client                                            | Legacy Client                                                             |
+| --------------- | ------------------------------------------------------- | ------------------------------------------------------------------------- |
+| **Style**       | Flat, Promise-based                                     | Nested, chainable                                                         |
+| **Recommended** | ✅ Yes                                                  | ❌ No — this client will be deprecated in the future                      |
+| **Entry point** | `createClient({ ...options })` with `plainClient: true` | `createClient({ ...options })`                                            |
+| **API surface** | `PlainClientAPI`                                        | `ContentfulClientAPI` → `ContentfulSpaceAPI` → `ContentfulEnvironmentAPI` |
+| **Params**      | All entity IDs passed as flat objects                   | Retrieved by calling `.getSpace()` → `.getEnvironment()` → …              |
 
 ---
 
@@ -60,7 +60,7 @@ const draft = await client.entry.create(
   {
     fields: {
       title: { 'en-US': 'Hello from the plain client' },
-      slug:  { 'en-US': 'hello-plain-client' },
+      slug: { 'en-US': 'hello-plain-client' },
     },
   },
 )
@@ -105,7 +105,7 @@ const asset = await client.asset.create(
   {},
   {
     fields: {
-      title:       { 'en-US': 'My image' },
+      title: { 'en-US': 'My image' },
       description: { 'en-US': 'An example image upload' },
       file: {
         'en-US': {
@@ -122,10 +122,7 @@ const asset = await client.asset.create(
 const processed = await client.asset.processForAllLocales({ assetId: asset.sys.id })
 
 // 3. Publish
-await client.asset.publish(
-  { assetId: processed.sys.id, version: processed.sys.version },
-  processed,
-)
+await client.asset.publish({ assetId: processed.sys.id, version: processed.sys.version }, processed)
 ```
 
 ---
@@ -147,16 +144,16 @@ const client = createClient({ accessToken: '<YOUR_CMA_TOKEN>' })
 ### Fetch an entry
 
 ```typescript
-const space       = await client.getSpace('<SPACE_ID>')
+const space = await client.getSpace('<SPACE_ID>')
 const environment = await space.getEnvironment('master')
-const entry       = await environment.getEntry('<ENTRY_ID>')
+const entry = await environment.getEntry('<ENTRY_ID>')
 console.log(entry.fields.title)
 ```
 
 ### Create and publish an entry
 
 ```typescript
-const space       = await client.getSpace('<SPACE_ID>')
+const space = await client.getSpace('<SPACE_ID>')
 const environment = await space.getEnvironment('master')
 
 const entry = await environment.createEntry('blogPost', {
@@ -170,13 +167,13 @@ await entry.publish()
 
 ### Full API Reference
 
-| Object | Reference |
-|---|---|
+| Object           | Reference                                                         |
+| ---------------- | ----------------------------------------------------------------- |
 | Top-level client | `ContentfulClientAPI` — see the **Legacy Client** sidebar section |
-| Space | `ContentfulSpaceAPI` |
-| Environment | `ContentfulEnvironmentAPI` |
-| Entry (entity) | `EntryApi` |
-| Asset (entity) | `AssetApi` |
+| Space            | `ContentfulSpaceAPI`                                              |
+| Environment      | `ContentfulEnvironmentAPI`                                        |
+| Entry (entity)   | `EntryApi`                                                        |
+| Asset (entity)   | `AssetApi`                                                        |
 
 ---
 
@@ -215,12 +212,3 @@ import type { EntryProps, AssetProps, PlainClientAPI } from 'contentful-manageme
 ```
 
 See the **Shared Types** section of the sidebar for the full type catalog.
-
----
-
-## Next Steps
-
-- [PlainClientAPI](../plain/plain-client-types/PlainClientAPI.html) — full method listing for every resource on the plain client
-- [checks](../plain/checks.html) — `isPublished`, `isDraft`, `isUpdated`, `isArchived` utilities
-- [Contentful CMA Reference](https://www.contentful.com/developers/docs/references/content-management-api/) — underlying HTTP API docs
-- [GitHub repository](https://github.com/contentful/contentful-management.js) — source, issues, changelog
