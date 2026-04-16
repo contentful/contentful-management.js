@@ -1,5 +1,8 @@
 /**
  * Methods available on an {@link Entry} instance in the legacy chainable client.
+ *
+ * > **Looking for the method list?** These methods are surfaced on the
+ * > {@link Entry} entity in the **Shared Types** section of the sidebar.
  * @module
  * @category Legacy Client
  */

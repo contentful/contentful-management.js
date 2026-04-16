@@ -1,6 +1,9 @@
 /**
  * Methods available on an {@link AppDefinition} instance in the legacy
  * chainable client, including app bundle and resource provider management.
+ *
+ * > **Looking for the method list?** These methods are surfaced on the
+ * > {@link AppDefinition} entity in the **Shared Types** section of the sidebar.
  * @module
  * @category Legacy Client
  */

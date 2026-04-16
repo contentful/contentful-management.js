@@ -1,6 +1,9 @@
 /**
  * Contentful Organization API. Contains methods for managing teams,
  * memberships, invitations, app definitions, and organization-level resources.
+ *
+ * > **Looking for the method list?** These methods are surfaced on the
+ * > {@link Organization} entity in the **Shared Types** section of the sidebar.
  * @module
  * @category Legacy Client
  */

@@ -1,6 +1,9 @@
 /**
  * Contentful Space API. Contains methods to access any operations at a space
  * level, such as creating and reading entities contained in a space.
+ *
+ * > **Looking for the method list?** These methods are surfaced on the
+ * > {@link Space} entity in the **Shared Types** section of the sidebar.
  * @module
  * @category Legacy Client
  */

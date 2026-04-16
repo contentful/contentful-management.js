@@ -1,6 +1,9 @@
 /**
  * Contentful Environment API. Contains methods for managing entries, assets,
  * content types, locales, and other environment-scoped resources.
+ *
+ * > **Looking for the method list?** These methods are surfaced on the
+ * > {@link Environment} entity in the **Shared Types** section of the sidebar.
  * @module
  * @category Legacy Client
  */
