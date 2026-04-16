@@ -72,10 +72,7 @@
 
     select.addEventListener('change', function () {
       var newVersion = encodeURIComponent(select.value)
-      var relativePath = getRelativePath()
-        .split('/')
-        .map(encodeURIComponent)
-        .join('/')
+      var relativePath = getRelativePath().split('/').map(encodeURIComponent).join('/')
       var url = new URL(REPO_ROOT + NAMESPACE + '/' + newVersion + '/' + relativePath)
       if (url.origin === new URL(REPO_ROOT).origin) {
         window.location.href = url.href
