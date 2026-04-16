@@ -139,7 +139,9 @@ export default {
 
   // Promote plain-client results; demote legacy so new users land on the right API
   searchCategoryBoosts: {
+    'Getting Started': 3,
     'Plain Client': 2,
+    'Core': 2,
     'Shared Types': 1.5,
     'Legacy Client': 0.5,
   },

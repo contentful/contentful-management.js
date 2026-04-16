@@ -28,7 +28,7 @@ The SDK exposes two distinct client styles. **Choose the plain client for all ne
 
 ## Plain Client (Recommended)
 
-The plain client is a flat, stateless API. Every method accepts all required entity IDs directly — no nested `.getSpace()` calls needed.
+The plain client is a flat, stateless API. Every method accepts all required entity IDs directly — no nested `.getSpace()` calls needed. See [PlainClientAPI](../plain/plain-client-types/PlainClientAPI.html) for the full method reference.
 
 ### Setup
 
@@ -220,7 +220,7 @@ See the **Shared Types** section of the sidebar for the full type catalog.
 
 ## Next Steps
 
-- **PlainClientAPI** — full method listing for the plain client (see sidebar under **Plain Client**)
-- **Checks** — `isPublished`, `isDraft`, `isArchived`, and friends (see sidebar under **Plain Client**)
+- [PlainClientAPI](../plain/plain-client-types/PlainClientAPI.html) — full method listing for every resource on the plain client
+- [checks](../plain/checks.html) — `isPublished`, `isDraft`, `isUpdated`, `isArchived` utilities
 - [Contentful CMA Reference](https://www.contentful.com/developers/docs/references/content-management-api/) — underlying HTTP API docs
 - [GitHub repository](https://github.com/contentful/contentful-management.js) — source, issues, changelog
