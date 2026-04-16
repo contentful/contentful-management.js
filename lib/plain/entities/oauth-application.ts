@@ -1,3 +1,7 @@
+/**
+ * @module oauth-application
+ * @category Plain Client
+ */
 import type { RawAxiosRequestHeaders } from 'axios'
 import type {
   GetOAuthApplicationParams,
@@ -15,7 +19,7 @@ import type {
 export type OAuthApplicationPlainClientAPI = {
   /**
    * Retrieves a list of OAuth applications associated with the current user.
-   * @param userId the user ID
+   * @param params the user ID and optional query parameters
    * @returns A collection of oauth applications
    * @throws if the request fails, or the user is not found
    * @example
@@ -34,8 +38,7 @@ export type OAuthApplicationPlainClientAPI = {
 
   /**
    * Retrieves details of a specific OAuth application.
-   * @param userId the user ID
-   * @param oauthApplicationId the OAuth application ID
+   * @param params the user and OAuth application IDs
    * @returns the requested OAuth Application
    * @throws if the request fails, or the OAuth Application or user are not found
    * @example
@@ -50,7 +53,7 @@ export type OAuthApplicationPlainClientAPI = {
 
   /**
    * Creates a new OAuth application.
-   * @param userId the user ID
+   * @param params the user ID
    * @param rawData the oauth application payload
    * @returns the created OAuth Application
    * @throws if the request fails, or the user is not found

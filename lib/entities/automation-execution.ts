@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Shared Types
+ */
 import type {
   BasicCursorPaginationOptions,
   BasicMetaSysProps,

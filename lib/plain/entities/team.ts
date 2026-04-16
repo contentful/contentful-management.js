@@ -1,3 +1,7 @@
+/**
+ * @module team
+ * @category Plain Client
+ */
 import type { RawAxiosRequestHeaders } from 'axios'
 import type {
   GetTeamParams,

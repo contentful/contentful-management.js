@@ -1,3 +1,7 @@
+/**
+ * @module organization
+ * @category Plain Client
+ */
 import type {
   PaginationQueryParams,
   CollectionProp,

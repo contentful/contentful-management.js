@@ -1,3 +1,7 @@
+/**
+ * @module semantic-reference-suggestions
+ * @category Plain Client
+ */
 import type {
   GetSemanticReferenceSuggestionsProps,
   SemanticReferenceSuggestionsProps,

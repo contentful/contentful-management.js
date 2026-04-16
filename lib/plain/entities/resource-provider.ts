@@ -1,3 +1,7 @@
+/**
+ * @module resource-provider
+ * @category Plain Client
+ */
 import type { RawAxiosRequestHeaders } from 'axios'
 import type { GetResourceProviderParams } from '../../common-types'
 import type {

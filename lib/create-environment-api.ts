@@ -1,3 +1,12 @@
+/**
+ * Contentful Environment API. Contains methods for managing entries, assets,
+ * content types, locales, and other environment-scoped resources.
+ *
+ * > **Looking for the method list?** These methods are surfaced on the
+ * > {@link Environment} entity in the **Shared Types** section of the sidebar.
+ * @module
+ * @category Legacy Client
+ */
 import type { Stream } from 'stream'
 import { createRequestConfig } from 'contentful-sdk-core'
 import type {
@@ -126,7 +135,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     /**
      * Deletes the environment
      * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -153,7 +163,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     /**
      * Updates the environment
      * @returns Promise for the updated environment.
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -185,7 +196,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * Creates SDK Entry object (locally) from entry data
      * @param entryData - Entry Data
      * @returns Entry
-     * @example ```javascript
+     * @example
+     * ```javascript
      * environment.getEntry('entryId').then(entry => {
      *
      *   // Build a plainObject in order to make it usable for React (saving in state or redux)
@@ -218,7 +230,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * Creates SDK Asset object (locally) from entry data
      * @param assetData - Asset ID
      * @returns Asset
-     * @example ```javascript
+     * @example
+     * ```javascript
      * environment.getAsset('asset_id').then(asset => {
      *
      *   // Build a plainObject in order to make it usable for React (saving in state or redux)
@@ -250,12 +263,13 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
 
     /**
      *
-     * @description Get a BulkAction by ID.
-     *  See: https://www.contentful.com/developers/docs/references/content-management-api/#/reference/bulk-actions/bulk-action
+     * Get a BulkAction by ID.
+     * See: https://www.contentful.com/developers/docs/references/content-management-api/#/reference/bulk-actions/bulk-action
      * @param bulkActionId - ID of the BulkAction to fetch
-     * @returns - Promise with the BulkAction
+     * @returns Promise with the BulkAction
      *
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -283,10 +297,10 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     },
 
     /**
-     * @description Creates a BulkAction that will attempt to publish all items contained in the payload.
+     * Creates a BulkAction that will attempt to publish all items contained in the payload.
      * See: https://www.contentful.com/developers/docs/references/content-management-api/#/reference/bulk-actions/publish-bulk-action
-     * @param {BulkActionPayload} payload - Object containing the items to be processed in the bulkAction
-     * @returns - Promise with the BulkAction
+     * @param payload - Object containing the items to be processed in the bulkAction
+     * @returns Promise with the BulkAction
      *
      * @example
      *
@@ -342,10 +356,10 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     },
 
     /**
-     * @description Creates a BulkAction that will attempt to validate all items contained in the payload.
+     * Creates a BulkAction that will attempt to validate all items contained in the payload.
      * See: https://www.contentful.com/developers/docs/references/content-management-api/#/reference/bulk-actions/validate-bulk-action
-     * @param {BulkActionPayload} payload - Object containing the items to be processed in the bulkAction
-     * @returns - Promise with the BulkAction
+     * @param payload - Object containing the items to be processed in the bulkAction
+     * @returns Promise with the BulkAction
      *
      * @example
      *
@@ -402,10 +416,10 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     },
 
     /**
-     * @description Creates a BulkAction that will attempt to unpublish all items contained in the payload.
+     * Creates a BulkAction that will attempt to unpublish all items contained in the payload.
      * See: https://www.contentful.com/developers/docs/references/content-management-api/#/reference/bulk-actions/unpublish-bulk-action
-     * @param {BulkActionPayload} payload - Object containing the items to be processed in the bulkAction
-     * @returns - Promise with the BulkAction
+     * @param payload - Object containing the items to be processed in the bulkAction
+     * @returns Promise with the BulkAction
      *
      * @example
      *
@@ -464,7 +478,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * Gets a Content Type
      * @param contentTypeId - Content Type ID
      * @returns Promise for a Content Type
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -496,7 +511,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * Gets a collection of Content Types
      * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
      * @returns Promise for a collection of Content Types
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -527,7 +543,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * Gets a collection of Content Types with cursor based pagination
      * @param query - Object with cursor pagination parameters. Check the <a href="https://www.contentful.com/developers/docs/references/content-management-api/#/introduction/cursor-pagination">REST API reference</a> for more details.
      * @returns Promise for a collection of Content Types
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -564,7 +581,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * Creates a Content Type
      * @param data - Object representation of the Content Type to be created
      * @returns Promise for the newly created Content Type
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -607,7 +625,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * @param contentTypeId - Content Type ID
      * @param data - Object representation of the Content Type to be created
      * @returns Promise for the newly created Content Type
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -651,7 +670,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * Gets an EditorInterface for a ContentType
      * @param contentTypeId - Content Type ID
      * @returns Promise for an EditorInterface
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -681,7 +701,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     /**
      * Gets all EditorInterfaces
      * @returns Promise for a collection of EditorInterface
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -714,7 +735,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * @param id - Entry ID
      * @param query - Object with search parameters. In this method it's only useful for `locale`.
      * @returns Promise for an Entry
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -746,7 +768,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * Deletes an Entry of this environment
      * @param id - Entry ID
      * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -781,7 +804,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * from your entry in the backend
      * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
      * @returns Promise for a collection of Entries
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -814,7 +838,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * from your entry in the backend
      * @param query - Object with cursor pagination parameters. Check the <a href="https://www.contentful.com/developers/docs/references/content-management-api/#/introduction/cursor-pagination">REST API reference</a> for more details.
      * @returns Promise for a collection of Entries
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -851,7 +876,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * Gets a collection of published Entries
      * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
      * @returns Promise for a collection of published Entries
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -882,7 +908,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * Gets a collection of published Entries with cursor based pagination
      * @param query - Object with cursor pagination parameters. Check the <a href="https://www.contentful.com/developers/docs/references/content-management-api/#/introduction/cursor-pagination">REST API reference</a> for more details.
      * @returns Promise for a collection of published Entries
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -920,7 +947,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * @param contentTypeId - The Content Type ID of the newly created Entry
      * @param data - Object representation of the Entry to be created
      * @returns Promise for the newly created Entry
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -960,7 +988,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * @param id - Entry ID
      * @param data - Object representation of the Entry to be created
      * @returns Promise for the newly created Entry
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -1001,7 +1030,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * @param entryId - Entry ID
      * @param {Object} options.include - Level of the entry descendants from 1 up to 10 maximum
      * @returns Promise of Entry references
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management');
      *
      * const client = contentful.createClient({
@@ -1039,7 +1069,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * @param id - Asset ID
      * @param query - Object with search parameters. In this method it's only useful for `locale`.
      * @returns Promise for an Asset
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -1073,7 +1104,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * from your entry in the backend
      * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
      * @returns Promise for a collection of Assets
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -1106,7 +1138,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * from your entry in the backend
      * @param query - Object with cursor pagination parameters. Check the <a href="https://www.contentful.com/developers/docs/references/content-management-api/#/introduction/cursor-pagination">REST API reference</a> for more details.
      * @returns Promise for a collection of Assets
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -1143,7 +1176,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * Gets a collection of published Assets
      * @param query - Object with search parameters. Check the <a href="https://www.contentful.com/developers/docs/javascript/tutorials/using-js-cda-sdk/#retrieving-entries-with-search-parameters">JS SDK tutorial</a> and the <a href="https://www.contentful.com/developers/docs/references/content-delivery-api/#/reference/search-parameters">REST API reference</a> for more details.
      * @returns Promise for a collection of published Assets
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -1174,7 +1208,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * Gets a collection of published Assets with cursor based pagination
      * @param query - Object with cursor pagination parameters. Check the <a href="https://www.contentful.com/developers/docs/references/content-management-api/#/introduction/cursor-pagination">REST API reference</a> for more details.
      * @returns Promise for a collection of published Assets
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -1211,7 +1246,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * Creates a Asset. After creation, call asset.processForLocale or asset.processForAllLocales to start asset processing.
      * @param data - Object representation of the Asset to be created. Note that the field object should have an upload property on asset creation, which will be removed and replaced with an url property when processing is finished.
      * @returns Promise for the newly created Asset
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
      * })
@@ -1255,7 +1291,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * @param id - Asset ID
      * @param data - Object representation of the Asset to be created. Note that the field object should have an upload property on asset creation, which will be removed and replaced with an url property when processing is finished.
      * @returns Promise for the newly created Asset
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
      * })
@@ -1298,7 +1335,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * @param data - Object representation of the Asset to be created. Note that the field object should have an uploadFrom property on asset creation, which will be removed and replaced with an url property when processing is finished.
      * @param data.fields.file.[LOCALE].file - Can be a string, an ArrayBuffer or a Stream.
      * @returns Promise for the newly created Asset
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
      * })
@@ -1343,7 +1381,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * @param data Object with request payload
      * @param data.expiresAt number a UNIX timestamp in the future (but not more than 48 hours from time of calling)
      * @returns Promise for the newly created AssetKey
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
      * })
@@ -1375,7 +1414,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * Gets an Upload
      * @param id - Upload ID
      * @returns Promise for an Upload
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
      * })
@@ -1405,7 +1445,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * @param data - Object with file information.
      * @param data.file - Actual file content. Can be a string, an ArrayBuffer or a Stream.
      * @returns Upload object containing information about the uploaded file.
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const client = contentful.createClient({
      *   accessToken: '<content_management_api_key>'
      * })
@@ -1434,7 +1475,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * Gets a Locale
      * @param localeId - Locale ID
      * @returns Promise for an Locale
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -1464,7 +1506,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     /**
      * Gets a collection of Locales
      * @returns Promise for a collection of Locales
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -1494,7 +1537,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * Creates a Locale
      * @param data - Object representation of the Locale to be created
      * @returns Promise for the newly created Locale
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -1530,7 +1574,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * Gets an UI Extension
      * @param id - Extension ID
      * @returns Promise for an UI Extension
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -1559,7 +1604,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     /**
      * Gets a collection of UI Extension
      * @returns Promise for a collection of UI Extensions
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -1588,7 +1634,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * Creates a UI Extension
      * @param data - Object representation of the UI Extension to be created
      * @returns Promise for the newly created UI Extension
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -1633,7 +1680,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * @param id - Extension ID
      * @param data - Object representation of the UI Extension to be created
      * @returns Promise for the newly created UI Extension
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -1681,7 +1729,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * @param data - AppInstallation data
      * @param options.acceptAllTerms - Flag for accepting Apps' Marketplace EULA, Terms, and Privacy policy (need to pass `{acceptAllTerms: true}` to install a marketplace app)
      * @returns Promise for an App Installation
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -1721,7 +1770,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * Gets an App Installation
      * @param id - AppDefinition ID
      * @returns Promise for an App Installation
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -1750,7 +1800,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     /**
      * Gets a collection of App Installation
      * @returns Promise for a collection of App Installations
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -1781,7 +1832,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * @param appActionId - action ID
      * @param data - App Action Call data
      * @returns Promise for an App Action Call
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -1829,7 +1881,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * @param appActionId - App Action ID
      * @param callId - App Action Call ID
      * @returns Promise for the raw response object including `response.body` and optional `response.headers`
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -1867,7 +1920,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * @param appDefinitionId - AppDefinition ID
      * @param data - SignedRequest data
      * @returns Promise for a Signed Request
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -1908,7 +1962,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * @param appDefinitionId - AppDefinition ID
      * @param data - Json Web Token
      * @returns Promise for an app access token
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      * const { sign } = require('jsonwebtoken')
      *
@@ -1947,7 +2002,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * @param appInstallationId
      * @param {import('../common-types').AcceptsQueryOptions} query  - optional query parameter for filtering functions by action
      * @returns Promise containing wrapped collection of Functions in an environment
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -1981,7 +2037,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * @param functionId
      * @param {import('../common-types').CursorBasedParams} query  - optional query parameter for pagination (limit, nextPage, prevPage)
      * @returns Promise containing wrapped collection of FunctionLogs
-     * * @example ```javascript
+     * * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -2037,7 +2094,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * @param functionId
      * @param logId
      * @returns Promise containing a wrapped FunctionLog
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -2075,11 +2133,11 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     },
     /**
      * Gets all snapshots of an entry
-     * @func getEntrySnapshots
      * @param entryId - Entry ID
      * @param query - query additional query paramaters
      * @returns Promise for a collection of Entry Snapshots
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -2108,11 +2166,11 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     },
     /**
      * Gets all snapshots of a contentType
-     * @func getContentTypeSnapshots
      * @param contentTypeId - Content Type ID
      * @param query - query additional query paramaters
      * @returns Promise for a collection of Content Type Snapshots
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -2189,7 +2247,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * Retrieves a Release by ID
      * @param releaseId
      * @returns Promise containing a wrapped Release
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -2221,7 +2280,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * Gets a Collection of Releases,
      * @param {ReleaseQueryOptions} query filtering options for the collection result
      * @returns Promise containing a wrapped Release Collection
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -2253,7 +2313,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * Creates a new Release with the entities and title in the payload
      * @param payload Object containing the payload in order to create a Release
      * @returns Promise containing a wrapped Release, that has other helper methods within.
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -2299,7 +2360,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * @param options.version Release sys.version that to be updated
      * @returns Promise containing a wrapped Release, that has helper methods within.
      *
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -2353,7 +2415,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * @param releaseId the ID of the release
      *
      * @returns Promise containing a wrapped Release, that has helper methods within.
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -2386,7 +2449,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * @param options.version the version of the release that is to be published
      * @returns Promise containing a wrapped Release, that has helper methods within.
      *
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -2420,7 +2484,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * @param options.version the version of the release that is to be published
      * @returns Promise containing a wrapped Release, that has helper methods within.
      *
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -2455,7 +2520,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      *
      * @returns Promise containing a wrapped Release, that has helper methods within.
      *
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -2495,7 +2561,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * @param options.version the version of the release that is to be archived
      * @returns Promise containing a wrapped Release, that has helper methods within.
      *
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -2529,7 +2596,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * @param options.version the version of the release that is to be unarchived
      * @returns Promise containing a wrapped Release, that has helper methods within.
      *
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -2562,7 +2630,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * @param params.releaseId The ID of a Release
      * @param params.actionId The ID of a Release Action
      * @returns Promise containing a wrapped ReleaseAction
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -2597,7 +2666,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * @param {ReleaseQueryOptions} params.query filtering options for the collection result
      * @returns Promise containing a wrapped ReleaseAction Collection
      *
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -2771,7 +2841,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * @param aiActionId - The ID of the AI Action to invoke.
      * @param payload - The invocation payload.
      * @returns Promise for an AI Action Invocation.
-     * @example ```javascript
+     * @example
+     * ```javascript
      * client.getSpace('<space_id>')
      *   .then(space => space.getEnvironment('<environment_id>'))
      *   .then(environment => environment.invokeAiAction('<ai_action_id>', {
@@ -2796,7 +2867,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * Retrieves an AI Action Invocation.
      * @param params - Object containing the AI Action ID and the Invocation ID.
      * @returns Promise for an AI Action Invocation.
-     * @example ```javascript
+     * @example
+     * ```javascript
      * client.getSpace('<space_id>')
      *   .then(space => space.getEnvironment('<environment_id>'))
      *   .then(environment => environment.getAiActionInvocation({
@@ -2831,7 +2903,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * Retrieves Semantic Duplicates for the given entity ID
      * @param payload - Object containing the entityId and optional filters
      * @returns Promise for Semantic Duplicates
-     * @example ```javascript
+     * @example
+     * ```javascript
      * client.getSpace('<space_id>')
      *   .then(space => space.getEnvironment('<environment_id>'))
      *   .then(environment => environment.getSemanticDuplicates({
@@ -2858,7 +2931,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * Retrieves Semantic Recommendations for the given entity IDs
      * @param payload - Object containing the entityIds and optional filters
      * @returns Promise for Semantic Recommendations
-     * @example ```javascript
+     * @example
+     * ```javascript
      * client.getSpace('<space_id>')
      *   .then(space => space.getEnvironment('<environment_id>'))
      *   .then(environment => environment.getSemanticRecommendations({
@@ -2885,7 +2959,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * Retrieves Semantic Reference Suggestions for the given entity ID and its reference field ID
      * @param payload - Object containing the entityId and referenceFieldId
      * @returns Promise for Semantic Reference Suggestions
-     * @example ```javascript
+     * @example
+     * ```javascript
      * client.getSpace('<space_id>')
      *   .then(space => space.getEnvironment('<environment_id>'))
      *   .then(environment => environment.getSemanticReferenceSuggestions({
@@ -2910,7 +2985,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * Retrieves Semantic Search results for the given query
      * @param payload - Object containing the search query and optional filters
      * @returns Promise for Semantic Search results
-     * @example ```javascript
+     * @example
+     * ```javascript
      * client.getSpace('<space_id>')
      *   .then(space => space.getEnvironment('<environment_id>'))
      *   .then(environment => environment.getSemanticSearch({
@@ -2936,7 +3012,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     /**
      * Gets all content semantics indexes for the environment
      * @return Promise for a collection of ContentSemanticsIndex
-     * @example ```javascript
+     * @example
+     * ```javascript
      * client.getSpace('<space_id>')
      *   .then(space => space.getEnvironment('<environment_id>'))
      *   .then(environment => environment.getContentSemanticsIndexes())
@@ -2958,7 +3035,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * Gets an AI Agent
      * @param agentId - AI Agent ID
      * @returns Promise for an AI Agent
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -2988,7 +3066,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
     /**
      * Gets a collection of AI Agents
      * @returns Promise for a collection of AI Agents
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -3020,7 +3099,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * @param payload - Generation payload
      * @returns Promise for a simplified response containing `sys.id`, `sys.type`, and `sys.status`.
      *         Use `getAgentRun()` with the returned `sys.id` to poll for full results.
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * async function generateContent() {
@@ -3070,7 +3150,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * Gets an AI Agent Run
      * @param runId - AI Agent Run ID
      * @returns Promise for an AI Agent Run
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({
@@ -3101,7 +3182,8 @@ export default function createEnvironmentApi(makeRequest: MakeRequest) {
      * Gets a collection of AI Agent Runs with optional filtering
      * @param query - Object with search parameters (agentIn, statusIn)
      * @returns Promise for a collection of AI Agent Runs
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({

@@ -1,3 +1,9 @@
+/**
+ * Utility functions for inspecting the publication state of any entity
+ * returned by the plain client.
+ * @module
+ * @category Plain Client
+ */
 import type { MetaSysProps } from '../common-types'
 
 export const isPublished = (data: { sys: MetaSysProps }) => !!data.sys.publishedVersion

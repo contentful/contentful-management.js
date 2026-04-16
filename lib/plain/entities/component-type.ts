@@ -1,3 +1,7 @@
+/**
+ * @module component-type
+ * @category Plain Client
+ */
 import type { GetSpaceEnvironmentParams, CollectionProp } from '../../common-types'
 import type { ComponentTypeQueryOptions, ComponentTypeProps } from '../../entities/component-type'
 import type { OptionalDefaults } from '../wrappers/wrap'

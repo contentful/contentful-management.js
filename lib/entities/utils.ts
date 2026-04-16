@@ -1,3 +1,8 @@
+/**
+ * @module
+ * @category Shared Types
+ */
+/** Transforms specified fields of an entity into locale-keyed objects */
 export type LocalizedEntity<
   Entity,
   LocalizedFields extends keyof Entity,
