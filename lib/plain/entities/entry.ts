@@ -341,12 +341,12 @@ export type EntryPlainClientAPI = {
   /**
    * Fetch an entry together with all entries it links to, up to the specified depth.
    * Returns a flat collection of the entry and its resolved references rather than a nested tree.
-   * @param params the entry ID, space and environment IDs, and optional `include` depth (1–10, default 1)
+   * @param params the entry ID, space and environment IDs, and optional `include` depth (1–10, default 2)
    * @returns a collection containing the requested entry and its linked entries
    * @throws if the space, environment, or entry are not found
    * @example
    * ```javascript
-   * const tree = await client.entry.references({
+   * const references = await client.entry.references({
    *   spaceId: '<space_id>',
    *   environmentId: '<environment_id>',
    *   entryId: '<entry_id>',
