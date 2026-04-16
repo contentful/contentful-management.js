@@ -10,7 +10,7 @@ import type {
 } from '../../entities/resource-provider'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
-export type ResourceProviderAPI = {
+export type ResourceProviderPlainClientAPI = {
   /**
    * Fetches a Resource Provider
    * @param params entity IDs to identify the Resource Provider

@@ -13,7 +13,7 @@ import type {
 import type { TeamProps, CreateTeamProps } from '../../entities/team'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
-export type TeamAPI = {
+export type TeamPlainClientAPI = {
   /**
    * Fetch a single team by its ID
    * @param params the team and organization IDs

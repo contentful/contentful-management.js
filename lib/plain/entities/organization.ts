@@ -10,7 +10,7 @@ import type {
 import type { OrganizationProps } from '../../entities/organization'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
-export type OrganizationAPI = {
+export type OrganizationPlainClientAPI = {
   /**
    * Fetch all organizations the user has access to
    * @param params Optional pagination query parameters

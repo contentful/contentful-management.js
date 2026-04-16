@@ -16,7 +16,7 @@ import type {
 import type { OptionalDefaults } from '../wrappers/wrap'
 import type { RawAxiosRequestHeaders } from 'axios'
 
-export type AiActionAPI = {
+export type AiActionPlainClientAPI = {
   /**
    * Fetches the AI Action.
    * @param params Entity IDs to identify the AI Action.

@@ -6,7 +6,7 @@ import type { CollectionProp, QueryParams } from '../../common-types'
 import type { UsageProps } from '../../entities/usage'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
-export type UsageAPI = {
+export type UsagePlainClientAPI = {
   /** Fetches all of an organization's usage data by space
    *
    * @param params organization ID and query parameters

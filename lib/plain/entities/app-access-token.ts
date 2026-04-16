@@ -9,7 +9,7 @@ import type {
 } from '../../entities/app-access-token'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
-export type AppAccessTokenAPI = {
+export type AppAccessTokenPlainClientAPI = {
   /**
    * Issue a token for an app installation in a space environment
    * @param params space, environment, and app definition IDs

@@ -15,7 +15,7 @@ import type {
 import type { CreateEntryProps, EntryProps, EntryReferenceProps } from '../../entities/entry'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
-export type EntryAPI = {
+export type EntryPlainClientAPI = {
   /**
    * Fetch a collection of published entries, using offset/limit pagination.
    * Use {@link getPublishedWithCursor} when you need cursor-based pagination over large result sets.

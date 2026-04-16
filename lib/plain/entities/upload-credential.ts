@@ -24,10 +24,10 @@ export type UploadCredential = {
   }
 }
 
-export type UploadCredentialAPI = {
+export type UploadCredentialPlainClientAPI = {
   /** Creates a Space Environment UploadCredential for Filestack Upload
    *
-   * @param params Space ID and Environment ID to identify the Space Environment
+   * @param params Space Id and Environment Id to identify the Space Environment
    * @returns the Space Environment Upload
    * @throws if the request fails, or the Space Environment is not found
    * @example

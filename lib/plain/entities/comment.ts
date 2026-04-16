@@ -19,7 +19,7 @@ import type {
 } from '../../entities/comment'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
-export type CommentAPI = {
+export type CommentPlainClientAPI = {
   /** Fetches a plain text comment
    *
    * @param params Space ID, Comment ID, Entry ID, Environment ID
@@ -35,7 +35,7 @@ export type CommentAPI = {
    *   bodyFormat: 'plain-text',
    * });
    * ```
-   * */
+   **/
   get(params: OptionalDefaults<GetCommentParams> & PlainTextBodyFormat): Promise<CommentProps>
   /** Fetches a rich text comment
    *
@@ -52,7 +52,7 @@ export type CommentAPI = {
    *   bodyFormat: 'rich-text',
    * });
    * ```
-   * */
+   **/
   get(
     params: OptionalDefaults<GetCommentParams> & RichTextBodyFormat,
   ): Promise<RichTextCommentProps>
@@ -73,7 +73,7 @@ export type CommentAPI = {
    *   }
    * });
    * ```
-   * */
+   **/
   getMany(
     params: OptionalDefaults<GetManyCommentsParams & PlainTextBodyFormat & QueryParams>,
   ): Promise<CollectionProp<CommentProps>>
@@ -94,7 +94,7 @@ export type CommentAPI = {
    *   }
    * });
    * ```
-   * */
+   **/
   getMany(
     params: OptionalDefaults<GetManyCommentsParams & QueryParams & RichTextBodyFormat>,
   ): Promise<CollectionProp<RichTextCommentProps>>
@@ -184,7 +184,7 @@ export type CommentAPI = {
     rawData: UpdateCommentProps,
     headers?: RawAxiosRequestHeaders,
   ): Promise<CommentProps>
-  /** Updates a plain text comment
+  /** Updates a rich text comment
    *
    * @param params
    * @returns a rich text comment

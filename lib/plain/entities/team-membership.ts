@@ -13,7 +13,7 @@ import type {
 import type { TeamMembershipProps, CreateTeamMembershipProps } from '../../entities/team-membership'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
-export type TeamMembershipAPI = {
+export type TeamMembershipPlainClientAPI = {
   /**
    * Fetch a single team membership by its ID
    * @param params the team, team-membership, and organization IDs

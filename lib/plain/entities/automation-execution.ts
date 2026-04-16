@@ -15,7 +15,7 @@ import type {
   AutomationExecutionQueryOptions,
 } from '../../entities/automation-execution'
 
-export type AutomationExecutionAPI = {
+export type AutomationExecutionPlainClientAPI = {
   get(
     params: OptionalDefaults<GetAutomationExecutionParams>,
     headers?: RawAxiosRequestHeaders,

@@ -6,7 +6,7 @@ import type { CollectionProp, GetSpaceParams, QueryParams } from '../../common-t
 import type { SpaceMemberProps } from '../../entities/space-member'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
-export type SpaceMemberAPI = {
+export type SpaceMemberPlainClientAPI = {
   /**
    * Fetch the space member
    * @param params the space and member IDs

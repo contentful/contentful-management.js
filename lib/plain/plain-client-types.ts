@@ -98,69 +98,69 @@ import type {
   ScheduledActionProps,
 } from '../entities/scheduled-action'
 import type { SnapshotProps } from '../entities/snapshot'
-import type { AppAccessTokenAPI } from './entities/app-access-token'
-import type { AppActionAPI } from './entities/app-action'
-import type { AppActionCallAPI } from './entities/app-action-call'
-import type { AppBundleAPI } from './entities/app-bundle'
-import type { AppDefinitionAPI } from './entities/app-definition'
-import type { AppDetailsAPI } from './entities/app-details'
-import type { AppEventSubscriptionAPI } from './entities/app-event-subscription'
-import type { AppInstallationAPI } from './entities/app-installation'
-import type { AppKeyAPI } from './entities/app-key'
-import type { AppSignedRequestAPI } from './entities/app-signed-request'
-import type { AppSigningSecretAPI } from './entities/app-signing-secret'
-import type { AppUploadAPI } from './entities/app-upload'
-import type { AssetAPI } from './entities/asset'
-import type { CommentAPI } from './entities/comment'
-import type { ConceptAPI } from './entities/concept'
-import type { ConceptSchemeAPI } from './entities/concept-scheme'
-import type { ContentTypeAPI } from './entities/content-type'
-import type { EditorInterfaceAPI } from './entities/editor-interface'
-import type { EntryAPI } from './entities/entry'
-import type { EnvironmentAPI } from './entities/environment'
-import type { EnvironmentAliasAPI } from './entities/environment-alias'
-import type { ExtensionAPI } from './entities/extension'
-import type { FunctionAPI } from './entities/function'
-import type { LocaleAPI } from './entities/locale'
-import type { OrganizationAPI } from './entities/organization'
-import type { ResourceAPI } from './entities/resource'
-import type { ResourceProviderAPI } from './entities/resource-provider'
-import type { ResourceTypeAPI } from './entities/resource-type'
-import type { RoleAPI } from './entities/role'
-import type { SpaceAPI } from './entities/space'
-import type { SpaceMemberAPI } from './entities/space-member'
-import type { SpaceMembershipAPI } from './entities/space-membership'
-import type { TagAPI } from './entities/tag'
-import type { TaskAPI } from './entities/task'
-import type { TeamAPI } from './entities/team'
-import type { TeamMembershipAPI } from './entities/team-membership'
-import type { TeamSpaceMembershipAPI } from './entities/team-space-membership'
-import type { UIConfigAPI } from './entities/ui-config'
-import type { UploadAPI } from './entities/upload'
-import type { UploadCredentialAPI } from './entities/upload-credential'
-import type { UsageAPI } from './entities/usage'
-import type { UserAPI } from './entities/user'
-import type { UserUIConfigAPI } from './entities/user-ui-config'
-import type { WebhookAPI } from './entities/webhook'
-import type { WorkflowAPI } from './entities/workflow'
-import type { WorkflowDefinitionAPI } from './entities/workflow-definition'
-import type { WorkflowsChangelogAPI } from './entities/workflows-changelog'
+import type { AppAccessTokenPlainClientAPI } from './entities/app-access-token'
+import type { AppActionPlainClientAPI } from './entities/app-action'
+import type { AppActionCallPlainClientAPI } from './entities/app-action-call'
+import type { AppBundlePlainClientAPI } from './entities/app-bundle'
+import type { AppDefinitionPlainClientAPI } from './entities/app-definition'
+import type { AppDetailsPlainClientAPI } from './entities/app-details'
+import type { AppEventSubscriptionPlainClientAPI } from './entities/app-event-subscription'
+import type { AppInstallationPlainClientAPI } from './entities/app-installation'
+import type { AppKeyPlainClientAPI } from './entities/app-key'
+import type { AppSignedRequestPlainClientAPI } from './entities/app-signed-request'
+import type { AppSigningSecretPlainClientAPI } from './entities/app-signing-secret'
+import type { AppUploadPlainClientAPI } from './entities/app-upload'
+import type { AssetPlainClientAPI } from './entities/asset'
+import type { CommentPlainClientAPI } from './entities/comment'
+import type { ConceptPlainClientAPI } from './entities/concept'
+import type { ConceptSchemePlainClientAPI } from './entities/concept-scheme'
+import type { ContentTypePlainClientAPI } from './entities/content-type'
+import type { EditorInterfacePlainClientAPI } from './entities/editor-interface'
+import type { EntryPlainClientAPI } from './entities/entry'
+import type { EnvironmentPlainClientAPI } from './entities/environment'
+import type { EnvironmentAliasPlainClientAPI } from './entities/environment-alias'
+import type { ExtensionPlainClientAPI } from './entities/extension'
+import type { FunctionPlainClientAPI } from './entities/function'
+import type { LocalePlainClientAPI } from './entities/locale'
+import type { OrganizationPlainClientAPI } from './entities/organization'
+import type { ResourcePlainAPI } from './entities/resource'
+import type { ResourceProviderPlainClientAPI } from './entities/resource-provider'
+import type { ResourceTypePlainClientAPI } from './entities/resource-type'
+import type { RolePlainClientAPI } from './entities/role'
+import type { SpacePlainClientAPI } from './entities/space'
+import type { SpaceMemberPlainClientAPI } from './entities/space-member'
+import type { SpaceMembershipPlainClientAPI } from './entities/space-membership'
+import type { TagPlainClientAPI } from './entities/tag'
+import type { TaskPlainClientAPI } from './entities/task'
+import type { TeamPlainClientAPI } from './entities/team'
+import type { TeamMembershipPlainClientAPI } from './entities/team-membership'
+import type { TeamSpaceMembershipPlainClientAPI } from './entities/team-space-membership'
+import type { UIConfigPlainClientAPI } from './entities/ui-config'
+import type { UploadPlainClientAPI } from './entities/upload'
+import type { UploadCredentialPlainClientAPI } from './entities/upload-credential'
+import type { UsagePlainClientAPI } from './entities/usage'
+import type { UserPlainClientAPI } from './entities/user'
+import type { UserUIConfigPlainClientAPI } from './entities/user-ui-config'
+import type { WebhookPlainClientAPI } from './entities/webhook'
+import type { WorkflowPlainClientAPI } from './entities/workflow'
+import type { WorkflowDefinitionPlainClientAPI } from './entities/workflow-definition'
+import type { WorkflowsChangelogPlainClientAPI } from './entities/workflows-changelog'
 import type { PlainClientDefaultParams, OptionalDefaults } from './wrappers/wrap'
-import type { OAuthApplicationAPI } from './entities/oauth-application'
-import type { FunctionLogAPI } from './entities/function-log'
-import type { AiActionAPI } from './entities/ai-action'
-import type { AiActionInvocationAPI } from './entities/ai-action-invocation'
-import type { AgentAPI } from './entities/agent'
-import type { AgentRunAPI } from './entities/agent-run'
-import type { AutomationDefinitionAPI } from './entities/automation-definition'
-import type { AutomationExecutionAPI } from './entities/automation-execution'
-import type { SemanticDuplicatesAPI } from './entities/semantic-duplicates'
-import type { SemanticRecommendationsAPI } from './entities/semantic-recommendations'
-import type { SemanticReferenceSuggestionsAPI } from './entities/semantic-reference-suggestions'
-import type { SemanticSearchAPI } from './entities/semantic-search'
-import type { SemanticSettingsAPI } from './entities/semantic-settings'
-import type { ContentSemanticsIndexAPI } from './entities/content-semantics-index'
-import type { ComponentTypeAPI } from './entities/component-type'
+import type { OAuthApplicationPlainClientAPI } from './entities/oauth-application'
+import type { FunctionLogPlainClientAPI } from './entities/function-log'
+import type { AiActionPlainClientAPI } from './entities/ai-action'
+import type { AiActionInvocationPlainClientAPI } from './entities/ai-action-invocation'
+import type { AgentPlainClientAPI } from './entities/agent'
+import type { AgentRunPlainClientAPI } from './entities/agent-run'
+import type { AutomationDefinitionPlainClientAPI } from './entities/automation-definition'
+import type { AutomationExecutionPlainClientAPI } from './entities/automation-execution'
+import type { SemanticDuplicatesPlainClientAPI } from './entities/semantic-duplicates'
+import type { SemanticRecommendationsPlainClientAPI } from './entities/semantic-recommendations'
+import type { SemanticReferenceSuggestionsPlainClientAPI } from './entities/semantic-reference-suggestions'
+import type { SemanticSearchPlainClientAPI } from './entities/semantic-search'
+import type { SemanticSettingsPlainClientAPI } from './entities/semantic-settings'
+import type { ContentSemanticsIndexPlainClientAPI } from './entities/content-semantics-index'
+import type { ComponentTypePlainClientAPI } from './entities/component-type'
 
 export type PlainClientAPI = {
   raw: {
@@ -172,27 +172,27 @@ export type PlainClientAPI = {
     delete<T = unknown>(url: string, config?: RawAxiosRequestConfig): Promise<T>
     http<T = unknown>(url: string, config?: RawAxiosRequestConfig): Promise<T>
   }
-  aiAction: AiActionAPI
-  aiActionInvocation: AiActionInvocationAPI
-  agent: AgentAPI
-  agentRun: AgentRunAPI
-  automationDefinition: AutomationDefinitionAPI
-  automationExecution: AutomationExecutionAPI
-  appAction: AppActionAPI
-  appActionCall: AppActionCallAPI
-  appBundle: AppBundleAPI
-  appDetails: AppDetailsAPI
-  appEventSubscription: AppEventSubscriptionAPI
-  appKey: AppKeyAPI
-  appSignedRequest: AppSignedRequestAPI
-  appSigningSecret: AppSigningSecretAPI
-  appAccessToken: AppAccessTokenAPI
-  function: FunctionAPI
-  functionLog: FunctionLogAPI
-  editorInterface: EditorInterfaceAPI
-  space: SpaceAPI
-  environment: EnvironmentAPI
-  environmentAlias: EnvironmentAliasAPI
+  aiAction: AiActionPlainClientAPI
+  aiActionInvocation: AiActionInvocationPlainClientAPI
+  agent: AgentPlainClientAPI
+  agentRun: AgentRunPlainClientAPI
+  automationDefinition: AutomationDefinitionPlainClientAPI
+  automationExecution: AutomationExecutionPlainClientAPI
+  appAction: AppActionPlainClientAPI
+  appActionCall: AppActionCallPlainClientAPI
+  appBundle: AppBundlePlainClientAPI
+  appDetails: AppDetailsPlainClientAPI
+  appEventSubscription: AppEventSubscriptionPlainClientAPI
+  appKey: AppKeyPlainClientAPI
+  appSignedRequest: AppSignedRequestPlainClientAPI
+  appSigningSecret: AppSigningSecretPlainClientAPI
+  appAccessToken: AppAccessTokenPlainClientAPI
+  function: FunctionPlainClientAPI
+  functionLog: FunctionLogPlainClientAPI
+  editorInterface: EditorInterfacePlainClientAPI
+  space: SpacePlainClientAPI
+  environment: EnvironmentPlainClientAPI
+  environmentAlias: EnvironmentAliasPlainClientAPI
   environmentTemplate: {
     get(
       params: GetEnvironmentTemplateParams & {
@@ -292,24 +292,24 @@ export type PlainClientAPI = {
       BulkActionProps<ValidateBulkActionV2Payload<'add'> | ValidateBulkActionV2Payload<'remove'>>
     >
   }
-  comment: CommentAPI
-  componentType: ComponentTypeAPI
-  concept: ConceptAPI
-  conceptScheme: ConceptSchemeAPI
-  contentType: ContentTypeAPI
-  user: UserAPI
-  entry: EntryAPI
-  asset: AssetAPI
-  appUpload: AppUploadAPI
+  comment: CommentPlainClientAPI
+  componentType: ComponentTypePlainClientAPI
+  concept: ConceptPlainClientAPI
+  conceptScheme: ConceptSchemePlainClientAPI
+  contentType: ContentTypePlainClientAPI
+  user: UserPlainClientAPI
+  entry: EntryPlainClientAPI
+  asset: AssetPlainClientAPI
+  appUpload: AppUploadPlainClientAPI
   assetKey: {
     create(
       params: OptionalDefaults<GetSpaceEnvironmentParams>,
       data: CreateAssetKeyProps,
     ): Promise<AssetKeyProps>
   }
-  upload: UploadAPI
-  uploadCredential: UploadCredentialAPI
-  locale: LocaleAPI
+  upload: UploadPlainClientAPI
+  uploadCredential: UploadCredentialPlainClientAPI
+  locale: LocalePlainClientAPI
   personalAccessToken: {
     get(params: OptionalDefaults<{ tokenId: string }>): Promise<PersonalAccessTokenProps>
     getMany(
@@ -333,7 +333,7 @@ export type PlainClientAPI = {
       params: OptionalDefaults<GetOrganizationParams & QueryParams>,
     ): Promise<CollectionProp<AccessTokenProps>>
   }
-  usage: UsageAPI
+  usage: UsagePlainClientAPI
   release: {
     asset: {
       get(
@@ -449,10 +449,10 @@ export type PlainClientAPI = {
       params: OptionalDefaults<GetReleaseParams> & { query?: ReleaseActionQueryOptions },
     ): Promise<CollectionProp<ReleaseActionProps>>
   }
-  resource: ResourceAPI
-  resourceProvider: ResourceProviderAPI
-  resourceType: ResourceTypeAPI
-  role: RoleAPI
+  resource: ResourcePlainAPI
+  resourceProvider: ResourceProviderPlainClientAPI
+  resourceType: ResourceTypePlainClientAPI
+  role: RolePlainClientAPI
   scheduledActions: {
     get(
       params: OptionalDefaults<GetSpaceParams> & {
@@ -505,10 +505,10 @@ export type PlainClientAPI = {
     ): Promise<ApiKeyProps>
     delete(params: OptionalDefaults<GetSpaceParams & { apiKeyId: string }>): Promise<any>
   }
-  appDefinition: AppDefinitionAPI
-  appInstallation: AppInstallationAPI
-  extension: ExtensionAPI
-  webhook: WebhookAPI
+  appDefinition: AppDefinitionPlainClientAPI
+  appInstallation: AppInstallationPlainClientAPI
+  extension: ExtensionPlainClientAPI
+  webhook: WebhookPlainClientAPI
   snapshot: {
     getManyForEntry<T extends KeyValueMap = KeyValueMap>(
       params: OptionalDefaults<GetSnapshotForEntryParams & QueryParams>,
@@ -523,8 +523,8 @@ export type PlainClientAPI = {
       params: OptionalDefaults<GetSnapshotForContentTypeParams & { snapshotId: string }>,
     ): Promise<SnapshotProps<ContentTypeProps>>
   }
-  tag: TagAPI
-  organization: OrganizationAPI
+  tag: TagPlainClientAPI
+  organization: OrganizationPlainClientAPI
   organizationInvitation: {
     get(
       params: OptionalDefaults<{ organizationId: string; invitationId: string }>,
@@ -550,22 +550,22 @@ export type PlainClientAPI = {
     ): Promise<OrganizationMembershipProps>
     delete(params: OptionalDefaults<GetOrganizationMembershipParams>): Promise<any>
   }
-  spaceMember: SpaceMemberAPI
-  spaceMembership: SpaceMembershipAPI
-  task: TaskAPI
-  team: TeamAPI
-  teamMembership: TeamMembershipAPI
-  teamSpaceMembership: TeamSpaceMembershipAPI
-  uiConfig: UIConfigAPI
-  userUIConfig: UserUIConfigAPI
-  workflowDefinition: WorkflowDefinitionAPI
-  workflow: WorkflowAPI
-  workflowsChangelog: WorkflowsChangelogAPI
-  oauthApplication: OAuthApplicationAPI
-  semanticSearch: SemanticSearchAPI
-  semanticDuplicates: SemanticDuplicatesAPI
-  semanticRecommendations: SemanticRecommendationsAPI
-  semanticReferenceSuggestions: SemanticReferenceSuggestionsAPI
-  semanticSettings: SemanticSettingsAPI
-  contentSemanticsIndex: ContentSemanticsIndexAPI
+  spaceMember: SpaceMemberPlainClientAPI
+  spaceMembership: SpaceMembershipPlainClientAPI
+  task: TaskPlainClientAPI
+  team: TeamPlainClientAPI
+  teamMembership: TeamMembershipPlainClientAPI
+  teamSpaceMembership: TeamSpaceMembershipPlainClientAPI
+  uiConfig: UIConfigPlainClientAPI
+  userUIConfig: UserUIConfigPlainClientAPI
+  workflowDefinition: WorkflowDefinitionPlainClientAPI
+  workflow: WorkflowPlainClientAPI
+  workflowsChangelog: WorkflowsChangelogPlainClientAPI
+  oauthApplication: OAuthApplicationPlainClientAPI
+  semanticSearch: SemanticSearchPlainClientAPI
+  semanticDuplicates: SemanticDuplicatesPlainClientAPI
+  semanticRecommendations: SemanticRecommendationsPlainClientAPI
+  semanticReferenceSuggestions: SemanticReferenceSuggestionsPlainClientAPI
+  semanticSettings: SemanticSettingsPlainClientAPI
+  contentSemanticsIndex: ContentSemanticsIndexPlainClientAPI
 }

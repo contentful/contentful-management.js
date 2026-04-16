@@ -12,7 +12,7 @@ import type {
 } from '../../entities/agent-run'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
-export type AgentRunAPI = {
+export type AgentRunPlainClientAPI = {
   /**
    * Fetches an AI Agent Run.
    * @param params Entity IDs to identify the AI Agent Run.

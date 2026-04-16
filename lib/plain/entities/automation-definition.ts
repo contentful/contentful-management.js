@@ -18,7 +18,7 @@ import type {
 
 export type DeleteAutomationDefinitionParams = GetAutomationDefinitionParams & { version: number }
 
-export type AutomationDefinitionAPI = {
+export type AutomationDefinitionPlainClientAPI = {
   get(
     params: OptionalDefaults<GetAutomationDefinitionParams>,
     headers?: RawAxiosRequestHeaders,

@@ -14,7 +14,7 @@ import type {
 import type { ConceptSchemeProps, CreateConceptSchemeProps } from '../../entities/concept-scheme'
 import type { SetOptional } from 'type-fest'
 
-export type ConceptSchemeAPI = {
+export type ConceptSchemePlainClientAPI = {
   /**
    * Create Concept Scheme
    * @returns the created Concept Scheme
@@ -140,7 +140,7 @@ export type ConceptSchemeAPI = {
    * @see {@link https://www.contentful.com/developers/docs/references/content-management-api/#/reference/taxonomy/concept-scheme}
    * @example
    * ```javascript
-   * await client.conceptScheme.update({
+   * await client.conceptScheme.delete({
    *   organizationId: '<organization_id>',
    *   conceptSchemeId: '<concept_scheme_id>',
    * });

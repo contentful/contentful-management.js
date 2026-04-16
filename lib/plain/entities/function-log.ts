@@ -10,7 +10,7 @@ import type {
 import type { FunctionLogProps } from '../../entities/function-log'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
-export type FunctionLogAPI = {
+export type FunctionLogPlainClientAPI = {
   /**
    * Fetches the specified FunctionLog
    * @param params the space ID, environment ID, app installation ID, function ID, and log ID

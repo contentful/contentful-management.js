@@ -15,7 +15,7 @@ import type {
   GetOrganizationParams,
 } from '../../common-types'
 
-export type ContentSemanticsIndexAPI = {
+export type ContentSemanticsIndexPlainClientAPI = {
   /**
    * Fetches a single search index by ID.
    * @param params Parameters including organizationId and indexId.

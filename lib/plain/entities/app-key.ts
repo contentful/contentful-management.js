@@ -6,7 +6,7 @@ import type { CollectionProp, GetAppDefinitionParams, QueryParams } from '../../
 import type { AppKeyProps, CreateAppKeyProps } from '../../entities/app-key'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
-export type AppKeyAPI = {
+export type AppKeyPlainClientAPI = {
   /**
    * Creates an App Key
    * @param params entity IDs to identify the App that the Key belongs to
@@ -55,7 +55,7 @@ export type AppKeyAPI = {
   ): Promise<AppKeyProps>
   /**
    * Fetches all Keys for the given App
-   * @param params entity IDs to identify the App, plus optional pagination query
+   * @param params entity IDs to identify the App, along with optional pagination query parameters
    * @returns the App Keys
    * @throws if the request fails, or the App is not found
    * @example

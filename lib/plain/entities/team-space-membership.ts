@@ -16,7 +16,7 @@ import type {
 } from '../../entities/team-space-membership'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
-export type TeamSpaceMembershipAPI = {
+export type TeamSpaceMembershipPlainClientAPI = {
   /**
    * Fetch a single team space membership by its ID
    * @param params the team and space IDs
@@ -51,9 +51,9 @@ export type TeamSpaceMembershipAPI = {
   ): Promise<CollectionProp<TeamSpaceMembershipProps>>
   /**
    * Fetch a team space membership for a given organization
-   * @param params the space ID and optional pagination query parameters
-   * @returns A collection of team space memberships
-   * @throws if the request fails, or the space is not found
+   * @param params the organization and team space membership IDs
+   * @returns the team space membership
+   * @throws if the request fails, or the organization or team space membership is not found
    * @example
    * ```javascript
    * const teamSpaceMembership = await client.teamSpaceMembership.getForOrganization({
@@ -93,7 +93,7 @@ export type TeamSpaceMembershipAPI = {
    * @example
    * ```javascript
    * const teamSpaceMembership = await client.teamSpaceMembership.create({
-   *   organizationId: '<organization_id>',
+   *   spaceId: '<space_id>',
    *   teamId: '<team_id>',
    * }, {
    *   admin: false,
@@ -119,7 +119,7 @@ export type TeamSpaceMembershipAPI = {
    *   teamSpaceMembershipId: '<team_space_membership_id>'
    * })
    *
-   * teamMembership = await client.teamMembership.update({
+   * teamSpaceMembership = await client.teamSpaceMembership.update({
    *   spaceId: '<space_id>',
    *   teamSpaceMembershipId: '<team_space_membership_id>'
    * }, {

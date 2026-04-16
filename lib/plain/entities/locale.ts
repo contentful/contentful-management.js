@@ -7,7 +7,7 @@ import type { GetSpaceEnvironmentParams, QueryParams, CollectionProp } from '../
 import type { OptionalDefaults } from '../wrappers/wrap'
 import type { CreateLocaleProps, LocaleProps } from '../../entities/locale'
 
-export type LocaleAPI = {
+export type LocalePlainClientAPI = {
   /**
    * Fetch a single locale by ID
    * @param params the locale ID and the IDs of the space and environment

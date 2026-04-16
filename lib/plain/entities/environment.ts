@@ -12,7 +12,7 @@ import type {
 import type { CreateEnvironmentProps, EnvironmentProps } from '../../entities/environment'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
-export type EnvironmentAPI = {
+export type EnvironmentPlainClientAPI = {
   /**
    * Fetch an environment
    * @param params a space and environment id

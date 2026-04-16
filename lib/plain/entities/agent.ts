@@ -8,7 +8,7 @@ import type { AgentGeneratePayload, AgentProps } from '../../entities/agent'
 import type { AgentGenerateResponse } from '../../entities/agent-run'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
-export type AgentAPI = {
+export type AgentPlainClientAPI = {
   /**
    * Fetches the AI Agent.
    * @param params Entity IDs to identify the AI Agent.

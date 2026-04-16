@@ -6,7 +6,7 @@ import type { GetSpaceEnvironmentParams, CollectionProp } from '../../common-typ
 import type { ComponentTypeQueryOptions, ComponentTypeProps } from '../../entities/component-type'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
-export type ComponentTypeAPI = {
+export type ComponentTypePlainClientAPI = {
   /**
    * Fetches all component types for a space and environment
    * @param params the space and environment IDs and query parameters

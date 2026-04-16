@@ -7,12 +7,11 @@ import type {
   GetFunctionParams,
   GetFunctionForEnvParams,
   GetManyFunctionParams,
-  AcceptsQueryParams,
 } from '../../common-types'
 import type { FunctionProps } from '../../entities/function'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
-export type FunctionAPI = {
+export type FunctionPlainClientAPI = {
   /**
    * Fetches the specified Function
    * @param params the organization ID, app definition ID, and function ID

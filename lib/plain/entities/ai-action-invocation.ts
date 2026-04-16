@@ -7,7 +7,7 @@ import type { AiActionInvocationProps } from '../../entities/ai-action-invocatio
 import type { OptionalDefaults } from '../wrappers/wrap'
 import type { RawAxiosRequestHeaders } from 'axios'
 
-export type AiActionInvocationAPI = {
+export type AiActionInvocationPlainClientAPI = {
   /**
    * Fetches an AI Action Invocation.
    * @param params Entity IDs to identify the AI Action Invocation.

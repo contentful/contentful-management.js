@@ -10,7 +10,7 @@ import type { OptionalDefaults } from '../wrappers/wrap'
 import type { GetSpaceEnvironmentParams } from '../../common-types'
 import type { RawAxiosRequestHeaders } from 'axios'
 
-export type SemanticDuplicatesAPI = {
+export type SemanticDuplicatesPlainClientAPI = {
   /**
    * Retrieves Semantic Duplicates for the given entity ID.
    * @param params Parameters for getting the space and environment IDs.

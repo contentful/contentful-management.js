@@ -12,7 +12,7 @@ import type {
 import type { OptionalDefaults } from '../wrappers/wrap'
 import type { CreateRoleProps, RoleProps } from '../../entities/role'
 
-export type RoleAPI = {
+export type RolePlainClientAPI = {
   /** Fetches a Role
    *
    * @param params Space ID and Role ID
@@ -127,7 +127,7 @@ export type RoleAPI = {
    * @throws if the request fails, the Space is not found, or the payload is malformed
    * @example
    * ```javascript
-   * const role = await client.role.create(
+   * const role = await client.role.createWithId(
    *   {
    *      spaceId: '<space_id>',
    *      roleId: '<role_id>',

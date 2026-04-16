@@ -6,7 +6,7 @@ import type { GetUserUIConfigParams } from '../../common-types'
 import type { UserUIConfigProps } from '../../entities/user-ui-config'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
-export type UserUIConfigAPI = {
+export type UserUIConfigPlainClientAPI = {
   /**
    * Fetch the UI Config for the current user in a given Space and Environment
    * @param params entity IDs to identify the UI Config
@@ -22,7 +22,7 @@ export type UserUIConfigAPI = {
    */
   get(params: OptionalDefaults<GetUserUIConfigParams>): Promise<UserUIConfigProps>
   /**
-   * Update the UI Config for for the current user in a given Space and Environment
+   * Update the UI Config for the current user in a given Space and Environment
    * @param params entity IDs to identify the UI Config
    * @param rawData the UI Config update
    * @returns the updated UI Config
