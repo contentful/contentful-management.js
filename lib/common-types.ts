@@ -1,3 +1,9 @@
+/**
+ * Shared type primitives used across both the plain and legacy clients —
+ * `Link`, `SysLink`, `CollectionProp`, `MetaSysProps`, pagination options, and more.
+ * @module
+ * @category Core
+ */
 import type { RawAxiosRequestConfig, RawAxiosRequestHeaders } from 'axios'
 import type { Stream } from 'stream'
 import type {

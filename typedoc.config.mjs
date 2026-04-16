@@ -15,6 +15,7 @@ export default {
   entryPoints: [
     // Core
     'lib/index.ts',
+    'lib/common-types.ts',
 
     // Plain Client (recommended)
     'lib/plain/plain-client.ts',
