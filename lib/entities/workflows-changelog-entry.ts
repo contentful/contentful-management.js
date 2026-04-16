@@ -15,6 +15,7 @@ import type {
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
 
+/** Query options for filtering workflow changelog entries */
 export type WorkflowsChangelogQueryOptions = Omit<PaginationQueryOptions, 'order'> & {
   /** Find workflows changelog entries filtered by the Entity type (Entry) */
   'entity.sys.linkType': string
@@ -27,6 +28,7 @@ export type WorkflowsChangelogQueryOptions = Omit<PaginationQueryOptions, 'order
   'workflowDefinition.sys.id[in]'?: string
 }
 
+/** Properties of a workflow changelog entry recording a workflow event */
 export type WorkflowsChangelogEntryProps = {
   event: string
   eventBy: SysLink
@@ -39,6 +41,7 @@ export type WorkflowsChangelogEntryProps = {
   stepName: string
 }
 
+/** A workflow changelog entry entity */
 export interface WorkflowsChangelogEntry
   extends WorkflowsChangelogEntryProps,
     DefaultElements<WorkflowsChangelogEntryProps> {}

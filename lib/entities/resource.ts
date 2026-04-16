@@ -11,6 +11,7 @@ import type {
 import { wrapCursorPaginatedCollection } from '../common-utils'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 
+/** Query options for looking up or searching external resources */
 export type ResourceQueryOptions = LookupQueryOptions | SearchQueryOptions
 
 type LookupQueryOptions = {
@@ -25,6 +26,7 @@ type SearchQueryOptions = {
   referencingEntryId?: string
 } & BasicCursorPaginationOptions
 
+/** Properties of an external resource linked via a resource provider */
 export type ResourceProps = {
   sys: {
     type: 'Resource'
@@ -48,6 +50,12 @@ export type ResourceProps = {
     }
   }
 }
+/**
+ * @internal
+ * @param makeRequest - function to make requests via an adapter
+ * @param data - Raw Resource data
+ * @returns Wrapped Resource data
+ */
 export function wrapResource(makeRequest: MakeRequest, data: ResourceProps) {
   const resource = toPlainObject(data)
   return freezeSys(resource)

@@ -6,13 +6,16 @@ import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type { DefaultElements, Link, MakeRequest, SemanticRequestFilter } from '../common-types'
 
+/** Confidence level of a semantic duplicate match */
 export type DuplicateLabel = 'high' | 'medium' | 'low'
 
+/** Parameters for requesting semantic duplicates of an entry */
 export type GetSemanticDuplicatesProps = {
   entityId: string
   filter?: SemanticRequestFilter
 }
 
+/** A single semantic duplicate result with confidence label */
 export type SemanticDuplicatesResult = {
   sys: {
     type: 'SemanticDuplicatesResult'
@@ -23,6 +26,7 @@ export type SemanticDuplicatesResult = {
   label: DuplicateLabel
 }
 
+/** Properties of a semantic duplicates response containing matched entries */
 export type SemanticDuplicatesProps = {
   sys: {
     type: 'Array'
@@ -31,10 +35,16 @@ export type SemanticDuplicatesProps = {
   items: SemanticDuplicatesResult[]
 }
 
+/** A semantic duplicates result entity */
 export interface SemanticDuplicates
   extends SemanticDuplicatesProps,
     DefaultElements<SemanticDuplicatesProps> {}
 
+/**
+ * @param _makeRequest - function to make requests via an adapter
+ * @param data - Raw semantic duplicates data
+ * @returns Wrapped semantic duplicates data
+ */
 export function wrapSemanticDuplicates(
   _makeRequest: MakeRequest,
   data: SemanticDuplicatesProps,

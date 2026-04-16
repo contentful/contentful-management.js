@@ -25,6 +25,12 @@ import type {
 import { wrapCollection, wrapCursorPaginatedCollection } from '../common-utils'
 import * as checks from '../plain/checks'
 
+/**
+ * Properties of a Contentful asset including localized title, description, and file fields.
+ *
+ * @see {@link CreateAssetProps} for the properties required to create a new asset
+ * @see {@link Asset} for the full asset type with methods
+ */
 export type AssetProps<S = {}> = {
   sys: EntityMetaSysProps & S
   fields: {
@@ -50,10 +56,17 @@ export type AssetProps<S = {}> = {
   metadata?: MetadataProps
 }
 
+/**
+ * Properties required to create a new asset.
+ *
+ * @see {@link AssetProps} for the full asset properties including sys metadata
+ */
 export type CreateAssetProps = Omit<AssetProps, 'sys'>
 
+/** Options for creating an asset from local files. */
 export type CreateAssetFromFilesOptions = { uploadTimeout?: number }
 
+/** Properties for an asset with raw file data for upload. */
 export interface AssetFileProp {
   sys: MetaSysProps
   fields: {
@@ -69,6 +82,7 @@ export interface AssetFileProp {
   }
 }
 
+/** Options for controlling asset processing retry behavior. */
 export interface AssetProcessingForLocale {
   processingCheckWait?: number
   processingCheckRetries?: number
@@ -82,7 +96,8 @@ type AssetApi = {
    * @prop options.processingCheckRetries - Maximum amount of times to check if the asset has been processed (default: 5)
    * @returns Object returned from the server with updated metadata.
    * @throws {AssetProcessingTimeout} If the asset takes too long to process. If this happens, retrieve the asset again, and if the url property is available, then processing has succeeded. If not, your file might be damaged.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -122,7 +137,8 @@ type AssetApi = {
    * @prop options.processingCheckRetries - Maximum amount of times to check if the asset has been processed (default: 5)
    * @returns Object returned from the server with updated metadata.
    * @throws {AssetProcessingTimeout} If the asset takes too long to process. If this happens, retrieve the asset again, and if the url property is available, then processing has succeeded. If not, your file might be damaged.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -147,11 +163,12 @@ type AssetApi = {
    * .catch(console.error)
    * ```
    */
-  processForLocale(locale: string, Options?: AssetProcessingForLocale): Promise<Asset>
+  processForLocale(locale: string, options?: AssetProcessingForLocale): Promise<Asset>
   /**
    * Publishes the object
    * @returns Object returned from the server with updated metadata.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -170,7 +187,8 @@ type AssetApi = {
   /**
    * Archives the object
    * @returns Object returned from the server with updated metadata.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -189,7 +207,8 @@ type AssetApi = {
   /**
    * Deletes this object on the server.
    * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -208,7 +227,8 @@ type AssetApi = {
   /**
    * Unarchives the object
    * @returns Object returned from the server with updated metadata.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -227,7 +247,8 @@ type AssetApi = {
   /**
    * Unpublishes the object
    * @returns Object returned from the server with updated metadata.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -246,7 +267,8 @@ type AssetApi = {
   /**
    * Sends an update to the server with any changes made to the object's properties
    * @returns Object returned from the server with updated changes.
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const contentful = require('contentful-management')
    *
    * const client = contentful.createClient({
@@ -283,6 +305,14 @@ type AssetApi = {
   isArchived(): boolean
 }
 
+/**
+ * A Contentful asset with methods for processing, publishing, archiving, updating, and deleting.
+ *
+ * @remarks
+ * This interface is used with the legacy client. For the plain client, use {@link AssetProps} directly.
+ *
+ * @see {@link AssetProps} for the underlying data properties
+ */
 export interface Asset extends AssetProps, DefaultElements<AssetProps>, AssetApi {}
 
 /**
