@@ -78,9 +78,10 @@ export type DesignPropertyValue =
 // Tree node types for component tree
 export type ComponentNode = {
   id: string
+  name?: string
   nodeType: 'Component'
   componentTypeId: string
-  contentProperties: Record<string, ContentPropertyPointerValue | unknown>
+  contentProperties: Record<string, ContentPropertyPointerValue | unknown> | string
   designProperties: Record<string, DesignPropertyValue>
   slots: Record<string, TreeNode[]>
   contentBindings?: string
@@ -88,17 +89,26 @@ export type ComponentNode = {
 
 export type ViewNode = {
   id: string
+  name?: string
   nodeType: 'View'
   viewId: string
 }
 
+export type FragmentNode = {
+  id: string
+  name?: string
+  nodeType: 'Fragment'
+  fragmentId: string
+}
+
 export type SlotNode = {
   id: string
+  name?: string
   nodeType: 'Slot'
   slotId: string
 }
 
-export type TreeNode = ComponentNode | ViewNode | SlotNode
+export type TreeNode = ComponentNode | ViewNode | FragmentNode | SlotNode
 
 // Data type field for content bindings
 export type ComponentTypeDataTypeField = {
