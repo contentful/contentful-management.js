@@ -1,12 +1,4 @@
 /**
- * Environment data shapes and legacy wrapper.
- *
- * **Shared (both clients):** `EnvironmentProps`, `CreateEnvironmentProps`
- *
- * **Legacy client only:** `Environment` — combines `EnvironmentProps` with the
- * full `ContentfulEnvironmentAPI` (all `getEntry`, `createAsset`, etc. methods).
- * Plain client users pass `environmentId` directly to each method call and
- * never hold an `Environment` instance.
  * @module
  * @category Shared Types
  */

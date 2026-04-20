@@ -8,8 +8,10 @@ import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
 import type { DefaultElements, BasicMetaSysProps, SysLink, MakeRequest } from '../common-types'
 
+/** Supported types of space add-ons */
 export type SpaceAddOnType = 'contentTypes' | 'environments' | 'records'
 
+/** Properties of a space add-on */
 export type SpaceAddOnProps = {
   sys: BasicMetaSysProps & {
     organization: SysLink
@@ -20,11 +22,13 @@ export type SpaceAddOnProps = {
   allocated: number
 }
 
+/** Properties required to update a space add-on allocation */
 export type UpdateSpaceAddOnAllocationProps = {
   add_on: SpaceAddOnType
   allocation: number
 }
 
+/** A space add-on entity */
 export interface SpaceAddOn extends SpaceAddOnProps, DefaultElements<SpaceAddOnProps> {}
 
 /**

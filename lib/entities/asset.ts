@@ -1,12 +1,4 @@
 /**
- * Asset data shapes and legacy wrapper.
- *
- * **Shared (both clients):** `AssetProps`, `CreateAssetProps`, `AssetFileProp`
- *
- * **Legacy client only:** `Asset` — extends `AssetProps` with chainable instance
- * methods (`.publish()`, `.archive()`, `.processForAllLocales()`, etc.). Plain
- * client users receive `AssetProps` directly from `client.asset.get()` and
- * never interact with `Asset`.
  * @module
  * @category Shared Types
  */
@@ -20,7 +12,6 @@ import type {
   EntityMetaSysProps,
   MetadataProps,
   MakeRequest,
-  CursorPaginatedCollectionProp,
 } from '../common-types'
 import { wrapCollection, wrapCursorPaginatedCollection } from '../common-utils'
 import * as checks from '../plain/checks'
@@ -132,7 +123,7 @@ type AssetApi = {
   /**
    * Triggers asset processing after an upload, for the file uploaded to a specific locale.
    * @param locale - Locale which processing should be triggered for
-   * @param Options - Additional options for processing
+   * @param options - Additional options for processing
    * @prop options.processingCheckWait - Time in milliseconds to wait before checking again if the asset has been processed (default: 500ms)
    * @prop options.processingCheckRetries - Maximum amount of times to check if the asset has been processed (default: 5)
    * @returns Object returned from the server with updated metadata.

@@ -15,11 +15,9 @@ import type {
   CreateWithFilesReleaseAssetParams,
   CreateWithIdReleaseAssetParams,
   CreateWithIdReleaseEntryParams,
-  CursorBasedParams,
   CursorPaginatedCollectionProp,
   EnvironmentTemplateParams,
   GetBulkActionParams,
-  GetContentTypeParams,
   GetEnvironmentTemplateParams,
   GetManyReleaseAssetParams,
   GetManyReleaseEntryParams,
@@ -63,8 +61,8 @@ import type {
   UnpublishBulkActionV2Payload,
   ValidateBulkActionV2Payload,
 } from '../entities/bulk-action'
-import type { ContentTypeProps, CreateContentTypeProps } from '../entities/content-type'
-import type { CreateEntryProps, EntryProps, EntryReferenceProps } from '../entities/entry'
+import type { ContentTypeProps } from '../entities/content-type'
+import type { CreateEntryProps, EntryProps } from '../entities/entry'
 import type {
   CreateEnvironmentTemplateProps,
   EnvironmentTemplateProps,
@@ -162,7 +160,34 @@ import type { SemanticSettingsPlainClientAPI } from './entities/semantic-setting
 import type { ContentSemanticsIndexPlainClientAPI } from './entities/content-semantics-index'
 import type { ComponentTypePlainClientAPI } from './entities/component-type'
 
+/**
+ * The plain client API surface returned by `createClient()`.
+ *
+ * Provides flat, Promise-based access to all Contentful Management API endpoints.
+ * Methods are organized by resource type (e.g. `client.entry.get()`, `client.asset.create()`).
+ *
+ * @example
+ * ```typescript
+ * import { createClient } from 'contentful-management'
+ *
+ * const client = createClient({ accessToken: 'YOUR_ACCESS_TOKEN' })
+ *
+ * // Fetch entries
+ * const entries = await client.entry.getMany({
+ *   spaceId: '<space_id>',
+ *   environmentId: '<environment_id>',
+ * })
+ *
+ * // With scoped defaults
+ * const scoped = createClient(
+ *   { accessToken: 'YOUR_ACCESS_TOKEN' },
+ *   { defaults: { spaceId: '<space_id>', environmentId: '<environment_id>' } },
+ * )
+ * const entries = await scoped.entry.getMany({})
+ * ```
+ */
 export type PlainClientAPI = {
+  /** @group HTTP */
   raw: {
     getDefaultParams(): PlainClientDefaultParams | undefined
     get<T = unknown>(url: string, config?: RawAxiosRequestConfig): Promise<T>
@@ -172,6 +197,7 @@ export type PlainClientAPI = {
     delete<T = unknown>(url: string, config?: RawAxiosRequestConfig): Promise<T>
     http<T = unknown>(url: string, config?: RawAxiosRequestConfig): Promise<T>
   }
+  /** @group AI */
   aiAction: AiActionPlainClientAPI
   aiActionInvocation: AiActionInvocationPlainClientAPI
   agent: AgentPlainClientAPI

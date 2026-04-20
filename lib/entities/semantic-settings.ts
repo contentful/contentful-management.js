@@ -6,6 +6,7 @@ import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type { DefaultElements, MakeRequest } from '../common-types'
 
+/** Properties of content semantics settings */
 export type ContentSemanticsSettingsProps = {
   sys: {
     type: 'ContentSemanticsSettings'
@@ -13,6 +14,7 @@ export type ContentSemanticsSettingsProps = {
   supportedLocalePrefixes: string[]
 }
 
+/** A content semantics settings entity */
 export interface ContentSemanticsSettings
   extends ContentSemanticsSettingsProps,
     DefaultElements<ContentSemanticsSettingsProps> {}
