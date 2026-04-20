@@ -1,3 +1,7 @@
+/**
+ * @module tag
+ * @category Plain Client
+ */
 import type { RawAxiosRequestHeaders } from 'axios'
 import type {
   GetTagParams,
@@ -46,7 +50,7 @@ export type TagPlainClientAPI = {
   /**
    * Create a new tag
    * @param params the space and environment ID to create the tag in
-   * @param data the tag data
+   * @param rawData the tag data
    * @returns the created tag
    * @throws if the space or environment are not found or the payload is malformed
    * @example

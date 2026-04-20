@@ -1,3 +1,7 @@
+/**
+ * @module semantic-search
+ * @category Plain Client
+ */
 import type { GetSemanticSearchProps, SemanticSearchProps } from '../../entities/semantic-search'
 import type { OptionalDefaults } from '../wrappers/wrap'
 import type { GetSpaceEnvironmentParams } from '../../common-types'

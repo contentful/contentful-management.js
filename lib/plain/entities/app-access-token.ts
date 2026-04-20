@@ -1,3 +1,7 @@
+/**
+ * @module app-access-token
+ * @category Plain Client
+ */
 import type { GetAppInstallationParams } from '../../common-types'
 import type {
   AppAccessTokenProps,

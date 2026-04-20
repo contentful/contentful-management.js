@@ -1,3 +1,7 @@
+/**
+ * @module app-key
+ * @category Plain Client
+ */
 import type { CollectionProp, GetAppDefinitionParams, QueryParams } from '../../common-types'
 import type { AppKeyProps, CreateAppKeyProps } from '../../entities/app-key'
 import type { OptionalDefaults } from '../wrappers/wrap'
@@ -51,8 +55,7 @@ export type AppKeyPlainClientAPI = {
   ): Promise<AppKeyProps>
   /**
    * Fetches all Keys for the given App
-   * @param params entity IDs to identify the App
-   * @param payload optional pagination query, see example for details
+   * @param params entity IDs to identify the App, along with optional pagination query parameters
    * @returns the App Keys
    * @throws if the request fails, or the App is not found
    * @example

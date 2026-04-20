@@ -1,12 +1,18 @@
+/**
+ * @module
+ * @category Shared Types
+ */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type { DefaultElements, Link, MakeRequest, SemanticRequestFilter } from '../common-types'
 
+/** Parameters for requesting semantic recommendations for an entry */
 export type GetSemanticRecommendationsProps = {
   entityIds: string[]
   filter?: SemanticRequestFilter
 }
 
+/** A single semantic recommendation result */
 export type SemanticRecommendationsResult = {
   sys: {
     type: 'SemanticRecommendationsResult'
@@ -16,6 +22,7 @@ export type SemanticRecommendationsResult = {
   }
 }
 
+/** Properties of a semantic recommendations response containing matched entries */
 export type SemanticRecommendationsProps = {
   sys: {
     type: 'Array'
@@ -24,10 +31,16 @@ export type SemanticRecommendationsProps = {
   items: SemanticRecommendationsResult[]
 }
 
+/** A semantic recommendations result entity */
 export interface SemanticRecommendations
   extends SemanticRecommendationsProps,
     DefaultElements<SemanticRecommendationsProps> {}
 
+/**
+ * @param _makeRequest - function to make requests via an adapter
+ * @param data - Raw semantic recommendations data
+ * @returns Wrapped semantic recommendations data
+ */
 export function wrapSemanticRecommendations(
   _makeRequest: MakeRequest,
   data: SemanticRecommendationsProps,

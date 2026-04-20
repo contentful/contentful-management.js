@@ -1,3 +1,7 @@
+/**
+ * @module app-signing-secret
+ * @category Plain Client
+ */
 import type { GetAppDefinitionParams } from '../../common-types'
 import type {
   AppSigningSecretProps,

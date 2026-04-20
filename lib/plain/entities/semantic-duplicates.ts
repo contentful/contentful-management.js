@@ -1,3 +1,7 @@
+/**
+ * @module semantic-duplicates
+ * @category Plain Client
+ */
 import type {
   GetSemanticDuplicatesProps,
   SemanticDuplicatesProps,
