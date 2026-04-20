@@ -51,7 +51,10 @@ jobs:
           cache: 'npm'
 
       - name: Install latest npm
-        run: npm install -g npm@latest
+        run: |
+          # Work around the npm self-upgrade regression on Node 22.22.2.
+          npm install -g npm@11.11.1
+          npm install -g npm@latest
 
       - name: Install dependencies
         run: npm ci
