@@ -131,14 +131,10 @@
   },
   "release": {
     "branches": [
+      "+([0-9])?(.{+([0-9]),x}).x",
       "master",
       {
         "name": "beta",
-        "channel": "beta",
-        "prerelease": true
-      },
-      {
-        "name": "new-beta",
         "channel": "beta",
         "prerelease": true
       },
