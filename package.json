@@ -61,7 +61,7 @@
   ],
   "dependencies": {
     "@contentful/rich-text-types": "^16.6.1",
-    "axios": "^1.13.5",
+    "axios": "^1.15.0",
     "contentful-sdk-core": "^9.4.4",
     "fast-copy": "^3.0.0",
     "globals": "^15.15.0"
@@ -131,6 +131,7 @@
   },
   "release": {
     "branches": [
+      "+([0-9])?(.{+([0-9]),x}).x",
       "master",
       {
         "name": "beta",

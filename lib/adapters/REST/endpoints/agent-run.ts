@@ -1,7 +1,12 @@
 import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import type { CollectionProp, GetSpaceEnvironmentParams } from '../../../common-types'
-import type { AgentRunProps, AgentRunQueryOptions } from '../../../entities/agent-run'
+import type {
+  AgentGenerateResponse,
+  AgentResumeRunPayload,
+  AgentRunProps,
+  AgentRunQueryOptions,
+} from '../../../entities/agent-run'
 import type { RestEndpoint } from '../types'
 import * as raw from './raw'
 
@@ -36,6 +41,25 @@ export const getMany: RestEndpoint<'AgentRun', 'getMany'> = (
     `/spaces/${params.spaceId}/environments/${params.environmentId}/ai/agents/runs`,
     {
       params: params.query,
+      headers: {
+        ...AgentRunAlphaHeaders,
+        ...headers,
+      },
+    },
+  )
+}
+
+export const resumeRun: RestEndpoint<'AgentRun', 'resumeRun'> = (
+  http: AxiosInstance,
+  params: GetSpaceEnvironmentParams & { runId: string },
+  data: AgentResumeRunPayload,
+  headers?: RawAxiosRequestHeaders,
+) => {
+  return raw.post<AgentGenerateResponse>(
+    http,
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/ai/agents/runs/${params.runId}/resume`,
+    data,
+    {
       headers: {
         ...AgentRunAlphaHeaders,
         ...headers,
