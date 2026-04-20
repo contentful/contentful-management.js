@@ -1,11 +1,11 @@
 import type { CursorPaginationParams, Link, MetadataProps } from '../common-types'
 import type { ComponentTypeViewport, DesignPropertyValue, ViewNode } from './component-type'
 
-export type ViewDimensionKeyMap = {
+export type ExperienceDimensionKeyMap = {
   designProperties: Record<string, { breakpoint: string }>
 }
 
-export type ViewContentBindings = {
+export type ExperienceContentBindings = {
   sys: {
     type: 'Link'
     id: string
@@ -14,7 +14,7 @@ export type ViewContentBindings = {
   parameters: Record<string, Link<string>>
 }
 
-export type ViewSys = {
+export type ExperienceSys = {
   id: string
   type: 'View'
   version: number
@@ -34,44 +34,44 @@ export type ViewSys = {
   localeStatus?: Record<string, 'draft' | 'published' | 'changed'>
 }
 
-type ViewCommonProps = {
+type ExperienceCommonProps = {
   name: string
   description: string
   viewports: ComponentTypeViewport[]
   contentProperties: Record<string, unknown>
   designProperties: Record<string, DesignPropertyValue>
-  dimensionKeyMap: ViewDimensionKeyMap
-  contentBindings?: ViewContentBindings
+  dimensionKeyMap: ExperienceDimensionKeyMap
+  contentBindings?: ExperienceContentBindings
   metadata?: Pick<MetadataProps, 'tags'>
   slots?: Record<string, Array<ViewNode | InlineFragmentNode>>
 }
 
-export type ViewProps = ViewCommonProps & {
-  sys: ViewSys
+export type ExperienceProps = ExperienceCommonProps & {
+  sys: ExperienceSys
 }
 
 // Query options for getMany - cursor-based pagination with mutual exclusivity
-export type ViewQueryOptions = CursorPaginationParams & {
+export type ExperienceQueryOptions = CursorPaginationParams & {
   order?: string
   [key: string]: unknown
 }
 
 // Locale-based publish payload — add or remove specific locales.
 // Omit the payload entirely for a full publish (all locales).
-export type ViewLocalePublishPayload = { add: string[] } | { remove: string[] }
+export type ExperienceLocalePublishPayload = { add: string[] } | { remove: string[] }
 
 // Create payload — no sys, uses componentTypeId instead of sys.componentType link
-export type CreateViewProps = ViewCommonProps & {
+export type CreateExperienceProps = ExperienceCommonProps & {
   componentTypeId: string
 }
 
-export type UpdateViewProps = ViewProps
+export type UpdateExperienceProps = ExperienceProps
 
 export type InlineFragmentNode = {
   id: string
   nodeType: 'InlineFragment'
   componentTypeId: string
   designProperties: Record<string, DesignPropertyValue>
-  contentBindings?: ViewContentBindings
+  contentBindings?: ExperienceContentBindings
   slots?: Record<string, Array<ViewNode | InlineFragmentNode>>
 }

@@ -73,12 +73,12 @@ import type {
   UpdateTemplateProps,
 } from './entities/template'
 import type {
-  CreateViewProps,
-  UpdateViewProps,
-  ViewLocalePublishPayload,
-  ViewProps,
-  ViewQueryOptions,
-} from './entities/view'
+  CreateExperienceProps,
+  UpdateExperienceProps,
+  ExperienceLocalePublishPayload,
+  ExperienceProps,
+  ExperienceQueryOptions,
+} from './entities/experience'
 import type { ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
 import type { EditorInterfaceProps } from './entities/editor-interface'
 import type { CreateEntryProps, EntryProps, EntryReferenceProps } from './entities/entry'
@@ -982,13 +982,13 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'ContentSemanticsIndex', 'create', UA>): MRReturn<'ContentSemanticsIndex', 'create'>
   (opts: MROpts<'ContentSemanticsIndex', 'delete', UA>): MRReturn<'ContentSemanticsIndex', 'delete'>
 
-  (opts: MROpts<'View', 'getMany', UA>): MRReturn<'View', 'getMany'>
-  (opts: MROpts<'View', 'get', UA>): MRReturn<'View', 'get'>
-  (opts: MROpts<'View', 'create', UA>): MRReturn<'View', 'create'>
-  (opts: MROpts<'View', 'update', UA>): MRReturn<'View', 'update'>
-  (opts: MROpts<'View', 'delete', UA>): MRReturn<'View', 'delete'>
-  (opts: MROpts<'View', 'publish', UA>): MRReturn<'View', 'publish'>
-  (opts: MROpts<'View', 'unpublish', UA>): MRReturn<'View', 'unpublish'>
+  (opts: MROpts<'Experience', 'getMany', UA>): MRReturn<'Experience', 'getMany'>
+  (opts: MROpts<'Experience', 'get', UA>): MRReturn<'Experience', 'get'>
+  (opts: MROpts<'Experience', 'create', UA>): MRReturn<'Experience', 'create'>
+  (opts: MROpts<'Experience', 'update', UA>): MRReturn<'Experience', 'update'>
+  (opts: MROpts<'Experience', 'delete', UA>): MRReturn<'Experience', 'delete'>
+  (opts: MROpts<'Experience', 'publish', UA>): MRReturn<'Experience', 'publish'>
+  (opts: MROpts<'Experience', 'unpublish', UA>): MRReturn<'Experience', 'unpublish'>
 
   (opts: MROpts<'Webhook', 'get', UA>): MRReturn<'Webhook', 'get'>
   (opts: MROpts<'Webhook', 'getMany', UA>): MRReturn<'Webhook', 'getMany'>
@@ -2699,37 +2699,37 @@ export type MRActions = {
     get: { params: GetUserUIConfigParams; return: UserUIConfigProps }
     update: { params: GetUserUIConfigParams; payload: UserUIConfigProps; return: UserUIConfigProps }
   }
-  View: {
+  Experience: {
     getMany: {
-      params: GetSpaceEnvironmentParams & { query: ViewQueryOptions }
-      return: CursorPaginatedCollectionProp<ViewProps>
+      params: GetSpaceEnvironmentParams & { query: ExperienceQueryOptions }
+      return: CursorPaginatedCollectionProp<ExperienceProps>
     }
     get: {
-      params: GetViewParams
-      return: ViewProps
+      params: GetExperienceParams
+      return: ExperienceProps
     }
     create: {
       params: GetSpaceEnvironmentParams
-      payload: CreateViewProps
-      return: ViewProps
+      payload: CreateExperienceProps
+      return: ExperienceProps
     }
     update: {
-      params: GetViewParams
-      payload: UpdateViewProps
-      return: ViewProps
+      params: GetExperienceParams
+      payload: UpdateExperienceProps
+      return: ExperienceProps
     }
     delete: {
-      params: GetViewParams
+      params: GetExperienceParams
       return: void
     }
     publish: {
-      params: GetViewParams & { version: number }
-      payload?: ViewLocalePublishPayload
-      return: ViewProps
+      params: GetExperienceParams & { version: number }
+      payload?: ExperienceLocalePublishPayload
+      return: ExperienceProps
     }
     unpublish: {
-      params: GetViewParams & { version: number }
-      return: ViewProps
+      params: GetExperienceParams & { version: number }
+      return: ExperienceProps
     }
   }
   Webhook: {
@@ -2942,7 +2942,7 @@ export type GetCommentParams = (GetEntryParams | GetCommentParentEntityParams) &
 /** @internal */
 export type GetComponentTypeParams = GetSpaceEnvironmentParams & { componentTypeId: string }
 /** @internal */
-export type GetViewParams = GetSpaceEnvironmentParams & { viewId: string }
+export type GetExperienceParams = GetSpaceEnvironmentParams & { experienceId: string }
 /** @internal */
 export type GetDataAssemblyParams = GetSpaceEnvironmentParams & { dataAssemblyId: string }
 /** @internal */
