@@ -92,6 +92,12 @@ export type ViewNode = {
   viewId: string
 }
 
+export type FragmentNode = {
+  id: string
+  nodeType: 'Fragment'
+  fragmentId: string
+}
+
 export type SlotNode = {
   id: string
   nodeType: 'Slot'
