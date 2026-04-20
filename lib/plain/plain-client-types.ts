@@ -187,7 +187,6 @@ import type { ComponentTypePlainClientAPI } from './entities/component-type'
  * ```
  */
 export type PlainClientAPI = {
-  /** @group HTTP */
   raw: {
     getDefaultParams(): PlainClientDefaultParams | undefined
     get<T = unknown>(url: string, config?: RawAxiosRequestConfig): Promise<T>
@@ -197,7 +196,6 @@ export type PlainClientAPI = {
     delete<T = unknown>(url: string, config?: RawAxiosRequestConfig): Promise<T>
     http<T = unknown>(url: string, config?: RawAxiosRequestConfig): Promise<T>
   }
-  /** @group AI */
   aiAction: AiActionPlainClientAPI
   aiActionInvocation: AiActionInvocationPlainClientAPI
   agent: AgentPlainClientAPI
