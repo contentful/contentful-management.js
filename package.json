@@ -139,11 +139,6 @@
         "prerelease": true
       },
       {
-        "name": "new-beta",
-        "channel": "beta",
-        "prerelease": true
-      },
-      {
         "name": "canary",
         "prerelease": true
       },
