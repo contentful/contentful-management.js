@@ -68,7 +68,10 @@ export const update: RestEndpoint<'Experience', 'update'> = (
   })
 }
 
-export const del: RestEndpoint<'Experience', 'delete'> = (http: AxiosInstance, params: GetExperienceParams) => {
+export const del: RestEndpoint<'Experience', 'delete'> = (
+  http: AxiosInstance,
+  params: GetExperienceParams,
+) => {
   return raw.del(http, getBaseUrl(params) + `/${params.experienceId}`)
 }
 

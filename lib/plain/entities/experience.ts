@@ -95,7 +95,10 @@ export type ExperiencePlainClientAPI = {
    * }, experienceData);
    * ```
    */
-  update(params: OptionalDefaults<GetExperienceParams>, rawData: UpdateExperienceProps): Promise<ExperienceProps>
+  update(
+    params: OptionalDefaults<GetExperienceParams>,
+    rawData: UpdateExperienceProps,
+  ): Promise<ExperienceProps>
 
   /**
    * Deletes an experience
@@ -175,5 +178,7 @@ export type ExperiencePlainClientAPI = {
    * });
    * ```
    */
-  unpublish(params: OptionalDefaults<GetExperienceParams & { version: number }>): Promise<ExperienceProps>
+  unpublish(
+    params: OptionalDefaults<GetExperienceParams & { version: number }>,
+  ): Promise<ExperienceProps>
 }
