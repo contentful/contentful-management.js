@@ -644,14 +644,14 @@ export const createPlainClient = (
       get: wrap(wrapParams, 'UserUIConfig', 'get'),
       update: wrap(wrapParams, 'UserUIConfig', 'update'),
     },
-    view: {
-      getMany: wrap(wrapParams, 'View', 'getMany'),
-      get: wrap(wrapParams, 'View', 'get'),
-      create: wrap(wrapParams, 'View', 'create'),
-      update: wrap(wrapParams, 'View', 'update'),
-      delete: wrap(wrapParams, 'View', 'delete'),
-      publish: wrap(wrapParams, 'View', 'publish'),
-      unpublish: wrap(wrapParams, 'View', 'unpublish'),
+    experience: {
+      getMany: wrap(wrapParams, 'Experience', 'getMany'),
+      get: wrap(wrapParams, 'Experience', 'get'),
+      create: wrap(wrapParams, 'Experience', 'create'),
+      update: wrap(wrapParams, 'Experience', 'update'),
+      delete: wrap(wrapParams, 'Experience', 'delete'),
+      publish: wrap(wrapParams, 'Experience', 'publish'),
+      unpublish: wrap(wrapParams, 'Experience', 'unpublish'),
     },
     workflowDefinition: {
       get: wrap(wrapParams, 'WorkflowDefinition', 'get'),

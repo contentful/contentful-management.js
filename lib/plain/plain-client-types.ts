@@ -153,7 +153,7 @@ import type { SemanticSettingsPlainClientAPI } from './entities/semantic-setting
 import type { ContentSemanticsIndexPlainClientAPI } from './entities/content-semantics-index'
 import type { ComponentTypePlainClientAPI } from './entities/component-type'
 import type { DataAssemblyPlainClientAPI } from './entities/data-assembly'
-import type { ViewPlainClientAPI } from './entities/view'
+import type { ExperiencePlainClientAPI } from './entities/experience'
 
 export type PlainClientAPI = {
   raw: {
@@ -737,7 +737,7 @@ export type PlainClientAPI = {
   workflow: WorkflowPlainClientAPI
   workflowsChangelog: WorkflowsChangelogPlainClientAPI
   oauthApplication: OAuthApplicationPlainClientAPI
-  view: ViewPlainClientAPI
+  experience: ExperiencePlainClientAPI
   semanticSearch: SemanticSearchPlainClientAPI
   semanticDuplicates: SemanticDuplicatesPlainClientAPI
   semanticRecommendations: SemanticRecommendationsPlainClientAPI

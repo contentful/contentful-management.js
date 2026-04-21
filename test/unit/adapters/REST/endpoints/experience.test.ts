@@ -1,7 +1,7 @@
 import { describe, test, expect } from 'vitest'
 import setupRestAdapter from '../helpers/setupRestAdapter'
 
-describe('Rest View', { concurrent: true }, () => {
+describe('Rest Experience', { concurrent: true }, () => {
   test('getMany calls correct URL', async () => {
     const mockResponse = {
       sys: { type: 'Array' },
@@ -13,7 +13,7 @@ describe('Rest View', { concurrent: true }, () => {
 
     return adapterMock
       .makeRequest({
-        entityType: 'View',
+        entityType: 'Experience',
         action: 'getMany',
         userAgent: 'mocked',
         params: {
@@ -42,7 +42,7 @@ describe('Rest View', { concurrent: true }, () => {
 
     return adapterMock
       .makeRequest({
-        entityType: 'View',
+        entityType: 'Experience',
         action: 'getMany',
         userAgent: 'mocked',
         params: {
@@ -68,27 +68,27 @@ describe('Rest View', { concurrent: true }, () => {
 
   test('get calls correct URL', async () => {
     const mockResponse = {
-      sys: { id: 'view123', type: 'Experience' },
-      title: 'Test View',
+      sys: { id: 'experience123', type: 'Experience' },
+      title: 'Test Experience',
     }
 
     const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
 
     return adapterMock
       .makeRequest({
-        entityType: 'View',
+        entityType: 'Experience',
         action: 'get',
         userAgent: 'mocked',
         params: {
           spaceId: 'space123',
           environmentId: 'master',
-          viewId: 'view123',
+          experienceId: 'experience123',
         },
       })
       .then((r) => {
         expect(r).to.eql(mockResponse)
         expect(httpMock.get.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/experiences/view123',
+          '/spaces/space123/environments/master/experiences/experience123',
         )
       })
   })
@@ -96,14 +96,14 @@ describe('Rest View', { concurrent: true }, () => {
   test('publish calls correct URL with PUT method', async () => {
     const mockResponse = {
       sys: {
-        id: 'view123',
+        id: 'experience123',
         type: 'Experience',
         version: 2,
         space: { sys: { type: 'Link', linkType: 'Space', id: 'space123' } },
         environment: { sys: { type: 'Link', linkType: 'Environment', id: 'master' } },
       },
-      name: 'Test View',
-      description: 'A test view',
+      name: 'Test Experience',
+      description: 'A test experience',
       viewports: [],
       contentProperties: {},
       designProperties: {},
@@ -114,20 +114,20 @@ describe('Rest View', { concurrent: true }, () => {
 
     return adapterMock
       .makeRequest({
-        entityType: 'View',
+        entityType: 'Experience',
         action: 'publish',
         userAgent: 'mocked',
         params: {
           spaceId: 'space123',
           environmentId: 'master',
-          viewId: 'view123',
+          experienceId: 'experience123',
           version: 1,
         },
       })
       .then((r) => {
         expect(r).to.eql(mockResponse)
         expect(httpMock.put.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/experiences/view123/published',
+          '/spaces/space123/environments/master/experiences/experience123/published',
         )
         expect(httpMock.put.mock.calls[0][1]).to.eql(null)
         expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(1)
@@ -137,7 +137,7 @@ describe('Rest View', { concurrent: true }, () => {
   test('publish with locale add payload sends correct body', async () => {
     const mockResponse = {
       sys: {
-        id: 'view123',
+        id: 'experience123',
         type: 'Experience',
         version: 2,
       },
@@ -147,13 +147,13 @@ describe('Rest View', { concurrent: true }, () => {
 
     return adapterMock
       .makeRequest({
-        entityType: 'View',
+        entityType: 'Experience',
         action: 'publish',
         userAgent: 'mocked',
         params: {
           spaceId: 'space123',
           environmentId: 'master',
-          viewId: 'view123',
+          experienceId: 'experience123',
           version: 1,
         },
         payload: { add: ['en-US', 'de-DE'] },
@@ -161,7 +161,7 @@ describe('Rest View', { concurrent: true }, () => {
       .then((r) => {
         expect(r).to.eql(mockResponse)
         expect(httpMock.put.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/experiences/view123/published',
+          '/spaces/space123/environments/master/experiences/experience123/published',
         )
         expect(httpMock.put.mock.calls[0][1]).to.eql({ add: ['en-US', 'de-DE'] })
         expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(1)
@@ -171,7 +171,7 @@ describe('Rest View', { concurrent: true }, () => {
   test('publish with locale remove payload sends correct body', async () => {
     const mockResponse = {
       sys: {
-        id: 'view123',
+        id: 'experience123',
         type: 'Experience',
         version: 2,
       },
@@ -181,13 +181,13 @@ describe('Rest View', { concurrent: true }, () => {
 
     return adapterMock
       .makeRequest({
-        entityType: 'View',
+        entityType: 'Experience',
         action: 'publish',
         userAgent: 'mocked',
         params: {
           spaceId: 'space123',
           environmentId: 'master',
-          viewId: 'view123',
+          experienceId: 'experience123',
           version: 1,
         },
         payload: { remove: ['de-DE'] },
@@ -195,7 +195,7 @@ describe('Rest View', { concurrent: true }, () => {
       .then((r) => {
         expect(r).to.eql(mockResponse)
         expect(httpMock.put.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/experiences/view123/published',
+          '/spaces/space123/environments/master/experiences/experience123/published',
         )
         expect(httpMock.put.mock.calls[0][1]).to.eql({ remove: ['de-DE'] })
         expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(1)
@@ -204,9 +204,9 @@ describe('Rest View', { concurrent: true }, () => {
 
   test('create calls correct URL with POST', async () => {
     const mockResponse = {
-      sys: { id: 'new-view-123', type: 'Experience', version: 1 },
-      name: 'New View',
-      description: 'A new view',
+      sys: { id: 'new-experience-123', type: 'Experience', version: 1 },
+      name: 'New Experience',
+      description: 'A new experience',
       viewports: [],
       contentProperties: {},
       designProperties: {},
@@ -217,7 +217,7 @@ describe('Rest View', { concurrent: true }, () => {
 
     return adapterMock
       .makeRequest({
-        entityType: 'View',
+        entityType: 'Experience',
         action: 'create',
         userAgent: 'mocked',
         params: {
@@ -225,8 +225,8 @@ describe('Rest View', { concurrent: true }, () => {
           environmentId: 'master',
         },
         payload: {
-          name: 'New View',
-          description: 'A new view',
+          name: 'New Experience',
+          description: 'A new experience',
           componentTypeId: 'ct-123',
           viewports: [],
           contentProperties: {},
@@ -240,8 +240,8 @@ describe('Rest View', { concurrent: true }, () => {
           '/spaces/space123/environments/master/experiences',
         )
         expect(httpMock.post.mock.calls[0][1]).to.eql({
-          name: 'New View',
-          description: 'A new view',
+          name: 'New Experience',
+          description: 'A new experience',
           componentTypeId: 'ct-123',
           viewports: [],
           contentProperties: {},
@@ -253,9 +253,9 @@ describe('Rest View', { concurrent: true }, () => {
 
   test('update calls correct URL with version header', async () => {
     const mockResponse = {
-      sys: { id: 'view123', type: 'Experience', version: 2 },
-      name: 'Updated View',
-      description: 'An updated view',
+      sys: { id: 'experience123', type: 'Experience', version: 2 },
+      name: 'Updated Experience',
+      description: 'An updated experience',
       viewports: [],
       contentProperties: {},
       designProperties: {},
@@ -266,13 +266,13 @@ describe('Rest View', { concurrent: true }, () => {
 
     return adapterMock
       .makeRequest({
-        entityType: 'View',
+        entityType: 'Experience',
         action: 'update',
         userAgent: 'mocked',
         params: {
           spaceId: 'space123',
           environmentId: 'master',
-          viewId: 'view123',
+          experienceId: 'experience123',
         },
         payload: {
           sys: {
@@ -281,8 +281,8 @@ describe('Rest View', { concurrent: true }, () => {
               sys: { type: 'Link', linkType: 'ComponentType', id: 'ct-123' },
             },
           },
-          name: 'Updated View',
-          description: 'An updated view',
+          name: 'Updated Experience',
+          description: 'An updated experience',
           viewports: [],
           contentProperties: {},
           designProperties: {},
@@ -292,7 +292,7 @@ describe('Rest View', { concurrent: true }, () => {
       .then((r) => {
         expect(r).to.eql(mockResponse)
         expect(httpMock.put.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/experiences/view123',
+          '/spaces/space123/environments/master/experiences/experience123',
         )
         expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(1)
         const body = httpMock.put.mock.calls[0][1]
@@ -306,18 +306,18 @@ describe('Rest View', { concurrent: true }, () => {
 
     return adapterMock
       .makeRequest({
-        entityType: 'View',
+        entityType: 'Experience',
         action: 'delete',
         userAgent: 'mocked',
         params: {
           spaceId: 'space123',
           environmentId: 'master',
-          viewId: 'view456',
+          experienceId: 'experience456',
         },
       })
       .then(() => {
         expect(httpMock.delete.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/experiences/view456',
+          '/spaces/space123/environments/master/experiences/experience456',
         )
       })
   })
@@ -325,14 +325,14 @@ describe('Rest View', { concurrent: true }, () => {
   test('unpublish calls correct URL with DELETE method', async () => {
     const mockResponse = {
       sys: {
-        id: 'view123',
+        id: 'experience123',
         type: 'Experience',
         version: 3,
         space: { sys: { type: 'Link', linkType: 'Space', id: 'space123' } },
         environment: { sys: { type: 'Link', linkType: 'Environment', id: 'master' } },
       },
-      name: 'Test View',
-      description: 'A test view',
+      name: 'Test Experience',
+      description: 'A test experience',
       viewports: [],
       contentProperties: {},
       designProperties: {},
@@ -343,20 +343,20 @@ describe('Rest View', { concurrent: true }, () => {
 
     return adapterMock
       .makeRequest({
-        entityType: 'View',
+        entityType: 'Experience',
         action: 'unpublish',
         userAgent: 'mocked',
         params: {
           spaceId: 'space123',
           environmentId: 'master',
-          viewId: 'view123',
+          experienceId: 'experience123',
           version: 2,
         },
       })
       .then((r) => {
         expect(r).to.eql(mockResponse)
         expect(httpMock.delete.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/experiences/view123/published',
+          '/spaces/space123/environments/master/experiences/experience123/published',
         )
         expect(httpMock.delete.mock.calls[0][1].headers['X-Contentful-Version']).to.eql(2)
       })
