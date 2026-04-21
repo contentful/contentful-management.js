@@ -1,9 +1,5 @@
 import type { CursorPaginationParams, Link, MetadataProps } from '../common-types'
-import type {
-  ComponentTypeViewport,
-  DesignPropertyValue,
-  FragmentNode,
-} from './component-type'
+import type { ComponentTypeViewport, DesignPropertyValue, FragmentNode } from './component-type'
 
 export type ExperienceDimensionKeyMap = {
   designProperties: Record<string, { breakpoint: string }>
