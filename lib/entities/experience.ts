@@ -1,4 +1,4 @@
-import type { CursorPaginationParams, Link, MetadataProps } from '../common-types'
+import type { CursorPaginationParams, ExoMetadataProps, Link } from '../common-types'
 import type {
   ComponentTypeViewport,
   DimensionedDesignPropertyValue,
@@ -26,10 +26,10 @@ export type ExperienceSys = {
   environment: Link<'Environment'>
   componentType: Link<'ComponentType'>
   template?: Link<'Template'>
-  createdAt?: string
-  updatedAt?: string
-  createdBy?: Link<'User'>
-  updatedBy?: Link<'User'>
+  createdAt: string
+  updatedAt: string
+  createdBy: Link<'User'>
+  updatedBy: Link<'User'>
   variant?: string
   variantType?: string
   variantDimension?: string
@@ -49,7 +49,7 @@ type ExperienceCommonProps = {
   designProperties: Record<string, DimensionedDesignPropertyValue>
   dimensionKeyMap: ExperienceDimensionKeyMap
   contentBindings?: ExperienceContentBindings
-  metadata?: Pick<MetadataProps, 'tags'>
+  metadata?: ExoMetadataProps
   slots?: Record<string, Array<FragmentNode | InlineFragmentNode>>
 }
 
