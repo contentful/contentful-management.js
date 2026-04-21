@@ -75,6 +75,8 @@ export type DesignPropertyValue =
   | DesignPropertyPointerValue
   | Record<string, ManualDesignValue | DesignTokenValue | DesignPropertyPointerValue>
 
+export type DimensionedDesignPropertyValue = Record<string, DesignPropertyValue>
+
 // Tree node types for component tree
 export type ComponentNode = {
   id: string

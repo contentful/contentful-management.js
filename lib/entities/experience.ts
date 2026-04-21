@@ -1,5 +1,5 @@
 import type { CursorPaginationParams, Link, MetadataProps } from '../common-types'
-import type { ComponentTypeViewport, DesignPropertyValue, FragmentNode } from './component-type'
+import type { ComponentTypeViewport, DimensionedDesignPropertyValue, FragmentNode } from './component-type'
 
 export type ExperienceDimensionKeyMap = {
   designProperties: Record<string, { breakpoint: string }>
@@ -42,7 +42,7 @@ type ExperienceCommonProps = {
   description: string
   viewports: ComponentTypeViewport[]
   contentProperties: Record<string, unknown>
-  designProperties: Record<string, DesignPropertyValue>
+  designProperties: Record<string, DimensionedDesignPropertyValue>
   dimensionKeyMap: ExperienceDimensionKeyMap
   contentBindings?: ExperienceContentBindings
   metadata?: Pick<MetadataProps, 'tags'>
@@ -74,7 +74,7 @@ export type InlineFragmentNode = {
   id: string
   nodeType: 'InlineFragment'
   componentTypeId: string
-  designProperties: Record<string, DesignPropertyValue>
+  designProperties: Record<string, DimensionedDesignPropertyValue>
   contentBindings?: ExperienceContentBindings
   slots?: Record<string, Array<FragmentNode | InlineFragmentNode>>
 }
