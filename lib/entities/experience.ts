@@ -3,7 +3,6 @@ import type {
   ComponentTypeViewport,
   DesignPropertyValue,
   FragmentNode,
-  ViewNode,
 } from './component-type'
 
 export type ExperienceDimensionKeyMap = {
@@ -51,7 +50,7 @@ type ExperienceCommonProps = {
   dimensionKeyMap: ExperienceDimensionKeyMap
   contentBindings?: ExperienceContentBindings
   metadata?: Pick<MetadataProps, 'tags'>
-  slots?: Record<string, Array<ViewNode | FragmentNode | InlineFragmentNode>>
+  slots?: Record<string, Array<FragmentNode | InlineFragmentNode>>
 }
 
 export type ExperienceProps = ExperienceCommonProps & {
@@ -81,5 +80,5 @@ export type InlineFragmentNode = {
   componentTypeId: string
   designProperties: Record<string, DesignPropertyValue>
   contentBindings?: ExperienceContentBindings
-  slots?: Record<string, Array<ViewNode | FragmentNode | InlineFragmentNode>>
+  slots?: Record<string, Array<FragmentNode | InlineFragmentNode>>
 }
