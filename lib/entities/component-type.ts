@@ -87,13 +87,6 @@ export type ComponentNode = {
   contentBindings?: string
 }
 
-export type ViewNode = {
-  id: string
-  name?: string
-  nodeType: 'View'
-  viewId: string
-}
-
 export type FragmentNode = {
   id: string
   name?: string
