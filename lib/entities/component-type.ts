@@ -25,11 +25,17 @@ export type ComponentTypeContentProperty = {
 }
 
 // Design property validation option
-export type ComponentTypeDesignPropertyValidation = {
-  value: string | number | boolean
-  name: string
-  description?: string
-}
+export type ComponentTypeDesignPropertyValidation =
+  | {
+      type: 'ManualDesignValue'
+      value: string | number | boolean
+      name?: string
+    }
+  | {
+      type: 'DesignToken'
+      value: string
+      name?: string
+    }
 
 // Design property definition
 export type ComponentTypeDesignProperty = {
@@ -38,11 +44,11 @@ export type ComponentTypeDesignProperty = {
   type: 'Symbol' | 'Number' | 'Boolean'
   required: boolean
   description?: string
-  defaultValue?: unknown
+  defaultValue?: DesignPropertyDefinitionValue
   validations?: {
-    in: ComponentTypeDesignPropertyValidation[]
+    in?: ComponentTypeDesignPropertyValidation[]
   }
-  designTokenSet?: string[]
+  designTokenSet: string[]
 }
 
 // Dimension key map
@@ -61,14 +67,21 @@ export type DesignPropertyPointerValue = `$designProperties/${string}`
 // Design property value types
 export type ManualDesignValue = {
   type: 'ManualDesignValue'
-  value: string | number | boolean | Record<string, unknown>
+  value: string | number | boolean
 }
 
 export type DesignTokenValue = {
   type: 'DesignToken'
+  /** Must be non-empty (min length 1) */
   value: string
 }
 
+// For designProperties[].defaultValue (definition level)
+// Upstream: DesignPropertyValueSchema (schema line 86-91)
+export type DesignPropertyDefinitionValue = ManualDesignValue | DesignTokenValue
+
+// For componentTree node designProperties (tree-node level)
+// Upstream: ComponentTreeDesignPropertyValueSchema (schema line 101-104)
 export type DesignPropertyValue =
   | ManualDesignValue
   | DesignTokenValue
