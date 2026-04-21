@@ -108,7 +108,7 @@ export type SlotNode = {
   slotId: string
 }
 
-export type TreeNode = ComponentNode | ViewNode | FragmentNode | SlotNode
+export type TreeNode = ComponentNode | FragmentNode | SlotNode
 
 // Data type field for content bindings
 export type ComponentTypeDataTypeField = {
