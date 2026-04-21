@@ -46,8 +46,8 @@ export type DataAssemblySys = {
   type: 'DataAssembly'
   dataType: DataAssemblyDataTypeField[]
   version: number
-  space: Link<string>
-  environment: Link<string>
+  space: Link<'Space'>
+  environment: Link<'Environment'>
   createdBy: Link<string>
   createdAt: string | Date
   updatedAt: string | Date
