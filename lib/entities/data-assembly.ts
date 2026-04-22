@@ -1,4 +1,5 @@
 import type { CursorPaginationParams, Link, MetadataProps } from '../common-types'
+import { User } from './user'
 
 export type DataAssemblyDataTypeField = {
   id: string
@@ -48,15 +49,15 @@ export type DataAssemblySys = {
   version: number
   space: Link<'Space'>
   environment: Link<'Environment'>
-  createdBy: Link<string>
+  createdBy: Link<'User'>
   createdAt: string | Date
   updatedAt: string | Date
-  updatedBy?: Link<string>
+  updatedBy?: Link<'User'>
   publishedAt?: string | Date
   publishedVersion?: number
   publishedCounter?: number
   firstPublishedAt?: string | Date
-  publishedBy?: Link<string>
+  publishedBy?: Link<'User'> | Link<'AppDefinition'>
   variant?: string
 }
 
