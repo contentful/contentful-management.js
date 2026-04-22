@@ -376,6 +376,18 @@ export interface MetadataProps {
   concepts?: Link<'TaxonomyConcept'>[]
 }
 
+/**
+ * Metadata shape for ExO entities (ComponentType, Experience/View, Template).
+ * - tags: optional (upstream MetadataSchema.tags is z.optional as of SPA-3821)
+ * - concepts: optional taxonomy concept links
+ * - name: optional display name for variant labeling (SPA-3939)
+ */
+export interface ExoMetadataProps {
+  tags?: Link<'Tag'>[]
+  concepts?: Link<'TaxonomyConcept'>[]
+  name?: string
+}
+
 export interface SysLink {
   sys: MetaLinkProps
 }

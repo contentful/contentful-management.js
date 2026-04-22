@@ -1,5 +1,5 @@
 import type { Except } from 'type-fest'
-import type { CursorPaginationParams, Link, MetadataProps, SysLink } from '../common-types'
+import type { CursorPaginationParams, ExoMetadataProps, Link, SysLink } from '../common-types'
 
 // Query options for getMany - cursor-based pagination with mutual exclusivity & query filters
 export type ComponentTypeQueryOptions = CursorPaginationParams & {
@@ -177,7 +177,7 @@ export type ComponentTypeProps = {
   componentTree?: TreeNode[]
   contentBindings?: ComponentTypeContentBindings
   slots?: ComponentTypeSlotDefinition[]
-  metadata?: Pick<MetadataProps, 'tags'>
+  metadata?: ExoMetadataProps
   dataAssemblies?: DataAssemblyLink[]
 }
 

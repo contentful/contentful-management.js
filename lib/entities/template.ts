@@ -1,5 +1,5 @@
 import type { Except } from 'type-fest'
-import type { CursorPaginationParams, Link, MetadataProps } from '../common-types'
+import type { CursorPaginationParams, ExoMetadataProps, Link } from '../common-types'
 import type {
   ComponentTypeContentProperty,
   ComponentTypeDesignProperty,
@@ -43,7 +43,7 @@ export type TemplateProps = {
   dimensionKeyMap: ComponentTypeDimensionKeyMap
   componentTree?: TreeNode[]
   slots?: ComponentTypeSlotDefinition[]
-  metadata?: Pick<MetadataProps, 'tags'>
+  metadata?: ExoMetadataProps
   dataAssemblies?: DataAssemblyLink[]
 }
 
