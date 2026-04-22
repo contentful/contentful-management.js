@@ -61,7 +61,6 @@ import type {
   UpdateCommentProps,
 } from './entities/comment'
 import type {
-  ComponentTypeCollection,
   ComponentTypeProps,
   ComponentTypeQueryOptions,
   CreateComponentTypeProps,
@@ -69,14 +68,12 @@ import type {
 } from './entities/component-type'
 import type {
   CreateTemplateProps,
-  TemplateCollection,
   TemplateProps,
   TemplateQueryOptions,
   UpdateTemplateProps,
 } from './entities/template'
 import type {
   CreateExperienceProps,
-  ExperienceCollection,
   UpdateExperienceProps,
   ExperienceLocalePublishPayload,
   ExperienceProps,
