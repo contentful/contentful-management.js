@@ -1,5 +1,5 @@
 import type { Except } from 'type-fest'
-import type { CursorPaginationParams, ExoMetadataProps, Link } from '../common-types'
+import type { CursorPaginatedCollectionProp, CursorPaginationParams, ExoMetadataProps, Link } from '../common-types'
 
 // Query options for getMany - cursor-based pagination with mutual exclusivity & query filters
 export type ComponentTypeQueryOptions = CursorPaginationParams & {
@@ -184,3 +184,5 @@ export type ComponentTypeProps = {
 export type CreateComponentTypeProps = Except<ComponentTypeProps, 'sys'>
 
 export type UpdateComponentTypeProps = ComponentTypeProps
+
+export type ComponentTypeCollection = CursorPaginatedCollectionProp<ComponentTypeProps>
