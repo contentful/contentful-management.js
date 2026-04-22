@@ -1,5 +1,5 @@
 import type { Except } from 'type-fest'
-import type { CursorPaginationParams, Link, MetadataProps } from '../common-types'
+import type { CursorPaginationParams, ExoMetadataProps, Link } from '../common-types'
 
 // Query options for getMany - cursor-based pagination with mutual exclusivity & query filters
 export type ComponentTypeQueryOptions = CursorPaginationParams & {
@@ -57,9 +57,7 @@ export type ComponentTypeDimensionKeyMap = {
 }
 
 // Content property pointer value types
-export type ContentPropertyPointerValue =
-  | `$contentProperties/${string}`
-  | `$contentBindings/${string}`
+export type ContentPropertyPointerValue = `$contentProperties/${string}`
 
 // Design property pointer value types
 export type DesignPropertyPointerValue = `$designProperties/${string}`
@@ -179,7 +177,7 @@ export type ComponentTypeProps = {
   componentTree?: TreeNode[]
   contentBindings?: ComponentTypeContentBindings
   slots?: ComponentTypeSlotDefinition[]
-  metadata?: Pick<MetadataProps, 'tags'>
+  metadata?: ExoMetadataProps
   dataAssemblies?: DataAssemblyLink[]
 }
 
