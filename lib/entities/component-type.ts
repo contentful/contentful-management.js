@@ -1,5 +1,5 @@
 import type { Except } from 'type-fest'
-import type { CursorPaginationParams, ExoMetadataProps, Link, SysLink } from '../common-types'
+import type { CursorPaginationParams, ExoMetadataProps, Link } from '../common-types'
 
 // Query options for getMany - cursor-based pagination with mutual exclusivity & query filters
 export type ComponentTypeQueryOptions = CursorPaginationParams & {
@@ -148,8 +148,8 @@ export type ComponentTypeSys = {
   id: string
   type: 'ComponentType'
   version: number
-  space: SysLink
-  environment: SysLink
+  space: Link<'Space'>
+  environment: Link<'Environment'>
   fieldStatus?: Record<string, Record<string, 'draft' | 'published' | 'changed'>>
   publishedAt?: string
   publishedVersion?: number
@@ -157,10 +157,12 @@ export type ComponentTypeSys = {
   firstPublishedAt?: string
   publishedBy?: Link<'User'> | Link<'AppDefinition'>
   variant?: string
-  createdAt?: string
-  createdBy?: Link<'User'>
-  updatedAt?: string
-  updatedBy?: Link<'User'>
+  variantType?: string
+  variantDimension?: string
+  createdAt: string
+  createdBy: Link<'User'>
+  updatedAt: string
+  updatedBy: Link<'User'>
 }
 
 // Main ComponentType props
