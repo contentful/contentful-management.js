@@ -1,4 +1,9 @@
-import type { CursorPaginatedCollectionProp, CursorPaginationParams, ExoMetadataProps, Link } from '../common-types'
+import type {
+  CursorPaginatedCollectionProp,
+  CursorPaginationParams,
+  ExoMetadataProps,
+  Link,
+} from '../common-types'
 import type {
   ComponentTypeViewport,
   DimensionedDesignPropertyValue,
