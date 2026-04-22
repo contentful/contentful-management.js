@@ -57,9 +57,7 @@ export type ComponentTypeDimensionKeyMap = {
 }
 
 // Content property pointer value types
-export type ContentPropertyPointerValue =
-  | `$contentProperties/${string}`
-  | `$contentBindings/${string}`
+export type ContentPropertyPointerValue = `$contentProperties/${string}`
 
 // Design property pointer value types
 export type DesignPropertyPointerValue = `$designProperties/${string}`
