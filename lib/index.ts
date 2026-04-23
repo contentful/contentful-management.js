@@ -31,6 +31,12 @@ export { ScheduledActionStatus }
 export { OptionalDefaults } from './plain/wrappers/wrap'
 export type * from './export-types'
 
+export {
+  WorkflowStepPermissionType,
+  WorkflowStepPermissionAction,
+  WorkflowStepPermissionEffect,
+} from './entities/workflow-definition'
+
 interface UserAgentParams {
   /**
    * Application name and version e.g myApp/version
