@@ -37,6 +37,7 @@ describe('Locale API', () => {
     })
   })
 
+  // 404's
   it('Creates, gets, updates, and deletes a locale', async () => {
     const createdLocale = await environment.createLocale({
       name: 'German (Austria)',
@@ -59,9 +60,19 @@ describe('Locale API', () => {
     expect(updatedLocale.name).toBe('Deutsch (Österreich)')
     expect(updatedLocale.fallbackCode).toBe('en-US')
 
+    console.log(
+      '[CMA integration testss] locale-integration.test.ts "Creates, gets, updates, and deletes a locale"; updatedLocale => ',
+      updatedLocale,
+    )
+    console.log(
+      '[CMA integration testss] locale-integration.test.ts "Creates, gets, updates, and deletes a locale"; environment => ',
+      environment,
+    )
+
     await updatedLocale.delete()
   })
 
+  // here
   it('Creates, gets page (respects limit), deletes a locale', async () => {
     const createdLocal = await environment.createLocale({
       name: 'Chinese (Simplified, China)',
@@ -71,8 +82,18 @@ describe('Locale API', () => {
     // wait for the locale to be created
     await new Promise((res) => setTimeout(res, 3000))
     const pagedLocales = await environment.getLocales({ limit: 1 })
+
+    console.log(
+      '[CMA integration testss] locale-integration.test.ts "Creates, gets page (respects limit), deletes a locale"; env => ',
+      environment,
+    )
+    console.log(
+      '[CMA integration testss] locale-integration.test.ts "Creates, gets page (respects limit), deletes a locale" pagedLocales => ',
+      JSON.stringify(pagedLocales, null, 4),
+    )
+
     expect(pagedLocales.items.length).equals(1)
-    expect(pagedLocales.total).equals(2)
+    expect(pagedLocales.total).equals(2) // fails, expected 3 to equal 2
     await createdLocal.delete()
   })
 })

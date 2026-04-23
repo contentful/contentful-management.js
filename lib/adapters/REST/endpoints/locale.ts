@@ -73,6 +73,9 @@ export const del: RestEndpoint<'Locale', 'delete'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { localeId: string },
 ) => {
+  console.log(`[ CMA.REST_adapters ] Locale.del() params => `, params)
+  console.log(`[ CMA.REST_adapters ] Locale.del() envID => `, params.environmentId)
+
   return raw.del(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/locales/${params.localeId}`,

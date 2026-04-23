@@ -116,6 +116,15 @@ function createLocaleApi(makeRequest: MakeRequest) {
 
     delete: function () {
       const raw = this.toPlainObject() as LocaleProps
+
+      console.log(`[ CMA ] createLocaleApi.delete() raw => `, raw)
+      console.log(`[ CMA ] createLocaleApi.delete() raw.spaceId => `, raw.sys.space.sys.id)
+      console.log(
+        `[ CMA ] createLocaleApi.delete() raw.environmentId => `,
+        raw.sys.environment.sys.id,
+      )
+      console.log(`[ CMA ] createLocaleApi.delete() raw.localeId => `, raw.sys.id)
+
       return makeRequest({
         entityType: 'Locale',
         action: 'delete',
