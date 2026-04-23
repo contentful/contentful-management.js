@@ -45,7 +45,6 @@ interface UserAgentParams {
 }
 
 export type ClientOptions = UserAgentParams & XOR<RestAdapterParams, AdapterParams>
-
 /**
  * Create a client instance
  * @param clientOptions - Client initialization parameters
