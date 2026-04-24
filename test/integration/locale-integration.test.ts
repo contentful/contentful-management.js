@@ -68,6 +68,20 @@ describe('Locale API', () => {
       '[CMA integration testss] locale-integration.test.ts "Creates, gets, updates, and deletes a locale"; environment => ',
       environment,
     )
+    console.log(
+      '[CMA integration testss] locale-integration.test.ts "Creates, gets, updates, and deletes a locale"; updatedLocale.sys.environment => ',
+      updatedLocale.sys.environment,
+    )
+
+    console.log(
+      '[CMA integration testss] locale-integration.test.ts "Creates, gets, updates, and deletes a locale"; updatedLocale.sys.environment.sys.id => ',
+      updatedLocale.sys.environment.sys.id,
+    )
+
+
+    // locale.sys.environment is either missing or locale.sys.environment.sys.id is undefined.
+
+
 
     // Adding a delay to ensure the environment has enough time to process changes
     await new Promise((resolve) => setTimeout(resolve, 3000))
