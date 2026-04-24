@@ -37,7 +37,11 @@ describe('Locale API', () => {
     })
   })
 
-  it('Creates, gets, updates, and deletes a locale', async () => {
+  // FIX ME
+  // https://contentful.atlassian.net/browse/DX-991
+  // regression in locale API: https://contentful.slack.com/archives/C01SQNTQBBM/p1777053859135889
+  // environment id is not being returned in POST and PUT responses
+  it.skip('Creates, gets, updates, and deletes a locale', async () => {
     const createdLocale = await environment.createLocale({
       name: 'German (Austria)',
       code: 'de-AT',
@@ -62,7 +66,11 @@ describe('Locale API', () => {
     await updatedLocale.delete()
   })
 
-  it('Creates, gets page (respects limit), deletes a locale', async () => {
+  // FIX ME
+  // https://contentful.atlassian.net/browse/DX-991
+  // regression in locale API: https://contentful.slack.com/archives/C01SQNTQBBM/p1777053859135889
+  // environment id is not being returned in POST and PUT responses
+  it.skip('Creates, gets page (respects limit), deletes a locale', async () => {
     const createdLocal = await environment.createLocale({
       name: 'Chinese (Simplified, China)',
       code: 'zh-Hans-CN',
