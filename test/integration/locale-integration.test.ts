@@ -78,11 +78,6 @@ describe('Locale API', () => {
       updatedLocale.sys.environment.sys.id,
     )
 
-
-    // locale.sys.environment is either missing or locale.sys.environment.sys.id is undefined.
-
-
-
     // Adding a delay to ensure the environment has enough time to process changes
     await new Promise((resolve) => setTimeout(resolve, 3000))
 
