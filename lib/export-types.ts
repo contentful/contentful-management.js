@@ -307,12 +307,6 @@ export type {
 export * from './plain/plain-client-types'
 export { OptionalDefaults } from './plain/wrappers/wrap'
 
-export {
-  WorkflowStepPermissionAction,
-  WorkflowStepPermissionEffect,
-  WorkflowStepPermissionType,
-} from './entities/workflow-definition'
-
 export type { ConceptProps, CreateConceptProps } from './entities/concept'
 export type { ConceptSchemeProps, CreateConceptSchemeProps } from './entities/concept-scheme'
 export type { ResourceProps, ResourceQueryOptions } from './entities/resource'

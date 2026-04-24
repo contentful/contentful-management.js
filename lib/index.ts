@@ -31,6 +31,9 @@ export { ScheduledActionStatus }
 export { OptionalDefaults } from './plain/wrappers/wrap'
 export type * from './export-types'
 
+// enums
+// Exported explicitly as values because `export type * from './export-types'` strips
+// runtime values — enums need a direct `export {}` to be usable as values, not just types.
 export {
   WorkflowStepPermissionType,
   WorkflowStepPermissionAction,
