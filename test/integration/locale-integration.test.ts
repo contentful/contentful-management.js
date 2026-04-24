@@ -6,7 +6,7 @@ import {
   timeoutToCalmRateLimiting,
   waitForEnvironmentToBeReady,
 } from '../helpers'
-import type { Space, Environment } from '../../lib/export-types'
+import type { Space, Environment, Locale } from '../../lib/export-types'
 
 describe('Locale API', () => {
   let space: Space
@@ -55,7 +55,7 @@ describe('Locale API', () => {
 
     fetchedLocale.name = 'Deutsch (Österreich)'
     fetchedLocale.fallbackCode = 'en-US'
-    const updatedLocale = await fetchedLocale.update()
+    const updatedLocale: Locale = await fetchedLocale.update()
 
     expect(updatedLocale.name).toBe('Deutsch (Österreich)')
     expect(updatedLocale.fallbackCode).toBe('en-US')
@@ -69,6 +69,10 @@ describe('Locale API', () => {
       environment,
     )
 
+    // Adding a delay to ensure the environment has enough time to process changes
+    await new Promise((resolve) => setTimeout(resolve, 3000))
+
+    // 404s
     await updatedLocale.delete()
   })
 
