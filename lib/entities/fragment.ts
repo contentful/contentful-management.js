@@ -9,6 +9,7 @@ import type {
   ComponentTypeViewport,
   DimensionedDesignPropertyValue,
   FragmentNode,
+  TreeNode,
 } from './component-type'
 import type {
   ExperienceContentBindings,
@@ -50,7 +51,7 @@ export type FragmentProps = {
   dimensionKeyMap: ExperienceDimensionKeyMap
   contentBindings?: ExperienceContentBindings
   metadata?: ExoMetadataProps
-  slots?: Record<string, Array<FragmentNode | InlineFragmentNode>>
+  slots?: Record<string, Array<TreeNode | FragmentNode | InlineFragmentNode>>
 }
 
 export type CreateFragmentProps = Except<FragmentProps, 'sys'> & {
