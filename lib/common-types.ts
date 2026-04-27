@@ -67,6 +67,12 @@ import type {
   UpdateComponentTypeProps,
 } from './entities/component-type'
 import type {
+  CreateFragmentProps,
+  FragmentProps,
+  FragmentQueryOptions,
+  UpdateFragmentProps,
+} from './entities/fragment'
+import type {
   CreateTemplateProps,
   TemplateProps,
   TemplateQueryOptions,
@@ -956,6 +962,12 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'TeamSpaceMembership', 'create', UA>): MRReturn<'TeamSpaceMembership', 'create'>
   (opts: MROpts<'TeamSpaceMembership', 'update', UA>): MRReturn<'TeamSpaceMembership', 'update'>
   (opts: MROpts<'TeamSpaceMembership', 'delete', UA>): MRReturn<'TeamSpaceMembership', 'delete'>
+
+  (opts: MROpts<'Fragment', 'getMany', UA>): MRReturn<'Fragment', 'getMany'>
+  (opts: MROpts<'Fragment', 'get', UA>): MRReturn<'Fragment', 'get'>
+  (opts: MROpts<'Fragment', 'create', UA>): MRReturn<'Fragment', 'create'>
+  (opts: MROpts<'Fragment', 'update', UA>): MRReturn<'Fragment', 'update'>
+  (opts: MROpts<'Fragment', 'delete', UA>): MRReturn<'Fragment', 'delete'>
 
   (opts: MROpts<'Template', 'getMany', UA>): MRReturn<'Template', 'getMany'>
   (opts: MROpts<'Template', 'get', UA>): MRReturn<'Template', 'get'>
@@ -2642,6 +2654,38 @@ export type MRActions = {
       return: TeamSpaceMembershipProps
     }
     delete: { params: GetTeamSpaceMembershipParams; return: any }
+  }
+  Fragment: {
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query: FragmentQueryOptions }
+      return: CursorPaginatedCollectionProp<FragmentProps>
+    }
+    get: {
+      params: GetFragmentParams
+      return: FragmentProps
+    }
+    create: {
+      params: GetSpaceEnvironmentParams
+      payload: CreateFragmentProps
+      return: FragmentProps
+    }
+    update: {
+      params: GetFragmentParams
+      payload: UpdateFragmentProps
+      return: FragmentProps
+    }
+    delete: {
+      params: GetFragmentParams
+      return: void
+    }
+    publish: {
+      params: GetFragmentParams & { version: number }
+      return: FragmentProps
+    }
+    unpublish: {
+      params: GetFragmentParams & { version: number }
+      return: FragmentProps
+    }
   }
   Template: {
     getMany: {

@@ -627,6 +627,15 @@ export const createPlainClient = (
       update: wrap(wrapParams, 'TeamSpaceMembership', 'update'),
       delete: wrap(wrapParams, 'TeamSpaceMembership', 'delete'),
     },
+    fragment: {
+      getMany: wrap(wrapParams, 'Fragment', 'getMany'),
+      get: wrap(wrapParams, 'Fragment', 'get'),
+      create: wrap(wrapParams, 'Fragment', 'create'),
+      update: wrap(wrapParams, 'Fragment', 'update'),
+      delete: wrap(wrapParams, 'Fragment', 'delete'),
+      publish: wrap(wrapParams, 'Fragment', 'publish'),
+      unpublish: wrap(wrapParams, 'Fragment', 'unpublish'),
+    },
     template: {
       getMany: wrap(wrapParams, 'Template', 'getMany'),
       get: wrap(wrapParams, 'Template', 'get'),
