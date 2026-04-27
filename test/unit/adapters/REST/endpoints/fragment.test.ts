@@ -205,4 +205,62 @@ describe('Rest Fragment', { concurrent: true }, () => {
         )
       })
   })
+
+  test('publish calls correct URL with PUT and X-Contentful-Version header', async () => {
+    const mockResponse = {
+      sys: { id: 'fragment123', type: 'Fragment', version: 2, publishedVersion: 1 },
+      name: 'Test Fragment',
+    }
+
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'Fragment',
+        action: 'publish',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+          fragmentId: 'fragment123',
+          version: 1,
+        },
+      })
+      .then((r) => {
+        expect(r).to.eql(mockResponse)
+        expect(httpMock.put.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/fragments/fragment123/published',
+        )
+        expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(1)
+      })
+  })
+
+  test('unpublish calls correct URL with DELETE and X-Contentful-Version header', async () => {
+    const mockResponse = {
+      sys: { id: 'fragment123', type: 'Fragment', version: 3 },
+      name: 'Test Fragment',
+    }
+
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'Fragment',
+        action: 'unpublish',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+          fragmentId: 'fragment123',
+          version: 2,
+        },
+      })
+      .then((r) => {
+        expect(r).to.eql(mockResponse)
+        expect(httpMock.delete.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/fragments/fragment123/published',
+        )
+        expect(httpMock.delete.mock.calls[0][1].headers['X-Contentful-Version']).to.eql(2)
+      })
+  })
 })
