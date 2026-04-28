@@ -72,10 +72,10 @@ export type ExperienceQueryOptions = CursorPaginationParams & {
 // Omit the payload entirely for a full publish (all locales).
 export type ExperienceLocalePublishPayload = { add: string[] } | { remove: string[] }
 
-// Create payload — no sys, uses componentTypeId instead of sys.componentType link
-export type CreateExperienceProps = ExperienceCommonProps & {
-  componentTypeId: string
-}
+// Create payload — no sys, uses either componentTypeId (component-type-backed) or
+// templateId (template-backed). The two fields are mutually exclusive.
+export type CreateExperienceProps = ExperienceCommonProps &
+  ({ componentTypeId: string; templateId?: never } | { templateId: string; componentTypeId?: never })
 
 export type UpdateExperienceProps = ExperienceProps
 
