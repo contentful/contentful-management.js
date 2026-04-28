@@ -29,7 +29,7 @@ export type ExperienceSys = {
   version: number
   space: Link<'Space'>
   environment: Link<'Environment'>
-  componentType: Link<'ComponentType'>
+  componentType?: Link<'ComponentType'>
   template?: Link<'Template'>
   createdAt: string
   updatedAt: string
