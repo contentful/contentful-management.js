@@ -110,6 +110,7 @@ export default {
     'typedoc-plugin-missing-exports',
     'typedoc-github-theme',
     './docs/plugins/version-selector/typedoc-version-selector.mjs',
+    './docs/plugins/search-tags/typedoc-search-tags.mjs',
   ],
 
   // Places internal types next to the module that owns them rather than
