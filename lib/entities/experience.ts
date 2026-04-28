@@ -75,7 +75,10 @@ export type ExperienceLocalePublishPayload = { add: string[] } | { remove: strin
 // Create payload — no sys, uses either componentTypeId (component-type-backed) or
 // templateId (template-backed). The two fields are mutually exclusive.
 export type CreateExperienceProps = ExperienceCommonProps &
-  ({ componentTypeId: string; templateId?: never } | { templateId: string; componentTypeId?: never })
+  (
+    | { componentTypeId: string; templateId?: never }
+    | { templateId: string; componentTypeId?: never }
+  )
 
 export type UpdateExperienceProps = ExperienceProps
 
