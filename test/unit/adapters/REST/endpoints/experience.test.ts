@@ -251,6 +251,55 @@ describe('Rest Experience', { concurrent: true }, () => {
       })
   })
 
+  test('create sends templateId when creating a template-backed experience', async () => {
+    const mockResponse = {
+      sys: { id: 'new-experience-456', type: 'Experience', version: 1 },
+      name: 'Template Experience',
+      description: 'A template-backed experience',
+      viewports: [],
+      contentProperties: {},
+      designProperties: {},
+      dimensionKeyMap: { designProperties: {} },
+    }
+
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'Experience',
+        action: 'create',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+        },
+        payload: {
+          name: 'Template Experience',
+          description: 'A template-backed experience',
+          templateId: 'tmpl-789',
+          viewports: [],
+          contentProperties: {},
+          designProperties: {},
+          dimensionKeyMap: { designProperties: {} },
+        },
+      })
+      .then((r) => {
+        expect(r).to.eql(mockResponse)
+        expect(httpMock.post.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/experiences',
+        )
+        expect(httpMock.post.mock.calls[0][1]).to.eql({
+          name: 'Template Experience',
+          description: 'A template-backed experience',
+          templateId: 'tmpl-789',
+          viewports: [],
+          contentProperties: {},
+          designProperties: {},
+          dimensionKeyMap: { designProperties: {} },
+        })
+      })
+  })
+
   test('update calls correct URL with version header', async () => {
     const mockResponse = {
       sys: { id: 'experience123', type: 'Experience', version: 2 },

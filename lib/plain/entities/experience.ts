@@ -60,6 +60,7 @@ export type ExperiencePlainClientAPI = {
    * @internal - Experimental endpoint, subject to breaking changes without notice
    * @example
    * ```javascript
+   * // Component-type-backed experience
    * const experience = await client.experience.create({
    *   spaceId: '<space_id>',
    *   environmentId: '<environment_id>',
@@ -67,6 +68,20 @@ export type ExperiencePlainClientAPI = {
    *   name: 'My Experience',
    *   description: 'A new experience',
    *   componentTypeId: '<component_type_id>',
+   *   viewports: [],
+   *   contentProperties: {},
+   *   designProperties: {},
+   *   dimensionKeyMap: { designProperties: {} },
+   * });
+   *
+   * // Template-backed experience
+   * const experience = await client.experience.create({
+   *   spaceId: '<space_id>',
+   *   environmentId: '<environment_id>',
+   * }, {
+   *   name: 'My Template Experience',
+   *   description: 'A template-backed experience',
+   *   templateId: '<template_id>',
    *   viewports: [],
    *   contentProperties: {},
    *   designProperties: {},
