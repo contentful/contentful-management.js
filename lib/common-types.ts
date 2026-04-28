@@ -377,14 +377,21 @@ export interface MetadataProps {
 }
 
 /**
- * Metadata shape for ExO entities (ComponentType, Experience/View, Template).
+ * Base metadata shape for ExO entities (ComponentType, Template).
+ * Mirrors upstream MetadataSchema: tags and concepts only.
  * - tags: optional (upstream MetadataSchema.tags is z.optional as of SPA-3821)
  * - concepts: optional taxonomy concept links
- * - name: optional display name for variant labeling (SPA-3939)
  */
 export interface ExoMetadataProps {
   tags?: Link<'Tag'>[]
   concepts?: Link<'TaxonomyConcept'>[]
+}
+
+/**
+ * Extended metadata shape for Experience entities only.
+ * Adds name? for variant labeling (SPA-3939), mirroring upstream ExperienceMetadata.
+ */
+export interface ExperienceMetadataProps extends ExoMetadataProps {
   name?: string
 }
 

@@ -1,7 +1,7 @@
 import type {
   CursorPaginatedCollectionProp,
   CursorPaginationParams,
-  ExoMetadataProps,
+  ExperienceMetadataProps,
   Link,
 } from '../common-types'
 import type {
@@ -35,6 +35,9 @@ export type ExperienceSys = {
   updatedAt: string
   createdBy: Link<'User'>
   updatedBy: Link<'User'>
+  archivedAt?: string
+  archivedBy?: Link<'User'>
+  archivedVersion?: number
   variant?: string
   variantType?: string
   variantDimension?: string
@@ -54,7 +57,7 @@ type ExperienceCommonProps = {
   designProperties: Record<string, DimensionedDesignPropertyValue>
   dimensionKeyMap: ExperienceDimensionKeyMap
   contentBindings?: ExperienceContentBindings
-  metadata?: ExoMetadataProps
+  metadata?: ExperienceMetadataProps
   slots?: Record<string, Array<FragmentNode | InlineFragmentNode>>
 }
 
@@ -72,10 +75,13 @@ export type ExperienceQueryOptions = CursorPaginationParams & {
 // Omit the payload entirely for a full publish (all locales).
 export type ExperienceLocalePublishPayload = { add: string[] } | { remove: string[] }
 
-// Create payload — no sys, uses componentTypeId instead of sys.componentType link
-export type CreateExperienceProps = ExperienceCommonProps & {
-  componentTypeId: string
-}
+// Create payload — no sys, uses either componentTypeId (component-type-backed) or
+// templateId (template-backed). The two fields are mutually exclusive.
+export type CreateExperienceProps = ExperienceCommonProps &
+  (
+    | { componentTypeId: string; templateId?: never }
+    | { templateId: string; componentTypeId?: never }
+  )
 
 export type UpdateExperienceProps = ExperienceProps
 
