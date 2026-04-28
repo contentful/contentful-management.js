@@ -968,6 +968,8 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Fragment', 'create', UA>): MRReturn<'Fragment', 'create'>
   (opts: MROpts<'Fragment', 'update', UA>): MRReturn<'Fragment', 'update'>
   (opts: MROpts<'Fragment', 'delete', UA>): MRReturn<'Fragment', 'delete'>
+  (opts: MROpts<'Fragment', 'publish', UA>): MRReturn<'Fragment', 'publish'>
+  (opts: MROpts<'Fragment', 'unpublish', UA>): MRReturn<'Fragment', 'unpublish'>
 
   (opts: MROpts<'Template', 'getMany', UA>): MRReturn<'Template', 'getMany'>
   (opts: MROpts<'Template', 'get', UA>): MRReturn<'Template', 'get'>
