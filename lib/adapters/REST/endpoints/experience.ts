@@ -58,7 +58,9 @@ export const update: RestEndpoint<'Experience', 'update'> = (
   headers?: RawAxiosRequestHeaders,
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> & { componentTypeId?: string } = copy(rawData)
-  data.componentTypeId = rawData.sys.componentType.sys.id
+  if (rawData.sys.componentType) {
+    data.componentTypeId = rawData.sys.componentType.sys.id
+  }
   delete data.sys
   return raw.put<ExperienceProps>(http, getBaseUrl(params) + `/${params.experienceId}`, data, {
     headers: {
