@@ -10,7 +10,11 @@ import type {
   DimensionedDesignPropertyValue,
   FragmentNode,
 } from './component-type'
-import type { ExperienceContentBindings, ExperienceDimensionKeyMap, InlineFragmentNode } from './experience'
+import type {
+  ExperienceContentBindings,
+  ExperienceDimensionKeyMap,
+  InlineFragmentNode,
+} from './experience'
 
 export type FragmentSys = {
   id: string
