@@ -35,6 +35,9 @@ export type ExperienceSys = {
   updatedAt: string
   createdBy: Link<'User'>
   updatedBy: Link<'User'>
+  archivedAt?: string
+  archivedBy?: Link<'User'>
+  archivedVersion?: number
   variant?: string
   variantType?: string
   variantDimension?: string
