@@ -2965,6 +2965,8 @@ export type GetExperienceParams = GetSpaceEnvironmentParams & { experienceId: st
 /** @internal */
 export type GetDataAssemblyParams = GetSpaceEnvironmentParams & { dataAssemblyId: string }
 /** @internal */
+export type GetFragmentParams = GetSpaceEnvironmentParams & { fragmentId: string }
+/** @internal */
 export type GetTemplateParams = GetSpaceEnvironmentParams & { templateId: string }
 /** @internal */
 export type GetContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
