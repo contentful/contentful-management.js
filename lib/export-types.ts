@@ -357,3 +357,6 @@ export type {
   WorkflowsChangelogEntryProps,
   WorkflowsChangelogQueryOptions,
 } from './entities/workflows-changelog-entry'
+export type { ComponentTypeCollection } from './entities/component-type'
+export type { TemplateCollection } from './entities/template'
+export type { ExperienceCollection } from './entities/experience'

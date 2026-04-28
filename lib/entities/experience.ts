@@ -1,4 +1,9 @@
-import type { CursorPaginationParams, ExperienceMetadataProps, Link } from '../common-types'
+import type {
+  CursorPaginatedCollectionProp,
+  CursorPaginationParams,
+  ExperienceMetadataProps,
+  Link,
+} from '../common-types'
 import type {
   ComponentTypeViewport,
   DimensionedDesignPropertyValue,
@@ -24,7 +29,7 @@ export type ExperienceSys = {
   version: number
   space: Link<'Space'>
   environment: Link<'Environment'>
-  componentType: Link<'ComponentType'>
+  componentType?: Link<'ComponentType'>
   template?: Link<'Template'>
   createdAt: string
   updatedAt: string
@@ -82,3 +87,5 @@ export type InlineFragmentNode = {
   contentBindings?: ExperienceContentBindings
   slots?: Record<string, Array<FragmentNode | InlineFragmentNode>>
 }
+
+export type ExperienceCollection = CursorPaginatedCollectionProp<ExperienceProps>
