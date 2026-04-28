@@ -19,7 +19,7 @@ export type ComponentTypeViewport = {
 export type ComponentTypeContentProperty = {
   id: string
   name: string
-  type: string
+  type: 'String' | 'Number' | 'Boolean'
   required: boolean
   defaultValue?: unknown
 }
@@ -48,7 +48,6 @@ export type ComponentTypeDesignProperty = {
   validations?: {
     in?: ComponentTypeDesignPropertyValidation[]
   }
-  designTokenSet: string[]
 }
 
 // Dimension key map
