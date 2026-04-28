@@ -1,7 +1,7 @@
 import type {
   CursorPaginatedCollectionProp,
   CursorPaginationParams,
-  ExoMetadataProps,
+  ExperienceMetadataProps,
   Link,
 } from '../common-types'
 import type {
@@ -57,7 +57,7 @@ type ExperienceCommonProps = {
   designProperties: Record<string, DimensionedDesignPropertyValue>
   dimensionKeyMap: ExperienceDimensionKeyMap
   contentBindings?: ExperienceContentBindings
-  metadata?: ExoMetadataProps
+  metadata?: ExperienceMetadataProps
   slots?: Record<string, Array<FragmentNode | InlineFragmentNode>>
 }
 
