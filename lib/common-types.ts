@@ -2355,7 +2355,11 @@ export type MRActions = {
   }
   Space: {
     get: { params: GetSpaceParams; return: SpaceProps }
-    getMany: { params: QueryParams; return: CollectionProp<SpaceProps> }
+    getMany: {
+      params: QueryParams & { organizationId?: string }
+      headers?: RawAxiosRequestHeaders
+      return: CollectionProp<SpaceProps>
+    }
     getManyForOrganization: {
       params: GetOrganizationParams & QueryParams
       return: CollectionProp<SpaceProps>

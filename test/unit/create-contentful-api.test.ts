@@ -64,6 +64,53 @@ describe('createClientApi', () => {
         api.createSpace({ name: 'test space', productId: 'test-product' }, 'test-org'),
       ).rejects.toEqual(error)
     })
+
+    test('getSpaces calls getMany with query', async () => {
+      const { api, makeRequest } = setup(
+        Promise.resolve({ sys: { type: 'Array' }, total: 0, skip: 0, limit: 100, items: [] }),
+      )
+      await api.getSpaces({ limit: 10 })
+      expect(makeRequest).toHaveBeenCalledWith(
+        expect.objectContaining({ entityType: 'Space', action: 'getMany' }),
+      )
+    })
+
+    test('getSpaces with cursor:true passes cursor in query', async () => {
+      const { api, makeRequest } = setup(
+        Promise.resolve({ sys: { type: 'Array' }, total: 0, skip: 0, limit: 100, items: [] }),
+      )
+      await api.getSpaces({ cursor: true, limit: 10 })
+      const [call] = makeRequest.mock.calls
+      expect(call[0].action).toBe('getMany')
+      expect(call[0].params.query).toMatchObject({ cursor: true, limit: 10 })
+    })
+
+    test('getSpaces with cursor:true and pageNext passes pageNext in query', async () => {
+      const { api, makeRequest } = setup(
+        Promise.resolve({ sys: { type: 'Array' }, total: 0, skip: 0, limit: 100, items: [] }),
+      )
+      await api.getSpaces({ cursor: true, pageNext: 'next-token' })
+      const [call] = makeRequest.mock.calls
+      expect(call[0].params.query).toMatchObject({ cursor: true, pageNext: 'next-token' })
+    })
+
+    test('getSpaces with organizationId passes it in params', async () => {
+      const { api, makeRequest } = setup(
+        Promise.resolve({ sys: { type: 'Array' }, total: 0, skip: 0, limit: 100, items: [] }),
+      )
+      await api.getSpaces({}, 'test-org')
+      const [call] = makeRequest.mock.calls
+      expect(call[0].params.organizationId).toBe('test-org')
+    })
+
+    test('getSpaces without organizationId omits it from params', async () => {
+      const { api, makeRequest } = setup(
+        Promise.resolve({ sys: { type: 'Array' }, total: 0, skip: 0, limit: 100, items: [] }),
+      )
+      await api.getSpaces()
+      const [call] = makeRequest.mock.calls
+      expect(call[0].params.organizationId).toBeUndefined()
+    })
   })
 })
 

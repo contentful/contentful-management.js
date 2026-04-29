@@ -169,12 +169,13 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * ```
      */
     getSpaces: function getSpaces(
-      query: QueryOptions = {},
-    ): Promise<Collection<Space, SpaceProps>> {
+      query: (QueryOptions | BasicCursorPaginationOptions) & { cursor?: boolean } = {},
+      organizationId?: string,
+    ): Promise<Collection<Space, SpaceProps> | CursorPaginatedCollection<Space, SpaceProps>> {
       return makeRequest({
         entityType: 'Space',
         action: 'getMany',
-        params: { query: createRequestConfig({ query: query }).params },
+        params: { query: createRequestConfig({ query }).params, organizationId },
       }).then((data) => wrapSpaceCollection(makeRequest, data))
     },
 
