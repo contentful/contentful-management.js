@@ -3,6 +3,8 @@ import type {
   GetSpaceParams,
   QueryParams,
   CollectionProp,
+  CursorPaginatedCollectionProp,
+  BasicCursorPaginationOptions,
   GetOrganizationParams,
 } from '../../common-types'
 import type { OptionalDefaults } from '../wrappers/wrap'
@@ -34,7 +36,11 @@ export type SpacePlainClientAPI = {
    * });
    * ```
    */
-  getMany(params: OptionalDefaults<QueryParams>): Promise<CollectionProp<SpaceProps>>
+  getMany(
+    params: OptionalDefaults<
+      (QueryParams | BasicCursorPaginationOptions) & { organizationId?: string }
+    >,
+  ): Promise<CollectionProp<SpaceProps> | CursorPaginatedCollectionProp<SpaceProps>>
   /**
    * Fetches all the spaces in the given organization
    * @param params the organization ID and query parameters

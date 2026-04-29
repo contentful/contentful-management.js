@@ -65,10 +65,11 @@ describe('createClientApi', () => {
       ).rejects.toEqual(error)
     })
 
-    test('getSpaces calls getMany with query', async () => {
-      const { api, makeRequest } = setup(
-        Promise.resolve({ sys: { type: 'Array' }, total: 0, skip: 0, limit: 100, items: [] }),
-      )
+    const collectionResponse = { sys: { type: 'Array' }, total: 0, skip: 0, limit: 100, items: [] }
+    const cursorCollectionResponse = { sys: { type: 'Array' }, limit: 100, items: [], pages: {} }
+
+    test('getSpaces calls getMany', async () => {
+      const { api, makeRequest } = setup(Promise.resolve(collectionResponse))
       await api.getSpaces({ limit: 10 })
       expect(makeRequest).toHaveBeenCalledWith(
         expect.objectContaining({ entityType: 'Space', action: 'getMany' }),
@@ -76,9 +77,7 @@ describe('createClientApi', () => {
     })
 
     test('getSpaces with cursor:true passes cursor in query', async () => {
-      const { api, makeRequest } = setup(
-        Promise.resolve({ sys: { type: 'Array' }, total: 0, skip: 0, limit: 100, items: [] }),
-      )
+      const { api, makeRequest } = setup(Promise.resolve(cursorCollectionResponse))
       await api.getSpaces({ cursor: true, limit: 10 })
       const [call] = makeRequest.mock.calls
       expect(call[0].action).toBe('getMany')
@@ -86,27 +85,37 @@ describe('createClientApi', () => {
     })
 
     test('getSpaces with cursor:true and pageNext passes pageNext in query', async () => {
-      const { api, makeRequest } = setup(
-        Promise.resolve({ sys: { type: 'Array' }, total: 0, skip: 0, limit: 100, items: [] }),
-      )
+      const { api, makeRequest } = setup(Promise.resolve(cursorCollectionResponse))
       await api.getSpaces({ cursor: true, pageNext: 'next-token' })
       const [call] = makeRequest.mock.calls
       expect(call[0].params.query).toMatchObject({ cursor: true, pageNext: 'next-token' })
     })
 
-    test('getSpaces with organizationId passes it in params', async () => {
-      const { api, makeRequest } = setup(
-        Promise.resolve({ sys: { type: 'Array' }, total: 0, skip: 0, limit: 100, items: [] }),
+    test('getSpaces with cursor:true returns cursor paginated collection', async () => {
+      const { api } = setup(
+        Promise.resolve({ ...cursorCollectionResponse, pages: { next: 'pageNext=abc' } }),
       )
+      const result = await api.getSpaces({ cursor: true })
+      expect(result).toHaveProperty('pages')
+      expect(result).not.toHaveProperty('total')
+    })
+
+    test('getSpaces without cursor returns regular collection', async () => {
+      const { api } = setup(Promise.resolve(collectionResponse))
+      const result = await api.getSpaces()
+      expect(result).toHaveProperty('total')
+      expect(result).not.toHaveProperty('pages')
+    })
+
+    test('getSpaces with organizationId passes it in params', async () => {
+      const { api, makeRequest } = setup(Promise.resolve(collectionResponse))
       await api.getSpaces({}, 'test-org')
       const [call] = makeRequest.mock.calls
       expect(call[0].params.organizationId).toBe('test-org')
     })
 
     test('getSpaces without organizationId omits it from params', async () => {
-      const { api, makeRequest } = setup(
-        Promise.resolve({ sys: { type: 'Array' }, total: 0, skip: 0, limit: 100, items: [] }),
-      )
+      const { api, makeRequest } = setup(Promise.resolve(collectionResponse))
       await api.getSpaces()
       const [call] = makeRequest.mock.calls
       expect(call[0].params.organizationId).toBeUndefined()

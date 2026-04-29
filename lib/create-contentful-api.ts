@@ -1,6 +1,8 @@
 import { createRequestConfig } from 'contentful-sdk-core'
 import type {
   Collection,
+  CollectionProp,
+  CursorPaginatedCollectionProp,
   MakeRequest,
   PaginationQueryParams,
   QueryOptions,
@@ -12,7 +14,12 @@ import type {
   GetOAuthApplicationParams,
   GetUserParams,
 } from './common-types'
-import { wrapSpace, wrapSpaceCollection } from './entities/space'
+import { normalizeCursorPaginationResponse } from './common-utils'
+import {
+  wrapSpace,
+  wrapSpaceCollection,
+  wrapSpaceCursorPaginatedCollection,
+} from './entities/space'
 import { wrapUser } from './entities/user'
 import {
   wrapPersonalAccessToken,
@@ -172,11 +179,19 @@ export default function createClientApi(makeRequest: MakeRequest) {
       query: (QueryOptions | BasicCursorPaginationOptions) & { cursor?: boolean } = {},
       organizationId?: string,
     ): Promise<Collection<Space, SpaceProps> | CursorPaginatedCollection<Space, SpaceProps>> {
+      const { cursor } = query
       return makeRequest({
         entityType: 'Space',
         action: 'getMany',
         params: { query: createRequestConfig({ query }).params, organizationId },
-      }).then((data) => wrapSpaceCollection(makeRequest, data))
+      }).then((data) =>
+        cursor
+          ? wrapSpaceCursorPaginatedCollection(
+              makeRequest,
+              normalizeCursorPaginationResponse(data as CursorPaginatedCollectionProp<SpaceProps>),
+            )
+          : wrapSpaceCollection(makeRequest, data as CollectionProp<SpaceProps>),
+      )
     },
 
     /**
