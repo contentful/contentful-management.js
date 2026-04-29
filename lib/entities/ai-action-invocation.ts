@@ -62,6 +62,7 @@ export type AiActionEntityLinkVariable = {
       linkType: 'Entry' | 'Asset' | 'ResourceLink'
       id: string
       release?: SysLink
+      /** JSON Pointers to entity fields, e.g. `"/fields/title/en-US"` */
       entityPaths?: Array<string>
     }
   }
