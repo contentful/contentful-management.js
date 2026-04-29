@@ -22,12 +22,17 @@ export type ReferenceVariableConfiguration = {
   allowedEntities: Array<'Entry'>
 }
 
+export type LocaleVariableConfiguration = {
+  localeType: 'Target' | 'Source'
+}
+
 export type VariableConfiguration =
   | {
       strict: boolean
       in: Array<string>
     }
   | ReferenceVariableConfiguration
+  | LocaleVariableConfiguration
 
 export type Variable = {
   configuration?: VariableConfiguration
