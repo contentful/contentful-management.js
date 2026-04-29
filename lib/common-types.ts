@@ -404,6 +404,7 @@ export interface CollectionProp<TObj> {
 
 export interface CursorPaginatedCollectionProp<TObj>
   extends Omit<CollectionProp<TObj>, 'total' | 'skip'> {
+  total?: number
   pages?: {
     next?: string
     prev?: string
