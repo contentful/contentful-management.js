@@ -72,3 +72,34 @@ export const del: RestEndpoint<'Fragment', 'delete'> = (
 ) => {
   return raw.del(http, getBaseUrl(params) + `/${params.fragmentId}`)
 }
+
+export const publish: RestEndpoint<'Fragment', 'publish'> = (
+  http: AxiosInstance,
+  params: GetFragmentParams & { version: number },
+  headers?: RawAxiosRequestHeaders,
+) => {
+  return raw.put<FragmentProps>(
+    http,
+    getBaseUrl(params) + `/${params.fragmentId}/published`,
+    null,
+    {
+      headers: {
+        'X-Contentful-Version': params.version,
+        ...headers,
+      },
+    },
+  )
+}
+
+export const unpublish: RestEndpoint<'Fragment', 'unpublish'> = (
+  http: AxiosInstance,
+  params: GetFragmentParams & { version: number },
+  headers?: RawAxiosRequestHeaders,
+) => {
+  return raw.del<FragmentProps>(http, getBaseUrl(params) + `/${params.fragmentId}/published`, {
+    headers: {
+      'X-Contentful-Version': params.version,
+      ...headers,
+    },
+  })
+}
