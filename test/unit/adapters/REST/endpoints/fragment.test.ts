@@ -125,4 +125,84 @@ describe('Rest Fragment', { concurrent: true }, () => {
         )
       })
   })
+
+  test('create calls correct URL with POST', async () => {
+    const mockResponse = {
+      sys: { id: 'fragment123', type: 'Fragment' },
+      name: 'New Fragment',
+    }
+
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'Fragment',
+        action: 'create',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+        },
+        payload: { name: 'New Fragment' },
+      })
+      .then((r) => {
+        expect(r).to.eql(mockResponse)
+        expect(httpMock.post.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/fragments',
+        )
+      })
+  })
+
+  test('update calls correct URL with PUT and X-Contentful-Version header', async () => {
+    const mockResponse = {
+      sys: { id: 'fragment123', type: 'Fragment', version: 2 },
+      name: 'Updated Fragment',
+    }
+
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'Fragment',
+        action: 'update',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+          fragmentId: 'fragment123',
+        },
+        payload: {
+          sys: { id: 'fragment123', type: 'Fragment', version: 1 },
+          name: 'Updated Fragment',
+        },
+      })
+      .then((r) => {
+        expect(r).to.eql(mockResponse)
+        expect(httpMock.put.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/fragments/fragment123',
+        )
+        expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(1)
+      })
+  })
+
+  test('delete calls correct URL', async () => {
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: '' }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'Fragment',
+        action: 'delete',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+          fragmentId: 'fragment123',
+        },
+      })
+      .then(() => {
+        expect(httpMock.delete.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/fragments/fragment123',
+        )
+      })
+  })
 })
