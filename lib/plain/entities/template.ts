@@ -78,7 +78,7 @@ export type TemplatePlainClientAPI = {
   ): Promise<TemplateProps>
 
   /**
-   * Updates a template (upsert)
+   * Updates a template with PUT
    * @param params the space, environment, and template IDs
    * @param data the template data (including sys.version)
    * @returns the updated template

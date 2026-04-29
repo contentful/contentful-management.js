@@ -78,7 +78,7 @@ export type FragmentPlainClientAPI = {
   ): Promise<FragmentProps>
 
   /**
-   * Updates a fragment
+   * Updates a fragment with PUT
    * @param params the space, environment, and fragment IDs
    * @param data the fragment data (including sys.version)
    * @returns the updated fragment
