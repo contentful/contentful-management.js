@@ -388,6 +388,58 @@ export interface ExoMetadataProps {
   name?: string
 }
 
+/**
+ * Shared query filter fields for ExO list endpoints (ComponentType, Experience, Fragment, Template).
+ * Mirrors the four shared filter schemas in experiences-management-api-contract:
+ * SysFiltersSchema + TagFiltersSchema + TaxonomyConceptsFiltersSchema + TextFiltersSchema
+ */
+export interface ExoQueryFilters {
+  // SysFiltersSchema
+  'sys.id'?: string
+  'sys.id[in]'?: string
+  'sys.id[nin]'?: string
+  'sys.createdBy.sys.id'?: string
+  'sys.createdBy.sys.id[in]'?: string
+  'sys.createdBy.sys.id[nin]'?: string
+  'sys.updatedBy.sys.id'?: string
+  'sys.updatedBy.sys.id[in]'?: string
+  'sys.updatedBy.sys.id[nin]'?: string
+  'sys.publishedBy.sys.id'?: string
+  'sys.publishedBy.sys.id[in]'?: string
+  'sys.publishedBy.sys.id[nin]'?: string
+  'sys.createdAt[gt]'?: string
+  'sys.createdAt[gte]'?: string
+  'sys.createdAt[lt]'?: string
+  'sys.createdAt[lte]'?: string
+  'sys.updatedAt[gt]'?: string
+  'sys.updatedAt[gte]'?: string
+  'sys.updatedAt[lt]'?: string
+  'sys.updatedAt[lte]'?: string
+  'sys.publishedAt[gt]'?: string
+  'sys.publishedAt[gte]'?: string
+  'sys.publishedAt[lt]'?: string
+  'sys.publishedAt[lte]'?: string
+  'sys.firstPublishedAt[gt]'?: string
+  'sys.firstPublishedAt[gte]'?: string
+  'sys.firstPublishedAt[lt]'?: string
+  'sys.firstPublishedAt[lte]'?: string
+  'sys.version'?: number
+  'sys.publishedVersion'?: number
+  'sys.archivedAt[exists]'?: boolean
+  // TagFiltersSchema
+  'metadata.tags.sys.id[in]'?: string
+  'metadata.tags.sys.id[all]'?: string
+  'metadata.tags.sys.id[nin]'?: string
+  // TaxonomyConceptsFiltersSchema
+  'metadata.concepts.sys.id[in]'?: string
+  'metadata.concepts.sys.id[all]'?: string
+  'metadata.concepts.sys.id[nin]'?: string
+  'metadata.concepts.descendants[in]'?: string
+  // TextFiltersSchema
+  'name[match]'?: string
+  name?: string
+}
+
 export interface SysLink {
   sys: MetaLinkProps
 }

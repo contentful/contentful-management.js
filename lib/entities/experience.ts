@@ -2,6 +2,7 @@ import type {
   CursorPaginatedCollectionProp,
   CursorPaginationParams,
   ExoMetadataProps,
+  ExoQueryFilters,
   Link,
 } from '../common-types'
 import type {
@@ -62,10 +63,9 @@ export type ExperienceProps = ExperienceCommonProps & {
   sys: ExperienceSys
 }
 
-// Query options for getMany - cursor-based pagination with mutual exclusivity
-export type ExperienceQueryOptions = CursorPaginationParams & {
+// Query options for getMany - cursor-based pagination with typed filter fields
+export type ExperienceQueryOptions = CursorPaginationParams & ExoQueryFilters & {
   order?: string
-  [key: string]: unknown
 }
 
 // Locale-based publish payload — add or remove specific locales.
