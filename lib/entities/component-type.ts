@@ -80,18 +80,23 @@ export type DesignTokenValue = {
 }
 
 // For designProperties[].defaultValue (definition level)
-// Upstream: DesignPropertyValueSchema (schema line 86-91)
+// Upstream: DesignPropertyValueSchema — canonical value only (no pointer, no dimensioned)
 export type DesignPropertyDefinitionValue = ManualDesignValue | DesignTokenValue
 
-// For componentTree node designProperties (tree-node level)
-// Upstream: ComponentTreeDesignPropertyValueSchema (schema line 101-104)
-export type DesignPropertyValue =
-  | ManualDesignValue
-  | DesignTokenValue
-  | DesignPropertyPointerValue
-  | Record<string, ManualDesignValue | DesignTokenValue | DesignPropertyPointerValue>
+// Canonical design property value — ManualDesignValue or DesignToken only
+// Upstream: DesignPropertyValueSchema (schema line 86-91)
+export type DesignPropertyValue = ManualDesignValue | DesignTokenValue
 
+// Dimensioned record — maps breakpoint keys to canonical values
+// Upstream: DimensionedDesignPropertyValueSchema — Record<string, DesignPropertyValueSchema>
 export type DimensionedDesignPropertyValue = Record<string, DesignPropertyValue>
+
+// Tree-node-level union — pointer and dimensioned are siblings of the canonical value
+// Upstream: ComponentTreeDesignPropertyValueSchema (schema line 101-104)
+export type ComponentTreeDesignPropertyValue =
+  | DesignPropertyValue
+  | DesignPropertyPointerValue
+  | DimensionedDesignPropertyValue
 
 // Tree node types for component tree
 export type ComponentNode = {
@@ -100,7 +105,7 @@ export type ComponentNode = {
   nodeType: 'Component'
   componentTypeId: string
   contentProperties: Record<string, ContentPropertyPointerValue | unknown> | string
-  designProperties: Record<string, DesignPropertyValue>
+  designProperties: Record<string, ComponentTreeDesignPropertyValue>
   slots: Record<string, TreeNode[]>
   contentBindings?: string
 }
