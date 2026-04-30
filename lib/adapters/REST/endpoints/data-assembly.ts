@@ -1,10 +1,7 @@
 import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import type {
-  GetDataAssemblyParams,
-  GetSpaceEnvironmentParams,
-} from '../../../common-types'
+import type { GetDataAssemblyParams, GetSpaceEnvironmentParams } from '../../../common-types'
 import type {
   CreateDataAssemblyProps,
   DataAssemblyCollection,

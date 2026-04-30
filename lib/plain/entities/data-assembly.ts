@@ -1,8 +1,5 @@
 import type { RawAxiosRequestHeaders } from 'axios'
-import type {
-  GetDataAssemblyParams,
-  GetSpaceEnvironmentParams,
-} from '../../common-types'
+import type { GetDataAssemblyParams, GetSpaceEnvironmentParams } from '../../common-types'
 import type {
   CreateDataAssemblyProps,
   DataAssemblyProps,
