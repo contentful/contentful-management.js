@@ -3,7 +3,7 @@ import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type { SetOptional } from 'type-fest'
 import type {
-  CursorPaginatedCollectionProp,
+  ExoCursorPaginatedCollectionProp,
   GetSpaceEnvironmentParams,
   GetExperienceParams,
 } from '../../../common-types'
@@ -25,7 +25,7 @@ export const getMany: RestEndpoint<'Experience', 'getMany'> = (
   params: GetSpaceEnvironmentParams & { query: ExperienceQueryOptions },
   headers?: RawAxiosRequestHeaders,
 ) => {
-  return raw.get<CursorPaginatedCollectionProp<ExperienceProps>>(http, getBaseUrl(params), {
+  return raw.get<ExoCursorPaginatedCollectionProp<ExperienceProps>>(http, getBaseUrl(params), {
     params: params.query,
     headers,
   })

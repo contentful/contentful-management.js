@@ -3,7 +3,7 @@ import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type { SetOptional } from 'type-fest'
 import type {
-  CursorPaginatedCollectionProp,
+  ExoCursorPaginatedCollectionProp,
   GetFragmentParams,
   GetSpaceEnvironmentParams,
 } from '../../../common-types'
@@ -24,7 +24,7 @@ export const getMany: RestEndpoint<'Fragment', 'getMany'> = (
   params: GetSpaceEnvironmentParams & { query: FragmentQueryOptions },
   headers?: RawAxiosRequestHeaders,
 ) => {
-  return raw.get<CursorPaginatedCollectionProp<FragmentProps>>(http, getBaseUrl(params), {
+  return raw.get<ExoCursorPaginatedCollectionProp<FragmentProps>>(http, getBaseUrl(params), {
     params: params.query,
     headers,
   })
