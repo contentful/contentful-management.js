@@ -34,6 +34,7 @@ import * as EnvironmentAlias from './environment-alias'
 import * as EnvironmentTemplate from './environment-template'
 import * as EnvironmentTemplateInstallation from './environment-template-installation'
 import * as Extension from './extension'
+import * as Fragment from './fragment'
 import * as Function from './function'
 import * as FunctionLog from './function-log'
 import * as Http from './http'
@@ -118,6 +119,7 @@ export default {
   EnvironmentTemplate,
   EnvironmentTemplateInstallation,
   Extension,
+  Fragment,
   Function,
   FunctionLog,
   Http,

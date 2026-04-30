@@ -67,6 +67,12 @@ import type {
   UpdateComponentTypeProps,
 } from './entities/component-type'
 import type {
+  CreateFragmentProps,
+  FragmentProps,
+  FragmentQueryOptions,
+  UpdateFragmentProps,
+} from './entities/fragment'
+import type {
   CreateTemplateProps,
   TemplateProps,
   TemplateQueryOptions,
@@ -377,14 +383,21 @@ export interface MetadataProps {
 }
 
 /**
- * Metadata shape for ExO entities (ComponentType, Experience/View, Template).
+ * Base metadata shape for ExO entities (ComponentType, Template).
+ * Mirrors upstream MetadataSchema: tags and concepts only.
  * - tags: optional (upstream MetadataSchema.tags is z.optional as of SPA-3821)
  * - concepts: optional taxonomy concept links
- * - name: optional display name for variant labeling (SPA-3939)
  */
 export interface ExoMetadataProps {
   tags?: Link<'Tag'>[]
   concepts?: Link<'TaxonomyConcept'>[]
+}
+
+/**
+ * Extended metadata shape for Experience entities only.
+ * Adds name? for variant labeling (SPA-3939), mirroring upstream ExperienceMetadata.
+ */
+export interface ExperienceMetadataProps extends ExoMetadataProps {
   name?: string
 }
 
@@ -1001,6 +1014,14 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'TeamSpaceMembership', 'create', UA>): MRReturn<'TeamSpaceMembership', 'create'>
   (opts: MROpts<'TeamSpaceMembership', 'update', UA>): MRReturn<'TeamSpaceMembership', 'update'>
   (opts: MROpts<'TeamSpaceMembership', 'delete', UA>): MRReturn<'TeamSpaceMembership', 'delete'>
+
+  (opts: MROpts<'Fragment', 'getMany', UA>): MRReturn<'Fragment', 'getMany'>
+  (opts: MROpts<'Fragment', 'get', UA>): MRReturn<'Fragment', 'get'>
+  (opts: MROpts<'Fragment', 'create', UA>): MRReturn<'Fragment', 'create'>
+  (opts: MROpts<'Fragment', 'update', UA>): MRReturn<'Fragment', 'update'>
+  (opts: MROpts<'Fragment', 'delete', UA>): MRReturn<'Fragment', 'delete'>
+  (opts: MROpts<'Fragment', 'publish', UA>): MRReturn<'Fragment', 'publish'>
+  (opts: MROpts<'Fragment', 'unpublish', UA>): MRReturn<'Fragment', 'unpublish'>
 
   (opts: MROpts<'Template', 'getMany', UA>): MRReturn<'Template', 'getMany'>
   (opts: MROpts<'Template', 'get', UA>): MRReturn<'Template', 'get'>
@@ -2688,6 +2709,38 @@ export type MRActions = {
     }
     delete: { params: GetTeamSpaceMembershipParams; return: any }
   }
+  Fragment: {
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query: FragmentQueryOptions }
+      return: CursorPaginatedCollectionProp<FragmentProps>
+    }
+    get: {
+      params: GetFragmentParams
+      return: FragmentProps
+    }
+    create: {
+      params: GetSpaceEnvironmentParams
+      payload: CreateFragmentProps
+      return: FragmentProps
+    }
+    update: {
+      params: GetFragmentParams
+      payload: UpdateFragmentProps
+      return: FragmentProps
+    }
+    delete: {
+      params: GetFragmentParams
+      return: void
+    }
+    publish: {
+      params: GetFragmentParams & { version: number }
+      return: FragmentProps
+    }
+    unpublish: {
+      params: GetFragmentParams & { version: number }
+      return: FragmentProps
+    }
+  }
   Template: {
     getMany: {
       params: GetSpaceEnvironmentParams & { query: TemplateQueryOptions }
@@ -3009,6 +3062,8 @@ export type GetComponentTypeParams = GetSpaceEnvironmentParams & { componentType
 export type GetExperienceParams = GetSpaceEnvironmentParams & { experienceId: string }
 /** @internal */
 export type GetDataAssemblyParams = GetSpaceEnvironmentParams & { dataAssemblyId: string }
+/** @internal */
+export type GetFragmentParams = GetSpaceEnvironmentParams & { fragmentId: string }
 /** @internal */
 export type GetTemplateParams = GetSpaceEnvironmentParams & { templateId: string }
 /** @internal */
