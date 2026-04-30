@@ -1,10 +1,3 @@
-## [12.3.2](https://github.com/contentful/contentful-management.js/compare/v12.3.1...v12.3.2) (2026-04-24)
-
-
-### Bug Fixes
-
-* **workflow-definition:** export enums as enums instead of types [DX-786] ([#2996](https://github.com/contentful/contentful-management.js/issues/2996)) ([5d727e1](https://github.com/contentful/contentful-management.js/commit/5d727e1964e02e13d0d1aa1da292d9a866f93d7d))
-
 <!-- shared header  START -->
 
 <p align="center">
