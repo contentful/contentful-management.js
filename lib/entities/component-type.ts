@@ -79,20 +79,12 @@ export type DesignTokenValue = {
   value: string
 }
 
-// For designProperties[].defaultValue (definition level)
-// Upstream: DesignPropertyValueSchema — canonical value only (no pointer, no dimensioned)
 export type DesignPropertyDefinitionValue = ManualDesignValue | DesignTokenValue
 
-// Canonical design property value — ManualDesignValue or DesignToken only
-// Upstream: DesignPropertyValueSchema (schema line 86-91)
 export type DesignPropertyValue = ManualDesignValue | DesignTokenValue
 
-// Dimensioned record — maps breakpoint keys to canonical values
-// Upstream: DimensionedDesignPropertyValueSchema — Record<string, DesignPropertyValueSchema>
 export type DimensionedDesignPropertyValue = Record<string, DesignPropertyValue>
 
-// Tree-node-level union — pointer and dimensioned are siblings of the canonical value
-// Upstream: ComponentTreeDesignPropertyValueSchema (schema line 101-104)
 export type ComponentTreeDesignPropertyValue =
   | DesignPropertyValue
   | DesignPropertyPointerValue
