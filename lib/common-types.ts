@@ -423,6 +423,15 @@ export interface CursorPaginatedCollectionProp<TObj>
   }
 }
 
+export interface ExoCursorPaginatedCollectionProp<TObj>
+  extends CursorPaginatedCollectionProp<TObj> {
+  total?: number
+  pages: {
+    next?: string
+    prev?: string
+  }
+}
+
 export interface Collection<T, TPlain>
   extends CollectionProp<T>,
     DefaultElements<CollectionProp<TPlain>> {}
