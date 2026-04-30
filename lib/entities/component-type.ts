@@ -78,19 +78,16 @@ export type DesignTokenValue = {
   value: string
 }
 
-// For designProperties[].defaultValue (definition level)
-// Upstream: DesignPropertyValueSchema (schema line 86-91)
 export type DesignPropertyDefinitionValue = ManualDesignValue | DesignTokenValue
 
-// For componentTree node designProperties (tree-node level)
-// Upstream: ComponentTreeDesignPropertyValueSchema (schema line 101-104)
-export type DesignPropertyValue =
-  | ManualDesignValue
-  | DesignTokenValue
-  | DesignPropertyPointerValue
-  | Record<string, ManualDesignValue | DesignTokenValue | DesignPropertyPointerValue>
+export type DesignPropertyValue = ManualDesignValue | DesignTokenValue
 
 export type DimensionedDesignPropertyValue = Record<string, DesignPropertyValue>
+
+export type ComponentTreeDesignPropertyValue =
+  | DesignPropertyValue
+  | DesignPropertyPointerValue
+  | DimensionedDesignPropertyValue
 
 // Tree node types for component tree
 export type ComponentNode = {
@@ -99,7 +96,7 @@ export type ComponentNode = {
   nodeType: 'Component'
   componentTypeId: string
   contentProperties: Record<string, ContentPropertyPointerValue | unknown> | string
-  designProperties: Record<string, DesignPropertyValue>
+  designProperties: Record<string, ComponentTreeDesignPropertyValue>
   slots: Record<string, TreeNode[]>
   contentBindings?: string
 }
