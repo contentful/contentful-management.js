@@ -1,6 +1,5 @@
 import type { RawAxiosRequestHeaders } from 'axios'
 import type {
-  CursorPaginatedCollectionProp,
   GetDataAssemblyParams,
   GetSpaceEnvironmentParams,
 } from '../../common-types'
@@ -9,6 +8,7 @@ import type {
   DataAssemblyProps,
   DataAssemblyQueryOptions,
   UpdateDataAssemblyProps,
+  DataAssemblyCollection,
 } from '../../entities/data-assembly'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
@@ -32,7 +32,7 @@ export type DataAssemblyPlainClientAPI = {
    */
   getMany(
     params: OptionalDefaults<GetSpaceEnvironmentParams & { query: DataAssemblyQueryOptions }>,
-  ): Promise<CursorPaginatedCollectionProp<DataAssemblyProps>>
+  ): Promise<DataAssemblyCollection>
 
   /**
    * Fetches a single data assembly by ID
@@ -183,7 +183,7 @@ export type DataAssemblyPlainClientAPI = {
    */
   getManyPublished(
     params: OptionalDefaults<GetSpaceEnvironmentParams & { query: DataAssemblyQueryOptions }>,
-  ): Promise<CursorPaginatedCollectionProp<DataAssemblyProps>>
+  ): Promise<DataAssemblyCollection>
 
   /**
    * Fetches a single published data assembly by ID

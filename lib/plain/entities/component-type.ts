@@ -1,7 +1,7 @@
 import type {
   GetSpaceEnvironmentParams,
   GetComponentTypeParams,
-  CursorPaginatedCollectionProp,
+  ExoCursorPaginatedCollectionProp,
 } from '../../common-types'
 import type {
   ComponentTypeQueryOptions,
@@ -34,7 +34,7 @@ export type ComponentTypePlainClientAPI = {
    */
   getMany(
     params: OptionalDefaults<GetSpaceEnvironmentParams & { query: ComponentTypeQueryOptions }>,
-  ): Promise<CursorPaginatedCollectionProp<ComponentTypeProps>>
+  ): Promise<ExoCursorPaginatedCollectionProp<ComponentTypeProps>>
 
   /**
    * Fetches a single component type by ID
