@@ -64,8 +64,9 @@ export type UpdateTemplateProps = Omit<TemplateProps, 'sys'> & {
 }
 
 // Query options for getMany - cursor-based pagination with typed filter fields
-export type TemplateQueryOptions = CursorPaginationParams & ExoQueryFilters & {
-  order?: string
-}
+export type TemplateQueryOptions = CursorPaginationParams &
+  ExoQueryFilters & {
+    order?: string
+  }
 
 export type TemplateCollection = CursorPaginatedCollectionProp<TemplateProps>

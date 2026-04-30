@@ -8,9 +8,10 @@ import type {
 } from '../common-types'
 
 // Query options for getMany - cursor-based pagination with typed filter fields
-export type ComponentTypeQueryOptions = CursorPaginationParams & ExoQueryFilters & {
-  order?: string
-}
+export type ComponentTypeQueryOptions = CursorPaginationParams &
+  ExoQueryFilters & {
+    order?: string
+  }
 
 // Viewport definition
 export type ComponentTypeViewport = {
