@@ -976,6 +976,8 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Template', 'create', UA>): MRReturn<'Template', 'create'>
   (opts: MROpts<'Template', 'update', UA>): MRReturn<'Template', 'update'>
   (opts: MROpts<'Template', 'delete', UA>): MRReturn<'Template', 'delete'>
+  (opts: MROpts<'Template', 'publish', UA>): MRReturn<'Template', 'publish'>
+  (opts: MROpts<'Template', 'unpublish', UA>): MRReturn<'Template', 'unpublish'>
 
   (opts: MROpts<'UIConfig', 'get', UA>): MRReturn<'UIConfig', 'get'>
   (opts: MROpts<'UIConfig', 'update', UA>): MRReturn<'UIConfig', 'update'>
