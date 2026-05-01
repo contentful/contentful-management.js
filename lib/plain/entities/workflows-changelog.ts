@@ -1,3 +1,7 @@
+/**
+ * @module workflows-changelog
+ * @category Plain Client
+ */
 import type { RawAxiosRequestHeaders } from 'axios'
 import type { GetSpaceEnvironmentParams, CollectionProp } from '../../common-types'
 import type { OptionalDefaults } from '../wrappers/wrap'

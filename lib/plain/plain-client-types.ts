@@ -1,3 +1,10 @@
+/**
+ * Type definitions for the plain (Promise-based) client API. The root type is
+ * {@link PlainClientAPI}, which maps every CMA resource to a flat set of
+ * methods — no chaining required.
+ * @module
+ * @category Plain Client
+ */
 import type { RawAxiosRequestConfig, RawAxiosRequestHeaders } from 'axios'
 import type {
   OpPatch,
@@ -8,11 +15,9 @@ import type {
   CreateWithFilesReleaseAssetParams,
   CreateWithIdReleaseAssetParams,
   CreateWithIdReleaseEntryParams,
-  CursorBasedParams,
   CursorPaginatedCollectionProp,
   EnvironmentTemplateParams,
   GetBulkActionParams,
-  GetContentTypeParams,
   GetEnvironmentTemplateParams,
   GetManyReleaseAssetParams,
   GetManyReleaseEntryParams,
@@ -56,8 +61,8 @@ import type {
   UnpublishBulkActionV2Payload,
   ValidateBulkActionV2Payload,
 } from '../entities/bulk-action'
-import type { ContentTypeProps, CreateContentTypeProps } from '../entities/content-type'
-import type { CreateEntryProps, EntryProps, EntryReferenceProps } from '../entities/entry'
+import type { ContentTypeProps } from '../entities/content-type'
+import type { CreateEntryProps, EntryProps } from '../entities/entry'
 import type {
   CreateEnvironmentTemplateProps,
   EnvironmentTemplateProps,
@@ -103,10 +108,13 @@ import type { AppKeyPlainClientAPI } from './entities/app-key'
 import type { AppSignedRequestPlainClientAPI } from './entities/app-signed-request'
 import type { AppSigningSecretPlainClientAPI } from './entities/app-signing-secret'
 import type { AppUploadPlainClientAPI } from './entities/app-upload'
+import type { AssetPlainClientAPI } from './entities/asset'
 import type { CommentPlainClientAPI } from './entities/comment'
 import type { ConceptPlainClientAPI } from './entities/concept'
 import type { ConceptSchemePlainClientAPI } from './entities/concept-scheme'
+import type { ContentTypePlainClientAPI } from './entities/content-type'
 import type { EditorInterfacePlainClientAPI } from './entities/editor-interface'
+import type { EntryPlainClientAPI } from './entities/entry'
 import type { EnvironmentPlainClientAPI } from './entities/environment'
 import type { EnvironmentAliasPlainClientAPI } from './entities/environment-alias'
 import type { ExtensionPlainClientAPI } from './entities/extension'
@@ -127,7 +135,7 @@ import type { TeamMembershipPlainClientAPI } from './entities/team-membership'
 import type { TeamSpaceMembershipPlainClientAPI } from './entities/team-space-membership'
 import type { UIConfigPlainClientAPI } from './entities/ui-config'
 import type { UploadPlainClientAPI } from './entities/upload'
-import type { UploadCredentialAPI } from './entities/upload-credential'
+import type { UploadCredentialPlainClientAPI } from './entities/upload-credential'
 import type { UsagePlainClientAPI } from './entities/usage'
 import type { UserPlainClientAPI } from './entities/user'
 import type { UserUIConfigPlainClientAPI } from './entities/user-ui-config'
@@ -152,6 +160,32 @@ import type { SemanticSettingsPlainClientAPI } from './entities/semantic-setting
 import type { ContentSemanticsIndexPlainClientAPI } from './entities/content-semantics-index'
 import type { ComponentTypePlainClientAPI } from './entities/component-type'
 
+/**
+ * The plain client API surface returned by `createClient()`.
+ *
+ * Provides flat, Promise-based access to all Contentful Management API endpoints.
+ * Methods are organized by resource type (e.g. `client.entry.get()`, `client.asset.create()`).
+ *
+ * @example
+ * ```typescript
+ * import { createClient } from 'contentful-management'
+ *
+ * const client = createClient({ accessToken: 'YOUR_ACCESS_TOKEN' })
+ *
+ * // Fetch entries
+ * const entries = await client.entry.getMany({
+ *   spaceId: '<space_id>',
+ *   environmentId: '<environment_id>',
+ * })
+ *
+ * // With scoped defaults
+ * const scoped = createClient(
+ *   { accessToken: 'YOUR_ACCESS_TOKEN' },
+ *   { defaults: { spaceId: '<space_id>', environmentId: '<environment_id>' } },
+ * )
+ * const entries = await scoped.entry.getMany({})
+ * ```
+ */
 export type PlainClientAPI = {
   raw: {
     getDefaultParams(): PlainClientDefaultParams | undefined
@@ -286,190 +320,10 @@ export type PlainClientAPI = {
   componentType: ComponentTypePlainClientAPI
   concept: ConceptPlainClientAPI
   conceptScheme: ConceptSchemePlainClientAPI
-  contentType: {
-    get(params: OptionalDefaults<GetContentTypeParams & QueryParams>): Promise<ContentTypeProps>
-    getMany(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
-    ): Promise<CollectionProp<ContentTypeProps>>
-    getManyWithCursor(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & CursorBasedParams>,
-    ): Promise<CursorPaginatedCollectionProp<ContentTypeProps>>
-    update(
-      params: OptionalDefaults<GetContentTypeParams>,
-      rawData: ContentTypeProps,
-      headers?: RawAxiosRequestHeaders,
-    ): Promise<ContentTypeProps>
-    delete(params: OptionalDefaults<GetContentTypeParams>): Promise<any>
-    publish(
-      params: OptionalDefaults<GetContentTypeParams>,
-      rawData: ContentTypeProps,
-    ): Promise<ContentTypeProps>
-    unpublish(params: OptionalDefaults<GetContentTypeParams>): Promise<ContentTypeProps>
-    create(
-      params: OptionalDefaults<GetSpaceEnvironmentParams>,
-      rawData: CreateContentTypeProps,
-    ): Promise<ContentTypeProps>
-    createWithId(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { contentTypeId: string }>,
-      rawData: CreateContentTypeProps,
-    ): Promise<ContentTypeProps>
-    omitAndDeleteField(
-      params: OptionalDefaults<GetContentTypeParams>,
-      contentType: ContentTypeProps,
-      fieldId: string,
-    ): Promise<ContentTypeProps>
-  }
+  contentType: ContentTypePlainClientAPI
   user: UserPlainClientAPI
-  entry: {
-    getPublished<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
-      rawData?: unknown,
-      headers?: RawAxiosRequestHeaders,
-    ): Promise<CollectionProp<EntryProps<T>>>
-    getPublishedWithCursor<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & CursorBasedParams>,
-      rawData?: unknown,
-      headers?: RawAxiosRequestHeaders,
-    ): Promise<CursorPaginatedCollectionProp<EntryProps<T>>>
-    getMany<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams & { releaseId?: string }>,
-      rawData?: unknown,
-      headers?: RawAxiosRequestHeaders,
-    ): Promise<CollectionProp<EntryProps<T>>>
-    getManyWithCursor<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<
-        GetSpaceEnvironmentParams & CursorBasedParams & { releaseId?: string }
-      >,
-      rawData?: unknown,
-      headers?: RawAxiosRequestHeaders,
-    ): Promise<CursorPaginatedCollectionProp<EntryProps<T>>>
-    get<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string; releaseId?: string }>,
-      rawData?: unknown,
-      headers?: RawAxiosRequestHeaders,
-    ): Promise<EntryProps<T>>
-    update<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string; releaseId?: string }>,
-      rawData: EntryProps<T>,
-      headers?: RawAxiosRequestHeaders,
-    ): Promise<EntryProps<T>>
-    patch<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<
-        GetSpaceEnvironmentParams & { entryId: string; version: number; releaseId?: string }
-      >,
-      rawData: OpPatch[],
-      headers?: RawAxiosRequestHeaders,
-    ): Promise<EntryProps<T>>
-    delete(params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>): Promise<any>
-    publish<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string; locales?: string[] }>,
-      rawData: EntryProps<T>,
-    ): Promise<EntryProps<T>>
-    unpublish<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string; locales?: string[] }>,
-      rawData?: EntryProps<T>,
-    ): Promise<EntryProps<T>>
-    archive<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>,
-    ): Promise<EntryProps<T>>
-    unarchive<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { entryId: string }>,
-    ): Promise<EntryProps<T>>
-    create<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<
-        GetSpaceEnvironmentParams & { contentTypeId: string; releaseId?: string }
-      >,
-      rawData: CreateEntryProps<T>,
-    ): Promise<EntryProps<T>>
-    createWithId<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<
-        GetSpaceEnvironmentParams & { entryId: string; contentTypeId: string; releaseId?: string }
-      >,
-      rawData: CreateEntryProps<T>,
-    ): Promise<EntryProps<T>>
-    references(
-      params: OptionalDefaults<
-        GetSpaceEnvironmentParams & {
-          entryId: string
-          include?: number
-        }
-      >,
-    ): Promise<EntryReferenceProps>
-  }
-  asset: {
-    getPublished(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
-      rawData?: unknown,
-      headers?: RawAxiosRequestHeaders,
-    ): Promise<CollectionProp<AssetProps>>
-    getPublishedWithCursor(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & CursorBasedParams>,
-      rawData?: unknown,
-      headers?: RawAxiosRequestHeaders,
-    ): Promise<CursorPaginatedCollectionProp<AssetProps>>
-    getMany(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams & { releaseId?: string }>,
-      rawData?: unknown,
-      headers?: RawAxiosRequestHeaders,
-    ): Promise<CollectionProp<AssetProps>>
-    getManyWithCursor(
-      params: OptionalDefaults<
-        GetSpaceEnvironmentParams & CursorBasedParams & { releaseId?: string }
-      >,
-      rawData?: unknown,
-      headers?: RawAxiosRequestHeaders,
-    ): Promise<CursorPaginatedCollectionProp<AssetProps>>
-    get(
-      params: OptionalDefaults<
-        GetSpaceEnvironmentParams & { assetId: string; releaseId?: string } & QueryParams
-      >,
-      rawData?: unknown,
-      headers?: RawAxiosRequestHeaders,
-    ): Promise<AssetProps>
-    update(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string; releaseId?: string }>,
-      rawData: AssetProps,
-      headers?: RawAxiosRequestHeaders,
-    ): Promise<AssetProps>
-    delete(params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string }>): Promise<any>
-    publish(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string; locales?: string[] }>,
-      rawData: AssetProps,
-    ): Promise<AssetProps>
-    unpublish(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string; locales?: string[] }>,
-      rawData?: AssetProps,
-    ): Promise<AssetProps>
-    archive(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string }>,
-    ): Promise<AssetProps>
-    unarchive(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string }>,
-    ): Promise<AssetProps>
-    create(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { releaseId?: string }>,
-      rawData: CreateAssetProps,
-    ): Promise<AssetProps>
-    createWithId(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { assetId: string; releaseId?: string }>,
-      rawData: CreateAssetProps,
-    ): Promise<AssetProps>
-    createFromFiles(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { releaseId?: string }>,
-      data: Omit<AssetFileProp, 'sys'>,
-    ): Promise<AssetProps>
-    processForAllLocales(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { releaseId?: string }>,
-      asset: AssetProps,
-      processingOptions?: AssetProcessingForLocale,
-    ): Promise<AssetProps>
-    processForLocale(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & { releaseId?: string }>,
-      asset: AssetProps,
-      locale: string,
-      processingOptions?: AssetProcessingForLocale,
-    ): Promise<AssetProps>
-  }
+  entry: EntryPlainClientAPI
+  asset: AssetPlainClientAPI
   appUpload: AppUploadPlainClientAPI
   assetKey: {
     create(
@@ -478,7 +332,7 @@ export type PlainClientAPI = {
     ): Promise<AssetKeyProps>
   }
   upload: UploadPlainClientAPI
-  uploadCredential: UploadCredentialAPI
+  uploadCredential: UploadCredentialPlainClientAPI
   locale: LocalePlainClientAPI
   personalAccessToken: {
     get(params: OptionalDefaults<{ tokenId: string }>): Promise<PersonalAccessTokenProps>

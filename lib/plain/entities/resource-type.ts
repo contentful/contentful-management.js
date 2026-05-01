@@ -1,3 +1,7 @@
+/**
+ * @module resource-type
+ * @category Plain Client
+ */
 import type { RawAxiosRequestHeaders } from 'axios'
 
 import type { OptionalDefaults } from '../wrappers/wrap'

@@ -1,3 +1,7 @@
+/**
+ * @module ai-action
+ * @category Plain Client
+ */
 import type {
   CollectionProp,
   GetSpaceEnvironmentParams,

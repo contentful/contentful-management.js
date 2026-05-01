@@ -1,3 +1,7 @@
+/**
+ * @module app-action
+ * @category Plain Client
+ */
 import type {
   CollectionProp,
   GetAppActionParams,

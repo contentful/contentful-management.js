@@ -1,3 +1,7 @@
+/**
+ * @module agent
+ * @category Plain Client
+ */
 import type { RawAxiosRequestHeaders } from 'axios'
 import type { CollectionProp, GetSpaceEnvironmentParams, QueryParams } from '../../common-types'
 import type { AgentGeneratePayload, AgentProps } from '../../entities/agent'

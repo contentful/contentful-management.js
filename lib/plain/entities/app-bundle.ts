@@ -1,3 +1,7 @@
+/**
+ * @module app-bundle
+ * @category Plain Client
+ */
 import type {
   CollectionProp,
   GetAppBundleParams,

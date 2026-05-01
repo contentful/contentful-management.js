@@ -1,3 +1,7 @@
+/**
+ * @module semantic-recommendations
+ * @category Plain Client
+ */
 import type {
   GetSemanticRecommendationsProps,
   SemanticRecommendationsProps,

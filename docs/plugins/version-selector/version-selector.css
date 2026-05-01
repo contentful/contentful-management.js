@@ -1,0 +1,92 @@
+/**
+ * Version selector dropdown — injected into every TypeDoc page.
+ *
+ * Uses CSS custom properties so it inherits the active TypeDoc theme's colour
+ * palette (light and dark modes handled automatically).
+ */
+
+#version-selector-container {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  font-size: 0.8125rem; /* 13 px at default root size */
+  padding: 0.25rem 0.625rem;
+  border-radius: 6px;
+  background: var(--color-background-secondary, rgba(0, 0, 0, 0.04));
+  border: 1px solid var(--color-accent, rgba(0, 0, 0, 0.1));
+  vertical-align: middle;
+}
+
+#version-selector-container label {
+  font-weight: 600;
+  color: var(--color-text-aside, #6e7781);
+  white-space: nowrap;
+  cursor: default;
+  user-select: none;
+}
+
+/* Colon separator after label */
+#version-selector-container label::after {
+  content: ':';
+}
+
+#version-selector {
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: transparent;
+  /* Custom chevron via inline SVG */
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%23888' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.4rem center;
+  border: none;
+  color: var(--color-text, inherit);
+  cursor: pointer;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: 500;
+  min-width: 5rem;
+  padding: 0.125rem 1.4rem 0.125rem 0.25rem;
+}
+
+#version-selector:focus {
+  outline: 2px solid var(--color-focus-outline, #0070f3);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+#version-selector:hover {
+  color: var(--color-link, #0070f3);
+}
+
+/* -------------------------------------------------------------------------
+ * Placement helpers — keep the selector visible without breaking the toolbar
+ * layout across the bundled TypeDoc themes.
+ * ------------------------------------------------------------------------ */
+
+/* typedoc-github-theme: toolbar is a flex row — add a little left margin */
+.tsd-toolbar-contents #version-selector-container {
+  margin-left: auto;
+  margin-right: 0.5rem;
+}
+
+/* Dark-mode overrides (GitHub theme uses data-theme="dark") */
+[data-theme='dark'] #version-selector-container {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+[data-theme='dark'] #version-selector {
+  background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%23aaa' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
+}
+
+/* Respect the OS colour scheme when no explicit theme attribute is set */
+@media (prefers-color-scheme: dark) {
+  #version-selector-container:not([data-theme='light'] *) {
+    background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.12);
+  }
+
+  #version-selector:not([data-theme='light'] *) {
+    background-image: url("data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='%23aaa' d='M0 0l5 6 5-6z'/%3E%3C/svg%3E");
+  }
+}

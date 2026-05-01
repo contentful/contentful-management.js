@@ -1,3 +1,7 @@
+/**
+ * @module workflow-definition
+ * @category Plain Client
+ */
 import type { RawAxiosRequestHeaders } from 'axios'
 import type {
   GetWorkflowDefinitionParams,
@@ -49,7 +53,7 @@ export type WorkflowDefinitionPlainClientAPI = {
    *   }
    * });
    * ```
-   * */
+   **/
   getMany(
     params: OptionalDefaults<
       GetSpaceEnvironmentParams & { query?: WorkflowDefinitionQueryOptions }

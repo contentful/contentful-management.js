@@ -1,3 +1,7 @@
+/**
+ * @module user
+ * @category Plain Client
+ */
 import type {
   CollectionProp,
   GetOrganizationParams,

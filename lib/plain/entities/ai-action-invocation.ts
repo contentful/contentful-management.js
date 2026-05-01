@@ -1,3 +1,7 @@
+/**
+ * @module ai-action-invocation
+ * @category Plain Client
+ */
 import type { GetSpaceEnvironmentParams } from '../../common-types'
 import type { AiActionInvocationProps } from '../../entities/ai-action-invocation'
 import type { OptionalDefaults } from '../wrappers/wrap'

@@ -1,3 +1,7 @@
+/**
+ * @module upload-credential
+ * @category Plain Client
+ */
 import type { GetSpaceEnvironmentParams, MetaSysProps } from '../../common-types'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
@@ -20,11 +24,10 @@ export type UploadCredential = {
   }
 }
 
-export type UploadCredentialAPI = {
+export type UploadCredentialPlainClientAPI = {
   /** Creates a Space Environment UploadCredential for Filestack Upload
    *
    * @param params Space Id and Environment Id to identify the Space Environment
-   * @param data the Space Environment Upload
    * @returns the Space Environment Upload
    * @throws if the request fails, or the Space Environment is not found
    * @example

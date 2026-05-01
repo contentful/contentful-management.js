@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Plain Client
+ */
 import copy from 'fast-copy'
 import type { CollectionProp, QueryParams } from '../common-types'
 

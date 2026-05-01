@@ -1,3 +1,7 @@
+/**
+ * @module app-event-subscription
+ * @category Plain Client
+ */
 import type { GetAppDefinitionParams } from '../../common-types'
 import type {
   AppEventSubscriptionProps,

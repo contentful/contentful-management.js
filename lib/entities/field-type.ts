@@ -1,3 +1,8 @@
+/**
+ * @module
+ * @category Shared Types
+ */
+/** Union of all supported content type field types */
 export type FieldType =
   | { type: 'Symbol' }
   | { type: 'Text' }

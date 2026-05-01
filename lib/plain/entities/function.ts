@@ -1,9 +1,12 @@
+/**
+ * @module function
+ * @category Plain Client
+ */
 import type {
   CollectionProp,
   GetFunctionParams,
   GetFunctionForEnvParams,
   GetManyFunctionParams,
-  AcceptsQueryParams,
 } from '../../common-types'
 import type { FunctionProps } from '../../entities/function'
 import type { OptionalDefaults } from '../wrappers/wrap'
@@ -11,7 +14,7 @@ import type { OptionalDefaults } from '../wrappers/wrap'
 export type FunctionPlainClientAPI = {
   /**
    * Fetches the specified Function
-   * @params organizationId, appDefinitionId, functionId
+   * @param params the organization ID, app definition ID, and function ID
    * @returns the Function
    * @throws if the request fails, or the Function is not found
    * @example
@@ -27,7 +30,7 @@ export type FunctionPlainClientAPI = {
 
   /**
    * Fetches all Functions for the given app
-   * @params organizationId, appDefinitionId, query
+   * @param params the organization ID, app definition ID, and query options
    * @returns an object containing an array of Functions
    * @throws if the request fails, or the App is not found
    * @example
@@ -43,7 +46,7 @@ export type FunctionPlainClientAPI = {
 
   /**
    * Fetches all Functions for the given environment
-   * @params spaceId, environmentId, appInstallationId, query
+   * @param params the space ID, environment ID, app installation ID, and query options
    * @returns an object containing an array of Functions
    * @throws if the request fails, or the Environment is not found
    * @example

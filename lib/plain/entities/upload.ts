@@ -1,3 +1,7 @@
+/**
+ * @module upload
+ * @category Plain Client
+ */
 import type { Stream } from 'stream'
 import type { OptionalDefaults } from '../wrappers/wrap'
 import type { GetSpaceEnvironmentParams, GetSpaceEnvironmentUploadParams } from '../../common-types'

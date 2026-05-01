@@ -1,3 +1,7 @@
+/**
+ * @module app-details
+ * @category Plain Client
+ */
 import type { GetAppDefinitionParams } from '../../common-types'
 import type { AppDetailsProps, CreateAppDetailsProps } from '../../entities/app-details'
 import type { OptionalDefaults } from '../wrappers/wrap'
@@ -13,8 +17,7 @@ export type AppDetailsPlainClientAPI = {
    * ```javascript
    * const appDetails = await client.appDetails.upsert(
    *   {
-   *     spaceId: '<space_id>',
-   *     environmentId: '<environment_id>',
+   *     organizationId: '<organization_id>',
    *     appDefinitionId: '<app_definition_id>',
    *   },
    *   {
@@ -45,7 +48,7 @@ export type AppDetailsPlainClientAPI = {
    */
   get(params: OptionalDefaults<GetAppDefinitionParams>): Promise<AppDetailsProps>
   /**
-   * Fetches the App Detail
+   * Deletes the App Detail
    * @param params entity IDs to identify the App Detail
    * @throws if the request fails, or the App Detail is not found
    * @example

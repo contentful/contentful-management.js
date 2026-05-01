@@ -1,3 +1,7 @@
+/**
+ * @module content-semantics-index
+ * @category Plain Client
+ */
 import type {
   ContentSemanticsIndexProps,
   ContentSemanticsIndexCollectionProps,

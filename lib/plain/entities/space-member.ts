@@ -1,3 +1,7 @@
+/**
+ * @module space-member
+ * @category Plain Client
+ */
 import type { CollectionProp, GetSpaceParams, QueryParams } from '../../common-types'
 import type { SpaceMemberProps } from '../../entities/space-member'
 import type { OptionalDefaults } from '../wrappers/wrap'
@@ -8,7 +12,8 @@ export type SpaceMemberPlainClientAPI = {
    * @param params the space and member IDs
    * @returns the space member
    * @throws if the request fails, or the space member is not found
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const spaceMember = await client.spaceMember.get({
    *   spaceId: '<space_id>',
    *   spaceMemberId: '<member_id>',
@@ -23,7 +28,8 @@ export type SpaceMemberPlainClientAPI = {
    * @param params a space ID and query parameters
    * @returns a collection of space members
    * @throws if the request fails, the space is not found, or the query parameters are malformed
-   * @example ```javascript
+   * @example
+   * ```javascript
    * const spaceMember = await client.spaceMember.getMany({
    *   spaceId: '<space_id>',
    * });

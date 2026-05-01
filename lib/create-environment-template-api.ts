@@ -1,3 +1,12 @@
+/**
+ * Methods available on an {@link EnvironmentTemplate} instance in the legacy
+ * chainable client.
+ *
+ * > **Looking for the method list?** These methods are surfaced on the
+ * > {@link EnvironmentTemplate} entity in the **Shared Types** section of the sidebar.
+ * @module
+ * @category Legacy Client
+ */
 import { createRequestConfig } from 'contentful-sdk-core'
 import type { BasicCursorPaginationOptions, MakeRequest } from './common-types'
 import type { EnvironmentTemplateProps } from './entities/environment-template'
@@ -93,7 +102,8 @@ export function createEnvironmentTemplateApi(makeRequest: MakeRequest, organizat
     /**
      * Deletes the environment template
      * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
-     * @example ```javascript
+     * @example
+     * ```javascript
      * const contentful = require('contentful-management')
      *
      * const client = contentful.createClient({

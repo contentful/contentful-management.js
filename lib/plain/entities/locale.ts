@@ -1,3 +1,7 @@
+/**
+ * @module locale
+ * @category Plain Client
+ */
 import type { RawAxiosRequestHeaders } from 'axios'
 import type { GetSpaceEnvironmentParams, QueryParams, CollectionProp } from '../../common-types'
 import type { OptionalDefaults } from '../wrappers/wrap'

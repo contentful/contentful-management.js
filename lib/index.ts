@@ -2,6 +2,7 @@
  * Contentful Management API SDK. Allows you to create instances of a client
  * with access to the Contentful Content Management API.
  * @packageDocumentation
+ * @category Core
  */
 
 import { getUserAgentHeader } from 'contentful-sdk-core'

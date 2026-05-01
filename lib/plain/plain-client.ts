@@ -1,3 +1,9 @@
+/**
+ * Plain (Promise-based) client implementation. Use {@link createClient} to
+ * create an instance, or call {@link PlainClientAPI} to explore the full API.
+ * @module
+ * @category Plain Client
+ */
 import type { GetContentTypeParams, GetSpaceEnvironmentParams, MakeRequest } from '../common-types'
 import { omitAndDeleteField } from '../methods/content-type'
 import type { PlainClientAPI } from './plain-client-types'

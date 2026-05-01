@@ -1,3 +1,7 @@
+/**
+ * @module
+ * @category Shared Types
+ */
 import copy from 'fast-copy'
 import { toPlainObject } from 'contentful-sdk-core'
 import { wrapCollection } from '../common-utils'

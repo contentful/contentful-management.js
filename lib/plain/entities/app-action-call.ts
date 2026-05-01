@@ -1,3 +1,7 @@
+/**
+ * @module app-action-call
+ * @category Plain Client
+ */
 import type {
   GetAppActionCallDetailsParams,
   GetAppActionCallParams,

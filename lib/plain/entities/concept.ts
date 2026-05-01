@@ -1,3 +1,7 @@
+/**
+ * @module concept
+ * @category Plain Client
+ */
 import type {
   OpPatch,
   CursorPaginatedCollectionProp,

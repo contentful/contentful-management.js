@@ -1,3 +1,7 @@
+/**
+ * @module task
+ * @category Plain Client
+ */
 import type { RawAxiosRequestHeaders } from 'axios'
 import type { GetTaskParams, GetEntryParams, QueryParams, CollectionProp } from '../../common-types'
 import type {

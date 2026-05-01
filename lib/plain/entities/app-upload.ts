@@ -1,3 +1,7 @@
+/**
+ * @module app-upload
+ * @category Plain Client
+ */
 import type { Stream } from 'stream'
 import type { GetAppUploadParams, GetOrganizationParams } from '../../common-types'
 import type { AppUploadProps } from '../../entities/app-upload'
