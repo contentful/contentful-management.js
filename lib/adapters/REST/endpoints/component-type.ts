@@ -3,12 +3,12 @@ import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type { SetOptional } from 'type-fest'
 import type { GetComponentTypeParams, GetSpaceEnvironmentParams } from '../../../common-types'
-import {
+import type{
   ComponentTypeCollection,
-  type ComponentTypeProps,
-  type ComponentTypeQueryOptions,
-  type CreateComponentTypeProps,
-  type UpdateComponentTypeProps,
+  ComponentTypeProps,
+  ComponentTypeQueryOptions,
+  CreateComponentTypeProps,
+  UpdateComponentTypeProps,
 } from '../../../entities/component-type'
 import type { RestEndpoint } from '../types'
 import * as raw from './raw'
