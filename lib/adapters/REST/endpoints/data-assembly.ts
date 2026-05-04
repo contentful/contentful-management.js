@@ -1,13 +1,10 @@
 import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import type {
-  CursorPaginatedCollectionProp,
-  GetDataAssemblyParams,
-  GetSpaceEnvironmentParams,
-} from '../../../common-types'
+import type { GetDataAssemblyParams, GetSpaceEnvironmentParams } from '../../../common-types'
 import type {
   CreateDataAssemblyProps,
+  DataAssemblyCollection,
   DataAssemblyProps,
   DataAssemblyQueryOptions,
   UpdateDataAssemblyProps,
@@ -26,7 +23,7 @@ export const getMany: RestEndpoint<'DataAssembly', 'getMany'> = (
   params: GetSpaceEnvironmentParams & { query: DataAssemblyQueryOptions },
   headers?: RawAxiosRequestHeaders,
 ) => {
-  return raw.get<CursorPaginatedCollectionProp<DataAssemblyProps>>(http, getBaseUrl(params), {
+  return raw.get<DataAssemblyCollection>(http, getBaseUrl(params), {
     params: params.query,
     headers,
   })
@@ -102,7 +99,7 @@ export const getManyPublished: RestEndpoint<'DataAssembly', 'getManyPublished'> 
   params: GetSpaceEnvironmentParams & { query: DataAssemblyQueryOptions },
   headers?: RawAxiosRequestHeaders,
 ) => {
-  return raw.get<CursorPaginatedCollectionProp<DataAssemblyProps>>(http, getPublicUrl(params), {
+  return raw.get<DataAssemblyCollection>(http, getPublicUrl(params), {
     params: params.query,
     headers,
   })

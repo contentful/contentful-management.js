@@ -1,5 +1,5 @@
 import type {
-  CursorPaginatedCollectionProp,
+  ExoCursorPaginatedCollectionProp,
   GetSpaceEnvironmentParams,
   GetTemplateParams,
 } from '../../common-types'
@@ -31,7 +31,7 @@ export type TemplatePlainClientAPI = {
    */
   getMany(
     params: OptionalDefaults<GetSpaceEnvironmentParams & { query: TemplateQueryOptions }>,
-  ): Promise<CursorPaginatedCollectionProp<TemplateProps>>
+  ): Promise<ExoCursorPaginatedCollectionProp<TemplateProps>>
 
   /**
    * Fetches a single template by ID

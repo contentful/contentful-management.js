@@ -168,6 +168,7 @@ import type {
   DataAssemblyProps,
   DataAssemblyQueryOptions,
   UpdateDataAssemblyProps,
+  DataAssemblyCollection,
 } from './entities/data-assembly'
 import type {
   CreateEnvironmentTemplateProps,
@@ -418,6 +419,15 @@ export interface CollectionProp<TObj> {
 export interface CursorPaginatedCollectionProp<TObj>
   extends Omit<CollectionProp<TObj>, 'total' | 'skip'> {
   pages?: {
+    next?: string
+    prev?: string
+  }
+}
+
+export interface ExoCursorPaginatedCollectionProp<TObj>
+  extends CursorPaginatedCollectionProp<TObj> {
+  total?: number
+  pages: {
     next?: string
     prev?: string
   }
@@ -1676,7 +1686,7 @@ export type MRActions = {
   ComponentType: {
     getMany: {
       params: GetSpaceEnvironmentParams & { query: ComponentTypeQueryOptions }
-      return: CursorPaginatedCollectionProp<ComponentTypeProps>
+      return: ExoCursorPaginatedCollectionProp<ComponentTypeProps>
     }
     get: {
       params: GetComponentTypeParams
@@ -1822,11 +1832,11 @@ export type MRActions = {
   DataAssembly: {
     getMany: {
       params: GetSpaceEnvironmentParams & { query: DataAssemblyQueryOptions }
-      return: CursorPaginatedCollectionProp<DataAssemblyProps>
+      return: DataAssemblyCollection
     }
     getManyPublished: {
       params: GetSpaceEnvironmentParams & { query: DataAssemblyQueryOptions }
-      return: CursorPaginatedCollectionProp<DataAssemblyProps>
+      return: DataAssemblyCollection
     }
     getPublished: {
       params: GetDataAssemblyParams
@@ -2662,7 +2672,7 @@ export type MRActions = {
   Fragment: {
     getMany: {
       params: GetSpaceEnvironmentParams & { query: FragmentQueryOptions }
-      return: CursorPaginatedCollectionProp<FragmentProps>
+      return: ExoCursorPaginatedCollectionProp<FragmentProps>
     }
     get: {
       params: GetFragmentParams
@@ -2694,7 +2704,7 @@ export type MRActions = {
   Template: {
     getMany: {
       params: GetSpaceEnvironmentParams & { query: TemplateQueryOptions }
-      return: CursorPaginatedCollectionProp<TemplateProps>
+      return: ExoCursorPaginatedCollectionProp<TemplateProps>
     }
     get: {
       params: GetTemplateParams
@@ -2769,7 +2779,7 @@ export type MRActions = {
   Experience: {
     getMany: {
       params: GetSpaceEnvironmentParams & { query: ExperienceQueryOptions }
-      return: CursorPaginatedCollectionProp<ExperienceProps>
+      return: ExoCursorPaginatedCollectionProp<ExperienceProps>
     }
     get: {
       params: GetExperienceParams

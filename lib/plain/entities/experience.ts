@@ -1,5 +1,5 @@
 import type {
-  CursorPaginatedCollectionProp,
+  ExoCursorPaginatedCollectionProp,
   GetSpaceEnvironmentParams,
   GetExperienceParams,
 } from '../../common-types'
@@ -32,7 +32,7 @@ export type ExperiencePlainClientAPI = {
    */
   getMany(
     params: OptionalDefaults<GetSpaceEnvironmentParams & { query: ExperienceQueryOptions }>,
-  ): Promise<CursorPaginatedCollectionProp<ExperienceProps>>
+  ): Promise<ExoCursorPaginatedCollectionProp<ExperienceProps>>
 
   /**
    * Fetches a single experience by ID

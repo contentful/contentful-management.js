@@ -1,7 +1,7 @@
 import type { Except } from 'type-fest'
 import type {
-  CursorPaginatedCollectionProp,
   CursorPaginationParams,
+  ExoCursorPaginatedCollectionProp,
   ExoMetadataProps,
   Link,
 } from '../common-types'
@@ -68,4 +68,4 @@ export type TemplateQueryOptions = CursorPaginationParams & {
   [key: string]: unknown
 }
 
-export type TemplateCollection = CursorPaginatedCollectionProp<TemplateProps>
+export type TemplateCollection = ExoCursorPaginatedCollectionProp<TemplateProps>

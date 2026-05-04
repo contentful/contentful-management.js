@@ -1,5 +1,5 @@
 import type {
-  CursorPaginatedCollectionProp,
+  ExoCursorPaginatedCollectionProp,
   GetFragmentParams,
   GetSpaceEnvironmentParams,
 } from '../../common-types'
@@ -31,7 +31,7 @@ export type FragmentPlainClientAPI = {
    */
   getMany(
     params: OptionalDefaults<GetSpaceEnvironmentParams & { query: FragmentQueryOptions }>,
-  ): Promise<CursorPaginatedCollectionProp<FragmentProps>>
+  ): Promise<ExoCursorPaginatedCollectionProp<FragmentProps>>
 
   /**
    * Fetches a single fragment by ID

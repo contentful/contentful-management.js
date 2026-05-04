@@ -1,7 +1,7 @@
 import type { Except } from 'type-fest'
 import type {
-  CursorPaginatedCollectionProp,
   CursorPaginationParams,
+  ExoCursorPaginatedCollectionProp,
   ExoMetadataProps,
   Link,
 } from '../common-types'
@@ -186,4 +186,4 @@ export type CreateComponentTypeProps = Except<ComponentTypeProps, 'sys'>
 
 export type UpdateComponentTypeProps = ComponentTypeProps
 
-export type ComponentTypeCollection = CursorPaginatedCollectionProp<ComponentTypeProps>
+export type ComponentTypeCollection = ExoCursorPaginatedCollectionProp<ComponentTypeProps>

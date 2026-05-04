@@ -1,7 +1,7 @@
 import type { Except } from 'type-fest'
 import type {
-  CursorPaginatedCollectionProp,
   CursorPaginationParams,
+  ExoCursorPaginatedCollectionProp,
   ExoMetadataProps,
   Link,
 } from '../common-types'
@@ -72,4 +72,4 @@ export type FragmentQueryOptions = CursorPaginationParams & {
   [key: string]: unknown
 }
 
-export type FragmentCollection = CursorPaginatedCollectionProp<FragmentProps>
+export type FragmentCollection = ExoCursorPaginatedCollectionProp<FragmentProps>

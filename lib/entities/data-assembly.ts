@@ -1,4 +1,9 @@
-import type { CursorPaginationParams, Link, MetadataProps } from '../common-types'
+import type {
+  CursorPaginationParams,
+  ExoCursorPaginatedCollectionProp,
+  Link,
+  MetadataProps,
+} from '../common-types'
 import { User } from './user'
 
 export type DataAssemblyDataTypeField = {
@@ -97,4 +102,10 @@ export type UpdateDataAssemblyProps = DataAssemblyCommonProps & {
 // Query options for getMany - cursor-based pagination with mutual exclusivity
 export type DataAssemblyQueryOptions = CursorPaginationParams & {
   'sys.id[in]'?: string
+}
+
+export type DataAssemblyCollection = ExoCursorPaginatedCollectionProp<DataAssemblyProps> & {
+  errors?: {
+    notFoundIds: string[]
+  }
 }

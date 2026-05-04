@@ -1,6 +1,6 @@
 import type {
-  CursorPaginatedCollectionProp,
   CursorPaginationParams,
+  ExoCursorPaginatedCollectionProp,
   ExperienceMetadataProps,
   Link,
 } from '../common-types'
@@ -94,4 +94,4 @@ export type InlineFragmentNode = {
   slots?: Record<string, Array<FragmentNode | InlineFragmentNode>>
 }
 
-export type ExperienceCollection = CursorPaginatedCollectionProp<ExperienceProps>
+export type ExperienceCollection = ExoCursorPaginatedCollectionProp<ExperienceProps>
