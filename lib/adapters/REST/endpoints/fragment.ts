@@ -2,10 +2,7 @@ import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type { SetOptional } from 'type-fest'
-import type {
-  GetFragmentParams,
-  GetSpaceEnvironmentParams,
-} from '../../../common-types'
+import type { GetFragmentParams, GetSpaceEnvironmentParams } from '../../../common-types'
 import type {
   CreateFragmentProps,
   FragmentProps,
