@@ -3,7 +3,6 @@ import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type { SetOptional } from 'type-fest'
 import type {
-  ExoCursorPaginatedCollectionProp,
   GetSpaceEnvironmentParams,
   GetTemplateParams,
 } from '../../../common-types'
@@ -12,6 +11,7 @@ import type {
   TemplateProps,
   TemplateQueryOptions,
   UpdateTemplateProps,
+  TemplateCollection
 } from '../../../entities/template'
 import type { RestEndpoint } from '../types'
 import * as raw from './raw'
@@ -24,7 +24,7 @@ export const getMany: RestEndpoint<'Template', 'getMany'> = (
   params: GetSpaceEnvironmentParams & { query: TemplateQueryOptions },
   headers?: RawAxiosRequestHeaders,
 ) => {
-  return raw.get<ExoCursorPaginatedCollectionProp<TemplateProps>>(http, getBaseUrl(params), {
+  return raw.get<TemplateCollection>(http, getBaseUrl(params), {
     params: params.query,
     headers,
   })

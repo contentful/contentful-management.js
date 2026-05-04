@@ -3,15 +3,15 @@ import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type { SetOptional } from 'type-fest'
 import type {
-  ExoCursorPaginatedCollectionProp,
   GetComponentTypeParams,
   GetSpaceEnvironmentParams,
 } from '../../../common-types'
-import type {
-  ComponentTypeProps,
-  ComponentTypeQueryOptions,
-  CreateComponentTypeProps,
-  UpdateComponentTypeProps,
+import {
+  ComponentTypeCollection,
+  type ComponentTypeProps,
+  type ComponentTypeQueryOptions,
+  type CreateComponentTypeProps,
+  type UpdateComponentTypeProps,
 } from '../../../entities/component-type'
 import type { RestEndpoint } from '../types'
 import * as raw from './raw'
@@ -24,7 +24,7 @@ export const getMany: RestEndpoint<'ComponentType', 'getMany'> = (
   params: GetSpaceEnvironmentParams & { query: ComponentTypeQueryOptions },
   headers?: RawAxiosRequestHeaders,
 ) => {
-  return raw.get<ExoCursorPaginatedCollectionProp<ComponentTypeProps>>(http, getBaseUrl(params), {
+  return raw.get<ComponentTypeCollection>(http, getBaseUrl(params), {
     params: params.query,
     headers,
   })
