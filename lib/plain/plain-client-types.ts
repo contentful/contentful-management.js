@@ -253,30 +253,34 @@ export type PlainClientAPI = {
     ): Promise<CursorPaginatedCollectionProp<EnvironmentTemplateInstallationProps>>
   }
   bulkAction: {
-    get<T extends BulkActionPayload = any>(params: GetBulkActionParams): Promise<BulkActionProps<T>>
+    get<T extends BulkActionPayload = any>(
+      params: OptionalDefaults<GetBulkActionParams>,
+    ): Promise<BulkActionProps<T>>
     publish(
-      params: GetSpaceEnvironmentParams,
+      params: OptionalDefaults<GetSpaceEnvironmentParams>,
       payload: BulkActionPublishPayload,
     ): Promise<BulkActionProps<BulkActionPublishPayload>>
     unpublish(
-      params: GetSpaceEnvironmentParams,
+      params: OptionalDefaults<GetSpaceEnvironmentParams>,
       payload: BulkActionUnpublishPayload,
     ): Promise<BulkActionProps<BulkActionUnpublishPayload>>
     validate(
-      params: GetSpaceEnvironmentParams,
+      params: OptionalDefaults<GetSpaceEnvironmentParams>,
       payload: BulkActionValidatePayload,
     ): Promise<BulkActionProps<BulkActionValidatePayload>>
-    getV2(params: GetBulkActionParams): Promise<BulkActionProps<BulkActionV2Payload>>
+    getV2(
+      params: OptionalDefaults<GetBulkActionParams>,
+    ): Promise<BulkActionProps<BulkActionV2Payload>>
     publishV2(
-      params: GetSpaceEnvironmentParams,
+      params: OptionalDefaults<GetSpaceEnvironmentParams>,
       payload: PublishBulkActionV2Payload<'add'>,
     ): Promise<BulkActionProps<PublishBulkActionV2Payload<'add'>>>
     unpublishV2(
-      params: GetSpaceEnvironmentParams,
+      params: OptionalDefaults<GetSpaceEnvironmentParams>,
       payload: PublishBulkActionV2Payload<'remove'> | UnpublishBulkActionV2Payload,
     ): Promise<BulkActionProps<PublishBulkActionV2Payload<'remove'> | UnpublishBulkActionV2Payload>>
     validateV2(
-      params: GetSpaceEnvironmentParams,
+      params: OptionalDefaults<GetSpaceEnvironmentParams>,
       payload: ValidateBulkActionV2Payload<'add'> | ValidateBulkActionV2Payload<'remove'>,
     ): Promise<
       BulkActionProps<ValidateBulkActionV2Payload<'add'> | ValidateBulkActionV2Payload<'remove'>>
