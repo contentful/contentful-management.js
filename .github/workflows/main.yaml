@@ -4,12 +4,7 @@ permissions:
 
 on:
   push:
-    branches:
-      - master
-      - beta
-      - canary
-      - dev
-      - '*.x'
+    branches: ['**']
   pull_request:
     branches: ['**']
 
