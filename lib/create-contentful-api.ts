@@ -191,6 +191,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
         action: 'getMany',
         params: { query: createRequestConfig({ query: normalizedQuery }).params, organizationId },
       }).then((data) =>
+        // makeRequest returns the union type; cursor determines which branch is present at runtime so the casts are required
         cursor
           ? wrapSpaceCursorPaginatedCollection(
               makeRequest,
