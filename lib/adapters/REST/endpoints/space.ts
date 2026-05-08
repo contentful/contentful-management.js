@@ -3,7 +3,6 @@ import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type { SetOptional } from 'type-fest'
 import type {
-  BasicCursorPaginationOptions,
   CollectionProp,
   GetOrganizationParams,
   GetSpaceParams,
@@ -18,7 +17,7 @@ export const get: RestEndpoint<'Space', 'get'> = (http: AxiosInstance, params: G
 
 export const getMany: RestEndpoint<'Space', 'getMany'> = (
   http: AxiosInstance,
-  params: (QueryParams | BasicCursorPaginationOptions) & { organizationId?: string },
+  params: QueryParams & { organizationId?: string },
 ) =>
   raw.get<CollectionProp<SpaceProps>>(http, `/spaces`, {
     params: params.query,

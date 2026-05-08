@@ -14,7 +14,10 @@ import type {
   GetOAuthApplicationParams,
   GetUserParams,
 } from './common-types'
-import { normalizeCursorPaginationResponse } from './common-utils'
+import {
+  normalizeCursorPaginationParameters,
+  normalizeCursorPaginationResponse,
+} from './common-utils'
 import {
   wrapSpace,
   wrapSpaceCollection,
@@ -179,11 +182,14 @@ export default function createClientApi(makeRequest: MakeRequest) {
       query: (QueryOptions | BasicCursorPaginationOptions) & { cursor?: boolean } = {},
       organizationId?: string,
     ): Promise<Collection<Space, SpaceProps> | CursorPaginatedCollection<Space, SpaceProps>> {
-      const { cursor } = query
+      const { cursor, ...rest } = query
+      const normalizedQuery = cursor
+        ? normalizeCursorPaginationParameters(rest as BasicCursorPaginationOptions)
+        : rest
       return makeRequest({
         entityType: 'Space',
         action: 'getMany',
-        params: { query: createRequestConfig({ query }).params, organizationId },
+        params: { query: createRequestConfig({ query: normalizedQuery }).params, organizationId },
       }).then((data) =>
         cursor
           ? wrapSpaceCursorPaginatedCollection(
@@ -192,6 +198,15 @@ export default function createClientApi(makeRequest: MakeRequest) {
             )
           : wrapSpaceCollection(makeRequest, data as CollectionProp<SpaceProps>),
       )
+    } as {
+      (
+        query?: QueryOptions & { cursor?: false },
+        organizationId?: string,
+      ): Promise<Collection<Space, SpaceProps>>
+      (
+        query: BasicCursorPaginationOptions & { cursor: true },
+        organizationId?: string,
+      ): Promise<CursorPaginatedCollection<Space, SpaceProps>>
     },
 
     /**

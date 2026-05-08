@@ -76,7 +76,7 @@ describe('createClientApi', () => {
       )
     })
 
-    test('getSpaces with cursor:true passes cursor in query', async () => {
+    test('getSpaces with cursor:true normalizes query params (cursor flag not forwarded)', async () => {
       const { api, makeRequest } = setup(Promise.resolve(cursorCollectionResponse))
       await api.getSpaces({ cursor: true, limit: 10 })
       const [call] = makeRequest.mock.calls
