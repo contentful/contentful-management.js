@@ -3,6 +3,7 @@ import type {
   CursorPaginationParams,
   ExoCursorPaginatedCollectionProp,
   ExoMetadataProps,
+  ExoQueryFilters,
   Link,
 } from '../common-types'
 import type {
@@ -67,9 +68,9 @@ export type UpdateFragmentProps = Omit<FragmentProps, 'sys'> & {
   componentTypeId: string
 }
 
-export type FragmentQueryOptions = CursorPaginationParams & {
-  order?: string
-  [key: string]: unknown
-}
+export type FragmentQueryOptions = CursorPaginationParams &
+  ExoQueryFilters & {
+    order?: string
+  }
 
 export type FragmentCollection = ExoCursorPaginatedCollectionProp<FragmentProps>

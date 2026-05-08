@@ -3,6 +3,7 @@ import type {
   CursorPaginationParams,
   ExoCursorPaginatedCollectionProp,
   ExoMetadataProps,
+  ExoQueryFilters,
   Link,
 } from '../common-types'
 import type {
@@ -62,10 +63,10 @@ export type UpdateTemplateProps = Omit<TemplateProps, 'sys'> & {
   }
 }
 
-// Query options for getMany - cursor-based pagination with filter support
-export type TemplateQueryOptions = CursorPaginationParams & {
-  order?: string
-  [key: string]: unknown
-}
+// Query options for getMany - cursor-based pagination with typed filter fields
+export type TemplateQueryOptions = CursorPaginationParams &
+  ExoQueryFilters & {
+    order?: string
+  }
 
 export type TemplateCollection = ExoCursorPaginatedCollectionProp<TemplateProps>

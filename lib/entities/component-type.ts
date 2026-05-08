@@ -3,14 +3,15 @@ import type {
   CursorPaginationParams,
   ExoCursorPaginatedCollectionProp,
   ExoMetadataProps,
+  ExoQueryFilters,
   Link,
 } from '../common-types'
 
-// Query options for getMany - cursor-based pagination with mutual exclusivity & query filters
-export type ComponentTypeQueryOptions = CursorPaginationParams & {
-  order?: string
-  [key: string]: unknown
-}
+// Query options for getMany - cursor-based pagination with typed filter fields
+export type ComponentTypeQueryOptions = CursorPaginationParams &
+  ExoQueryFilters & {
+    order?: string
+  }
 
 // Viewport definition
 export type ComponentTypeViewport = {
