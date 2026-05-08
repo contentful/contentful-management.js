@@ -37,11 +37,11 @@ export type SpacePlainClientAPI = {
    * ```
    */
   getMany(
-    params: OptionalDefaults<{
-      query?: QueryParams['query'] | BasicCursorPaginationOptions
-      organizationId?: string
-    }>,
-  ): Promise<CollectionProp<SpaceProps> | CursorPaginatedCollectionProp<SpaceProps>>
+    params: OptionalDefaults<{ query?: QueryParams['query']; organizationId?: string }>,
+  ): Promise<CollectionProp<SpaceProps>>
+  getMany(
+    params: OptionalDefaults<{ query: BasicCursorPaginationOptions; organizationId?: string }>,
+  ): Promise<CursorPaginatedCollectionProp<SpaceProps>>
   /**
    * Fetches all the spaces in the given organization
    * @param params the organization ID and query parameters
