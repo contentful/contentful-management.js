@@ -12,15 +12,23 @@ import type { SpaceProps, UnarchiveProps } from '../../../entities/space'
 import type { RestEndpoint } from '../types'
 import * as raw from './raw'
 
-export const get: RestEndpoint<'Space', 'get'> = (http: AxiosInstance, params: GetSpaceParams) =>
-  raw.get<SpaceProps>(http, `/spaces/${params.spaceId}`)
+export const get: RestEndpoint<'Space', 'get'> = (
+  http: AxiosInstance,
+  params: GetSpaceParams & { include?: 'sys.license' },
+) =>
+  raw.get<SpaceProps>(http, `/spaces/${params.spaceId}`, {
+    params: params.include ? { include: params.include } : undefined,
+  })
 
 export const getMany: RestEndpoint<'Space', 'getMany'> = (
   http: AxiosInstance,
-  params: QueryParams & { organizationId?: string },
+  params: QueryParams & {
+    organizationId?: string
+    include?: 'sys.license'
+  },
 ) =>
   raw.get<CollectionProp<SpaceProps>>(http, `/spaces`, {
-    params: params.query,
+    params: { ...params.query, ...(params.include ? { include: params.include } : {}) },
     headers: params.organizationId
       ? { 'X-Contentful-Organization': params.organizationId }
       : undefined,

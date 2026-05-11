@@ -45,7 +45,7 @@ import { wrapOAuthApplication, wrapOAuthApplicationCollection } from './entities
 
 import type { Organization, OrganizationProps } from './entities/organization'
 import type { CreatePersonalAccessTokenProps } from './entities/personal-access-token'
-import type { Space, SpaceProps } from './entities/space'
+import type { Space, SpaceIncludeParam, SpaceProps } from './entities/space'
 import type { AppDefinition } from './entities/app-definition'
 import type { UsageQuery } from './entities/usage'
 import type { UserProps } from './entities/user'
@@ -179,17 +179,23 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * ```
      */
     getSpaces: function getSpaces(
-      query: (QueryOptions | BasicCursorPaginationOptions) & { cursor?: boolean } = {},
+      query: (QueryOptions | BasicCursorPaginationOptions) & {
+        cursor?: boolean
+      } & SpaceIncludeParam = {},
       organizationId?: string,
     ): Promise<Collection<Space, SpaceProps> | CursorPaginatedCollection<Space, SpaceProps>> {
-      const { cursor, ...rest } = query
+      const { cursor, include, ...rest } = query
       const normalizedQuery = cursor
         ? normalizeCursorPaginationParameters(rest as BasicCursorPaginationOptions)
         : rest
       return makeRequest({
         entityType: 'Space',
         action: 'getMany',
-        params: { query: createRequestConfig({ query: normalizedQuery }).params, organizationId },
+        params: {
+          query: createRequestConfig({ query: normalizedQuery }).params,
+          organizationId,
+          include,
+        },
       }).then((data) =>
         // makeRequest returns the union type; cursor determines which branch is present at runtime so the casts are required
         cursor
@@ -201,11 +207,11 @@ export default function createClientApi(makeRequest: MakeRequest) {
       )
     } as {
       (
-        query?: QueryOptions & { cursor?: false },
+        query?: QueryOptions & { cursor?: false } & SpaceIncludeParam,
         organizationId?: string,
       ): Promise<Collection<Space, SpaceProps>>
       (
-        query: BasicCursorPaginationOptions & { cursor: true },
+        query: BasicCursorPaginationOptions & { cursor: true } & SpaceIncludeParam,
         organizationId?: string,
       ): Promise<CursorPaginatedCollection<Space, SpaceProps>>
     },
@@ -226,11 +232,14 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    getSpace: function getSpace(spaceId: string): Promise<Space> {
+    getSpace: function getSpace(
+      spaceId: string,
+      { include }: SpaceIncludeParam = {},
+    ): Promise<Space> {
       return makeRequest({
         entityType: 'Space',
         action: 'get',
-        params: { spaceId },
+        params: { spaceId, include },
       }).then((data) => wrapSpace(makeRequest, data))
     },
 

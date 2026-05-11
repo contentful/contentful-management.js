@@ -120,6 +120,28 @@ describe('createClientApi', () => {
       const [call] = makeRequest.mock.calls
       expect(call[0].params.organizationId).toBeUndefined()
     })
+
+    test('getSpaces with include passes it as a top-level param', async () => {
+      const { api, makeRequest } = setup(Promise.resolve(collectionResponse))
+      await api.getSpaces({ include: 'sys.license' })
+      const [call] = makeRequest.mock.calls
+      expect(call[0].params.include).toBe('sys.license')
+      expect(call[0].params.query?.include).toBeUndefined()
+    })
+
+    test('getSpace with include passes it in params', async () => {
+      const { api, makeRequest } = setup(Promise.resolve({}))
+      await api.getSpace('test-space', { include: 'sys.license' })
+      const [call] = makeRequest.mock.calls
+      expect(call[0].params.include).toBe('sys.license')
+    })
+
+    test('getSpace without include omits it from params', async () => {
+      const { api, makeRequest } = setup(Promise.resolve({}))
+      await api.getSpace('test-space')
+      const [call] = makeRequest.mock.calls
+      expect(call[0].params.include).toBeUndefined()
+    })
   })
 })
 
