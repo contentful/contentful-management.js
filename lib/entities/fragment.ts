@@ -10,7 +10,6 @@ import type {
   ComponentTypeViewport,
   DimensionedDesignPropertyValue,
   FragmentNode,
-  TreeNode,
 } from './component-type'
 import type {
   ExperienceContentBindings,
@@ -40,7 +39,6 @@ export type FragmentSys = {
   publishedCounter?: number
   firstPublishedAt?: string
   publishedBy?: Link<'User'> | Link<'AppDefinition'>
-  localeStatus?: Record<string, 'draft' | 'published' | 'changed'>
 }
 
 export type FragmentProps = {
@@ -52,7 +50,7 @@ export type FragmentProps = {
   dimensionKeyMap: ExperienceDimensionKeyMap
   contentBindings?: ExperienceContentBindings
   metadata?: ExperienceMetadataProps
-  slots?: Record<string, Array<TreeNode | FragmentNode | InlineFragmentNode>>
+  slots?: Record<string, Array<FragmentNode | InlineFragmentNode>>
 }
 
 export type CreateFragmentProps = Except<FragmentProps, 'sys'> & {
