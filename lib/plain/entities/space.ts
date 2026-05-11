@@ -42,16 +42,12 @@ export type SpacePlainClientAPI = {
     params: OptionalDefaults<
       { query?: QueryParams['query']; organizationId?: string } & SpaceIncludeParam
     >,
-  ): Promise<
-    CollectionProp<
-      SpaceProps & {
-        includes?: SpaceIncludes
-      }
-    >
-  >
+  ): Promise<CollectionProp<SpaceProps> & { includes?: SpaceIncludes }>
   getMany(
-    params: OptionalDefaults<{ query: BasicCursorPaginationOptions; organizationId?: string }>,
-  ): Promise<CursorPaginatedCollectionProp<SpaceProps>>
+    params: OptionalDefaults<
+      { query: BasicCursorPaginationOptions; organizationId?: string } & SpaceIncludeParam
+    >,
+  ): Promise<CursorPaginatedCollectionProp<SpaceProps> & { includes?: SpaceIncludes }>
   /**
    * Fetches all the spaces in the given organization
    * @param params the organization ID and query parameters

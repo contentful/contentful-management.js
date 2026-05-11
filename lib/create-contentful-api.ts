@@ -207,11 +207,11 @@ export default function createClientApi(makeRequest: MakeRequest) {
       )
     } as {
       (
-        query?: QueryOptions & { cursor?: false },
+        query?: QueryOptions & { cursor?: false } & SpaceIncludeParam,
         organizationId?: string,
       ): Promise<Collection<Space, SpaceProps>>
       (
-        query: BasicCursorPaginationOptions & { cursor: true },
+        query: BasicCursorPaginationOptions & { cursor: true } & SpaceIncludeParam,
         organizationId?: string,
       ): Promise<CursorPaginatedCollection<Space, SpaceProps>>
     },
