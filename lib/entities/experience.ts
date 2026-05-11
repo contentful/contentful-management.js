@@ -96,3 +96,16 @@ export type InlineFragmentNode = {
 }
 
 export type ExperienceCollection = ExoCursorPaginatedCollectionProp<ExperienceProps>
+
+export type ReleaseExperienceSys = Omit<
+  ExperienceSys,
+  'variant' | 'variantType' | 'variantDimension'
+> & {
+  release: Link<'Release'>
+}
+
+export type ReleaseExperience = Omit<ExperienceProps, 'sys'> & {
+  sys: ReleaseExperienceSys
+}
+
+export type ReleaseExperienceCollection = ExoCursorPaginatedCollectionProp<ReleaseExperience>
