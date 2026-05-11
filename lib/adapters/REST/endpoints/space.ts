@@ -23,7 +23,7 @@ export const get: RestEndpoint<'Space', 'get'> = (
 
 export const getMany: RestEndpoint<'Space', 'getMany'> = (
   http: AxiosInstance,
-  params: (QueryParams | BasicCursorPaginationOptions) & {
+  params: QueryParams & {
     organizationId?: string
     include?: 'sys.license'
   },
