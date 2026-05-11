@@ -2,8 +2,8 @@ import type { Except } from 'type-fest'
 import type {
   CursorPaginationParams,
   ExoCursorPaginatedCollectionProp,
-  ExoMetadataProps,
   ExoQueryFilters,
+  ExperienceMetadataProps,
   Link,
 } from '../common-types'
 import type {
@@ -51,7 +51,7 @@ export type FragmentProps = {
   designProperties: Record<string, DimensionedDesignPropertyValue>
   dimensionKeyMap: ExperienceDimensionKeyMap
   contentBindings?: ExperienceContentBindings
-  metadata?: ExoMetadataProps
+  metadata?: ExperienceMetadataProps
   slots?: Record<string, Array<TreeNode | FragmentNode | InlineFragmentNode>>
 }
 
