@@ -99,6 +99,7 @@ export type ComponentNode = {
   contentProperties: Record<string, ContentPropertyPointerValue | unknown> | string
   designProperties: Record<string, ComponentTreeDesignPropertyValue>
   slots: Record<string, TreeNode[]>
+  contentBindings?: string
 }
 
 export type FragmentNode = {
