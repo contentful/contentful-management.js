@@ -2355,7 +2355,10 @@ export type MRActions = {
   }
   Space: {
     get: { params: GetSpaceParams; return: SpaceProps }
-    getMany: { params: QueryParams; return: CollectionProp<SpaceProps> }
+    getMany: {
+      params: QueryParams & { organizationId?: string }
+      return: CollectionProp<SpaceProps> | CursorPaginatedCollectionProp<SpaceProps>
+    }
     getManyForOrganization: {
       params: GetOrganizationParams & QueryParams
       return: CollectionProp<SpaceProps>

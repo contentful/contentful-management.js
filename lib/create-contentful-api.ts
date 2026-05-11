@@ -1,6 +1,8 @@
 import { createRequestConfig } from 'contentful-sdk-core'
 import type {
   Collection,
+  CollectionProp,
+  CursorPaginatedCollectionProp,
   MakeRequest,
   PaginationQueryParams,
   QueryOptions,
@@ -12,7 +14,15 @@ import type {
   GetOAuthApplicationParams,
   GetUserParams,
 } from './common-types'
-import { wrapSpace, wrapSpaceCollection } from './entities/space'
+import {
+  normalizeCursorPaginationParameters,
+  normalizeCursorPaginationResponse,
+} from './common-utils'
+import {
+  wrapSpace,
+  wrapSpaceCollection,
+  wrapSpaceCursorPaginatedCollection,
+} from './entities/space'
 import { wrapUser } from './entities/user'
 import {
   wrapPersonalAccessToken,
@@ -169,13 +179,35 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * ```
      */
     getSpaces: function getSpaces(
-      query: QueryOptions = {},
-    ): Promise<Collection<Space, SpaceProps>> {
+      query: (QueryOptions | BasicCursorPaginationOptions) & { cursor?: boolean } = {},
+      organizationId?: string,
+    ): Promise<Collection<Space, SpaceProps> | CursorPaginatedCollection<Space, SpaceProps>> {
+      const { cursor, ...rest } = query
+      const normalizedQuery = cursor
+        ? normalizeCursorPaginationParameters(rest as BasicCursorPaginationOptions)
+        : rest
       return makeRequest({
         entityType: 'Space',
         action: 'getMany',
-        params: { query: createRequestConfig({ query: query }).params },
-      }).then((data) => wrapSpaceCollection(makeRequest, data))
+        params: { query: createRequestConfig({ query: normalizedQuery }).params, organizationId },
+      }).then((data) =>
+        // makeRequest returns the union type; cursor determines which branch is present at runtime so the casts are required
+        cursor
+          ? wrapSpaceCursorPaginatedCollection(
+              makeRequest,
+              normalizeCursorPaginationResponse(data as CursorPaginatedCollectionProp<SpaceProps>),
+            )
+          : wrapSpaceCollection(makeRequest, data as CollectionProp<SpaceProps>),
+      )
+    } as {
+      (
+        query?: QueryOptions & { cursor?: false },
+        organizationId?: string,
+      ): Promise<Collection<Space, SpaceProps>>
+      (
+        query: BasicCursorPaginationOptions & { cursor: true },
+        organizationId?: string,
+      ): Promise<CursorPaginatedCollection<Space, SpaceProps>>
     },
 
     /**

@@ -1,7 +1,7 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type { BasicMetaSysProps, DefaultElements, MakeRequest } from '../common-types'
-import { wrapCollection } from '../common-utils'
+import { wrapCollection, wrapCursorPaginatedCollection } from '../common-utils'
 import type { ContentfulSpaceAPI } from '../create-space-api'
 import createSpaceApi from '../create-space-api'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -40,3 +40,4 @@ export function wrapSpace(makeRequest: MakeRequest, data: SpaceProps): Space {
  * @internal
  */
 export const wrapSpaceCollection = wrapCollection(wrapSpace)
+export const wrapSpaceCursorPaginatedCollection = wrapCursorPaginatedCollection(wrapSpace)

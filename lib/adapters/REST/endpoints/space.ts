@@ -17,10 +17,13 @@ export const get: RestEndpoint<'Space', 'get'> = (http: AxiosInstance, params: G
 
 export const getMany: RestEndpoint<'Space', 'getMany'> = (
   http: AxiosInstance,
-  params: QueryParams,
+  params: QueryParams & { organizationId?: string },
 ) =>
   raw.get<CollectionProp<SpaceProps>>(http, `/spaces`, {
     params: params.query,
+    headers: params.organizationId
+      ? { 'X-Contentful-Organization': params.organizationId }
+      : undefined,
   })
 
 export const getManyForOrganization: RestEndpoint<'Space', 'getManyForOrganization'> = (
