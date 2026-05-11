@@ -22,6 +22,7 @@ import {
   semanticSettingsMock,
   contentSemanticsIndexMock,
   contentSemanticsIndexCollectionMock,
+  availableLicenseMock,
 } from './mocks/entities'
 import {
   makeGetEntityTest,
@@ -957,5 +958,19 @@ describe('A createOrganizationApi', () => {
         expect(errorResponse).eql(error)
       },
     )
+  })
+
+  test('API call getAvailableLicenses', async () => {
+    return makeGetCollectionTest(setup, {
+      entityType: 'availableLicense',
+      mockToReturn: availableLicenseMock,
+      methodToTest: 'getAvailableLicenses',
+    })
+  })
+
+  test('API call getAvailableLicenses fails', async () => {
+    return makeEntityMethodFailingTest(setup, {
+      methodToTest: 'getAvailableLicenses',
+    })
   })
 })

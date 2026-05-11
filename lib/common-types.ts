@@ -36,6 +36,7 @@ import type {
   CreateAssetProps,
 } from './entities/asset'
 import type { AssetKeyProps, CreateAssetKeyProps } from './entities/asset-key'
+import type { AvailableLicenseProps } from './entities/available-license'
 import type {
   BulkActionProps,
   BulkActionPublishPayload,
@@ -87,6 +88,7 @@ import type {
 } from './entities/experience'
 import type { ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
 import type { EditorInterfaceProps } from './entities/editor-interface'
+import type { EligibleLicenseProps } from './entities/eligible-license'
 import type { CreateEntryProps, EntryProps, EntryReferenceProps } from './entities/entry'
 import type { CreateEnvironmentProps, EnvironmentProps } from './entities/environment'
 import type {
@@ -121,7 +123,7 @@ import type {
 import type { CreateRoleProps, RoleProps } from './entities/role'
 import type { ScheduledActionProps } from './entities/scheduled-action'
 import type { SnapshotProps } from './entities/snapshot'
-import type { SpaceProps } from './entities/space'
+import type { SpaceProps, SpaceIncludes, SpaceIncludeParam, UnarchiveProps } from './entities/space'
 import type { SpaceAddOnProps, UpdateSpaceAddOnAllocationProps } from './entities/space-add-on'
 import type { SpaceMemberProps } from './entities/space-member'
 import type { CreateSpaceMembershipProps, SpaceMembershipProps } from './entities/space-membership'
@@ -226,6 +228,7 @@ import type {
 import type { AgentGeneratePayload, AgentProps } from './entities/agent'
 import type {
   AgentGenerateResponse,
+  AgentResumeRunPayload,
   AgentRunProps,
   AgentRunQueryOptions,
 } from './entities/agent-run'
@@ -603,6 +606,7 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'AgentRun', 'get', UA>): MRReturn<'AgentRun', 'get'>
   (opts: MROpts<'AgentRun', 'getMany', UA>): MRReturn<'AgentRun', 'getMany'>
+  (opts: MROpts<'AgentRun', 'resumeRun', UA>): MRReturn<'AgentRun', 'resumeRun'>
 
   (opts: MROpts<'AppAction', 'get', UA>): MRReturn<'AppAction', 'get'>
   (opts: MROpts<'AppAction', 'getMany', UA>): MRReturn<'AppAction', 'getMany'>
@@ -694,6 +698,8 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'AssetKey', 'create', UA>): MRReturn<'AssetKey', 'create'>
 
+  (opts: MROpts<'AvailableLicense', 'getMany', UA>): MRReturn<'AvailableLicense', 'getMany'>
+
   (opts: MROpts<'BulkAction', 'get', UA>): MRReturn<'BulkAction', 'get'>
   (opts: MROpts<'BulkAction', 'publish', UA>): MRReturn<'BulkAction', 'publish'>
   (opts: MROpts<'BulkAction', 'unpublish', UA>): MRReturn<'BulkAction', 'unpublish'>
@@ -764,6 +770,8 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'EditorInterface', 'get', UA>): MRReturn<'EditorInterface', 'get'>
   (opts: MROpts<'EditorInterface', 'getMany', UA>): MRReturn<'EditorInterface', 'getMany'>
   (opts: MROpts<'EditorInterface', 'update', UA>): MRReturn<'EditorInterface', 'update'>
+
+  (opts: MROpts<'EligibleLicense', 'getMany', UA>): MRReturn<'EligibleLicense', 'getMany'>
 
   (opts: MROpts<'Environment', 'get', UA>): MRReturn<'Environment', 'get'>
   (opts: MROpts<'Environment', 'getMany', UA>): MRReturn<'Environment', 'getMany'>
@@ -961,6 +969,7 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Space', 'getManyForOrganization', UA>): MRReturn<'Space', 'getManyForOrganization'>
   (opts: MROpts<'Space', 'create', UA>): MRReturn<'Space', 'create'>
   (opts: MROpts<'Space', 'update', UA>): MRReturn<'Space', 'update'>
+  (opts: MROpts<'Space', 'unarchive', UA>): MRReturn<'Space', 'unarchive'>
   (opts: MROpts<'Space', 'delete', UA>): MRReturn<'Space', 'delete'>
 
   (opts: MROpts<'SpaceMember', 'get', UA>): MRReturn<'SpaceMember', 'get'>
@@ -1291,6 +1300,12 @@ export type MRActions = {
       params: GetSpaceEnvironmentParams & { query?: AgentRunQueryOptions }
       headers?: RawAxiosRequestHeaders
       return: CollectionProp<AgentRunProps>
+    }
+    resumeRun: {
+      params: GetSpaceEnvironmentParams & { runId: string }
+      payload: AgentResumeRunPayload
+      headers?: RawAxiosRequestHeaders
+      return: AgentGenerateResponse
     }
   }
   AutomationDefinition: {
@@ -1645,6 +1660,12 @@ export type MRActions = {
       return: AssetKeyProps
     }
   }
+  AvailableLicense: {
+    getMany: {
+      params: GetOrganizationParams & QueryParams
+      return: CollectionProp<AvailableLicenseProps>
+    }
+  }
   BulkAction: {
     get: {
       params: GetBulkActionParams
@@ -1934,6 +1955,12 @@ export type MRActions = {
       payload: EditorInterfaceProps
       headers?: RawAxiosRequestHeaders
       return: EditorInterfaceProps
+    }
+  }
+  EligibleLicense: {
+    getMany: {
+      params: GetSpaceParams & QueryParams
+      return: CollectionProp<EligibleLicenseProps>
     }
   }
   Environment: {
@@ -2553,8 +2580,16 @@ export type MRActions = {
     }
   }
   Space: {
-    get: { params: GetSpaceParams; return: SpaceProps }
-    getMany: { params: QueryParams; return: CollectionProp<SpaceProps> }
+    get: {
+      params: GetSpaceParams & SpaceIncludeParam
+      return: SpaceProps & { includes?: SpaceIncludes }
+    }
+    getMany: {
+      params: QueryParams & { organizationId?: string } & SpaceIncludeParam
+      return: (CollectionProp<SpaceProps> | CursorPaginatedCollectionProp<SpaceProps>) & {
+        includes?: SpaceIncludes
+      }
+    }
     getManyForOrganization: {
       params: GetOrganizationParams & QueryParams
       return: CollectionProp<SpaceProps>
@@ -2568,6 +2603,12 @@ export type MRActions = {
     update: {
       params: GetSpaceParams
       payload: SpaceProps
+      headers?: RawAxiosRequestHeaders
+      return: SpaceProps
+    }
+    unarchive: {
+      params: GetSpaceParams
+      payload: UnarchiveProps
       headers?: RawAxiosRequestHeaders
       return: SpaceProps
     }

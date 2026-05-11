@@ -20,6 +20,7 @@ import * as AppSigningSecret from './app-signing-secret'
 import * as AppUpload from './app-upload'
 import * as Asset from './asset'
 import * as AssetKey from './asset-key'
+import * as AvailableLicense from './available-license'
 import * as BulkAction from './bulk-action'
 import * as Comment from './comment'
 import * as ComponentType from './component-type'
@@ -28,6 +29,7 @@ import * as ConceptScheme from './concept-scheme'
 import * as ContentType from './content-type'
 import * as DataAssembly from './data-assembly'
 import * as EditorInterface from './editor-interface'
+import * as EligibleLicense from './eligible-license'
 import * as Entry from './entry'
 import * as Environment from './environment'
 import * as EnvironmentAlias from './environment-alias'
@@ -105,6 +107,7 @@ export default {
   AppDetails,
   Asset,
   AssetKey,
+  AvailableLicense,
   BulkAction,
   Comment,
   ComponentType,
@@ -113,6 +116,7 @@ export default {
   ContentType,
   DataAssembly,
   EditorInterface,
+  EligibleLicense,
   Entry,
   Environment,
   EnvironmentAlias,

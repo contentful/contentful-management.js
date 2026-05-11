@@ -40,6 +40,20 @@ describe('Entity AppDefinition', () => {
     })
   })
 
+  test('AppDefinition update preserves internal agent payload', async () => {
+    const { makeRequest, entityMock } = setup(Promise.resolve(appDefinitionMock))
+    const entity = wrapAppDefinition(makeRequest, entityMock)
+
+    entity.agent = { id: 'mocked-agent-id' }
+
+    await entity.update()
+
+    expect(makeRequest.mock.calls[0][0].payload).toMatchObject({
+      agent: { id: 'mocked-agent-id' },
+      name: appDefinitionMock.name,
+    })
+  })
+
   test('AppDefinition update fails', async () => {
     return failingVersionActionTest(setup, {
       wrapperMethod: wrapAppDefinition,

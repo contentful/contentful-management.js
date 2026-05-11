@@ -22,6 +22,10 @@ export interface NavigationItem {
   path: string
 }
 
+export interface AppDefinitionAgent {
+  id: string
+}
+
 /**
  * These locations are currently restricted to internal Contentful apps only.
  * If you are interested in using these locations for your app,
@@ -66,6 +70,12 @@ export type AppDefinitionProps = {
    * App name
    */
   name: string
+  /**
+   * This property is currently restricted to internal Contentful apps only.
+   * If you are interested in building agents using the App Framework,
+   * please reach out to Contentful Support (https://www.contentful.com/support/).
+   */
+  agent?: AppDefinitionAgent
   /**
    * URL where the root HTML document of the app can be found
    */

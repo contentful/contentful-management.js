@@ -22,6 +22,7 @@ import type {
 import type { AiActionProps, AiActionQueryOptions, CreateAiActionProps } from './entities/ai-action'
 
 import { wrapSpace } from './entities/space'
+import { wrapEligibleLicenseCollection } from './entities/eligible-license'
 import { wrapEnvironment, wrapEnvironmentCollection } from './entities/environment'
 import { wrapWebhook, wrapWebhookCollection } from './entities/webhook'
 import { wrapRole, wrapRoleCollection } from './entities/role'
@@ -103,6 +104,34 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
         action: 'update',
         params: { spaceId: raw.sys.id },
         payload: raw,
+        headers: {},
+      }).then((data) => wrapSpace(makeRequest, data))
+    },
+    /**
+     * Unarchives the space
+     * @returns Promise for the unarchived space.
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => {
+     *   return space.unarchive({productId: 'id'})
+     * })
+     * .then((space) => console.log(`Space ${space.sys.id} unarchived.`)
+     * .catch(console.error)
+     * ```
+     */
+    unarchive: function unarchiveSpace(productId: string) {
+      const raw = this.toPlainObject() as SpaceProps
+      return makeRequest({
+        entityType: 'Space',
+        action: 'unarchive',
+        params: { spaceId: raw.sys.id },
+        payload: { productId },
         headers: {},
       }).then((data) => wrapSpace(makeRequest, data))
     },
@@ -1684,6 +1713,35 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
         action: 'getMany',
         params: { spaceId: raw.sys.id, query: createRequestConfig({ query }).params },
       }).then((data) => wrapSpaceAddOnCollection(makeRequest, data))
+    },
+
+    /**
+     * Gets a collection of Eligible Licenses for the space
+     * @param query - Object with search parameters. The API supports pagination with skip and limit parameters.
+     * @returns Promise for a collection of Eligible Licenses that can be assigned to this space
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getSpace('<space_id>')
+     * .then((space) => space.getEligibleLicenses({ limit: 10, skip: 0 }))
+     * .then((response) => console.log(response.items))
+     * .catch(console.error)
+     * ```
+     */
+    getEligibleLicenses(query: QueryOptions = {}) {
+      const raw = this.toPlainObject() as SpaceProps
+      return makeRequest({
+        entityType: 'EligibleLicense',
+        action: 'getMany',
+        params: {
+          spaceId: raw.sys.id,
+          query: createRequestConfig({ query }).params,
+        },
+      }).then((data) => wrapEligibleLicenseCollection(makeRequest, data))
     },
 
     /**

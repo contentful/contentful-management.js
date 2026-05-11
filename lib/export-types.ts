@@ -17,6 +17,7 @@ export type { AiActionInvocation, AiActionInvocationProps } from './entities/ai-
 export type { Agent, AgentGeneratePayload, AgentProps, AgentToolLink } from './entities/agent'
 export type {
   AgentGenerateResponse,
+  AgentResumeRunPayload,
   AgentRun,
   AgentRunMessage,
   AgentRunMessagePart,
@@ -305,12 +306,6 @@ export type {
 } from './entities/workflow-definition'
 export * from './plain/plain-client-types'
 export { OptionalDefaults } from './plain/wrappers/wrap'
-
-export {
-  WorkflowStepPermissionAction,
-  WorkflowStepPermissionEffect,
-  WorkflowStepPermissionType,
-} from './entities/workflow-definition'
 
 export type { ConceptProps, CreateConceptProps } from './entities/concept'
 export type { ConceptSchemeProps, CreateConceptSchemeProps } from './entities/concept-scheme'

@@ -79,6 +79,7 @@ export const createPlainClient = (
     agentRun: {
       get: wrap(wrapParams, 'AgentRun', 'get'),
       getMany: wrap(wrapParams, 'AgentRun', 'getMany'),
+      resumeRun: wrap(wrapParams, 'AgentRun', 'resumeRun'),
     },
     automationDefinition: {
       get: wrap(wrapParams, 'AutomationDefinition', 'get'),
@@ -183,7 +184,7 @@ export const createPlainClient = (
     },
     space: {
       get: wrap(wrapParams, 'Space', 'get'),
-      getMany: wrap(wrapParams, 'Space', 'getMany'),
+      getMany: wrap(wrapParams, 'Space', 'getMany') as PlainClientAPI['space']['getMany'],
       getManyForOrganization: wrap(wrapParams, 'Space', 'getManyForOrganization'),
       update: wrap(wrapParams, 'Space', 'update'),
       delete: wrap(wrapParams, 'Space', 'delete'),

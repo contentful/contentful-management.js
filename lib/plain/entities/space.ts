@@ -3,10 +3,12 @@ import type {
   GetSpaceParams,
   QueryParams,
   CollectionProp,
+  CursorPaginatedCollectionProp,
+  BasicCursorPaginationOptions,
   GetOrganizationParams,
 } from '../../common-types'
 import type { OptionalDefaults } from '../wrappers/wrap'
-import type { SpaceProps } from '../../entities/space'
+import type { SpaceIncludeParam, SpaceIncludes, SpaceProps } from '../../entities/space'
 
 export type SpacePlainClientAPI = {
   /**
@@ -20,7 +22,9 @@ export type SpacePlainClientAPI = {
    * });
    * ```
    */
-  get(params: OptionalDefaults<GetSpaceParams>): Promise<SpaceProps>
+  get(
+    params: OptionalDefaults<GetSpaceParams & SpaceIncludeParam>,
+  ): Promise<SpaceProps & { includes?: SpaceIncludes }>
   /**
    * Fetches all the spaces that the logged in user has access to
    * @param params (optional) filter and pagination query parameters
@@ -34,7 +38,16 @@ export type SpacePlainClientAPI = {
    * });
    * ```
    */
-  getMany(params: OptionalDefaults<QueryParams>): Promise<CollectionProp<SpaceProps>>
+  getMany(
+    params: OptionalDefaults<
+      { query?: QueryParams['query']; organizationId?: string } & SpaceIncludeParam
+    >,
+  ): Promise<CollectionProp<SpaceProps> & { includes?: SpaceIncludes }>
+  getMany(
+    params: OptionalDefaults<
+      { query: BasicCursorPaginationOptions; organizationId?: string } & SpaceIncludeParam
+    >,
+  ): Promise<CursorPaginatedCollectionProp<SpaceProps> & { includes?: SpaceIncludes }>
   /**
    * Fetches all the spaces in the given organization
    * @param params the organization ID and query parameters
