@@ -10,11 +10,12 @@ describe('Fragment Integration', () => {
     environmentId: TestDefaults.environmentId,
   })
 
+  const createdFragmentIds: string[] = []
+  const createdComponentTypeIds: string[] = []
   let componentType: ComponentTypeProps
   let fragment: FragmentProps
 
   beforeAll(async () => {
-    // Fragments require a published ComponentType
     componentType = await client.componentType.create(
       {},
       {
@@ -33,6 +34,7 @@ describe('Fragment Integration', () => {
         dimensionKeyMap: { designProperties: {} },
       },
     )
+    createdComponentTypeIds.push(componentType.sys.id)
 
     componentType = await client.componentType.publish({
       componentTypeId: componentType.sys.id,
@@ -57,55 +59,43 @@ describe('Fragment Integration', () => {
         dimensionKeyMap: { designProperties: {} },
       },
     )
+    createdFragmentIds.push(fragment.sys.id)
   })
 
   afterAll(async () => {
-    try {
-      const latestFrag = await client.fragment.get({
-        fragmentId: fragment.sys.id,
-      })
-      if (latestFrag.sys.publishedVersion) {
-        await client.fragment.unpublish({
-          fragmentId: latestFrag.sys.id,
-          version: latestFrag.sys.version,
-        })
-        const unpublishedFrag = await client.fragment.get({
-          fragmentId: latestFrag.sys.id,
-        })
-        await client.fragment.delete({
-          fragmentId: unpublishedFrag.sys.id,
-        })
-      } else {
-        await client.fragment.delete({
-          fragmentId: latestFrag.sys.id,
-        })
+    // Delete fragments first (they depend on component types)
+    for (const id of createdFragmentIds) {
+      try {
+        const latest = await client.fragment.get({ fragmentId: id })
+        if (latest.sys.publishedVersion) {
+          await client.fragment.unpublish({
+            fragmentId: id,
+            version: latest.sys.version,
+          })
+          await client.fragment.delete({ fragmentId: id })
+        } else {
+          await client.fragment.delete({ fragmentId: id })
+        }
+      } catch {
+        // entity already deleted or not found
       }
-    } catch {
-      // already cleaned up
     }
 
-    try {
-      const latestCt = await client.componentType.get({
-        componentTypeId: componentType.sys.id,
-      })
-      if (latestCt.sys.publishedVersion) {
-        await client.componentType.unpublish({
-          componentTypeId: latestCt.sys.id,
-          version: latestCt.sys.version,
-        })
-        const unpublishedCt = await client.componentType.get({
-          componentTypeId: latestCt.sys.id,
-        })
-        await client.componentType.delete({
-          componentTypeId: unpublishedCt.sys.id,
-        })
-      } else {
-        await client.componentType.delete({
-          componentTypeId: latestCt.sys.id,
-        })
+    for (const id of createdComponentTypeIds) {
+      try {
+        const latest = await client.componentType.get({ componentTypeId: id })
+        if (latest.sys.publishedVersion) {
+          await client.componentType.unpublish({
+            componentTypeId: id,
+            version: latest.sys.version,
+          })
+          await client.componentType.delete({ componentTypeId: id })
+        } else {
+          await client.componentType.delete({ componentTypeId: id })
+        }
+      } catch {
+        // entity already deleted or not found
       }
-    } catch {
-      // already cleaned up
     }
 
     await timeoutToCalmRateLimiting()

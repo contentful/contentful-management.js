@@ -9,6 +9,7 @@ describe('Template Integration', () => {
     environmentId: TestDefaults.environmentId,
   })
 
+  const createdTemplateIds: string[] = []
   let template: TemplateProps
 
   beforeAll(async () => {
@@ -44,31 +45,25 @@ describe('Template Integration', () => {
         dimensionKeyMap: { designProperties: {} },
       },
     )
+    createdTemplateIds.push(template.sys.id)
   })
 
   afterAll(async () => {
-    try {
-      const latest = await client.template.get({
-        templateId: template.sys.id,
-      })
-      if (latest.sys.publishedVersion) {
-        await client.template.unpublish({
-          templateId: latest.sys.id,
-          version: latest.sys.version,
-        })
-        const unpublished = await client.template.get({
-          templateId: latest.sys.id,
-        })
-        await client.template.delete({
-          templateId: unpublished.sys.id,
-        })
-      } else {
-        await client.template.delete({
-          templateId: latest.sys.id,
-        })
+    for (const id of createdTemplateIds) {
+      try {
+        const latest = await client.template.get({ templateId: id })
+        if (latest.sys.publishedVersion) {
+          await client.template.unpublish({
+            templateId: id,
+            version: latest.sys.version,
+          })
+          await client.template.delete({ templateId: id })
+        } else {
+          await client.template.delete({ templateId: id })
+        }
+      } catch {
+        // entity already deleted or not found
       }
-    } catch {
-      // already cleaned up
     }
 
     await timeoutToCalmRateLimiting()

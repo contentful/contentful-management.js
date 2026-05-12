@@ -9,6 +9,7 @@ describe('ComponentType Integration', () => {
     environmentId: TestDefaults.environmentId,
   })
 
+  const createdComponentTypeIds: string[] = []
   let componentType: ComponentTypeProps
 
   beforeAll(async () => {
@@ -44,31 +45,25 @@ describe('ComponentType Integration', () => {
         dimensionKeyMap: { designProperties: {} },
       },
     )
+    createdComponentTypeIds.push(componentType.sys.id)
   })
 
   afterAll(async () => {
-    try {
-      const latest = await client.componentType.get({
-        componentTypeId: componentType.sys.id,
-      })
-      if (latest.sys.publishedVersion) {
-        await client.componentType.unpublish({
-          componentTypeId: latest.sys.id,
-          version: latest.sys.version,
-        })
-        const unpublished = await client.componentType.get({
-          componentTypeId: latest.sys.id,
-        })
-        await client.componentType.delete({
-          componentTypeId: unpublished.sys.id,
-        })
-      } else {
-        await client.componentType.delete({
-          componentTypeId: latest.sys.id,
-        })
+    for (const id of createdComponentTypeIds) {
+      try {
+        const latest = await client.componentType.get({ componentTypeId: id })
+        if (latest.sys.publishedVersion) {
+          const unpublished = await client.componentType.unpublish({
+            componentTypeId: id,
+            version: latest.sys.version,
+          })
+          await client.componentType.delete({ componentTypeId: id })
+        } else {
+          await client.componentType.delete({ componentTypeId: id })
+        }
+      } catch {
+        // entity already deleted or not found
       }
-    } catch {
-      // already cleaned up
     }
 
     await timeoutToCalmRateLimiting()

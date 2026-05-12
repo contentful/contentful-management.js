@@ -9,6 +9,7 @@ describe('DataAssembly Integration', () => {
     environmentId: TestDefaults.environmentId,
   })
 
+  const createdDataAssemblyIds: string[] = []
   let dataAssembly: DataAssemblyProps
 
   beforeAll(async () => {
@@ -41,31 +42,25 @@ describe('DataAssembly Integration', () => {
         },
       },
     )
+    createdDataAssemblyIds.push(dataAssembly.sys.id)
   })
 
   afterAll(async () => {
-    try {
-      const latest = await client.dataAssembly.get({
-        dataAssemblyId: dataAssembly.sys.id,
-      })
-      if (latest.sys.publishedVersion) {
-        await client.dataAssembly.unpublish({
-          dataAssemblyId: latest.sys.id,
-          version: latest.sys.version,
-        })
-        const unpublished = await client.dataAssembly.get({
-          dataAssemblyId: latest.sys.id,
-        })
-        await client.dataAssembly.delete({
-          dataAssemblyId: unpublished.sys.id,
-        })
-      } else {
-        await client.dataAssembly.delete({
-          dataAssemblyId: latest.sys.id,
-        })
+    for (const id of createdDataAssemblyIds) {
+      try {
+        const latest = await client.dataAssembly.get({ dataAssemblyId: id })
+        if (latest.sys.publishedVersion) {
+          await client.dataAssembly.unpublish({
+            dataAssemblyId: id,
+            version: latest.sys.version,
+          })
+          await client.dataAssembly.delete({ dataAssemblyId: id })
+        } else {
+          await client.dataAssembly.delete({ dataAssemblyId: id })
+        }
+      } catch {
+        // entity already deleted or not found
       }
-    } catch {
-      // already cleaned up
     }
 
     await timeoutToCalmRateLimiting()
