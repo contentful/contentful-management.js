@@ -164,30 +164,14 @@ export type FragmentNode = {
 
 export type SlotNode = {
   id: string
-  name?: string
   nodeType: 'Slot'
   slotId: string
 }
 
 export type TreeNode = ComponentNode | FragmentNode | SlotNode
 
-// Data type field for content bindings
-export type ComponentTypeDataTypeField = {
-  id: string
-  name: string
-  type: string
-  required: boolean
-  source?: string
-}
-
 // DataAssembly link type
 export type DataAssemblyLink = Link<'DataAssembly'>
-
-// Content bindings definition
-export type ComponentTypeContentBindings = DataAssemblyLink['sys'] & {
-  required: boolean
-  dataType: ComponentTypeDataTypeField[]
-}
 
 // Slot definition
 export type ComponentTypeSlotDefinition = {
@@ -230,7 +214,6 @@ export type ComponentTypeProps = {
   designProperties: ComponentTypeDesignProperty[]
   dimensionKeyMap: ComponentTypeDimensionKeyMap
   componentTree?: TreeNode[]
-  contentBindings?: ComponentTypeContentBindings
   slots?: ComponentTypeSlotDefinition[]
   metadata?: ExoMetadataProps
   dataAssemblies?: DataAssemblyLink[]
