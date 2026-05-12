@@ -10,32 +10,11 @@ describe('DataAssembly Integration', () => {
   })
 
   const createdIds: string[] = []
+  let dataAssemblyId: string
 
   beforeAll(async () => {
     await sweepStaleExoEntities(client)
-  })
 
-  afterAll(async () => {
-    for (const id of createdIds) {
-      try {
-        const latest = await client.dataAssembly.get({ dataAssemblyId: id })
-        if (latest.sys.publishedVersion) {
-          await client.dataAssembly.unpublish({
-            dataAssemblyId: id,
-            version: latest.sys.version,
-          })
-        }
-        await client.dataAssembly.delete({ dataAssemblyId: id })
-      } catch {
-        // entity already deleted or not found
-      }
-    }
-
-    await timeoutToCalmRateLimiting()
-  })
-
-  it('full lifecycle: create → get → update → getMany → publish → getPublished → getManyPublished → unpublish → delete', async () => {
-    // --- Create ---
     // DataAssembly requires sys.type and sys.dataType in the create payload
     // because the API uses these to define the assembly's return schema
     const created = await client.dataAssembly.create(
@@ -62,98 +41,135 @@ describe('DataAssembly Integration', () => {
         },
       },
     )
-    createdIds.push(created.sys.id)
+    dataAssemblyId = created.sys.id
+    createdIds.push(dataAssemblyId)
+  })
 
-    expect(created.sys.id).toBeDefined()
-    expect(created.sys.type).toBe('DataAssembly')
-    expect(created.sys.version).toBeGreaterThanOrEqual(1)
-    expect(created.sys.createdAt).toBeDefined()
-    expect(created.sys.createdBy).toBeDefined()
-    expect(created.sys.dataType).toBeDefined()
-    expect(created.name).toBe(`Integration Test DataAssembly ${testRunId}`)
+  afterAll(async () => {
+    for (const id of createdIds) {
+      try {
+        const latest = await client.dataAssembly.get({ dataAssemblyId: id })
+        if (latest.sys.publishedVersion) {
+          await client.dataAssembly.unpublish({
+            dataAssemblyId: id,
+            version: latest.sys.version,
+          })
+        }
+        await client.dataAssembly.delete({ dataAssemblyId: id })
+      } catch {
+        // entity already deleted or not found
+      }
+    }
 
-    // --- Get ---
-    const fetched = await client.dataAssembly.get({ dataAssemblyId: created.sys.id })
+    await timeoutToCalmRateLimiting()
+  })
 
-    expect(fetched.sys.id).toBe(created.sys.id)
+  it('creates a data assembly with correct sys fields', async () => {
+    const da = await client.dataAssembly.get({ dataAssemblyId: dataAssemblyId })
+
+    expect(da.sys.id).toBeDefined()
+    expect(da.sys.type).toBe('DataAssembly')
+    expect(da.sys.version).toBeGreaterThanOrEqual(1)
+    expect(da.sys.createdAt).toBeDefined()
+    expect(da.sys.createdBy).toBeDefined()
+    expect(da.sys.dataType).toBeDefined()
+    expect(da.name).toBe(`Integration Test DataAssembly ${testRunId}`)
+    expect(da.description).toBe('Created by integration test')
+  })
+
+  it('gets a data assembly by ID', async () => {
+    const fetched = await client.dataAssembly.get({ dataAssemblyId: dataAssemblyId })
+
+    expect(fetched.sys.id).toBe(dataAssemblyId)
     expect(fetched.sys.type).toBe('DataAssembly')
     expect(fetched.resolvers).toBeDefined()
     expect(fetched.return).toBeDefined()
+  })
 
-    // --- Update ---
+  it('updates a data assembly', async () => {
+    const current = await client.dataAssembly.get({ dataAssemblyId: dataAssemblyId })
+
     const updated = await client.dataAssembly.update(
-      { dataAssemblyId: fetched.sys.id },
+      { dataAssemblyId: dataAssemblyId },
       {
-        ...fetched,
+        ...current,
         sys: {
-          id: fetched.sys.id,
+          id: current.sys.id,
           type: 'DataAssembly' as const,
-          version: fetched.sys.version,
-          dataType: fetched.sys.dataType,
+          version: current.sys.version,
+          dataType: current.sys.dataType,
         },
         name: `Integration Test DataAssembly Updated ${testRunId}`,
       },
     )
 
     expect(updated.name).toBe(`Integration Test DataAssembly Updated ${testRunId}`)
-    expect(updated.sys.version).toBeGreaterThan(fetched.sys.version)
+    expect(updated.sys.version).toBeGreaterThan(current.sys.version)
+  })
 
-    // --- GetMany (cursor pagination) ---
+  it('lists data assemblies with cursor pagination', async () => {
     const collection = await client.dataAssembly.getMany({ query: { limit: 10 } })
 
     expect(collection.sys).toBeDefined()
     expect(collection.pages).toBeDefined()
     expect(collection.items).toBeDefined()
     expect(Array.isArray(collection.items)).toBe(true)
-    const found = collection.items.find((item) => item.sys.id === created.sys.id)
-    expect(found).toBeDefined()
 
-    // --- Publish ---
+    const found = collection.items.find((item) => item.sys.id === dataAssemblyId)
+    expect(found).toBeDefined()
+  })
+
+  it('publishes a data assembly', async () => {
+    const current = await client.dataAssembly.get({ dataAssemblyId: dataAssemblyId })
+
     const published = await client.dataAssembly.publish({
-      dataAssemblyId: updated.sys.id,
-      version: updated.sys.version,
+      dataAssemblyId: dataAssemblyId,
+      version: current.sys.version,
     })
 
     expect(published.sys.publishedVersion).toBeDefined()
     expect(published.sys.publishedAt).toBeDefined()
+  })
 
-    // --- GetPublished ---
-    const fetchedPublished = await client.dataAssembly.getPublished({
-      dataAssemblyId: created.sys.id,
-    })
+  it('gets a published data assembly by ID', async () => {
+    const fetched = await client.dataAssembly.getPublished({ dataAssemblyId: dataAssemblyId })
 
-    expect(fetchedPublished.sys.id).toBe(created.sys.id)
-    expect(fetchedPublished.sys.type).toBe('DataAssembly')
-    expect(fetchedPublished.name).toBe(`Integration Test DataAssembly Updated ${testRunId}`)
+    expect(fetched.sys.id).toBe(dataAssemblyId)
+    expect(fetched.sys.type).toBe('DataAssembly')
+  })
 
-    // --- GetManyPublished ---
-    const publishedCollection = await client.dataAssembly.getManyPublished({
-      query: { limit: 10 },
-    })
+  it('lists published data assemblies', async () => {
+    const collection = await client.dataAssembly.getManyPublished({ query: { limit: 10 } })
 
-    expect(publishedCollection.sys).toBeDefined()
-    expect(publishedCollection.pages).toBeDefined()
-    expect(publishedCollection.items).toBeDefined()
-    const foundPublished = publishedCollection.items.find(
-      (item) => item.sys.id === created.sys.id,
-    )
-    expect(foundPublished).toBeDefined()
+    expect(collection.sys).toBeDefined()
+    expect(collection.pages).toBeDefined()
+    expect(collection.items).toBeDefined()
 
-    // --- Unpublish ---
+    const found = collection.items.find((item) => item.sys.id === dataAssemblyId)
+    expect(found).toBeDefined()
+  })
+
+  it('unpublishes a data assembly', async () => {
+    const current = await client.dataAssembly.get({ dataAssemblyId: dataAssemblyId })
+
     const unpublished = await client.dataAssembly.unpublish({
-      dataAssemblyId: published.sys.id,
-      version: published.sys.version,
+      dataAssemblyId: dataAssemblyId,
+      version: current.sys.version,
     })
 
     expect(unpublished.sys.publishedVersion).toBeUndefined()
+  })
 
-    // --- Delete ---
-    await client.dataAssembly.delete({ dataAssemblyId: unpublished.sys.id })
+  it('deletes a data assembly', async () => {
+    const current = await client.dataAssembly.get({ dataAssemblyId: dataAssemblyId })
+    expect(current.sys.publishedVersion).toBeUndefined()
+
+    await client.dataAssembly.delete({ dataAssemblyId: dataAssemblyId })
 
     await expect(
-      client.dataAssembly.get({ dataAssemblyId: unpublished.sys.id }),
+      client.dataAssembly.get({ dataAssemblyId: dataAssemblyId }),
     ).rejects.toThrow()
 
-    createdIds.splice(createdIds.indexOf(created.sys.id), 1)
+    createdIds.splice(createdIds.indexOf(dataAssemblyId), 1)
   })
 })

@@ -11,9 +11,44 @@ describe('Fragment Integration', () => {
 
   const createdFragmentIds: string[] = []
   const createdComponentTypeIds: string[] = []
+  let fragmentId: string
+  let componentTypeId: string
 
   beforeAll(async () => {
     await sweepStaleExoEntities(client)
+
+    const ct = await client.componentType.create(
+      {},
+      {
+        name: `Integration Test CT for Fragment ${testRunId}`,
+        description: 'Backing component type for fragment integration test',
+        viewports: [testViewport],
+        contentProperties: [],
+        designProperties: [],
+        dimensionKeyMap: { designProperties: {} },
+      },
+    )
+    componentTypeId = ct.sys.id
+    createdComponentTypeIds.push(componentTypeId)
+
+    await client.componentType.publish({
+      componentTypeId: componentTypeId,
+      version: ct.sys.version,
+    })
+
+    const frag = await client.fragment.create(
+      {},
+      {
+        name: `Integration Test Fragment ${testRunId}`,
+        description: 'Created by integration test',
+        componentTypeId: componentTypeId,
+        viewports: [testViewport],
+        designProperties: {},
+        dimensionKeyMap: { designProperties: {} },
+      },
+    )
+    fragmentId = frag.sys.id
+    createdFragmentIds.push(fragmentId)
   })
 
   afterAll(async () => {
@@ -50,103 +85,89 @@ describe('Fragment Integration', () => {
     await timeoutToCalmRateLimiting()
   })
 
-  it('full lifecycle: create → get → update → getMany → publish → unpublish → delete', async () => {
-    // --- Setup: create and publish a backing ComponentType ---
-    let ct = await client.componentType.create(
-      {},
-      {
-        name: `Integration Test CT for Fragment ${testRunId}`,
-        description: 'Backing component type for fragment integration test',
-        viewports: [testViewport],
-        contentProperties: [],
-        designProperties: [],
-        dimensionKeyMap: { designProperties: {} },
-      },
-    )
-    createdComponentTypeIds.push(ct.sys.id)
+  it('creates a fragment with correct sys fields', async () => {
+    const frag = await client.fragment.get({ fragmentId: fragmentId })
 
-    ct = await client.componentType.publish({
-      componentTypeId: ct.sys.id,
-      version: ct.sys.version,
-    })
+    expect(frag.sys.id).toBeDefined()
+    expect(frag.sys.type).toBe('Fragment')
+    expect(frag.sys.version).toBeGreaterThanOrEqual(1)
+    expect(frag.sys.createdAt).toBeDefined()
+    expect(frag.sys.updatedAt).toBeDefined()
+    expect(frag.sys.createdBy).toBeDefined()
+    expect(frag.sys.componentType).toBeDefined()
+    expect(frag.sys.componentType.sys.id).toBe(componentTypeId)
+    expect(frag.name).toBe(`Integration Test Fragment ${testRunId}`)
+  })
 
-    // --- Create ---
-    const created = await client.fragment.create(
-      {},
-      {
-        name: `Integration Test Fragment ${testRunId}`,
-        description: 'Created by integration test',
-        componentTypeId: ct.sys.id,
-        viewports: [testViewport],
-        designProperties: {},
-        dimensionKeyMap: { designProperties: {} },
-      },
-    )
-    createdFragmentIds.push(created.sys.id)
+  it('gets a fragment by ID', async () => {
+    const fetched = await client.fragment.get({ fragmentId: fragmentId })
 
-    expect(created.sys.id).toBeDefined()
-    expect(created.sys.type).toBe('Fragment')
-    expect(created.sys.version).toBeGreaterThanOrEqual(1)
-    expect(created.sys.createdAt).toBeDefined()
-    expect(created.sys.createdBy).toBeDefined()
-    expect(created.sys.componentType).toBeDefined()
-    expect(created.sys.componentType.sys.id).toBe(ct.sys.id)
-    expect(created.name).toBe(`Integration Test Fragment ${testRunId}`)
-
-    // --- Get ---
-    const fetched = await client.fragment.get({ fragmentId: created.sys.id })
-
-    expect(fetched.sys.id).toBe(created.sys.id)
+    expect(fetched.sys.id).toBe(fragmentId)
     expect(fetched.sys.type).toBe('Fragment')
+  })
 
-    // --- Update ---
+  it('updates a fragment', async () => {
+    const current = await client.fragment.get({ fragmentId: fragmentId })
+
     const updated = await client.fragment.update(
-      { fragmentId: fetched.sys.id },
+      { fragmentId: fragmentId },
       {
-        ...fetched,
-        sys: { id: fetched.sys.id, type: 'Fragment' as const, version: fetched.sys.version },
-        componentTypeId: ct.sys.id,
+        ...current,
+        sys: { id: current.sys.id, type: 'Fragment' as const, version: current.sys.version },
+        componentTypeId: componentTypeId,
         name: `Integration Test Fragment Updated ${testRunId}`,
       },
     )
 
     expect(updated.name).toBe(`Integration Test Fragment Updated ${testRunId}`)
-    expect(updated.sys.version).toBeGreaterThan(fetched.sys.version)
+    expect(updated.sys.version).toBeGreaterThan(current.sys.version)
+  })
 
-    // --- GetMany (cursor pagination) ---
+  it('lists fragments with cursor pagination', async () => {
     const collection = await client.fragment.getMany({ query: { limit: 10 } })
 
     expect(collection.sys).toBeDefined()
     expect(collection.pages).toBeDefined()
     expect(collection.items).toBeDefined()
     expect(Array.isArray(collection.items)).toBe(true)
-    const found = collection.items.find((item) => item.sys.id === created.sys.id)
-    expect(found).toBeDefined()
 
-    // --- Publish ---
+    const found = collection.items.find((item) => item.sys.id === fragmentId)
+    expect(found).toBeDefined()
+  })
+
+  it('publishes a fragment', async () => {
+    const current = await client.fragment.get({ fragmentId: fragmentId })
+
     const published = await client.fragment.publish({
-      fragmentId: updated.sys.id,
-      version: updated.sys.version,
+      fragmentId: fragmentId,
+      version: current.sys.version,
     })
 
     expect(published.sys.publishedVersion).toBeDefined()
     expect(published.sys.publishedAt).toBeDefined()
+  })
 
-    // --- Unpublish ---
+  it('unpublishes a fragment', async () => {
+    const current = await client.fragment.get({ fragmentId: fragmentId })
+
     const unpublished = await client.fragment.unpublish({
-      fragmentId: published.sys.id,
-      version: published.sys.version,
+      fragmentId: fragmentId,
+      version: current.sys.version,
     })
 
     expect(unpublished.sys.publishedVersion).toBeUndefined()
+  })
 
-    // --- Delete ---
-    await client.fragment.delete({ fragmentId: unpublished.sys.id })
+  it('deletes a fragment', async () => {
+    const current = await client.fragment.get({ fragmentId: fragmentId })
+    expect(current.sys.publishedVersion).toBeUndefined()
+
+    await client.fragment.delete({ fragmentId: fragmentId })
 
     await expect(
-      client.fragment.get({ fragmentId: unpublished.sys.id }),
+      client.fragment.get({ fragmentId: fragmentId }),
     ).rejects.toThrow()
 
-    createdFragmentIds.splice(createdFragmentIds.indexOf(created.sys.id), 1)
+    createdFragmentIds.splice(createdFragmentIds.indexOf(fragmentId), 1)
   })
 })

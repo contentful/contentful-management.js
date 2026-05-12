@@ -11,9 +11,45 @@ describe('Experience Integration', () => {
 
   const createdExperienceIds: string[] = []
   const createdComponentTypeIds: string[] = []
+  let experienceId: string
+  let componentTypeId: string
 
   beforeAll(async () => {
     await sweepStaleExoEntities(client)
+
+    const ct = await client.componentType.create(
+      {},
+      {
+        name: `Integration Test CT for Experience ${testRunId}`,
+        description: 'Backing component type for experience integration test',
+        viewports: [testViewport],
+        contentProperties: [],
+        designProperties: [],
+        dimensionKeyMap: { designProperties: {} },
+      },
+    )
+    componentTypeId = ct.sys.id
+    createdComponentTypeIds.push(componentTypeId)
+
+    await client.componentType.publish({
+      componentTypeId: componentTypeId,
+      version: ct.sys.version,
+    })
+
+    const exp = await client.experience.create(
+      {},
+      {
+        name: `Integration Test Experience ${testRunId}`,
+        description: 'Created by integration test',
+        componentTypeId: componentTypeId,
+        viewports: [testViewport],
+        contentProperties: {},
+        designProperties: {},
+        dimensionKeyMap: { designProperties: {} },
+      },
+    )
+    experienceId = exp.sys.id
+    createdExperienceIds.push(experienceId)
   })
 
   afterAll(async () => {
@@ -50,107 +86,95 @@ describe('Experience Integration', () => {
     await timeoutToCalmRateLimiting()
   })
 
-  it('full lifecycle: create → get → update → getMany → publish → locale publish → unpublish → delete', async () => {
-    // --- Setup: create and publish a backing ComponentType ---
-    let ct = await client.componentType.create(
-      {},
-      {
-        name: `Integration Test CT for Experience ${testRunId}`,
-        description: 'Backing component type for experience integration test',
-        viewports: [testViewport],
-        contentProperties: [],
-        designProperties: [],
-        dimensionKeyMap: { designProperties: {} },
-      },
-    )
-    createdComponentTypeIds.push(ct.sys.id)
+  it('creates an experience with correct sys fields', async () => {
+    const exp = await client.experience.get({ experienceId: experienceId })
 
-    ct = await client.componentType.publish({
-      componentTypeId: ct.sys.id,
-      version: ct.sys.version,
-    })
+    expect(exp.sys.id).toBeDefined()
+    expect(exp.sys.type).toBe('Experience')
+    expect(exp.sys.version).toBeGreaterThanOrEqual(1)
+    expect(exp.sys.createdAt).toBeDefined()
+    expect(exp.sys.updatedAt).toBeDefined()
+    expect(exp.sys.createdBy).toBeDefined()
+    expect(exp.sys.componentType).toBeDefined()
+    expect(exp.sys.componentType!.sys.id).toBe(componentTypeId)
+    expect(exp.name).toBe(`Integration Test Experience ${testRunId}`)
+  })
 
-    // --- Create ---
-    const created = await client.experience.create(
-      {},
-      {
-        name: `Integration Test Experience ${testRunId}`,
-        description: 'Created by integration test',
-        componentTypeId: ct.sys.id,
-        viewports: [testViewport],
-        contentProperties: {},
-        designProperties: {},
-        dimensionKeyMap: { designProperties: {} },
-      },
-    )
-    createdExperienceIds.push(created.sys.id)
+  it('gets an experience by ID', async () => {
+    const fetched = await client.experience.get({ experienceId: experienceId })
 
-    expect(created.sys.id).toBeDefined()
-    expect(created.sys.type).toBe('Experience')
-    expect(created.sys.version).toBeGreaterThanOrEqual(1)
-    expect(created.sys.createdAt).toBeDefined()
-    expect(created.sys.createdBy).toBeDefined()
-    expect(created.sys.componentType).toBeDefined()
-    expect(created.sys.componentType!.sys.id).toBe(ct.sys.id)
-    expect(created.name).toBe(`Integration Test Experience ${testRunId}`)
-
-    // --- Get ---
-    const fetched = await client.experience.get({ experienceId: created.sys.id })
-
-    expect(fetched.sys.id).toBe(created.sys.id)
+    expect(fetched.sys.id).toBe(experienceId)
     expect(fetched.sys.type).toBe('Experience')
+  })
 
-    // --- Update ---
+  it('updates an experience', async () => {
+    const current = await client.experience.get({ experienceId: experienceId })
+
     const updated = await client.experience.update(
-      { experienceId: fetched.sys.id },
-      { ...fetched, name: `Integration Test Experience Updated ${testRunId}` },
+      { experienceId: experienceId },
+      { ...current, name: `Integration Test Experience Updated ${testRunId}` },
     )
 
     expect(updated.name).toBe(`Integration Test Experience Updated ${testRunId}`)
-    expect(updated.sys.version).toBeGreaterThan(fetched.sys.version)
+    expect(updated.sys.version).toBeGreaterThan(current.sys.version)
+  })
 
-    // --- GetMany (cursor pagination) ---
+  it('lists experiences with cursor pagination', async () => {
     const collection = await client.experience.getMany({ query: { limit: 10 } })
 
     expect(collection.sys).toBeDefined()
     expect(collection.pages).toBeDefined()
     expect(collection.items).toBeDefined()
     expect(Array.isArray(collection.items)).toBe(true)
-    const found = collection.items.find((item) => item.sys.id === created.sys.id)
-    expect(found).toBeDefined()
 
-    // --- Publish (full — all locales) ---
+    const found = collection.items.find((item) => item.sys.id === experienceId)
+    expect(found).toBeDefined()
+  })
+
+  it('publishes an experience (full publish)', async () => {
+    const current = await client.experience.get({ experienceId: experienceId })
+
     const published = await client.experience.publish({
-      experienceId: updated.sys.id,
-      version: updated.sys.version,
+      experienceId: experienceId,
+      version: current.sys.version,
     })
 
     expect(published.sys.publishedVersion).toBeDefined()
     expect(published.sys.publishedAt).toBeDefined()
+  })
 
-    // --- Publish (locale-aware add) ---
-    const localePublished = await client.experience.publish(
-      { experienceId: published.sys.id, version: published.sys.version },
+  it('publishes an experience with locale-aware add', async () => {
+    const current = await client.experience.get({ experienceId: experienceId })
+
+    const published = await client.experience.publish(
+      { experienceId: experienceId, version: current.sys.version },
       { add: ['en-US'] },
     )
 
-    expect(localePublished.sys.publishedVersion).toBeDefined()
+    expect(published.sys.publishedVersion).toBeDefined()
+  })
 
-    // --- Unpublish ---
+  it('unpublishes an experience', async () => {
+    const current = await client.experience.get({ experienceId: experienceId })
+
     const unpublished = await client.experience.unpublish({
-      experienceId: localePublished.sys.id,
-      version: localePublished.sys.version,
+      experienceId: experienceId,
+      version: current.sys.version,
     })
 
     expect(unpublished.sys.publishedVersion).toBeUndefined()
+  })
 
-    // --- Delete ---
-    await client.experience.delete({ experienceId: unpublished.sys.id })
+  it('deletes an experience', async () => {
+    const current = await client.experience.get({ experienceId: experienceId })
+    expect(current.sys.publishedVersion).toBeUndefined()
+
+    await client.experience.delete({ experienceId: experienceId })
 
     await expect(
-      client.experience.get({ experienceId: unpublished.sys.id }),
+      client.experience.get({ experienceId: experienceId }),
     ).rejects.toThrow()
 
-    createdExperienceIds.splice(createdExperienceIds.indexOf(created.sys.id), 1)
+    createdExperienceIds.splice(createdExperienceIds.indexOf(experienceId), 1)
   })
 })
