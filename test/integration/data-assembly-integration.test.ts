@@ -48,7 +48,7 @@ describe('DataAssembly Integration', () => {
           ],
         },
         metadata: { tags: [] },
-        name: `Integration Test DataAssembly [${testRunId}]`,
+        name: `Integration Test DataAssembly ${testRunId}`,
         description: 'Created by integration test',
         parameters: {},
         resolvers: {
@@ -70,7 +70,7 @@ describe('DataAssembly Integration', () => {
     expect(created.sys.createdAt).toBeDefined()
     expect(created.sys.createdBy).toBeDefined()
     expect(created.sys.dataType).toBeDefined()
-    expect(created.name).toBe(`Integration Test DataAssembly [${testRunId}]`)
+    expect(created.name).toBe(`Integration Test DataAssembly ${testRunId}`)
 
     // --- Get ---
     const fetched = await client.dataAssembly.get({ dataAssemblyId: created.sys.id })
@@ -91,11 +91,11 @@ describe('DataAssembly Integration', () => {
           version: fetched.sys.version,
           dataType: fetched.sys.dataType,
         },
-        name: `Integration Test DataAssembly Updated [${testRunId}]`,
+        name: `Integration Test DataAssembly Updated ${testRunId}`,
       },
     )
 
-    expect(updated.name).toBe(`Integration Test DataAssembly Updated [${testRunId}]`)
+    expect(updated.name).toBe(`Integration Test DataAssembly Updated ${testRunId}`)
     expect(updated.sys.version).toBeGreaterThan(fetched.sys.version)
 
     // --- GetMany (cursor pagination) ---
@@ -124,7 +124,7 @@ describe('DataAssembly Integration', () => {
 
     expect(fetchedPublished.sys.id).toBe(created.sys.id)
     expect(fetchedPublished.sys.type).toBe('DataAssembly')
-    expect(fetchedPublished.name).toBe(`Integration Test DataAssembly Updated [${testRunId}]`)
+    expect(fetchedPublished.name).toBe(`Integration Test DataAssembly Updated ${testRunId}`)
 
     // --- GetManyPublished ---
     const publishedCollection = await client.dataAssembly.getManyPublished({

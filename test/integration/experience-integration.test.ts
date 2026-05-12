@@ -55,7 +55,7 @@ describe('Experience Integration', () => {
     let ct = await client.componentType.create(
       {},
       {
-        name: `Integration Test CT for Experience [${testRunId}]`,
+        name: `Integration Test CT for Experience ${testRunId}`,
         description: 'Backing component type for experience integration test',
         viewports: [testViewport],
         contentProperties: [],
@@ -74,7 +74,7 @@ describe('Experience Integration', () => {
     const created = await client.experience.create(
       {},
       {
-        name: `Integration Test Experience [${testRunId}]`,
+        name: `Integration Test Experience ${testRunId}`,
         description: 'Created by integration test',
         componentTypeId: ct.sys.id,
         viewports: [testViewport],
@@ -92,7 +92,7 @@ describe('Experience Integration', () => {
     expect(created.sys.createdBy).toBeDefined()
     expect(created.sys.componentType).toBeDefined()
     expect(created.sys.componentType!.sys.id).toBe(ct.sys.id)
-    expect(created.name).toBe(`Integration Test Experience [${testRunId}]`)
+    expect(created.name).toBe(`Integration Test Experience ${testRunId}`)
 
     // --- Get ---
     const fetched = await client.experience.get({ experienceId: created.sys.id })
@@ -103,10 +103,10 @@ describe('Experience Integration', () => {
     // --- Update ---
     const updated = await client.experience.update(
       { experienceId: fetched.sys.id },
-      { ...fetched, name: `Integration Test Experience Updated [${testRunId}]` },
+      { ...fetched, name: `Integration Test Experience Updated ${testRunId}` },
     )
 
-    expect(updated.name).toBe(`Integration Test Experience Updated [${testRunId}]`)
+    expect(updated.name).toBe(`Integration Test Experience Updated ${testRunId}`)
     expect(updated.sys.version).toBeGreaterThan(fetched.sys.version)
 
     // --- GetMany (cursor pagination) ---

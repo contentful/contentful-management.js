@@ -39,7 +39,7 @@ describe('ComponentType Integration', () => {
     const created = await client.componentType.create(
       {},
       {
-        name: `Integration Test Component [${testRunId}]`,
+        name: `Integration Test Component ${testRunId}`,
         description: 'Created by integration test',
         viewports: [testViewport],
         contentProperties: [
@@ -59,7 +59,7 @@ describe('ComponentType Integration', () => {
     expect(created.sys.createdAt).toBeDefined()
     expect(created.sys.updatedAt).toBeDefined()
     expect(created.sys.createdBy).toBeDefined()
-    expect(created.name).toBe(`Integration Test Component [${testRunId}]`)
+    expect(created.name).toBe(`Integration Test Component ${testRunId}`)
 
     // --- Get ---
     const fetched = await client.componentType.get({
@@ -74,10 +74,10 @@ describe('ComponentType Integration', () => {
     // --- Update ---
     const updated = await client.componentType.update(
       { componentTypeId: fetched.sys.id },
-      { ...fetched, name: `Integration Test Component Updated [${testRunId}]` },
+      { ...fetched, name: `Integration Test Component Updated ${testRunId}` },
     )
 
-    expect(updated.name).toBe(`Integration Test Component Updated [${testRunId}]`)
+    expect(updated.name).toBe(`Integration Test Component Updated ${testRunId}`)
     expect(updated.sys.version).toBeGreaterThan(fetched.sys.version)
 
     // --- GetMany (cursor pagination) ---

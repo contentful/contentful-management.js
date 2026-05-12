@@ -1,8 +1,9 @@
 import type { PlainClientAPI } from '../../../lib/index'
+import { generateRandomId } from '../../helpers'
 
 export const TEST_PREFIX = 'Integration Test'
 
-export const testRunId = `ci-${Date.now()}`
+export const testRunId = generateRandomId('exo')
 
 export const testViewport = {
   id: 'desktop',
