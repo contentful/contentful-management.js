@@ -20,9 +20,7 @@ describe('DataAssembly Integration', () => {
       {
         sys: {
           type: 'DataAssembly',
-          dataType: [
-            { id: 'title', name: 'Title', type: 'String', required: false },
-          ],
+          dataType: [{ id: 'title', name: 'Title', type: 'String', required: false }],
         },
         metadata: { tags: [] },
         name: testName('DataAssembly'),
@@ -157,9 +155,7 @@ describe('DataAssembly Integration', () => {
 
     await client.dataAssembly.delete({ dataAssemblyId: dataAssemblyId })
 
-    await expect(
-      client.dataAssembly.get({ dataAssemblyId: dataAssemblyId }),
-    ).rejects.toThrow()
+    await expect(client.dataAssembly.get({ dataAssemblyId: dataAssemblyId })).rejects.toThrow()
 
     createdIds.splice(createdIds.indexOf(dataAssemblyId), 1)
   })

@@ -21,12 +21,8 @@ describe('ComponentType Integration', () => {
         name: testName('Component'),
         description: 'Created by integration test',
         viewports: [testViewport],
-        contentProperties: [
-          { id: 'title', name: 'Title', type: 'String', required: false },
-        ],
-        designProperties: [
-          { id: 'color', name: 'Color', type: 'Symbol', required: false },
-        ],
+        contentProperties: [{ id: 'title', name: 'Title', type: 'String', required: false }],
+        designProperties: [{ id: 'color', name: 'Color', type: 'Symbol', required: false }],
         dimensionKeyMap: { designProperties: {} },
       },
     )
@@ -128,9 +124,7 @@ describe('ComponentType Integration', () => {
 
     await client.componentType.delete({ componentTypeId: componentTypeId })
 
-    await expect(
-      client.componentType.get({ componentTypeId: componentTypeId }),
-    ).rejects.toThrow()
+    await expect(client.componentType.get({ componentTypeId: componentTypeId })).rejects.toThrow()
 
     createdIds.splice(createdIds.indexOf(componentTypeId), 1)
   })

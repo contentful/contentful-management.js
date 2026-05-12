@@ -164,9 +164,7 @@ describe('Fragment Integration', () => {
 
     await client.fragment.delete({ fragmentId: fragmentId })
 
-    await expect(
-      client.fragment.get({ fragmentId: fragmentId }),
-    ).rejects.toThrow()
+    await expect(client.fragment.get({ fragmentId: fragmentId })).rejects.toThrow()
 
     createdFragmentIds.splice(createdFragmentIds.indexOf(fragmentId), 1)
   })

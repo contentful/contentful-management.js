@@ -21,9 +21,7 @@ describe('Template Integration', () => {
         name: testName('Template'),
         description: 'Created by integration test',
         viewports: [testViewport],
-        contentProperties: [
-          { id: 'heading', name: 'Heading', type: 'String', required: false },
-        ],
+        contentProperties: [{ id: 'heading', name: 'Heading', type: 'String', required: false }],
         designProperties: [
           { id: 'bgColor', name: 'Background Color', type: 'Symbol', required: false },
         ],
@@ -132,9 +130,7 @@ describe('Template Integration', () => {
 
     await client.template.delete({ templateId: templateId })
 
-    await expect(
-      client.template.get({ templateId: templateId }),
-    ).rejects.toThrow()
+    await expect(client.template.get({ templateId: templateId })).rejects.toThrow()
 
     createdIds.splice(createdIds.indexOf(templateId), 1)
   })

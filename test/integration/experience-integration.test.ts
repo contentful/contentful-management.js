@@ -172,9 +172,7 @@ describe('Experience Integration', () => {
 
     await client.experience.delete({ experienceId: experienceId })
 
-    await expect(
-      client.experience.get({ experienceId: experienceId }),
-    ).rejects.toThrow()
+    await expect(client.experience.get({ experienceId: experienceId })).rejects.toThrow()
 
     createdExperienceIds.splice(createdExperienceIds.indexOf(experienceId), 1)
   })
