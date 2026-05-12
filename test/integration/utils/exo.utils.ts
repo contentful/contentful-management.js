@@ -1,9 +1,11 @@
 import type { PlainClientAPI } from '../../../lib/index'
 import { generateRandomId } from '../../helpers'
 
-export const TEST_PREFIX = 'Integration Test'
+export const TEST_PREFIX = '[ExO Integration Test]'
 
-export const testRunId = generateRandomId('exo')
+const testRunId = generateRandomId('exo')
+
+export const testName = (entity: string) => `${TEST_PREFIX} ${entity} ${testRunId}`
 
 export const testViewport = {
   id: 'desktop',

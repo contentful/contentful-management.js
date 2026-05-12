@@ -1,7 +1,7 @@
 import { describe, it, beforeAll, afterAll, expect } from 'vitest'
 import { initPlainClient, timeoutToCalmRateLimiting } from '../helpers'
 import { TestDefaults } from '../defaults'
-import { testRunId, testViewport, sweepStaleExoEntities } from './utils/exo.utils'
+import { testName, testViewport, sweepStaleExoEntities } from './utils/exo.utils'
 
 describe('Experience Integration', () => {
   const client = initPlainClient({
@@ -20,7 +20,7 @@ describe('Experience Integration', () => {
     const ct = await client.componentType.create(
       {},
       {
-        name: `Integration Test CT for Experience ${testRunId}`,
+        name: testName('CT for Experience'),
         description: 'Backing component type for experience integration test',
         viewports: [testViewport],
         contentProperties: [],
@@ -39,7 +39,7 @@ describe('Experience Integration', () => {
     const exp = await client.experience.create(
       {},
       {
-        name: `Integration Test Experience ${testRunId}`,
+        name: testName('Experience'),
         description: 'Created by integration test',
         componentTypeId: componentTypeId,
         viewports: [testViewport],
@@ -97,7 +97,7 @@ describe('Experience Integration', () => {
     expect(exp.sys.createdBy).toBeDefined()
     expect(exp.sys.componentType).toBeDefined()
     expect(exp.sys.componentType!.sys.id).toBe(componentTypeId)
-    expect(exp.name).toBe(`Integration Test Experience ${testRunId}`)
+    expect(exp.name).toBe(testName('Experience'))
   })
 
   it('gets an experience by ID', async () => {
@@ -112,10 +112,10 @@ describe('Experience Integration', () => {
 
     const updated = await client.experience.update(
       { experienceId: experienceId },
-      { ...current, name: `Integration Test Experience Updated ${testRunId}` },
+      { ...current, name: testName('Experience Updated') },
     )
 
-    expect(updated.name).toBe(`Integration Test Experience Updated ${testRunId}`)
+    expect(updated.name).toBe(testName('Experience Updated'))
     expect(updated.sys.version).toBeGreaterThan(current.sys.version)
   })
 

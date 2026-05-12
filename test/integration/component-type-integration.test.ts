@@ -1,7 +1,7 @@
 import { describe, it, beforeAll, afterAll, expect } from 'vitest'
 import { initPlainClient, timeoutToCalmRateLimiting } from '../helpers'
 import { TestDefaults } from '../defaults'
-import { testRunId, testViewport, sweepStaleExoEntities } from './utils/exo.utils'
+import { testName, testViewport, sweepStaleExoEntities } from './utils/exo.utils'
 
 describe('ComponentType Integration', () => {
   const client = initPlainClient({
@@ -18,7 +18,7 @@ describe('ComponentType Integration', () => {
     const created = await client.componentType.create(
       {},
       {
-        name: `Integration Test Component ${testRunId}`,
+        name: testName('Component'),
         description: 'Created by integration test',
         viewports: [testViewport],
         contentProperties: [
@@ -62,7 +62,7 @@ describe('ComponentType Integration', () => {
     expect(ct.sys.createdAt).toBeDefined()
     expect(ct.sys.updatedAt).toBeDefined()
     expect(ct.sys.createdBy).toBeDefined()
-    expect(ct.name).toBe(`Integration Test Component ${testRunId}`)
+    expect(ct.name).toBe(testName('Component'))
     expect(ct.description).toBe('Created by integration test')
   })
 
@@ -80,10 +80,10 @@ describe('ComponentType Integration', () => {
 
     const updated = await client.componentType.update(
       { componentTypeId: componentTypeId },
-      { ...current, name: `Integration Test Component Updated ${testRunId}` },
+      { ...current, name: testName('Component Updated') },
     )
 
-    expect(updated.name).toBe(`Integration Test Component Updated ${testRunId}`)
+    expect(updated.name).toBe(testName('Component Updated'))
     expect(updated.sys.version).toBeGreaterThan(current.sys.version)
   })
 

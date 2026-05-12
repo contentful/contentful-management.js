@@ -1,7 +1,7 @@
 import { describe, it, beforeAll, afterAll, expect } from 'vitest'
 import { initPlainClient, timeoutToCalmRateLimiting } from '../helpers'
 import { TestDefaults } from '../defaults'
-import { testRunId, testViewport, sweepStaleExoEntities } from './utils/exo.utils'
+import { testName, testViewport, sweepStaleExoEntities } from './utils/exo.utils'
 
 describe('Fragment Integration', () => {
   const client = initPlainClient({
@@ -20,7 +20,7 @@ describe('Fragment Integration', () => {
     const ct = await client.componentType.create(
       {},
       {
-        name: `Integration Test CT for Fragment ${testRunId}`,
+        name: testName('CT for Fragment'),
         description: 'Backing component type for fragment integration test',
         viewports: [testViewport],
         contentProperties: [],
@@ -39,7 +39,7 @@ describe('Fragment Integration', () => {
     const frag = await client.fragment.create(
       {},
       {
-        name: `Integration Test Fragment ${testRunId}`,
+        name: testName('Fragment'),
         description: 'Created by integration test',
         componentTypeId: componentTypeId,
         viewports: [testViewport],
@@ -96,7 +96,7 @@ describe('Fragment Integration', () => {
     expect(frag.sys.createdBy).toBeDefined()
     expect(frag.sys.componentType).toBeDefined()
     expect(frag.sys.componentType.sys.id).toBe(componentTypeId)
-    expect(frag.name).toBe(`Integration Test Fragment ${testRunId}`)
+    expect(frag.name).toBe(testName('Fragment'))
   })
 
   it('gets a fragment by ID', async () => {
@@ -115,11 +115,11 @@ describe('Fragment Integration', () => {
         ...current,
         sys: { id: current.sys.id, type: 'Fragment' as const, version: current.sys.version },
         componentTypeId: componentTypeId,
-        name: `Integration Test Fragment Updated ${testRunId}`,
+        name: testName('Fragment Updated'),
       },
     )
 
-    expect(updated.name).toBe(`Integration Test Fragment Updated ${testRunId}`)
+    expect(updated.name).toBe(testName('Fragment Updated'))
     expect(updated.sys.version).toBeGreaterThan(current.sys.version)
   })
 

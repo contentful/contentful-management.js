@@ -1,7 +1,7 @@
 import { describe, it, beforeAll, afterAll, expect } from 'vitest'
 import { initPlainClient, timeoutToCalmRateLimiting } from '../helpers'
 import { TestDefaults } from '../defaults'
-import { testRunId, sweepStaleExoEntities } from './utils/exo.utils'
+import { testName, sweepStaleExoEntities } from './utils/exo.utils'
 
 describe('DataAssembly Integration', () => {
   const client = initPlainClient({
@@ -27,7 +27,7 @@ describe('DataAssembly Integration', () => {
           ],
         },
         metadata: { tags: [] },
-        name: `Integration Test DataAssembly ${testRunId}`,
+        name: testName('DataAssembly'),
         description: 'Created by integration test',
         parameters: {},
         resolvers: {
@@ -73,7 +73,7 @@ describe('DataAssembly Integration', () => {
     expect(da.sys.createdAt).toBeDefined()
     expect(da.sys.createdBy).toBeDefined()
     expect(da.sys.dataType).toBeDefined()
-    expect(da.name).toBe(`Integration Test DataAssembly ${testRunId}`)
+    expect(da.name).toBe(testName('DataAssembly'))
     expect(da.description).toBe('Created by integration test')
   })
 
@@ -99,11 +99,11 @@ describe('DataAssembly Integration', () => {
           version: current.sys.version,
           dataType: current.sys.dataType,
         },
-        name: `Integration Test DataAssembly Updated ${testRunId}`,
+        name: testName('DataAssembly Updated'),
       },
     )
 
-    expect(updated.name).toBe(`Integration Test DataAssembly Updated ${testRunId}`)
+    expect(updated.name).toBe(testName('DataAssembly Updated'))
     expect(updated.sys.version).toBeGreaterThan(current.sys.version)
   })
 

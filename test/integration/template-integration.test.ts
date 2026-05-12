@@ -1,7 +1,7 @@
 import { describe, it, beforeAll, afterAll, expect } from 'vitest'
 import { initPlainClient, timeoutToCalmRateLimiting } from '../helpers'
 import { TestDefaults } from '../defaults'
-import { testRunId, testViewport, sweepStaleExoEntities } from './utils/exo.utils'
+import { testName, testViewport, sweepStaleExoEntities } from './utils/exo.utils'
 
 describe('Template Integration', () => {
   const client = initPlainClient({
@@ -18,7 +18,7 @@ describe('Template Integration', () => {
     const created = await client.template.create(
       {},
       {
-        name: `Integration Test Template ${testRunId}`,
+        name: testName('Template'),
         description: 'Created by integration test',
         viewports: [testViewport],
         contentProperties: [
@@ -62,7 +62,7 @@ describe('Template Integration', () => {
     expect(template.sys.createdAt).toBeDefined()
     expect(template.sys.updatedAt).toBeDefined()
     expect(template.sys.createdBy).toBeDefined()
-    expect(template.name).toBe(`Integration Test Template ${testRunId}`)
+    expect(template.name).toBe(testName('Template'))
     expect(template.description).toBe('Created by integration test')
   })
 
@@ -83,11 +83,11 @@ describe('Template Integration', () => {
       {
         ...current,
         sys: { id: current.sys.id, type: 'Template' as const, version: current.sys.version },
-        name: `Integration Test Template Updated ${testRunId}`,
+        name: testName('Template Updated'),
       },
     )
 
-    expect(updated.name).toBe(`Integration Test Template Updated ${testRunId}`)
+    expect(updated.name).toBe(testName('Template Updated'))
     expect(updated.sys.version).toBeGreaterThan(current.sys.version)
   })
 
