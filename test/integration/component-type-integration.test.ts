@@ -1,7 +1,7 @@
 import { describe, it, beforeAll, afterAll, expect } from 'vitest'
 import { initPlainClient, timeoutToCalmRateLimiting } from '../helpers'
 import { TestDefaults } from '../defaults'
-import type { ComponentTypeProps } from '../../lib/entities/component-type'
+import { testRunId, testViewport, sweepStaleExoEntities } from './utils/exo.utils'
 
 describe('ComponentType Integration', () => {
   const client = initPlainClient({
@@ -9,58 +9,23 @@ describe('ComponentType Integration', () => {
     environmentId: TestDefaults.environmentId,
   })
 
-  const createdComponentTypeIds: string[] = []
-  let componentType: ComponentTypeProps
+  const createdIds: string[] = []
 
   beforeAll(async () => {
-    componentType = await client.componentType.create(
-      {},
-      {
-        name: 'Integration Test Component',
-        description: 'Created by integration test',
-        viewports: [
-          {
-            id: 'desktop',
-            query: '(min-width: 1024px)',
-            displayName: 'Desktop',
-            previewSize: '100%',
-          },
-        ],
-        contentProperties: [
-          {
-            id: 'title',
-            name: 'Title',
-            type: 'String',
-            required: false,
-          },
-        ],
-        designProperties: [
-          {
-            id: 'color',
-            name: 'Color',
-            type: 'Symbol',
-            required: false,
-          },
-        ],
-        dimensionKeyMap: { designProperties: {} },
-      },
-    )
-    createdComponentTypeIds.push(componentType.sys.id)
+    await sweepStaleExoEntities(client)
   })
 
   afterAll(async () => {
-    for (const id of createdComponentTypeIds) {
+    for (const id of createdIds) {
       try {
         const latest = await client.componentType.get({ componentTypeId: id })
         if (latest.sys.publishedVersion) {
-          const unpublished = await client.componentType.unpublish({
+          await client.componentType.unpublish({
             componentTypeId: id,
             version: latest.sys.version,
           })
-          await client.componentType.delete({ componentTypeId: id })
-        } else {
-          await client.componentType.delete({ componentTypeId: id })
         }
+        await client.componentType.delete({ componentTypeId: id })
       } catch {
         // entity already deleted or not found
       }
@@ -69,88 +34,87 @@ describe('ComponentType Integration', () => {
     await timeoutToCalmRateLimiting()
   })
 
-  it('creates a component type with correct sys fields', () => {
-    expect(componentType.sys.id).toBeDefined()
-    expect(componentType.sys.type).toBe('ComponentType')
-    expect(componentType.sys.version).toBeGreaterThanOrEqual(1)
-    expect(componentType.sys.createdAt).toBeDefined()
-    expect(componentType.sys.updatedAt).toBeDefined()
-    expect(componentType.sys.createdBy).toBeDefined()
-    expect(componentType.name).toBe('Integration Test Component')
-    expect(componentType.description).toBe('Created by integration test')
-  })
-
-  it('gets a component type by ID', async () => {
-    const fetched = await client.componentType.get({
-      componentTypeId: componentType.sys.id,
-    })
-
-    expect(fetched.sys.id).toBe(componentType.sys.id)
-    expect(fetched.sys.type).toBe('ComponentType')
-    expect(fetched.name).toBe('Integration Test Component')
-    expect(fetched.contentProperties).toHaveLength(1)
-    expect(fetched.designProperties).toHaveLength(1)
-  })
-
-  it('updates a component type', async () => {
-    const current = await client.componentType.get({
-      componentTypeId: componentType.sys.id,
-    })
-
-    const updated = await client.componentType.update(
-      { componentTypeId: current.sys.id },
+  it('full lifecycle: create → get → update → getMany → publish → unpublish → delete', async () => {
+    // --- Create ---
+    const created = await client.componentType.create(
+      {},
       {
-        ...current,
-        name: 'Updated Integration Test Component',
+        name: `${testRunId} Component`,
+        description: 'Created by integration test',
+        viewports: [testViewport],
+        contentProperties: [
+          { id: 'title', name: 'Title', type: 'String', required: false },
+        ],
+        designProperties: [
+          { id: 'color', name: 'Color', type: 'Symbol', required: false },
+        ],
+        dimensionKeyMap: { designProperties: {} },
       },
     )
+    createdIds.push(created.sys.id)
 
-    expect(updated.name).toBe('Updated Integration Test Component')
-    expect(updated.sys.version).toBeGreaterThan(current.sys.version)
-    componentType = updated
-  })
+    expect(created.sys.id).toBeDefined()
+    expect(created.sys.type).toBe('ComponentType')
+    expect(created.sys.version).toBeGreaterThanOrEqual(1)
+    expect(created.sys.createdAt).toBeDefined()
+    expect(created.sys.updatedAt).toBeDefined()
+    expect(created.sys.createdBy).toBeDefined()
+    expect(created.name).toBe(`${testRunId} Component`)
 
-  it('lists component types with cursor pagination', async () => {
-    const collection = await client.componentType.getMany({
-      query: { limit: 10 },
+    // --- Get ---
+    const fetched = await client.componentType.get({
+      componentTypeId: created.sys.id,
     })
+
+    expect(fetched.sys.id).toBe(created.sys.id)
+    expect(fetched.sys.type).toBe('ComponentType')
+    expect(fetched.contentProperties).toHaveLength(1)
+    expect(fetched.designProperties).toHaveLength(1)
+
+    // --- Update ---
+    const updated = await client.componentType.update(
+      { componentTypeId: fetched.sys.id },
+      { ...fetched, name: `${testRunId} Component Updated` },
+    )
+
+    expect(updated.name).toBe(`${testRunId} Component Updated`)
+    expect(updated.sys.version).toBeGreaterThan(fetched.sys.version)
+
+    // --- GetMany (cursor pagination) ---
+    const collection = await client.componentType.getMany({ query: { limit: 10 } })
 
     expect(collection.sys).toBeDefined()
     expect(collection.pages).toBeDefined()
     expect(collection.items).toBeDefined()
     expect(Array.isArray(collection.items)).toBe(true)
-    expect(collection.items.length).toBeGreaterThanOrEqual(1)
-
-    const found = collection.items.find((item) => item.sys.id === componentType.sys.id)
+    const found = collection.items.find((item) => item.sys.id === created.sys.id)
     expect(found).toBeDefined()
-  })
 
-  it('publishes a component type', async () => {
-    const current = await client.componentType.get({
-      componentTypeId: componentType.sys.id,
-    })
-
+    // --- Publish ---
     const published = await client.componentType.publish({
-      componentTypeId: current.sys.id,
-      version: current.sys.version,
+      componentTypeId: updated.sys.id,
+      version: updated.sys.version,
     })
 
     expect(published.sys.publishedVersion).toBeDefined()
     expect(published.sys.publishedAt).toBeDefined()
-    componentType = published
-  })
 
-  it('unpublishes a component type', async () => {
-    const current = await client.componentType.get({
-      componentTypeId: componentType.sys.id,
-    })
-
+    // --- Unpublish ---
     const unpublished = await client.componentType.unpublish({
-      componentTypeId: current.sys.id,
-      version: current.sys.version,
+      componentTypeId: published.sys.id,
+      version: published.sys.version,
     })
 
     expect(unpublished.sys.publishedVersion).toBeUndefined()
-    componentType = unpublished
+
+    // --- Delete ---
+    await client.componentType.delete({ componentTypeId: unpublished.sys.id })
+
+    await expect(
+      client.componentType.get({ componentTypeId: unpublished.sys.id }),
+    ).rejects.toThrow()
+
+    // Remove from cleanup since we already deleted
+    createdIds.splice(createdIds.indexOf(created.sys.id), 1)
   })
 })
