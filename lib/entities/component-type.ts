@@ -5,6 +5,7 @@ import type {
   ExoMetadataProps,
   ExoQueryFilters,
   Link,
+  ResourceLink,
 } from '../common-types'
 
 // Query options for getMany - cursor-based pagination with typed filter fields
@@ -217,6 +218,7 @@ export type ComponentTypeProps = {
   slots?: ComponentTypeSlotDefinition[]
   metadata?: ExoMetadataProps
   dataAssemblies?: DataAssemblyLink[]
+  source?: ResourceLink<'Contentful:DesignSystemSource'>
 }
 
 export type CreateComponentTypeProps = Except<ComponentTypeProps, 'sys'>
