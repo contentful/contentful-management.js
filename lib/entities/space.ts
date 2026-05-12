@@ -1,15 +1,36 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import copy from 'fast-copy'
 import type { BasicMetaSysProps, DefaultElements, MakeRequest } from '../common-types'
-import { wrapCollection } from '../common-utils'
+import { wrapCollection, wrapCursorPaginatedCollection } from '../common-utils'
 import type { ContentfulSpaceAPI } from '../create-space-api'
 import createSpaceApi from '../create-space-api'
 import enhanceWithMethods from '../enhance-with-methods'
 
+export type SpaceLicenseProps = {
+  sys: {
+    type: 'SpaceLicense'
+    id: string
+  }
+  isTrial: boolean
+  expiresAt: string
+  productId: string
+  productName: string
+}
+
 export type SpaceProps = {
-  sys: BasicMetaSysProps & { organization: { sys: { id: string } }; archivedAt?: string }
+  sys: BasicMetaSysProps & {
+    organization: { sys: { id: string } }
+    archivedAt?: string
+    license?: { sys: { type: 'Link'; linkType: 'SpaceLicense'; id: string } }
+  }
   name: string
 }
+
+export type SpaceIncludes = {
+  SpaceLicense?: SpaceLicenseProps[]
+}
+
+export type SpaceIncludeParam = { include?: 'sys.license' }
 
 export type UnarchiveProps = {
   productId: string
@@ -40,3 +61,4 @@ export function wrapSpace(makeRequest: MakeRequest, data: SpaceProps): Space {
  * @internal
  */
 export const wrapSpaceCollection = wrapCollection(wrapSpace)
+export const wrapSpaceCursorPaginatedCollection = wrapCursorPaginatedCollection(wrapSpace)

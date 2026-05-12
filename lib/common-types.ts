@@ -99,7 +99,7 @@ import type {
 import type { CreateRoleProps, RoleProps } from './entities/role'
 import type { ScheduledActionProps } from './entities/scheduled-action'
 import type { SnapshotProps } from './entities/snapshot'
-import type { SpaceProps, UnarchiveProps } from './entities/space'
+import type { SpaceProps, SpaceIncludes, SpaceIncludeParam, UnarchiveProps } from './entities/space'
 import type { SpaceAddOnProps, UpdateSpaceAddOnAllocationProps } from './entities/space-add-on'
 import type { SpaceMemberProps } from './entities/space-member'
 import type { CreateSpaceMembershipProps, SpaceMembershipProps } from './entities/space-membership'
@@ -2354,8 +2354,16 @@ export type MRActions = {
     }
   }
   Space: {
-    get: { params: GetSpaceParams; return: SpaceProps }
-    getMany: { params: QueryParams; return: CollectionProp<SpaceProps> }
+    get: {
+      params: GetSpaceParams & SpaceIncludeParam
+      return: SpaceProps & { includes?: SpaceIncludes }
+    }
+    getMany: {
+      params: QueryParams & { organizationId?: string } & SpaceIncludeParam
+      return: (CollectionProp<SpaceProps> | CursorPaginatedCollectionProp<SpaceProps>) & {
+        includes?: SpaceIncludes
+      }
+    }
     getManyForOrganization: {
       params: GetOrganizationParams & QueryParams
       return: CollectionProp<SpaceProps>

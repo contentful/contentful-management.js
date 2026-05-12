@@ -1,6 +1,8 @@
 import { createRequestConfig } from 'contentful-sdk-core'
 import type {
   Collection,
+  CollectionProp,
+  CursorPaginatedCollectionProp,
   MakeRequest,
   PaginationQueryParams,
   QueryOptions,
@@ -12,7 +14,15 @@ import type {
   GetOAuthApplicationParams,
   GetUserParams,
 } from './common-types'
-import { wrapSpace, wrapSpaceCollection } from './entities/space'
+import {
+  normalizeCursorPaginationParameters,
+  normalizeCursorPaginationResponse,
+} from './common-utils'
+import {
+  wrapSpace,
+  wrapSpaceCollection,
+  wrapSpaceCursorPaginatedCollection,
+} from './entities/space'
 import { wrapUser } from './entities/user'
 import {
   wrapPersonalAccessToken,
@@ -35,7 +45,7 @@ import { wrapOAuthApplication, wrapOAuthApplicationCollection } from './entities
 
 import type { Organization, OrganizationProps } from './entities/organization'
 import type { CreatePersonalAccessTokenProps } from './entities/personal-access-token'
-import type { Space, SpaceProps } from './entities/space'
+import type { Space, SpaceIncludeParam, SpaceProps } from './entities/space'
 import type { AppDefinition } from './entities/app-definition'
 import type { UsageQuery } from './entities/usage'
 import type { UserProps } from './entities/user'
@@ -169,13 +179,41 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * ```
      */
     getSpaces: function getSpaces(
-      query: QueryOptions = {},
-    ): Promise<Collection<Space, SpaceProps>> {
+      query: (QueryOptions | BasicCursorPaginationOptions) & {
+        cursor?: boolean
+      } & SpaceIncludeParam = {},
+      organizationId?: string,
+    ): Promise<Collection<Space, SpaceProps> | CursorPaginatedCollection<Space, SpaceProps>> {
+      const { cursor, include, ...rest } = query
+      const normalizedQuery = cursor
+        ? normalizeCursorPaginationParameters(rest as BasicCursorPaginationOptions)
+        : rest
       return makeRequest({
         entityType: 'Space',
         action: 'getMany',
-        params: { query: createRequestConfig({ query: query }).params },
-      }).then((data) => wrapSpaceCollection(makeRequest, data))
+        params: {
+          query: createRequestConfig({ query: normalizedQuery }).params,
+          organizationId,
+          include,
+        },
+      }).then((data) =>
+        // makeRequest returns the union type; cursor determines which branch is present at runtime so the casts are required
+        cursor
+          ? wrapSpaceCursorPaginatedCollection(
+              makeRequest,
+              normalizeCursorPaginationResponse(data as CursorPaginatedCollectionProp<SpaceProps>),
+            )
+          : wrapSpaceCollection(makeRequest, data as CollectionProp<SpaceProps>),
+      )
+    } as {
+      (
+        query?: QueryOptions & { cursor?: false } & SpaceIncludeParam,
+        organizationId?: string,
+      ): Promise<Collection<Space, SpaceProps>>
+      (
+        query: BasicCursorPaginationOptions & { cursor: true } & SpaceIncludeParam,
+        organizationId?: string,
+      ): Promise<CursorPaginatedCollection<Space, SpaceProps>>
     },
 
     /**
@@ -194,11 +232,14 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    getSpace: function getSpace(spaceId: string): Promise<Space> {
+    getSpace: function getSpace(
+      spaceId: string,
+      { include }: SpaceIncludeParam = {},
+    ): Promise<Space> {
       return makeRequest({
         entityType: 'Space',
         action: 'get',
-        params: { spaceId },
+        params: { spaceId, include },
       }).then((data) => wrapSpace(makeRequest, data))
     },
 
