@@ -10,30 +10,31 @@ describe('Experience Integration', () => {
   })
 
   const createdExperienceIds: string[] = []
-  const createdComponentTypeIds: string[] = []
+  const createdTemplateIds: string[] = []
   let experienceId: string
-  let componentTypeId: string
+  let templateId: string
 
   beforeAll(async () => {
     await sweepStaleExoEntities(client)
 
-    const ct = await client.componentType.create(
+    // Experiences require a published Template
+    const tmpl = await client.template.create(
       {},
       {
-        name: testName('CT for Experience'),
-        description: 'Backing component type for experience integration test',
+        name: testName('Template for Experience'),
+        description: 'Backing template for experience integration test',
         viewports: [testViewport],
         contentProperties: [],
         designProperties: [],
         dimensionKeyMap: { designProperties: {} },
       },
     )
-    componentTypeId = ct.sys.id
-    createdComponentTypeIds.push(componentTypeId)
+    templateId = tmpl.sys.id
+    createdTemplateIds.push(templateId)
 
-    await client.componentType.publish({
-      componentTypeId: componentTypeId,
-      version: ct.sys.version,
+    await client.template.publish({
+      templateId: templateId,
+      version: tmpl.sys.version,
     })
 
     const exp = await client.experience.create(
@@ -41,7 +42,7 @@ describe('Experience Integration', () => {
       {
         name: testName('Experience'),
         description: 'Created by integration test',
-        componentTypeId: componentTypeId,
+        templateId: templateId,
         viewports: [testViewport],
         contentProperties: {},
         designProperties: {},
@@ -68,16 +69,16 @@ describe('Experience Integration', () => {
       }
     }
 
-    for (const id of createdComponentTypeIds) {
+    for (const id of createdTemplateIds) {
       try {
-        const latest = await client.componentType.get({ componentTypeId: id })
+        const latest = await client.template.get({ templateId: id })
         if (latest.sys.publishedVersion) {
-          await client.componentType.unpublish({
-            componentTypeId: id,
+          await client.template.unpublish({
+            templateId: id,
             version: latest.sys.version,
           })
         }
-        await client.componentType.delete({ componentTypeId: id })
+        await client.template.delete({ templateId: id })
       } catch {
         // entity already deleted or not found
       }
@@ -95,8 +96,8 @@ describe('Experience Integration', () => {
     expect(exp.sys.createdAt).toBeDefined()
     expect(exp.sys.updatedAt).toBeDefined()
     expect(exp.sys.createdBy).toBeDefined()
-    expect(exp.sys.componentType).toBeDefined()
-    expect(exp.sys.componentType!.sys.id).toBe(componentTypeId)
+    expect(exp.sys.template).toBeDefined()
+    expect(exp.sys.template!.sys.id).toBe(templateId)
     expect(exp.name).toBe(testName('Experience'))
   })
 
