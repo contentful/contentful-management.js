@@ -55,7 +55,7 @@ describe('Fragment Integration', () => {
     let ct = await client.componentType.create(
       {},
       {
-        name: `${testRunId} CT for Fragment`,
+        name: `Integration Test CT for Fragment [${testRunId}]`,
         description: 'Backing component type for fragment integration test',
         viewports: [testViewport],
         contentProperties: [],
@@ -74,7 +74,7 @@ describe('Fragment Integration', () => {
     const created = await client.fragment.create(
       {},
       {
-        name: `${testRunId} Fragment`,
+        name: `Integration Test Fragment [${testRunId}]`,
         description: 'Created by integration test',
         componentTypeId: ct.sys.id,
         viewports: [testViewport],
@@ -91,7 +91,7 @@ describe('Fragment Integration', () => {
     expect(created.sys.createdBy).toBeDefined()
     expect(created.sys.componentType).toBeDefined()
     expect(created.sys.componentType.sys.id).toBe(ct.sys.id)
-    expect(created.name).toBe(`${testRunId} Fragment`)
+    expect(created.name).toBe(`Integration Test Fragment [${testRunId}]`)
 
     // --- Get ---
     const fetched = await client.fragment.get({ fragmentId: created.sys.id })
@@ -106,11 +106,11 @@ describe('Fragment Integration', () => {
         ...fetched,
         sys: { id: fetched.sys.id, type: 'Fragment' as const, version: fetched.sys.version },
         componentTypeId: ct.sys.id,
-        name: `${testRunId} Fragment Updated`,
+        name: `Integration Test Fragment Updated [${testRunId}]`,
       },
     )
 
-    expect(updated.name).toBe(`${testRunId} Fragment Updated`)
+    expect(updated.name).toBe(`Integration Test Fragment Updated [${testRunId}]`)
     expect(updated.sys.version).toBeGreaterThan(fetched.sys.version)
 
     // --- GetMany (cursor pagination) ---

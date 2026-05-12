@@ -39,7 +39,7 @@ describe('Template Integration', () => {
     const created = await client.template.create(
       {},
       {
-        name: `${testRunId} Template`,
+        name: `Integration Test Template [${testRunId}]`,
         description: 'Created by integration test',
         viewports: [testViewport],
         contentProperties: [
@@ -58,7 +58,7 @@ describe('Template Integration', () => {
     expect(created.sys.version).toBeGreaterThanOrEqual(1)
     expect(created.sys.createdAt).toBeDefined()
     expect(created.sys.createdBy).toBeDefined()
-    expect(created.name).toBe(`${testRunId} Template`)
+    expect(created.name).toBe(`Integration Test Template [${testRunId}]`)
 
     // --- Get ---
     const fetched = await client.template.get({ templateId: created.sys.id })
@@ -74,11 +74,11 @@ describe('Template Integration', () => {
       {
         ...fetched,
         sys: { id: fetched.sys.id, type: 'Template' as const, version: fetched.sys.version },
-        name: `${testRunId} Template Updated`,
+        name: `Integration Test Template Updated [${testRunId}]`,
       },
     )
 
-    expect(updated.name).toBe(`${testRunId} Template Updated`)
+    expect(updated.name).toBe(`Integration Test Template Updated [${testRunId}]`)
     expect(updated.sys.version).toBeGreaterThan(fetched.sys.version)
 
     // --- GetMany (cursor pagination) ---

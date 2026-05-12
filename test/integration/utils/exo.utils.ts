@@ -1,8 +1,8 @@
 import type { PlainClientAPI } from '../../../lib/index'
 
-export const TEST_PREFIX = 'CI-TEST-ExO'
+export const TEST_PREFIX = 'Integration Test'
 
-export const testRunId = `${TEST_PREFIX}-${Date.now()}`
+export const testRunId = `ci-${Date.now()}`
 
 export const testViewport = {
   id: 'desktop',
