@@ -15,8 +15,6 @@ describe('DataAssembly Integration', () => {
   beforeAll(async () => {
     await sweepStaleExoEntities(client)
 
-    // DataAssembly requires sys.type and sys.dataType in the create payload
-    // because the API uses these to define the assembly's return schema
     const created = await client.dataAssembly.create(
       {},
       {
@@ -30,15 +28,8 @@ describe('DataAssembly Integration', () => {
         name: testName('DataAssembly'),
         description: 'Created by integration test',
         parameters: {},
-        resolvers: {
-          entries: {
-            source: 'Contentful:GraphQL',
-            query: '{ entryCollection { items { sys { id } } } }',
-          },
-        },
-        return: {
-          title: '$resolvers.entries.data.entryCollection.items[0].sys.id',
-        },
+        resolvers: {},
+        return: {},
       },
     )
     dataAssemblyId = created.sys.id

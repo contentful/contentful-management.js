@@ -142,6 +142,7 @@ export async function sweepStaleExoEntities(
   }
 
   // Sweep dependents first, then parents
-  await Promise.all([sweepExperiences(), sweepFragments(), sweepDataAssemblies(), sweepTemplates()])
+  await Promise.all([sweepExperiences(), sweepFragments(), sweepDataAssemblies()])
+  await sweepTemplates()
   await sweepComponentTypes()
 }
