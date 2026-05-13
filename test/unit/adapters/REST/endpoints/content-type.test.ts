@@ -9,7 +9,7 @@ function setup(promise?, params = {}) {
   }
 }
 
-describe('Rest ContentType', { concurrent: true }, () => {
+describe('Rest ContentType', { concurrent: true }, async () => {
   test('getManyWithCursor', async () => {
     const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
 
