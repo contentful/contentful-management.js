@@ -5,6 +5,7 @@ import type {
   ExoMetadataProps,
   ExoQueryFilters,
   Link,
+  ResourceLink,
 } from '../common-types'
 
 // Query options for getMany - cursor-based pagination with typed filter fields
@@ -30,7 +31,7 @@ export type ComponentTypeContentProperty = {
   defaultValue?: unknown
 }
 
-// Design property validation option
+// Validation entry for legacy design property validations.in
 export type ComponentTypeDesignPropertyValidation =
   | {
       type: 'ManualDesignValue'
@@ -43,18 +44,71 @@ export type ComponentTypeDesignPropertyValidation =
       name?: string
     }
 
-// Design property definition
-export type ComponentTypeDesignProperty = {
+// Regexp validation shape for String design properties
+export type StringDesignPropertyRegexpValidation = {
+  regexp: {
+    pattern: string
+  }
+}
+
+// Allowed resource entry for token-backed design properties
+export type DesignTokenAllowedResource = {
+  type: 'DesignToken'
+  value: string
+  name?: string
+}
+
+// DTCG token type literals
+export type DTCGDesignPropertyType =
+  | 'DTCG.Color'
+  | 'DTCG.Dimension'
+  | 'DTCG.FontFamily'
+  | 'DTCG.FontWeight'
+  | 'DTCG.Duration'
+  | 'DTCG.CubicBezier'
+  | 'DTCG.Number'
+  | 'DTCG.StrokeStyle'
+  | 'DTCG.Border'
+  | 'DTCG.Transition'
+  | 'DTCG.Shadow'
+  | 'DTCG.Gradient'
+  | 'DTCG.Typography'
+
+type DesignPropertyCommonFields = {
   id: string
   name: string
-  type: 'Symbol' | 'Number' | 'Boolean'
   required: boolean
   description?: string
+}
+
+// Legacy design property — Symbol, Number, Boolean
+export type LegacyDesignProperty = DesignPropertyCommonFields & {
+  type: 'Symbol' | 'Number' | 'Boolean'
   defaultValue?: DesignPropertyDefinitionValue
   validations?: {
     in?: ComponentTypeDesignPropertyValidation[]
   }
 }
+
+// String design property — free-text with optional regexp validations
+export type StringDesignProperty = DesignPropertyCommonFields & {
+  type: 'String'
+  defaultValue?: { type: 'ManualDesignValue'; value: string }
+  validations?: StringDesignPropertyRegexpValidation[]
+}
+
+// Token-backed design property — DTCG types with optional allowedResources
+export type TokenBackedDesignProperty = DesignPropertyCommonFields & {
+  type: DTCGDesignPropertyType
+  defaultValue?: DesignTokenValue
+  allowedResources?: DesignTokenAllowedResource[]
+}
+
+// Discriminated union covering all three upstream arms
+export type ComponentTypeDesignProperty =
+  | LegacyDesignProperty
+  | StringDesignProperty
+  | TokenBackedDesignProperty
 
 // Dimension key map
 export type ComponentTypeDimensionKeyMap = {
@@ -164,6 +218,7 @@ export type ComponentTypeProps = {
   slots?: ComponentTypeSlotDefinition[]
   metadata?: ExoMetadataProps
   dataAssemblies?: DataAssemblyLink[]
+  source?: ResourceLink<'Contentful:DesignSystemSource'>
 }
 
 export type CreateComponentTypeProps = Except<ComponentTypeProps, 'sys'>
