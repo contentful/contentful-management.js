@@ -7,6 +7,8 @@ import type {
   CollectionProp,
   CreateReleaseEntryParams,
   CreateWithIdReleaseEntryParams,
+  CursorBasedParams,
+  CursorPaginatedCollectionProp,
   GetManyReleaseEntryParams,
   GetReleaseEntryParams,
   GetSpaceEnvironmentParams,
@@ -74,6 +76,24 @@ export const getMany: RestEndpoint<'Entry', 'getMany'> = <T extends KeyValueMap 
     `/spaces/${params.spaceId}/environments/${params.environmentId}/entries`,
     {
       params: normalizeSelect(params.query),
+      headers: { ...headers },
+    },
+  )
+}
+
+export const getManyWithCursor: RestEndpoint<'Entry', 'getManyWithCursor'> = <
+  T extends KeyValueMap = KeyValueMap,
+>(
+  http: AxiosInstance,
+  params: GetSpaceEnvironmentParams & CursorBasedParams & { releaseId?: string },
+  rawData?: unknown,
+  headers?: RawAxiosRequestHeaders,
+) => {
+  return raw.get<CursorPaginatedCollectionProp<EntryProps<T>>>(
+    http,
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/entries`,
+    {
+      params: { cursor: true, ...(params.query ?? {}) },
       headers: { ...headers },
     },
   )

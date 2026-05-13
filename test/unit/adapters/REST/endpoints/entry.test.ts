@@ -153,6 +153,54 @@ describe('Rest Entry', () => {
       })
   })
 
+  test('getManyWithCursor', async () => {
+    const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
+
+    httpMock.get.mockReturnValue(Promise.resolve({ data: entityMock }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'Entry',
+        action: 'getManyWithCursor',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+          query: { limit: 10 },
+        },
+      })
+      .then((r) => {
+        expect(r).to.eql(entityMock)
+        expect(httpMock.get.mock.calls[0][0]).to.eql('/spaces/space123/environments/master/entries')
+        expect(httpMock.get.mock.calls[0][1].params).to.eql({ cursor: true, limit: 10 })
+      })
+  })
+
+  test('getManyWithCursor with pageNext token', async () => {
+    const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
+
+    httpMock.get.mockReturnValue(Promise.resolve({ data: entityMock }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'Entry',
+        action: 'getManyWithCursor',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+          query: { pageNext: 'next-cursor-token' },
+        },
+      })
+      .then((r) => {
+        expect(r).to.eql(entityMock)
+        expect(httpMock.get.mock.calls[0][1].params).to.eql({
+          cursor: true,
+          pageNext: 'next-cursor-token',
+        })
+      })
+  })
+
   test('patch without releaseId', async () => {
     const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
 
