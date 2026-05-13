@@ -118,15 +118,12 @@ describe('ComponentType Integration', { sequential: true }, () => {
 
   it('rejects creation with missing required fields', async () => {
     await expect(
-      client.componentType.create(
-        {},
-        {
-          description: 'Should fail — missing name and viewports',
-          contentProperties: [],
-          designProperties: [],
-          dimensionKeyMap: { designProperties: {} },
-        } as any,
-      ),
+      client.componentType.create({}, {
+        description: 'Should fail — missing name and viewports',
+        contentProperties: [],
+        designProperties: [],
+        dimensionKeyMap: { designProperties: {} },
+      } as any),
     ).rejects.toThrow()
   })
 

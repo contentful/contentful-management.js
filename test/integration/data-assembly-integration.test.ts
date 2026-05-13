@@ -156,9 +156,7 @@ describe('DataAssembly Integration', { sequential: true }, () => {
       })
     }
 
-    await expect(
-      client.dataAssembly.delete({ dataAssemblyId: dataAssemblyId }),
-    ).rejects.toThrow()
+    await expect(client.dataAssembly.delete({ dataAssemblyId: dataAssemblyId })).rejects.toThrow()
 
     const latest = await client.dataAssembly.get({ dataAssemblyId: dataAssemblyId })
     await client.dataAssembly.unpublish({

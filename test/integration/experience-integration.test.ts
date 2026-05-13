@@ -173,9 +173,7 @@ describe('Experience Integration', { sequential: true }, () => {
       })
     }
 
-    await expect(
-      client.experience.delete({ experienceId: experienceId }),
-    ).rejects.toThrow()
+    await expect(client.experience.delete({ experienceId: experienceId })).rejects.toThrow()
 
     const latest = await client.experience.get({ experienceId: experienceId })
     await client.experience.unpublish({
