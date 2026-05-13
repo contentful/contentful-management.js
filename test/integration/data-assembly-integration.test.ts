@@ -3,7 +3,7 @@ import { initPlainClient, timeoutToCalmRateLimiting } from '../helpers'
 import { TestDefaults } from '../defaults'
 import { testName, sweepStaleExoEntities } from './utils/exo.utils'
 
-describe('DataAssembly Integration', () => {
+describe('DataAssembly Integration', { sequential: true }, () => {
   const client = initPlainClient({
     spaceId: TestDefaults.spaceId,
     environmentId: TestDefaults.environmentId,
@@ -53,7 +53,7 @@ describe('DataAssembly Integration', () => {
     await timeoutToCalmRateLimiting()
   })
 
-  it('creates a data assembly with correct sys fields', async () => {
+  it('has correct sys fields after creation', async () => {
     const da = await client.dataAssembly.get({ dataAssemblyId: dataAssemblyId })
 
     expect(da.sys.id).toBeDefined()
@@ -78,6 +78,7 @@ describe('DataAssembly Integration', () => {
   it('updates a data assembly', async () => {
     const current = await client.dataAssembly.get({ dataAssemblyId: dataAssemblyId })
 
+    // Update types require minimal sys — full entity sys is not assignable
     const updated = await client.dataAssembly.update(
       { dataAssemblyId: dataAssemblyId },
       {
@@ -99,10 +100,8 @@ describe('DataAssembly Integration', () => {
   it('lists data assemblies with cursor pagination', async () => {
     const collection = await client.dataAssembly.getMany({ query: { limit: 10 } })
 
-    expect(collection.sys).toBeDefined()
+    expect(collection.items.length).toBeGreaterThanOrEqual(1)
     expect(collection.pages).toBeDefined()
-    expect(collection.items).toBeDefined()
-    expect(Array.isArray(collection.items)).toBe(true)
 
     const found = collection.items.find((item) => item.sys.id === dataAssemblyId)
     expect(found).toBeDefined()
@@ -130,9 +129,8 @@ describe('DataAssembly Integration', () => {
   it('lists published data assemblies', async () => {
     const collection = await client.dataAssembly.getManyPublished({ query: { limit: 10 } })
 
-    expect(collection.sys).toBeDefined()
+    expect(collection.items.length).toBeGreaterThanOrEqual(1)
     expect(collection.pages).toBeDefined()
-    expect(collection.items).toBeDefined()
 
     const found = collection.items.find((item) => item.sys.id === dataAssemblyId)
     expect(found).toBeDefined()
@@ -149,6 +147,26 @@ describe('DataAssembly Integration', () => {
     expect(unpublished.sys.publishedVersion).toBeUndefined()
   })
 
+  it('rejects delete on a published entity', async () => {
+    const current = await client.dataAssembly.get({ dataAssemblyId: dataAssemblyId })
+    if (!current.sys.publishedVersion) {
+      await client.dataAssembly.publish({
+        dataAssemblyId: dataAssemblyId,
+        version: current.sys.version,
+      })
+    }
+
+    await expect(
+      client.dataAssembly.delete({ dataAssemblyId: dataAssemblyId }),
+    ).rejects.toThrow()
+
+    const latest = await client.dataAssembly.get({ dataAssemblyId: dataAssemblyId })
+    await client.dataAssembly.unpublish({
+      dataAssemblyId: dataAssemblyId,
+      version: latest.sys.version,
+    })
+  })
+
   it('deletes a data assembly', async () => {
     const current = await client.dataAssembly.get({ dataAssemblyId: dataAssemblyId })
     expect(current.sys.publishedVersion).toBeUndefined()
@@ -157,6 +175,7 @@ describe('DataAssembly Integration', () => {
 
     await expect(client.dataAssembly.get({ dataAssemblyId: dataAssemblyId })).rejects.toThrow()
 
-    createdIds.splice(createdIds.indexOf(dataAssemblyId), 1)
+    const idx = createdIds.indexOf(dataAssemblyId)
+    if (idx !== -1) createdIds.splice(idx, 1)
   })
 })

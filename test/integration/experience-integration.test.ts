@@ -3,7 +3,7 @@ import { initPlainClient, timeoutToCalmRateLimiting } from '../helpers'
 import { TestDefaults } from '../defaults'
 import { testName, testViewport, sweepStaleExoEntities } from './utils/exo.utils'
 
-describe('Experience Integration', () => {
+describe('Experience Integration', { sequential: true }, () => {
   const client = initPlainClient({
     spaceId: TestDefaults.spaceId,
     environmentId: TestDefaults.environmentId,
@@ -87,7 +87,7 @@ describe('Experience Integration', () => {
     await timeoutToCalmRateLimiting()
   })
 
-  it('creates an experience with correct sys fields', async () => {
+  it('has correct sys fields after creation', async () => {
     const exp = await client.experience.get({ experienceId: experienceId })
 
     expect(exp.sys.id).toBeDefined()
@@ -123,10 +123,8 @@ describe('Experience Integration', () => {
   it('lists experiences with cursor pagination', async () => {
     const collection = await client.experience.getMany({ query: { limit: 10 } })
 
-    expect(collection.sys).toBeDefined()
+    expect(collection.items.length).toBeGreaterThanOrEqual(1)
     expect(collection.pages).toBeDefined()
-    expect(collection.items).toBeDefined()
-    expect(Array.isArray(collection.items)).toBe(true)
 
     const found = collection.items.find((item) => item.sys.id === experienceId)
     expect(found).toBeDefined()
@@ -166,6 +164,26 @@ describe('Experience Integration', () => {
     expect(unpublished.sys.publishedVersion).toBeUndefined()
   })
 
+  it('rejects delete on a published entity', async () => {
+    const current = await client.experience.get({ experienceId: experienceId })
+    if (!current.sys.publishedVersion) {
+      await client.experience.publish({
+        experienceId: experienceId,
+        version: current.sys.version,
+      })
+    }
+
+    await expect(
+      client.experience.delete({ experienceId: experienceId }),
+    ).rejects.toThrow()
+
+    const latest = await client.experience.get({ experienceId: experienceId })
+    await client.experience.unpublish({
+      experienceId: experienceId,
+      version: latest.sys.version,
+    })
+  })
+
   it('deletes an experience', async () => {
     const current = await client.experience.get({ experienceId: experienceId })
     expect(current.sys.publishedVersion).toBeUndefined()
@@ -174,6 +192,7 @@ describe('Experience Integration', () => {
 
     await expect(client.experience.get({ experienceId: experienceId })).rejects.toThrow()
 
-    createdExperienceIds.splice(createdExperienceIds.indexOf(experienceId), 1)
+    const idx = createdExperienceIds.indexOf(experienceId)
+    if (idx !== -1) createdExperienceIds.splice(idx, 1)
   })
 })

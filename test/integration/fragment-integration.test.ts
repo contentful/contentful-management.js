@@ -3,7 +3,7 @@ import { initPlainClient, timeoutToCalmRateLimiting } from '../helpers'
 import { TestDefaults } from '../defaults'
 import { testName, testViewport, sweepStaleExoEntities } from './utils/exo.utils'
 
-describe('Fragment Integration', () => {
+describe('Fragment Integration', { sequential: true }, () => {
   const client = initPlainClient({
     spaceId: TestDefaults.spaceId,
     environmentId: TestDefaults.environmentId,
@@ -85,7 +85,7 @@ describe('Fragment Integration', () => {
     await timeoutToCalmRateLimiting()
   })
 
-  it('creates a fragment with correct sys fields', async () => {
+  it('has correct sys fields after creation', async () => {
     const frag = await client.fragment.get({ fragmentId: fragmentId })
 
     expect(frag.sys.id).toBeDefined()
@@ -109,6 +109,7 @@ describe('Fragment Integration', () => {
   it('updates a fragment', async () => {
     const current = await client.fragment.get({ fragmentId: fragmentId })
 
+    // Update types require minimal sys — full entity sys is not assignable
     const updated = await client.fragment.update(
       { fragmentId: fragmentId },
       {
@@ -126,10 +127,8 @@ describe('Fragment Integration', () => {
   it('lists fragments with cursor pagination', async () => {
     const collection = await client.fragment.getMany({ query: { limit: 10 } })
 
-    expect(collection.sys).toBeDefined()
+    expect(collection.items.length).toBeGreaterThanOrEqual(1)
     expect(collection.pages).toBeDefined()
-    expect(collection.items).toBeDefined()
-    expect(Array.isArray(collection.items)).toBe(true)
 
     const found = collection.items.find((item) => item.sys.id === fragmentId)
     expect(found).toBeDefined()
@@ -158,6 +157,24 @@ describe('Fragment Integration', () => {
     expect(unpublished.sys.publishedVersion).toBeUndefined()
   })
 
+  it('rejects delete on a published entity', async () => {
+    const current = await client.fragment.get({ fragmentId: fragmentId })
+    if (!current.sys.publishedVersion) {
+      await client.fragment.publish({
+        fragmentId: fragmentId,
+        version: current.sys.version,
+      })
+    }
+
+    await expect(client.fragment.delete({ fragmentId: fragmentId })).rejects.toThrow()
+
+    const latest = await client.fragment.get({ fragmentId: fragmentId })
+    await client.fragment.unpublish({
+      fragmentId: fragmentId,
+      version: latest.sys.version,
+    })
+  })
+
   it('deletes a fragment', async () => {
     const current = await client.fragment.get({ fragmentId: fragmentId })
     expect(current.sys.publishedVersion).toBeUndefined()
@@ -166,6 +183,7 @@ describe('Fragment Integration', () => {
 
     await expect(client.fragment.get({ fragmentId: fragmentId })).rejects.toThrow()
 
-    createdFragmentIds.splice(createdFragmentIds.indexOf(fragmentId), 1)
+    const idx = createdFragmentIds.indexOf(fragmentId)
+    if (idx !== -1) createdFragmentIds.splice(idx, 1)
   })
 })

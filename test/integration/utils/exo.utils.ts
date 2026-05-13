@@ -14,16 +14,23 @@ export const testViewport = {
   previewSize: '100%',
 } as const
 
+const SWEEP_KEY = '__exoIntegrationSwept'
+
 /**
  * Sweeps stale test entities from prior runs that may have been orphaned
  * (e.g., from CI timeouts, process kills, or flaky runs).
  * Deletes entities whose names start with TEST_PREFIX and were created more
  * than `maxAgeMs` milliseconds ago.
+ *
+ * Guarded to run only once per test process — safe across sequential file execution.
  */
 export async function sweepStaleExoEntities(
   client: PlainClientAPI,
   maxAgeMs = 10 * 60 * 1000,
 ): Promise<void> {
+  if ((globalThis as Record<string, unknown>)[SWEEP_KEY]) return
+  ;(globalThis as Record<string, unknown>)[SWEEP_KEY] = true
+
   const cutoff = new Date(Date.now() - maxAgeMs)
 
   const sweepComponentTypes = async () => {

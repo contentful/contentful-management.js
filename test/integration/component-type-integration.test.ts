@@ -3,7 +3,7 @@ import { initPlainClient, timeoutToCalmRateLimiting } from '../helpers'
 import { TestDefaults } from '../defaults'
 import { testName, testViewport, sweepStaleExoEntities } from './utils/exo.utils'
 
-describe('ComponentType Integration', () => {
+describe('ComponentType Integration', { sequential: true }, () => {
   const client = initPlainClient({
     spaceId: TestDefaults.spaceId,
     environmentId: TestDefaults.environmentId,
@@ -49,7 +49,7 @@ describe('ComponentType Integration', () => {
     await timeoutToCalmRateLimiting()
   })
 
-  it('creates a component type with correct sys fields', async () => {
+  it('has correct sys fields after creation', async () => {
     const ct = await client.componentType.get({ componentTypeId: componentTypeId })
 
     expect(ct.sys.id).toBeDefined()
@@ -86,10 +86,8 @@ describe('ComponentType Integration', () => {
   it('lists component types with cursor pagination', async () => {
     const collection = await client.componentType.getMany({ query: { limit: 10 } })
 
-    expect(collection.sys).toBeDefined()
+    expect(collection.items.length).toBeGreaterThanOrEqual(1)
     expect(collection.pages).toBeDefined()
-    expect(collection.items).toBeDefined()
-    expect(Array.isArray(collection.items)).toBe(true)
 
     const found = collection.items.find((item) => item.sys.id === componentTypeId)
     expect(found).toBeDefined()
@@ -118,6 +116,40 @@ describe('ComponentType Integration', () => {
     expect(unpublished.sys.publishedVersion).toBeUndefined()
   })
 
+  it('rejects creation with missing required fields', async () => {
+    await expect(
+      client.componentType.create(
+        {},
+        {
+          description: 'Should fail — missing name and viewports',
+          contentProperties: [],
+          designProperties: [],
+          dimensionKeyMap: { designProperties: {} },
+        } as any,
+      ),
+    ).rejects.toThrow()
+  })
+
+  it('rejects delete on a published entity', async () => {
+    const current = await client.componentType.get({ componentTypeId: componentTypeId })
+    if (!current.sys.publishedVersion) {
+      await client.componentType.publish({
+        componentTypeId: componentTypeId,
+        version: current.sys.version,
+      })
+    }
+
+    await expect(
+      client.componentType.delete({ componentTypeId: componentTypeId }),
+    ).rejects.toThrow()
+
+    const latest = await client.componentType.get({ componentTypeId: componentTypeId })
+    await client.componentType.unpublish({
+      componentTypeId: componentTypeId,
+      version: latest.sys.version,
+    })
+  })
+
   it('deletes a component type', async () => {
     const current = await client.componentType.get({ componentTypeId: componentTypeId })
     expect(current.sys.publishedVersion).toBeUndefined()
@@ -126,6 +158,7 @@ describe('ComponentType Integration', () => {
 
     await expect(client.componentType.get({ componentTypeId: componentTypeId })).rejects.toThrow()
 
-    createdIds.splice(createdIds.indexOf(componentTypeId), 1)
+    const idx = createdIds.indexOf(componentTypeId)
+    if (idx !== -1) createdIds.splice(idx, 1)
   })
 })

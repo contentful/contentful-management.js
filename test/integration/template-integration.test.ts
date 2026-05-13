@@ -3,7 +3,7 @@ import { initPlainClient, timeoutToCalmRateLimiting } from '../helpers'
 import { TestDefaults } from '../defaults'
 import { testName, testViewport, sweepStaleExoEntities } from './utils/exo.utils'
 
-describe('Template Integration', () => {
+describe('Template Integration', { sequential: true }, () => {
   const client = initPlainClient({
     spaceId: TestDefaults.spaceId,
     environmentId: TestDefaults.environmentId,
@@ -51,7 +51,7 @@ describe('Template Integration', () => {
     await timeoutToCalmRateLimiting()
   })
 
-  it('creates a template with correct sys fields', async () => {
+  it('has correct sys fields after creation', async () => {
     const template = await client.template.get({ templateId: templateId })
 
     expect(template.sys.id).toBeDefined()
@@ -76,6 +76,7 @@ describe('Template Integration', () => {
   it('updates a template', async () => {
     const current = await client.template.get({ templateId: templateId })
 
+    // Update types require minimal sys — full entity sys is not assignable
     const updated = await client.template.update(
       { templateId: templateId },
       {
@@ -92,10 +93,8 @@ describe('Template Integration', () => {
   it('lists templates with cursor pagination', async () => {
     const collection = await client.template.getMany({ query: { limit: 10 } })
 
-    expect(collection.sys).toBeDefined()
+    expect(collection.items.length).toBeGreaterThanOrEqual(1)
     expect(collection.pages).toBeDefined()
-    expect(collection.items).toBeDefined()
-    expect(Array.isArray(collection.items)).toBe(true)
 
     const found = collection.items.find((item) => item.sys.id === templateId)
     expect(found).toBeDefined()
@@ -124,6 +123,24 @@ describe('Template Integration', () => {
     expect(unpublished.sys.publishedVersion).toBeUndefined()
   })
 
+  it('rejects delete on a published entity', async () => {
+    const current = await client.template.get({ templateId: templateId })
+    if (!current.sys.publishedVersion) {
+      await client.template.publish({
+        templateId: templateId,
+        version: current.sys.version,
+      })
+    }
+
+    await expect(client.template.delete({ templateId: templateId })).rejects.toThrow()
+
+    const latest = await client.template.get({ templateId: templateId })
+    await client.template.unpublish({
+      templateId: templateId,
+      version: latest.sys.version,
+    })
+  })
+
   it('deletes a template', async () => {
     const current = await client.template.get({ templateId: templateId })
     expect(current.sys.publishedVersion).toBeUndefined()
@@ -132,6 +149,7 @@ describe('Template Integration', () => {
 
     await expect(client.template.get({ templateId: templateId })).rejects.toThrow()
 
-    createdIds.splice(createdIds.indexOf(templateId), 1)
+    const idx = createdIds.indexOf(templateId)
+    if (idx !== -1) createdIds.splice(idx, 1)
   })
 })
