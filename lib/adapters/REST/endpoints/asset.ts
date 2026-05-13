@@ -8,6 +8,8 @@ import type {
   CreateReleaseAssetParams,
   CreateWithFilesReleaseAssetParams,
   CreateWithIdReleaseAssetParams,
+  CursorBasedParams,
+  CursorPaginatedCollectionProp,
   GetReleaseAssetParams,
   GetSpaceEnvironmentParams,
   Link,
@@ -78,6 +80,22 @@ export const getMany: RestEndpoint<'Asset', 'getMany'> = (
     `/spaces/${params.spaceId}/environments/${params.environmentId}/assets`,
     {
       params: normalizeSelect(params.query),
+      headers: headers ? { ...headers } : undefined,
+    },
+  )
+}
+
+export const getManyWithCursor: RestEndpoint<'Asset', 'getManyWithCursor'> = (
+  http: AxiosInstance,
+  params: GetSpaceEnvironmentParams & CursorBasedParams & { releaseId?: string },
+  rawData?: unknown,
+  headers?: RawAxiosRequestHeaders,
+) => {
+  return raw.get<CursorPaginatedCollectionProp<AssetProps>>(
+    http,
+    `/spaces/${params.spaceId}/environments/${params.environmentId}/assets`,
+    {
+      params: { cursor: true, ...(params.query ?? {}) },
       headers: headers ? { ...headers } : undefined,
     },
   )
