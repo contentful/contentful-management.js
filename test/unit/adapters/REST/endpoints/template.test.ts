@@ -150,6 +150,7 @@ describe('Rest Template', { concurrent: true }, () => {
         expect(httpMock.post.mock.calls[0][0]).to.eql(
           '/spaces/space123/environments/master/templates',
         )
+        expect(httpMock.post.mock.calls[0][1]).to.eql({ name: 'New Template' })
       })
   })
 
@@ -182,6 +183,7 @@ describe('Rest Template', { concurrent: true }, () => {
           '/spaces/space123/environments/master/templates/template123',
         )
         expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(1)
+        expect(httpMock.put.mock.calls[0][1]).to.eql({ name: 'Updated Template' })
       })
   })
 
