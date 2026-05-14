@@ -337,7 +337,9 @@ export type PlainClientAPI = {
       headers?: RawAxiosRequestHeaders,
     ): Promise<CollectionProp<EntryProps<T>>>
     getManyWithCursor<T extends KeyValueMap = KeyValueMap>(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & CursorBasedParams>,
+      params: OptionalDefaults<
+        GetSpaceEnvironmentParams & CursorBasedParams & { releaseId?: string }
+      >,
       rawData?: unknown,
       headers?: RawAxiosRequestHeaders,
     ): Promise<CursorPaginatedCollectionProp<EntryProps<T>>>
@@ -411,7 +413,9 @@ export type PlainClientAPI = {
       headers?: RawAxiosRequestHeaders,
     ): Promise<CollectionProp<AssetProps>>
     getManyWithCursor(
-      params: OptionalDefaults<GetSpaceEnvironmentParams & CursorBasedParams>,
+      params: OptionalDefaults<
+        GetSpaceEnvironmentParams & CursorBasedParams & { releaseId?: string }
+      >,
       rawData?: unknown,
       headers?: RawAxiosRequestHeaders,
     ): Promise<CursorPaginatedCollectionProp<AssetProps>>

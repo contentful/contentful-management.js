@@ -88,10 +88,14 @@ export const getMany: RestEndpoint<'Asset', 'getMany'> = (
 
 export const getManyWithCursor: RestEndpoint<'Asset', 'getManyWithCursor'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & CursorBasedParams,
+  params: GetSpaceEnvironmentParams & CursorBasedParams & { releaseId?: string },
   rawData?: unknown,
   headers?: RawAxiosRequestHeaders,
 ) => {
+  if (params.releaseId) {
+    throw new Error('getManyWithCursor is not supported for release-scoped assets')
+  }
+
   return raw
     .get<CursorPaginatedCollectionProp<AssetProps>>(
       http,

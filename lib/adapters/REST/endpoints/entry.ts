@@ -86,10 +86,14 @@ export const getManyWithCursor: RestEndpoint<'Entry', 'getManyWithCursor'> = <
   T extends KeyValueMap = KeyValueMap,
 >(
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & CursorBasedParams,
+  params: GetSpaceEnvironmentParams & CursorBasedParams & { releaseId?: string },
   rawData?: unknown,
   headers?: RawAxiosRequestHeaders,
 ) => {
+  if (params.releaseId) {
+    throw new Error('getManyWithCursor is not supported for release-scoped entries')
+  }
+
   return raw
     .get<CursorPaginatedCollectionProp<EntryProps<T>>>(
       http,
