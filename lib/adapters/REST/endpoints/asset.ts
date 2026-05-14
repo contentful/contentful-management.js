@@ -22,6 +22,7 @@ import type {
   AssetProps,
   CreateAssetProps,
 } from '../../../entities/asset'
+import { normalizeCursorPaginationResponse } from '../../../common-utils'
 import { getUploadHttpClient } from '../../../upload-http-client'
 import type { RestEndpoint } from '../types'
 import * as raw from './raw'
@@ -95,14 +96,16 @@ export const getManyWithCursor: RestEndpoint<'Asset', 'getManyWithCursor'> = (
     throw new Error('getManyWithCursor is not supported for release-scoped assets')
   }
 
-  return raw.get<CursorPaginatedCollectionProp<AssetProps>>(
-    http,
-    `/spaces/${params.spaceId}/environments/${params.environmentId}/assets`,
-    {
-      params: { cursor: true, ...(params.query ?? {}) },
-      headers: headers ? { ...headers } : undefined,
-    },
-  )
+  return raw
+    .get<CursorPaginatedCollectionProp<AssetProps>>(
+      http,
+      `/spaces/${params.spaceId}/environments/${params.environmentId}/assets`,
+      {
+        params: { cursor: true, ...(params.query ?? {}) },
+        headers: headers ? { ...headers } : undefined,
+      },
+    )
+    .then(normalizeCursorPaginationResponse)
 }
 
 export const update: RestEndpoint<'Asset', 'update'> = (

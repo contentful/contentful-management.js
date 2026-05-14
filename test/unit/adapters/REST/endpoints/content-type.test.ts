@@ -1,19 +1,22 @@
 import { describe, expect, test } from 'vitest'
-import { cloneMock } from '../../../mocks/entities'
 import setupRestAdapter from '../helpers/setupRestAdapter'
 
 function setup(promise?, params = {}) {
   return {
     ...setupRestAdapter(promise, params),
-    entityMock: cloneMock('contentType'),
   }
 }
 
 describe('Rest ContentType', { concurrent: true }, async () => {
   test('getManyWithCursor', async () => {
-    const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
+    const { httpMock, adapterMock } = setup(Promise.resolve({}))
+    const cursorResponse = {
+      sys: { type: 'Array' },
+      items: [],
+      pages: { next: '/spaces/space123/environments/master/content_types?pageNext=abc123' },
+    }
 
-    httpMock.get.mockReturnValue(Promise.resolve({ data: entityMock }))
+    httpMock.get.mockReturnValue(Promise.resolve({ data: cursorResponse }))
 
     return adapterMock
       .makeRequest({
@@ -26,19 +29,20 @@ describe('Rest ContentType', { concurrent: true }, async () => {
           query: { limit: 10 },
         },
       })
-      .then((r) => {
-        expect(r).to.eql(entityMock)
+      .then((r: any) => {
         expect(httpMock.get.mock.calls[0][0]).to.eql(
           '/spaces/space123/environments/master/content_types',
         )
         expect(httpMock.get.mock.calls[0][1].params).to.eql({ cursor: true, limit: 10 })
+        expect(r.pages.next).to.eql('abc123')
       })
   })
 
   test('getManyWithCursor with pageNext token', async () => {
-    const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
+    const { httpMock, adapterMock } = setup(Promise.resolve({}))
+    const cursorResponse = { sys: { type: 'Array' }, items: [], pages: {} }
 
-    httpMock.get.mockReturnValue(Promise.resolve({ data: entityMock }))
+    httpMock.get.mockReturnValue(Promise.resolve({ data: cursorResponse }))
 
     return adapterMock
       .makeRequest({
@@ -51,12 +55,12 @@ describe('Rest ContentType', { concurrent: true }, async () => {
           query: { pageNext: 'next-cursor-token' },
         },
       })
-      .then((r) => {
-        expect(r).to.eql(entityMock)
+      .then((r: any) => {
         expect(httpMock.get.mock.calls[0][1].params).to.eql({
           cursor: true,
           pageNext: 'next-cursor-token',
         })
+        expect(r.pages).to.eql({})
       })
   })
 })
