@@ -84,7 +84,13 @@ export type CreateExperienceProps = ExperienceCommonProps &
     | { templateId: string; componentTypeId?: never }
   )
 
-export type UpdateExperienceProps = ExperienceProps
+export type UpdateExperienceProps = ExperienceCommonProps & {
+  sys: {
+    id: string
+    type: 'Experience'
+    version: number
+  }
+}
 
 export type InlineFragmentNode = {
   id: string
