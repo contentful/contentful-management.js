@@ -3,6 +3,7 @@ import type {
   ExoCursorPaginatedCollectionProp,
   Link,
   MetadataProps,
+  ResourceLink,
 } from '../common-types'
 import { User } from './user'
 
@@ -31,7 +32,8 @@ export type DataAssemblyGraphQLResolver = {
 }
 
 export type DataAssemblyNestedResolver = {
-  source: `Contentful:DataAssembly:${string}`
+  source: 'Contentful:DataAssembly'
+  dataAssembly: ResourceLink<'Contentful:DataAssembly'>
   parameters?: Record<string, unknown>
 }
 
