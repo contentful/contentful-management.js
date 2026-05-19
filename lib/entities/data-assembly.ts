@@ -44,7 +44,8 @@ export type DataAssemblyGraphQLResolver = {
 }
 
 export type DataAssemblyNestedResolver = {
-  source: `Contentful:DataAssembly:${string}`
+  source: 'Contentful:DataAssembly'
+  dataAssembly: ResourceLink<'Contentful:DataAssembly'>
   parameters?: Record<string, unknown>
 }
 
