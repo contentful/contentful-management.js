@@ -182,6 +182,8 @@ describe('Rest Fragment', { concurrent: true }, () => {
           '/spaces/space123/environments/master/fragments/fragment123',
         )
         expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(1)
+        const body = httpMock.put.mock.calls[0][1]
+        expect(body.sys).to.be.undefined
       })
   })
 
