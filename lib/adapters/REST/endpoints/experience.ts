@@ -1,7 +1,6 @@
 import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import type { SetOptional } from 'type-fest'
 import type { GetSpaceEnvironmentParams, GetExperienceParams } from '../../../common-types'
 import type {
   CreateExperienceProps,
@@ -54,19 +53,10 @@ export const update: RestEndpoint<'Experience', 'update'> = (
   rawData: UpdateExperienceProps,
   headers?: RawAxiosRequestHeaders,
 ) => {
-  const data: SetOptional<typeof rawData, 'sys'> & {
-    componentTypeId?: string
-    templateId?: string
-  } = copy(rawData)
-  if (rawData.sys.componentType) {
-    data.componentTypeId = rawData.sys.componentType.sys.id
-  } else if (rawData.sys.template) {
-    data.templateId = rawData.sys.template.sys.id
-  }
-  delete data.sys
-  return raw.put<ExperienceProps>(http, getBaseUrl(params) + `/${params.experienceId}`, data, {
+  const { sys, ...body } = copy(rawData)
+  return raw.put<ExperienceProps>(http, getBaseUrl(params) + `/${params.experienceId}`, body, {
     headers: {
-      'X-Contentful-Version': rawData.sys.version ?? 0,
+      'X-Contentful-Version': sys.version ?? 0,
       ...headers,
     },
   })

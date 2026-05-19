@@ -1,7 +1,6 @@
 import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import type { SetOptional } from 'type-fest'
 import type { GetFragmentParams, GetSpaceEnvironmentParams } from '../../../common-types'
 import type {
   CreateFragmentProps,
@@ -51,12 +50,11 @@ export const update: RestEndpoint<'Fragment', 'update'> = (
   rawData: UpdateFragmentProps,
   headers?: RawAxiosRequestHeaders,
 ) => {
-  const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
-  delete data.sys
-  return raw.put<FragmentProps>(http, getBaseUrl(params) + `/${params.fragmentId}`, data, {
+  const { sys, ...body } = copy(rawData)
+  return raw.put<FragmentProps>(http, getBaseUrl(params) + `/${params.fragmentId}`, body, {
     headers: {
-      ...(rawData.sys?.version !== undefined && {
-        'X-Contentful-Version': rawData.sys.version,
+      ...(sys?.version !== undefined && {
+        'X-Contentful-Version': sys.version,
       }),
       ...headers,
     },
