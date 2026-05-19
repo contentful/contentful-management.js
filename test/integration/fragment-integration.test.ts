@@ -115,7 +115,6 @@ describe('Fragment Integration', { sequential: true }, () => {
       {
         ...current,
         sys: { id: current.sys.id, type: 'Fragment' as const, version: current.sys.version },
-        componentTypeId: componentTypeId,
         name: testName('Fragment Updated'),
       },
     )
