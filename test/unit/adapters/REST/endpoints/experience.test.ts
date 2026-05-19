@@ -227,7 +227,7 @@ describe('Rest Experience', { concurrent: true }, () => {
         payload: {
           name: 'New Experience',
           description: 'A new experience',
-          componentTypeId: 'ct-123',
+          templateId: 'tmpl-123',
           viewports: [],
           contentProperties: {},
           designProperties: {},
@@ -242,7 +242,7 @@ describe('Rest Experience', { concurrent: true }, () => {
         expect(httpMock.post.mock.calls[0][1]).to.eql({
           name: 'New Experience',
           description: 'A new experience',
-          componentTypeId: 'ct-123',
+          templateId: 'tmpl-123',
           viewports: [],
           contentProperties: {},
           designProperties: {},
@@ -325,10 +325,9 @@ describe('Rest Experience', { concurrent: true }, () => {
         },
         payload: {
           sys: {
+            id: 'experience123',
+            type: 'Experience',
             version: 1,
-            componentType: {
-              sys: { type: 'Link', linkType: 'ComponentType', id: 'ct-123' },
-            },
           },
           name: 'Updated Experience',
           description: 'An updated experience',
