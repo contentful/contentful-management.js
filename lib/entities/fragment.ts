@@ -63,7 +63,6 @@ export type UpdateFragmentProps = Omit<FragmentProps, 'sys'> & {
     type: 'Fragment'
     version: number
   }
-  componentTypeId: string
 }
 
 export type FragmentQueryOptions = CursorPaginationParams &
