@@ -22,14 +22,28 @@ export type ComponentTypeViewport = {
   previewSize: string
 }
 
-// Content property definition
-export type ComponentTypeContentProperty = {
+// Primitive content property — String, Number, Boolean
+export type ComponentTypePrimitiveContentProperty = {
   id: string
   name: string
   type: 'String' | 'Number' | 'Boolean'
   required: boolean
   defaultValue?: unknown
 }
+
+// TypeRef content property — references a DataAssembly or ComponentType
+export type ComponentTypeTypeRefContentProperty = {
+  id: string
+  name: string
+  type: 'TypeRef'
+  ref: ResourceLink<'Contentful:DataAssembly'> | ResourceLink<'Contentful:ComponentType'>
+  required: boolean
+}
+
+// Discriminated union covering all content property variants
+export type ComponentTypeContentProperty =
+  | ComponentTypePrimitiveContentProperty
+  | ComponentTypeTypeRefContentProperty
 
 // Validation entry for legacy design property validations.in
 export type ComponentTypeDesignPropertyValidation =
