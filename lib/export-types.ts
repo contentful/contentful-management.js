@@ -364,4 +364,6 @@ export type { FragmentCollection } from './entities/fragment'
 export type {
   DataAssemblyCollection,
   DataAssemblyResourceLinkParameter,
+  DataAssemblyReturnMappingFromObject,
+  ReturnMappingSelectValue,
 } from './entities/data-assembly'
