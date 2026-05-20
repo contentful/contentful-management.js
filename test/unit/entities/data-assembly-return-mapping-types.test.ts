@@ -2,7 +2,7 @@ import { describe, test, expectTypeOf } from 'vitest'
 import type {
   DataAssemblyReturnMappingValue,
   DataAssemblyReturnMappingFromObject,
-  ReturnMappingSelectValue,
+  DataAssemblyReturnMappingSelectValue,
 } from '../../../lib/entities/data-assembly'
 
 describe('DataAssembly ReturnMapping types', () => {
@@ -10,12 +10,12 @@ describe('DataAssembly ReturnMapping types', () => {
     expectTypeOf<DataAssemblyReturnMappingFromObject['$from']['source']>().toBeString()
   })
 
-  test('DataAssemblyReturnMappingFromObject $from.select is optional ReturnMappingSelectValue', () => {
+  test('DataAssemblyReturnMappingFromObject $from.select is optional DataAssemblyReturnMappingSelectValue', () => {
     expectTypeOf<DataAssemblyReturnMappingFromObject['$from']>().toHaveProperty('select')
   })
 
-  test('ReturnMappingSelectValue accepts string', () => {
-    expectTypeOf<string>().toMatchTypeOf<ReturnMappingSelectValue>()
+  test('DataAssemblyReturnMappingSelectValue accepts string', () => {
+    expectTypeOf<string>().toMatchTypeOf<DataAssemblyReturnMappingSelectValue>()
   })
 
   test('ReturnMappingValue accepts $from variant', () => {

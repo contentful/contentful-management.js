@@ -66,15 +66,20 @@ export type DataAssemblyResolverDefinition =
 
 export type DataAssemblyResolverConfig = Record<string, DataAssemblyResolverDefinition>
 
-export type ReturnMappingSelectValue =
+export type DataAssemblyReturnMappingSelectValue =
   | string
-  | { $on: { type: Record<string, ReturnMappingSelectValue>; default?: ReturnMappingSelectValue } }
-  | { [key: string]: ReturnMappingSelectValue }
+  | {
+      $on: {
+        type: Record<string, DataAssemblyReturnMappingSelectValue>
+        default?: DataAssemblyReturnMappingSelectValue
+      }
+    }
+  | { [key: string]: DataAssemblyReturnMappingSelectValue }
 
 export type DataAssemblyReturnMappingFromObject = {
   $from: {
     source: string
-    select?: ReturnMappingSelectValue
+    select?: DataAssemblyReturnMappingSelectValue
   }
 }
 

@@ -365,5 +365,5 @@ export type {
   DataAssemblyCollection,
   DataAssemblyResourceLinkParameter,
   DataAssemblyReturnMappingFromObject,
-  ReturnMappingSelectValue,
+  DataAssemblyReturnMappingSelectValue,
 } from './entities/data-assembly'
