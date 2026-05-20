@@ -5,7 +5,7 @@ import type {
 } from '../../common-types'
 import type {
   CreateExperienceProps,
-  UpdateExperienceProps,
+  UpsertExperienceProps,
   ExperienceLocalePublishPayload,
   ExperienceProps,
   ExperienceQueryOptions,
@@ -80,24 +80,29 @@ export type ExperiencePlainClientAPI = {
   ): Promise<ExperienceProps>
 
   /**
-   * Updates an experience with PUT
+   * Upserts an experience (creates or updates via PUT)
    * @param params the space ID, environment ID, and experience ID
-   * @param rawData the experience data to update (must include sys.version)
-   * @returns the updated experience
-   * @throws if the request fails, or the experience is not found
+   * @param rawData the experience data to upsert (include sys.version for updates, omit for creates)
+   * @returns the upserted experience
+   * @throws if the request fails
    * @internal - Experimental endpoint, subject to breaking changes without notice
    * @example
    * ```javascript
-   * const experience = await client.experience.update({
+   * const current = await client.experience.get({ experienceId: '<experience_id>' });
+   * const updated = await client.experience.upsert({
    *   spaceId: '<space_id>',
    *   environmentId: '<environment_id>',
    *   experienceId: '<experience_id>',
-   * }, experienceData);
+   * }, {
+   *   sys: { id: current.sys.id, type: 'Experience', version: current.sys.version },
+   *   name: 'Updated Experience',
+   *   ...otherFields,
+   * });
    * ```
    */
-  update(
+  upsert(
     params: OptionalDefaults<GetExperienceParams>,
-    rawData: UpdateExperienceProps,
+    rawData: UpsertExperienceProps,
   ): Promise<ExperienceProps>
 
   /**

@@ -1,14 +1,13 @@
 import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import type { SetOptional } from 'type-fest'
 import type { GetComponentTypeParams, GetSpaceEnvironmentParams } from '../../../common-types'
 import type {
   ComponentTypeCollection,
   ComponentTypeProps,
   ComponentTypeQueryOptions,
   CreateComponentTypeProps,
-  UpdateComponentTypeProps,
+  UpsertComponentTypeProps,
 } from '../../../entities/component-type'
 import type { RestEndpoint } from '../types'
 import * as raw from './raw'
@@ -47,22 +46,21 @@ export const create: RestEndpoint<'ComponentType', 'create'> = (
   return raw.post<ComponentTypeProps>(http, getBaseUrl(params), data, { headers })
 }
 
-export const update: RestEndpoint<'ComponentType', 'update'> = (
+export const upsert: RestEndpoint<'ComponentType', 'upsert'> = (
   http: AxiosInstance,
   params: GetComponentTypeParams,
-  rawData: UpdateComponentTypeProps,
+  rawData: UpsertComponentTypeProps,
   headers?: RawAxiosRequestHeaders,
 ) => {
-  const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
-  delete data.sys
+  const { sys, ...body } = copy(rawData)
   return raw.put<ComponentTypeProps>(
     http,
     getBaseUrl(params) + `/${params.componentTypeId}`,
-    data,
+    body,
     {
       headers: {
-        ...(rawData.sys?.version !== undefined && {
-          'X-Contentful-Version': rawData.sys.version,
+        ...(sys.version !== undefined && {
+          'X-Contentful-Version': sys.version,
         }),
         ...headers,
       },

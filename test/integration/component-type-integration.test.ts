@@ -71,12 +71,17 @@ describe('ComponentType Integration', { sequential: true }, () => {
     expect(fetched.designProperties).toHaveLength(1)
   })
 
-  it('updates a component type', async () => {
+  it('upserts a component type', async () => {
     const current = await client.componentType.get({ componentTypeId: componentTypeId })
 
-    const updated = await client.componentType.update(
+    const { sys, ...body } = current
+    const updated = await client.componentType.upsert(
       { componentTypeId: componentTypeId },
-      { ...current, name: testName('Component Updated') },
+      {
+        sys: { id: sys.id, type: 'ComponentType', version: sys.version },
+        ...body,
+        name: testName('Component Updated'),
+      },
     )
 
     expect(updated.name).toBe(testName('Component Updated'))
