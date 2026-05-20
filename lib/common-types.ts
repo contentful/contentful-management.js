@@ -65,7 +65,7 @@ import type {
   ComponentTypeProps,
   ComponentTypeQueryOptions,
   CreateComponentTypeProps,
-  UpdateComponentTypeProps,
+  ComponentTypeUpsertProps,
 } from './entities/component-type'
 import type {
   CreateFragmentProps,
@@ -77,11 +77,11 @@ import type {
   CreateTemplateProps,
   TemplateProps,
   TemplateQueryOptions,
-  UpdateTemplateProps,
+  TemplateUpsertProps,
 } from './entities/template'
 import type {
   CreateExperienceProps,
-  UpdateExperienceProps,
+  ExperienceUpsertProps,
   ExperienceLocalePublishPayload,
   ExperienceProps,
   ExperienceQueryOptions,
@@ -719,7 +719,7 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'ComponentType', 'getMany', UA>): MRReturn<'ComponentType', 'getMany'>
   (opts: MROpts<'ComponentType', 'get', UA>): MRReturn<'ComponentType', 'get'>
   (opts: MROpts<'ComponentType', 'create', UA>): MRReturn<'ComponentType', 'create'>
-  (opts: MROpts<'ComponentType', 'update', UA>): MRReturn<'ComponentType', 'update'>
+  (opts: MROpts<'ComponentType', 'upsert', UA>): MRReturn<'ComponentType', 'upsert'>
   (opts: MROpts<'ComponentType', 'delete', UA>): MRReturn<'ComponentType', 'delete'>
   (opts: MROpts<'ComponentType', 'publish', UA>): MRReturn<'ComponentType', 'publish'>
   (opts: MROpts<'ComponentType', 'unpublish', UA>): MRReturn<'ComponentType', 'unpublish'>
@@ -1045,7 +1045,7 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Template', 'getMany', UA>): MRReturn<'Template', 'getMany'>
   (opts: MROpts<'Template', 'get', UA>): MRReturn<'Template', 'get'>
   (opts: MROpts<'Template', 'create', UA>): MRReturn<'Template', 'create'>
-  (opts: MROpts<'Template', 'update', UA>): MRReturn<'Template', 'update'>
+  (opts: MROpts<'Template', 'upsert', UA>): MRReturn<'Template', 'upsert'>
   (opts: MROpts<'Template', 'delete', UA>): MRReturn<'Template', 'delete'>
   (opts: MROpts<'Template', 'publish', UA>): MRReturn<'Template', 'publish'>
   (opts: MROpts<'Template', 'unpublish', UA>): MRReturn<'Template', 'unpublish'>
@@ -1091,7 +1091,7 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Experience', 'getMany', UA>): MRReturn<'Experience', 'getMany'>
   (opts: MROpts<'Experience', 'get', UA>): MRReturn<'Experience', 'get'>
   (opts: MROpts<'Experience', 'create', UA>): MRReturn<'Experience', 'create'>
-  (opts: MROpts<'Experience', 'update', UA>): MRReturn<'Experience', 'update'>
+  (opts: MROpts<'Experience', 'upsert', UA>): MRReturn<'Experience', 'upsert'>
   (opts: MROpts<'Experience', 'delete', UA>): MRReturn<'Experience', 'delete'>
   (opts: MROpts<'Experience', 'publish', UA>): MRReturn<'Experience', 'publish'>
   (opts: MROpts<'Experience', 'unpublish', UA>): MRReturn<'Experience', 'unpublish'>
@@ -1770,9 +1770,9 @@ export type MRActions = {
       payload: CreateComponentTypeProps
       return: ComponentTypeProps
     }
-    update: {
-      params: GetComponentTypeParams
-      payload: UpdateComponentTypeProps
+    upsert: {
+      params: GetComponentTypeParams & { version?: number }
+      payload: ComponentTypeUpsertProps
       return: ComponentTypeProps
     }
     delete: {
@@ -2808,9 +2808,9 @@ export type MRActions = {
       payload: CreateTemplateProps
       return: TemplateProps
     }
-    update: {
-      params: GetTemplateParams
-      payload: UpdateTemplateProps
+    upsert: {
+      params: GetTemplateParams & { version?: number }
+      payload: TemplateUpsertProps
       return: TemplateProps
     }
     delete: {
@@ -2883,9 +2883,9 @@ export type MRActions = {
       payload: CreateExperienceProps
       return: ExperienceProps
     }
-    update: {
-      params: GetExperienceParams
-      payload: UpdateExperienceProps
+    upsert: {
+      params: GetExperienceParams & { version?: number }
+      payload: ExperienceUpsertProps
       return: ExperienceProps
     }
     delete: {

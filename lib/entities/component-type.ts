@@ -237,6 +237,6 @@ export type ComponentTypeProps = {
 
 export type CreateComponentTypeProps = Except<ComponentTypeProps, 'sys'>
 
-export type UpdateComponentTypeProps = ComponentTypeProps
+export type ComponentTypeUpsertProps = Except<ComponentTypeProps, 'sys'>
 
 export type ComponentTypeCollection = ExoCursorPaginatedCollectionProp<ComponentTypeProps>

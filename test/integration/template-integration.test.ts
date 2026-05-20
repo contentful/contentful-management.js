@@ -73,17 +73,13 @@ describe('Template Integration', { sequential: true }, () => {
     expect(fetched.designProperties).toHaveLength(1)
   })
 
-  it('updates a template', async () => {
+  it('upserts a template', async () => {
     const current = await client.template.get({ templateId: templateId })
 
-    // Update types require minimal sys — full entity sys is not assignable
-    const updated = await client.template.update(
-      { templateId: templateId },
-      {
-        ...current,
-        sys: { id: current.sys.id, type: 'Template' as const, version: current.sys.version },
-        name: testName('Template Updated'),
-      },
+    const { sys, ...body } = current
+    const updated = await client.template.upsert(
+      { templateId: templateId, version: sys.version },
+      { ...body, name: testName('Template Updated') },
     )
 
     expect(updated.name).toBe(testName('Template Updated'))

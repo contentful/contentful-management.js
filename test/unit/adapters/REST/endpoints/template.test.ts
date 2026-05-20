@@ -154,7 +154,7 @@ describe('Rest Template', { concurrent: true }, () => {
       })
   })
 
-  test('update calls correct URL with PUT and X-Contentful-Version header', async () => {
+  test('upsert calls correct URL with PUT and X-Contentful-Version header from params', async () => {
     const mockResponse = {
       sys: { id: 'template123', type: 'Template', version: 2 },
       name: 'Updated Template',
@@ -165,15 +165,15 @@ describe('Rest Template', { concurrent: true }, () => {
     return adapterMock
       .makeRequest({
         entityType: 'Template',
-        action: 'update',
+        action: 'upsert',
         userAgent: 'mocked',
         params: {
           spaceId: 'space123',
           environmentId: 'master',
           templateId: 'template123',
+          version: 1,
         },
         payload: {
-          sys: { id: 'template123', type: 'Template', version: 1 },
           name: 'Updated Template',
         },
       })
@@ -184,6 +184,37 @@ describe('Rest Template', { concurrent: true }, () => {
         )
         expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(1)
         expect(httpMock.put.mock.calls[0][1]).to.eql({ name: 'Updated Template' })
+      })
+  })
+
+  test('upsert omits version header when version is not provided', async () => {
+    const mockResponse = {
+      sys: { id: 'template123', type: 'Template', version: 1 },
+      name: 'New Template via Upsert',
+    }
+
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'Template',
+        action: 'upsert',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+          templateId: 'template123',
+        },
+        payload: {
+          name: 'New Template via Upsert',
+        },
+      })
+      .then((r) => {
+        expect(r).to.eql(mockResponse)
+        expect(httpMock.put.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/templates/template123',
+        )
+        expect(httpMock.put.mock.calls[0][2].headers).to.not.have.property('X-Contentful-Version')
       })
   })
 

@@ -7,7 +7,7 @@ import type {
   ComponentTypeQueryOptions,
   ComponentTypeProps,
   CreateComponentTypeProps,
-  UpdateComponentTypeProps,
+  ComponentTypeUpsertProps,
 } from '../../entities/component-type'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
@@ -81,24 +81,25 @@ export type ComponentTypePlainClientAPI = {
   ): Promise<ComponentTypeProps>
 
   /**
-   * Updates a component type with PUT
-   * @param params the space, environment, and component type IDs
-   * @param rawData the component type data to update (must include sys.version)
-   * @returns the updated component type
-   * @throws if the request fails, or the component type is not found
+   * Upserts a component type (creates or updates via PUT)
+   * @param params the space, environment, and component type IDs, and optional version
+   * @param rawData the component type data to upsert
+   * @returns the upserted component type
+   * @throws if the request fails
    * @internal - Experimental endpoint, subject to breaking changes without notice
    * @example
    * ```javascript
-   * const componentType = await client.componentType.update({
+   * const componentType = await client.componentType.upsert({
    *   spaceId: '<space_id>',
    *   environmentId: '<environment_id>',
    *   componentTypeId: '<component_id>',
+   *   version: 1, // omit for create-via-upsert
    * }, componentTypeData);
    * ```
    */
-  update(
-    params: OptionalDefaults<GetComponentTypeParams>,
-    rawData: UpdateComponentTypeProps,
+  upsert(
+    params: OptionalDefaults<GetComponentTypeParams & { version?: number }>,
+    rawData: ComponentTypeUpsertProps,
   ): Promise<ComponentTypeProps>
 
   /**

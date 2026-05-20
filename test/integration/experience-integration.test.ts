@@ -108,12 +108,13 @@ describe('Experience Integration', { sequential: true }, () => {
     expect(fetched.sys.type).toBe('Experience')
   })
 
-  it('updates an experience', async () => {
+  it('upserts an experience', async () => {
     const current = await client.experience.get({ experienceId: experienceId })
 
-    const updated = await client.experience.update(
-      { experienceId: experienceId },
-      { ...current, name: testName('Experience Updated') },
+    const { sys, ...body } = current
+    const updated = await client.experience.upsert(
+      { experienceId: experienceId, version: sys.version },
+      { ...body, name: testName('Experience Updated') },
     )
 
     expect(updated.name).toBe(testName('Experience Updated'))

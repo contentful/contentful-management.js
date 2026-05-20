@@ -55,13 +55,7 @@ export type TemplateProps = {
 
 export type CreateTemplateProps = Except<TemplateProps, 'sys'>
 
-export type UpdateTemplateProps = Omit<TemplateProps, 'sys'> & {
-  sys: {
-    id: string
-    type: 'Template'
-    version: number
-  }
-}
+export type TemplateUpsertProps = Except<TemplateProps, 'sys'>
 
 // Query options for getMany - cursor-based pagination with typed filter fields
 export type TemplateQueryOptions = CursorPaginationParams &

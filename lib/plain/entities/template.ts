@@ -7,7 +7,7 @@ import type {
   CreateTemplateProps,
   TemplateProps,
   TemplateQueryOptions,
-  UpdateTemplateProps,
+  TemplateUpsertProps,
 } from '../../entities/template'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
@@ -78,24 +78,25 @@ export type TemplatePlainClientAPI = {
   ): Promise<TemplateProps>
 
   /**
-   * Updates a template with PUT (upsert)
-   * @param params the space, environment, and template IDs
-   * @param data the template data (including sys.version)
-   * @returns the updated template
-   * @throws if the request fails, or the space, environment, or template is not found
+   * Upserts a template (creates or updates via PUT)
+   * @param params the space, environment, and template IDs, and optional version
+   * @param data the template data to upsert
+   * @returns the upserted template
+   * @throws if the request fails
    * @internal - Experimental endpoint, subject to breaking changes without notice
    * @example
    * ```javascript
-   * const template = await client.template.update({
+   * const template = await client.template.upsert({
    *   spaceId: '<space_id>',
    *   environmentId: '<environment_id>',
    *   templateId: '<template_id>',
+   *   version: 1, // omit for create-via-upsert
    * }, templateData);
    * ```
    */
-  update(
-    params: OptionalDefaults<GetTemplateParams>,
-    data: UpdateTemplateProps,
+  upsert(
+    params: OptionalDefaults<GetTemplateParams & { version?: number }>,
+    data: TemplateUpsertProps,
   ): Promise<TemplateProps>
 
   /**

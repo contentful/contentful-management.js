@@ -300,7 +300,7 @@ describe('Rest Experience', { concurrent: true }, () => {
       })
   })
 
-  test('update calls correct URL with version header and strips sys', async () => {
+  test('upsert calls correct URL with version header from params', async () => {
     const mockResponse = {
       sys: { id: 'experience123', type: 'Experience', version: 2 },
       name: 'Updated Experience',
@@ -316,20 +316,15 @@ describe('Rest Experience', { concurrent: true }, () => {
     return adapterMock
       .makeRequest({
         entityType: 'Experience',
-        action: 'update',
+        action: 'upsert',
         userAgent: 'mocked',
         params: {
           spaceId: 'space123',
           environmentId: 'master',
           experienceId: 'experience123',
+          version: 1,
         },
         payload: {
-          sys: {
-            version: 1,
-            componentType: {
-              sys: { type: 'Link', linkType: 'ComponentType', id: 'ct-123' },
-            },
-          },
           name: 'Updated Experience',
           description: 'An updated experience',
           viewports: [],
@@ -344,8 +339,47 @@ describe('Rest Experience', { concurrent: true }, () => {
           '/spaces/space123/environments/master/experiences/experience123',
         )
         expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(1)
-        const body = httpMock.put.mock.calls[0][1]
-        expect(body.sys).to.be.undefined
+      })
+  })
+
+  test('upsert omits version header when version is not provided', async () => {
+    const mockResponse = {
+      sys: { id: 'experience123', type: 'Experience', version: 1 },
+      name: 'New Experience via Upsert',
+      description: 'Created via upsert',
+      viewports: [],
+      contentProperties: {},
+      designProperties: {},
+      dimensionKeyMap: { designProperties: {} },
+    }
+
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
+
+    return adapterMock
+      .makeRequest({
+        entityType: 'Experience',
+        action: 'upsert',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+          experienceId: 'experience123',
+        },
+        payload: {
+          name: 'New Experience via Upsert',
+          description: 'Created via upsert',
+          viewports: [],
+          contentProperties: {},
+          designProperties: {},
+          dimensionKeyMap: { designProperties: {} },
+        },
+      })
+      .then((r) => {
+        expect(r).to.eql(mockResponse)
+        expect(httpMock.put.mock.calls[0][0]).to.eql(
+          '/spaces/space123/environments/master/experiences/experience123',
+        )
+        expect(httpMock.put.mock.calls[0][2].headers).to.not.have.property('X-Contentful-Version')
       })
   })
 

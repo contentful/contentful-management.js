@@ -229,7 +229,7 @@ describe('Rest ComponentType', { concurrent: true }, () => {
       })
   })
 
-  test('update calls correct URL with version header', async () => {
+  test('upsert calls correct URL with version header from params', async () => {
     const mockResponse = {
       sys: { id: 'comp123', type: 'ComponentType', version: 2 },
       name: 'Updated Component',
@@ -245,15 +245,15 @@ describe('Rest ComponentType', { concurrent: true }, () => {
     return adapterMock
       .makeRequest({
         entityType: 'ComponentType',
-        action: 'update',
+        action: 'upsert',
         userAgent: 'mocked',
         params: {
           spaceId: 'space123',
           environmentId: 'master',
           componentTypeId: 'comp123',
+          version: 1,
         },
         payload: {
-          sys: { version: 1 },
           name: 'Updated Component',
           description: 'An updated component type',
           viewports: [],
@@ -271,7 +271,7 @@ describe('Rest ComponentType', { concurrent: true }, () => {
       })
   })
 
-  test('update (upsert) omits version header when sys.version is undefined', async () => {
+  test('upsert omits version header when version is not provided', async () => {
     const mockResponse = {
       sys: { id: 'newcomp123', type: 'ComponentType', version: 1 },
       name: 'New Component via Upsert',
@@ -287,7 +287,7 @@ describe('Rest ComponentType', { concurrent: true }, () => {
     return adapterMock
       .makeRequest({
         entityType: 'ComponentType',
-        action: 'update',
+        action: 'upsert',
         userAgent: 'mocked',
         params: {
           spaceId: 'space123',
@@ -295,7 +295,6 @@ describe('Rest ComponentType', { concurrent: true }, () => {
           componentTypeId: 'newcomp123',
         },
         payload: {
-          sys: {},
           name: 'New Component via Upsert',
           description: 'A component type created via upsert',
           viewports: [],
