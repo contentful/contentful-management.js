@@ -360,5 +360,10 @@ export type {
   ReleaseExperienceCollection,
   ReleaseExperienceSys,
 } from './entities/experience'
-export type { FragmentCollection } from './entities/fragment'
+export type {
+  FragmentCollection,
+  ReleaseFragment,
+  ReleaseFragmentCollection,
+  ReleaseFragmentSys,
+} from './entities/fragment'
 export type { DataAssemblyCollection } from './entities/data-assembly'

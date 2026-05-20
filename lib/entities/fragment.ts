@@ -71,3 +71,16 @@ export type FragmentQueryOptions = CursorPaginationParams &
   }
 
 export type FragmentCollection = ExoCursorPaginatedCollectionProp<FragmentProps>
+
+export type ReleaseFragmentSys = Omit<
+  FragmentSys,
+  'variant' | 'variantType' | 'variantDimension'
+> & {
+  release: Link<'Release'>
+}
+
+export type ReleaseFragment = Omit<FragmentProps, 'sys'> & {
+  sys: ReleaseFragmentSys
+}
+
+export type ReleaseFragmentCollection = ExoCursorPaginatedCollectionProp<ReleaseFragment>
