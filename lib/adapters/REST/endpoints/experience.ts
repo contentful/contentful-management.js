@@ -4,7 +4,7 @@ import copy from 'fast-copy'
 import type { GetSpaceEnvironmentParams, GetExperienceParams } from '../../../common-types'
 import type {
   CreateExperienceProps,
-  UpdateExperienceProps,
+  UpsertExperienceProps,
   ExperienceLocalePublishPayload,
   ExperienceProps,
   ExperienceQueryOptions,
@@ -47,16 +47,18 @@ export const create: RestEndpoint<'Experience', 'create'> = (
   return raw.post<ExperienceProps>(http, getBaseUrl(params), data, { headers })
 }
 
-export const update: RestEndpoint<'Experience', 'update'> = (
+export const upsert: RestEndpoint<'Experience', 'upsert'> = (
   http: AxiosInstance,
   params: GetExperienceParams,
-  rawData: UpdateExperienceProps,
+  rawData: UpsertExperienceProps,
   headers?: RawAxiosRequestHeaders,
 ) => {
   const { sys, ...body } = copy(rawData)
   return raw.put<ExperienceProps>(http, getBaseUrl(params) + `/${params.experienceId}`, body, {
     headers: {
-      'X-Contentful-Version': sys.version ?? 0,
+      ...(sys.version !== undefined && {
+        'X-Contentful-Version': sys.version,
+      }),
       ...headers,
     },
   })

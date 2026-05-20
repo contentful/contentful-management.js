@@ -1,13 +1,12 @@
 import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import copy from 'fast-copy'
-import type { SetOptional } from 'type-fest'
 import type { GetSpaceEnvironmentParams, GetTemplateParams } from '../../../common-types'
 import type {
   CreateTemplateProps,
   TemplateProps,
   TemplateQueryOptions,
-  UpdateTemplateProps,
+  UpsertTemplateProps,
   TemplateCollection,
 } from '../../../entities/template'
 import type { RestEndpoint } from '../types'
@@ -45,18 +44,17 @@ export const create: RestEndpoint<'Template', 'create'> = (
   return raw.post<TemplateProps>(http, getBaseUrl(params), data, { headers })
 }
 
-export const update: RestEndpoint<'Template', 'update'> = (
+export const upsert: RestEndpoint<'Template', 'upsert'> = (
   http: AxiosInstance,
   params: GetTemplateParams,
-  rawData: UpdateTemplateProps,
+  rawData: UpsertTemplateProps,
   headers?: RawAxiosRequestHeaders,
 ) => {
-  const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
-  delete data.sys
-  return raw.put<TemplateProps>(http, getBaseUrl(params) + `/${params.templateId}`, data, {
+  const { sys, ...body } = copy(rawData)
+  return raw.put<TemplateProps>(http, getBaseUrl(params) + `/${params.templateId}`, body, {
     headers: {
-      ...(rawData.sys?.version !== undefined && {
-        'X-Contentful-Version': rawData.sys.version,
+      ...(sys.version !== undefined && {
+        'X-Contentful-Version': sys.version,
       }),
       ...headers,
     },
