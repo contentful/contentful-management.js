@@ -6,7 +6,7 @@ import type {
   CreateTemplateProps,
   TemplateProps,
   TemplateQueryOptions,
-  TemplateUpsertProps,
+  UpsertTemplateProps,
   TemplateCollection,
 } from '../../../entities/template'
 import type { RestEndpoint } from '../types'
@@ -47,7 +47,7 @@ export const create: RestEndpoint<'Template', 'create'> = (
 export const upsert: RestEndpoint<'Template', 'upsert'> = (
   http: AxiosInstance,
   params: GetTemplateParams & { version?: number },
-  rawData: TemplateUpsertProps,
+  rawData: UpsertTemplateProps,
   headers?: RawAxiosRequestHeaders,
 ) => {
   const data = copy(rawData)

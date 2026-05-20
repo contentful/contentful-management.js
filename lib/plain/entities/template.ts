@@ -7,7 +7,7 @@ import type {
   CreateTemplateProps,
   TemplateProps,
   TemplateQueryOptions,
-  TemplateUpsertProps,
+  UpsertTemplateProps,
 } from '../../entities/template'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
@@ -96,7 +96,7 @@ export type TemplatePlainClientAPI = {
    */
   upsert(
     params: OptionalDefaults<GetTemplateParams & { version?: number }>,
-    data: TemplateUpsertProps,
+    data: UpsertTemplateProps,
   ): Promise<TemplateProps>
 
   /**

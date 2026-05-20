@@ -5,7 +5,7 @@ import type {
 } from '../../common-types'
 import type {
   CreateExperienceProps,
-  ExperienceUpsertProps,
+  UpsertExperienceProps,
   ExperienceLocalePublishPayload,
   ExperienceProps,
   ExperienceQueryOptions,
@@ -113,7 +113,7 @@ export type ExperiencePlainClientAPI = {
    */
   upsert(
     params: OptionalDefaults<GetExperienceParams & { version?: number }>,
-    rawData: ExperienceUpsertProps,
+    rawData: UpsertExperienceProps,
   ): Promise<ExperienceProps>
 
   /**

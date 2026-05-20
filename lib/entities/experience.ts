@@ -84,7 +84,7 @@ export type CreateExperienceProps = ExperienceCommonProps &
     | { templateId: string; componentTypeId?: never }
   )
 
-export type ExperienceUpsertProps = ExperienceCommonProps & {
+export type UpsertExperienceProps = ExperienceCommonProps & {
   templateId?: string
 }
 

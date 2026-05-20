@@ -65,7 +65,7 @@ import type {
   ComponentTypeProps,
   ComponentTypeQueryOptions,
   CreateComponentTypeProps,
-  ComponentTypeUpsertProps,
+  UpsertComponentTypeProps,
 } from './entities/component-type'
 import type {
   CreateFragmentProps,
@@ -77,11 +77,11 @@ import type {
   CreateTemplateProps,
   TemplateProps,
   TemplateQueryOptions,
-  TemplateUpsertProps,
+  UpsertTemplateProps,
 } from './entities/template'
 import type {
   CreateExperienceProps,
-  ExperienceUpsertProps,
+  UpsertExperienceProps,
   ExperienceLocalePublishPayload,
   ExperienceProps,
   ExperienceQueryOptions,
@@ -1772,7 +1772,7 @@ export type MRActions = {
     }
     upsert: {
       params: GetComponentTypeParams & { version?: number }
-      payload: ComponentTypeUpsertProps
+      payload: UpsertComponentTypeProps
       return: ComponentTypeProps
     }
     delete: {
@@ -2810,7 +2810,7 @@ export type MRActions = {
     }
     upsert: {
       params: GetTemplateParams & { version?: number }
-      payload: TemplateUpsertProps
+      payload: UpsertTemplateProps
       return: TemplateProps
     }
     delete: {
@@ -2885,7 +2885,7 @@ export type MRActions = {
     }
     upsert: {
       params: GetExperienceParams & { version?: number }
-      payload: ExperienceUpsertProps
+      payload: UpsertExperienceProps
       return: ExperienceProps
     }
     delete: {
