@@ -300,7 +300,7 @@ describe('Rest Experience', { concurrent: true }, () => {
       })
   })
 
-  test('upsert calls correct URL with version header from params', async () => {
+  test('upsert calls correct URL with version header from sys', async () => {
     const mockResponse = {
       sys: { id: 'experience123', type: 'Experience', version: 2 },
       name: 'Updated Experience',
@@ -322,9 +322,9 @@ describe('Rest Experience', { concurrent: true }, () => {
           spaceId: 'space123',
           environmentId: 'master',
           experienceId: 'experience123',
-          version: 1,
         },
         payload: {
+          sys: { id: 'experience123', type: 'Experience', version: 1 },
           name: 'Updated Experience',
           description: 'An updated experience',
           viewports: [],
@@ -339,6 +339,8 @@ describe('Rest Experience', { concurrent: true }, () => {
           '/spaces/space123/environments/master/experiences/experience123',
         )
         expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(1)
+        const body = httpMock.put.mock.calls[0][1]
+        expect(body.sys).to.be.undefined
       })
   })
 
@@ -366,6 +368,7 @@ describe('Rest Experience', { concurrent: true }, () => {
           experienceId: 'experience123',
         },
         payload: {
+          sys: { id: 'experience123', type: 'Experience' },
           name: 'New Experience via Upsert',
           description: 'Created via upsert',
           viewports: [],
@@ -380,6 +383,8 @@ describe('Rest Experience', { concurrent: true }, () => {
           '/spaces/space123/environments/master/experiences/experience123',
         )
         expect(httpMock.put.mock.calls[0][2].headers).to.not.have.property('X-Contentful-Version')
+        const body = httpMock.put.mock.calls[0][1]
+        expect(body.sys).to.be.undefined
       })
   })
 

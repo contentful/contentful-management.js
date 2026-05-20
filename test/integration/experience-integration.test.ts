@@ -113,8 +113,12 @@ describe('Experience Integration', { sequential: true }, () => {
 
     const { sys, ...body } = current
     const updated = await client.experience.upsert(
-      { experienceId: experienceId, version: sys.version },
-      { ...body, name: testName('Experience Updated') },
+      { experienceId: experienceId },
+      {
+        sys: { id: sys.id, type: 'Experience', version: sys.version },
+        ...body,
+        name: testName('Experience Updated'),
+      },
     )
 
     expect(updated.name).toBe(testName('Experience Updated'))

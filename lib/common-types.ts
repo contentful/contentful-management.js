@@ -1771,7 +1771,7 @@ export type MRActions = {
       return: ComponentTypeProps
     }
     upsert: {
-      params: GetComponentTypeParams & { version?: number }
+      params: GetComponentTypeParams
       payload: UpsertComponentTypeProps
       return: ComponentTypeProps
     }
@@ -2809,7 +2809,7 @@ export type MRActions = {
       return: TemplateProps
     }
     upsert: {
-      params: GetTemplateParams & { version?: number }
+      params: GetTemplateParams
       payload: UpsertTemplateProps
       return: TemplateProps
     }
@@ -2884,7 +2884,7 @@ export type MRActions = {
       return: ExperienceProps
     }
     upsert: {
-      params: GetExperienceParams & { version?: number }
+      params: GetExperienceParams
       payload: UpsertExperienceProps
       return: ExperienceProps
     }

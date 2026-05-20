@@ -78,8 +78,12 @@ describe('Template Integration', { sequential: true }, () => {
 
     const { sys, ...body } = current
     const updated = await client.template.upsert(
-      { templateId: templateId, version: sys.version },
-      { ...body, name: testName('Template Updated') },
+      { templateId: templateId },
+      {
+        sys: { id: sys.id, type: 'Template', version: sys.version },
+        ...body,
+        name: testName('Template Updated'),
+      },
     )
 
     expect(updated.name).toBe(testName('Template Updated'))

@@ -79,23 +79,27 @@ export type TemplatePlainClientAPI = {
 
   /**
    * Upserts a template (creates or updates via PUT)
-   * @param params the space, environment, and template IDs, and optional version
-   * @param data the template data to upsert
+   * @param params the space, environment, and template IDs
+   * @param data the template data to upsert (include sys.version for updates, omit for creates)
    * @returns the upserted template
    * @throws if the request fails
    * @internal - Experimental endpoint, subject to breaking changes without notice
    * @example
    * ```javascript
-   * const template = await client.template.upsert({
+   * const current = await client.template.get({ templateId: '<template_id>' });
+   * const updated = await client.template.upsert({
    *   spaceId: '<space_id>',
    *   environmentId: '<environment_id>',
    *   templateId: '<template_id>',
-   *   version: 1, // omit for create-via-upsert
-   * }, templateData);
+   * }, {
+   *   sys: { id: current.sys.id, type: 'Template', version: current.sys.version },
+   *   name: 'Updated Template',
+   *   ...otherFields,
+   * });
    * ```
    */
   upsert(
-    params: OptionalDefaults<GetTemplateParams & { version?: number }>,
+    params: OptionalDefaults<GetTemplateParams>,
     data: UpsertTemplateProps,
   ): Promise<TemplateProps>
 

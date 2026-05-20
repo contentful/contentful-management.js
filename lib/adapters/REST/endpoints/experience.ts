@@ -49,15 +49,15 @@ export const create: RestEndpoint<'Experience', 'create'> = (
 
 export const upsert: RestEndpoint<'Experience', 'upsert'> = (
   http: AxiosInstance,
-  params: GetExperienceParams & { version?: number },
+  params: GetExperienceParams,
   rawData: UpsertExperienceProps,
   headers?: RawAxiosRequestHeaders,
 ) => {
-  const data = copy(rawData)
-  return raw.put<ExperienceProps>(http, getBaseUrl(params) + `/${params.experienceId}`, data, {
+  const { sys, ...body } = copy(rawData)
+  return raw.put<ExperienceProps>(http, getBaseUrl(params) + `/${params.experienceId}`, body, {
     headers: {
-      ...(params.version !== undefined && {
-        'X-Contentful-Version': params.version,
+      ...(sys.version !== undefined && {
+        'X-Contentful-Version': sys.version,
       }),
       ...headers,
     },

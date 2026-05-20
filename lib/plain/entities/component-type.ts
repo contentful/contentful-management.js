@@ -82,23 +82,27 @@ export type ComponentTypePlainClientAPI = {
 
   /**
    * Upserts a component type (creates or updates via PUT)
-   * @param params the space, environment, and component type IDs, and optional version
-   * @param rawData the component type data to upsert
+   * @param params the space, environment, and component type IDs
+   * @param rawData the component type data to upsert (include sys.version for updates, omit for creates)
    * @returns the upserted component type
    * @throws if the request fails
    * @internal - Experimental endpoint, subject to breaking changes without notice
    * @example
    * ```javascript
-   * const componentType = await client.componentType.upsert({
+   * const current = await client.componentType.get({ componentTypeId: '<component_id>' });
+   * const updated = await client.componentType.upsert({
    *   spaceId: '<space_id>',
    *   environmentId: '<environment_id>',
    *   componentTypeId: '<component_id>',
-   *   version: 1, // omit for create-via-upsert
-   * }, componentTypeData);
+   * }, {
+   *   sys: { id: current.sys.id, type: 'ComponentType', version: current.sys.version },
+   *   name: 'Updated Component',
+   *   ...otherFields,
+   * });
    * ```
    */
   upsert(
-    params: OptionalDefaults<GetComponentTypeParams & { version?: number }>,
+    params: OptionalDefaults<GetComponentTypeParams>,
     rawData: UpsertComponentTypeProps,
   ): Promise<ComponentTypeProps>
 

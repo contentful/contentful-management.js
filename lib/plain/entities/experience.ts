@@ -96,23 +96,27 @@ export type ExperiencePlainClientAPI = {
 
   /**
    * Upserts an experience (creates or updates via PUT)
-   * @param params the space ID, environment ID, experience ID, and optional version
-   * @param rawData the experience data to upsert
+   * @param params the space ID, environment ID, and experience ID
+   * @param rawData the experience data to upsert (include sys.version for updates, omit for creates)
    * @returns the upserted experience
    * @throws if the request fails
    * @internal - Experimental endpoint, subject to breaking changes without notice
    * @example
    * ```javascript
-   * const experience = await client.experience.upsert({
+   * const current = await client.experience.get({ experienceId: '<experience_id>' });
+   * const updated = await client.experience.upsert({
    *   spaceId: '<space_id>',
    *   environmentId: '<environment_id>',
    *   experienceId: '<experience_id>',
-   *   version: 1, // omit for create-via-upsert
-   * }, experienceData);
+   * }, {
+   *   sys: { id: current.sys.id, type: 'Experience', version: current.sys.version },
+   *   name: 'Updated Experience',
+   *   ...otherFields,
+   * });
    * ```
    */
   upsert(
-    params: OptionalDefaults<GetExperienceParams & { version?: number }>,
+    params: OptionalDefaults<GetExperienceParams>,
     rawData: UpsertExperienceProps,
   ): Promise<ExperienceProps>
 

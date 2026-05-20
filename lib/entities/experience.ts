@@ -85,6 +85,11 @@ export type CreateExperienceProps = ExperienceCommonProps &
   )
 
 export type UpsertExperienceProps = ExperienceCommonProps & {
+  sys: {
+    id: string
+    type: 'Experience'
+    version?: number
+  }
   templateId?: string
 }
 

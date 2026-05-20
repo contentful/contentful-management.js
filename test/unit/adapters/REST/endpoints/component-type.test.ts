@@ -229,7 +229,7 @@ describe('Rest ComponentType', { concurrent: true }, () => {
       })
   })
 
-  test('upsert calls correct URL with version header from params', async () => {
+  test('upsert calls correct URL with version header from sys', async () => {
     const mockResponse = {
       sys: { id: 'comp123', type: 'ComponentType', version: 2 },
       name: 'Updated Component',
@@ -251,9 +251,9 @@ describe('Rest ComponentType', { concurrent: true }, () => {
           spaceId: 'space123',
           environmentId: 'master',
           componentTypeId: 'comp123',
-          version: 1,
         },
         payload: {
+          sys: { id: 'comp123', type: 'ComponentType', version: 1 },
           name: 'Updated Component',
           description: 'An updated component type',
           viewports: [],
@@ -268,6 +268,8 @@ describe('Rest ComponentType', { concurrent: true }, () => {
           '/spaces/space123/environments/master/component_types/comp123',
         )
         expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(1)
+        const body = httpMock.put.mock.calls[0][1]
+        expect(body.sys).to.be.undefined
       })
   })
 
@@ -295,6 +297,7 @@ describe('Rest ComponentType', { concurrent: true }, () => {
           componentTypeId: 'newcomp123',
         },
         payload: {
+          sys: { id: 'newcomp123', type: 'ComponentType' },
           name: 'New Component via Upsert',
           description: 'A component type created via upsert',
           viewports: [],
@@ -309,6 +312,8 @@ describe('Rest ComponentType', { concurrent: true }, () => {
           '/spaces/space123/environments/master/component_types/newcomp123',
         )
         expect(httpMock.put.mock.calls[0][2].headers).to.not.have.property('X-Contentful-Version')
+        const body = httpMock.put.mock.calls[0][1]
+        expect(body.sys).to.be.undefined
       })
   })
 

@@ -46,15 +46,15 @@ export const create: RestEndpoint<'Template', 'create'> = (
 
 export const upsert: RestEndpoint<'Template', 'upsert'> = (
   http: AxiosInstance,
-  params: GetTemplateParams & { version?: number },
+  params: GetTemplateParams,
   rawData: UpsertTemplateProps,
   headers?: RawAxiosRequestHeaders,
 ) => {
-  const data = copy(rawData)
-  return raw.put<TemplateProps>(http, getBaseUrl(params) + `/${params.templateId}`, data, {
+  const { sys, ...body } = copy(rawData)
+  return raw.put<TemplateProps>(http, getBaseUrl(params) + `/${params.templateId}`, body, {
     headers: {
-      ...(params.version !== undefined && {
-        'X-Contentful-Version': params.version,
+      ...(sys.version !== undefined && {
+        'X-Contentful-Version': sys.version,
       }),
       ...headers,
     },

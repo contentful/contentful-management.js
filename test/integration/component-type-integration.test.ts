@@ -76,8 +76,12 @@ describe('ComponentType Integration', { sequential: true }, () => {
 
     const { sys, ...body } = current
     const updated = await client.componentType.upsert(
-      { componentTypeId: componentTypeId, version: sys.version },
-      { ...body, name: testName('Component Updated') },
+      { componentTypeId: componentTypeId },
+      {
+        sys: { id: sys.id, type: 'ComponentType', version: sys.version },
+        ...body,
+        name: testName('Component Updated'),
+      },
     )
 
     expect(updated.name).toBe(testName('Component Updated'))

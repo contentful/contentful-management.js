@@ -48,19 +48,19 @@ export const create: RestEndpoint<'ComponentType', 'create'> = (
 
 export const upsert: RestEndpoint<'ComponentType', 'upsert'> = (
   http: AxiosInstance,
-  params: GetComponentTypeParams & { version?: number },
+  params: GetComponentTypeParams,
   rawData: UpsertComponentTypeProps,
   headers?: RawAxiosRequestHeaders,
 ) => {
-  const data = copy(rawData)
+  const { sys, ...body } = copy(rawData)
   return raw.put<ComponentTypeProps>(
     http,
     getBaseUrl(params) + `/${params.componentTypeId}`,
-    data,
+    body,
     {
       headers: {
-        ...(params.version !== undefined && {
-          'X-Contentful-Version': params.version,
+        ...(sys.version !== undefined && {
+          'X-Contentful-Version': sys.version,
         }),
         ...headers,
       },
