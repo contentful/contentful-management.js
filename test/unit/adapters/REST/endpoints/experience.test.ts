@@ -227,7 +227,7 @@ describe('Rest Experience', { concurrent: true }, () => {
         payload: {
           name: 'New Experience',
           description: 'A new experience',
-          componentTypeId: 'ct-123',
+          templateId: 'tmpl-123',
           viewports: [],
           contentProperties: {},
           designProperties: {},
@@ -242,7 +242,7 @@ describe('Rest Experience', { concurrent: true }, () => {
         expect(httpMock.post.mock.calls[0][1]).to.eql({
           name: 'New Experience',
           description: 'A new experience',
-          componentTypeId: 'ct-123',
+          templateId: 'tmpl-123',
           viewports: [],
           contentProperties: {},
           designProperties: {},
