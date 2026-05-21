@@ -293,6 +293,18 @@ export interface QueryOptions extends PaginationQueryOptions {
 /** @internal */
 export interface SpaceQueryOptions extends PaginationQueryOptions {
   spaceId?: string
+  /** Search spaces by exact key (ID) match or partial name match */
+  query?: string
+  /** Filter spaces by type. Cannot be used together with sys.archivedAt.
+   * The 'templated' type requires the X-Contentful-Organization header.
+   */
+  type?: 'active' | 'archived' | 'templated'
+  /** Enable cursor-based pagination (default: false for offset pagination) */
+  cursor?: boolean
+  /** Cursor for the next page of results (cursor pagination) */
+  pageNext?: string
+  /** Cursor for the previous page of results (cursor pagination) */
+  pagePrev?: string
 }
 
 export interface BasicMetaSysProps {
@@ -2359,7 +2371,7 @@ export type MRActions = {
       return: SpaceProps & { includes?: SpaceIncludes }
     }
     getMany: {
-      params: QueryParams & { organizationId?: string } & SpaceIncludeParam
+      params: { query?: SpaceQueryOptions; organizationId?: string } & SpaceIncludeParam
       return: (CollectionProp<SpaceProps> | CursorPaginatedCollectionProp<SpaceProps>) & {
         includes?: SpaceIncludes
       }

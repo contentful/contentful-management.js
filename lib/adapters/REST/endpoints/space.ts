@@ -7,6 +7,7 @@ import type {
   GetOrganizationParams,
   GetSpaceParams,
   QueryParams,
+  SpaceQueryOptions,
 } from '../../../common-types'
 import type { SpaceProps, UnarchiveProps } from '../../../entities/space'
 import type { RestEndpoint } from '../types'
@@ -22,17 +23,26 @@ export const get: RestEndpoint<'Space', 'get'> = (
 
 export const getMany: RestEndpoint<'Space', 'getMany'> = (
   http: AxiosInstance,
-  params: QueryParams & {
+  params: {
+    query?: SpaceQueryOptions
     organizationId?: string
     include?: 'sys.license'
   },
-) =>
-  raw.get<CollectionProp<SpaceProps>>(http, `/spaces`, {
-    params: { ...params.query, ...(params.include ? { include: params.include } : {}) },
+) => {
+  // Build query parameters according to OpenAPI spec
+  // Supports: skip, limit, order, cursor, pageNext, pagePrev, query (search), type (filter)
+  const queryParams = {
+    ...params.query,
+    ...(params.include ? { include: params.include } : {}),
+  }
+
+  return raw.get<CollectionProp<SpaceProps>>(http, `/spaces`, {
+    params: queryParams,
     headers: params.organizationId
       ? { 'X-Contentful-Organization': params.organizationId }
       : undefined,
   })
+}
 
 export const getManyForOrganization: RestEndpoint<'Space', 'getManyForOrganization'> = (
   http: AxiosInstance,
