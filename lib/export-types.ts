@@ -361,4 +361,7 @@ export type {
   ReleaseExperienceSys,
 } from './entities/experience'
 export type { FragmentCollection } from './entities/fragment'
-export type { DataAssemblyCollection } from './entities/data-assembly'
+export type {
+  DataAssemblyCollection,
+  DataAssemblyResourceLinkParameter,
+} from './entities/data-assembly'

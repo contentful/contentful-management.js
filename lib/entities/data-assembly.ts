@@ -35,7 +35,18 @@ export type DataAssemblyLinkParameter = {
   allowedContentTypes: string[]
 }
 
-export type DataAssemblyParameterConfig = Record<string, DataAssemblyLinkParameter>
+export type DataAssemblyResourceLinkParameter = {
+  name?: string
+  description?: string
+  type: 'ResourceLink'
+  linkType: string
+  allowedResources: Array<{ type: string; source: string; allowedTypes: string[] }>
+}
+
+export type DataAssemblyParameterConfig = Record<
+  string,
+  DataAssemblyLinkParameter | DataAssemblyResourceLinkParameter
+>
 
 export type DataAssemblyGraphQLResolver = {
   source: 'Contentful:GraphQL'
