@@ -55,11 +55,11 @@ export type TemplateProps = {
 
 export type CreateTemplateProps = Except<TemplateProps, 'sys'>
 
-export type UpdateTemplateProps = Omit<TemplateProps, 'sys'> & {
+export type UpsertTemplateProps = Except<TemplateProps, 'sys'> & {
   sys: {
     id: string
     type: 'Template'
-    version: number
+    version?: number
   }
 }
 
