@@ -42,7 +42,7 @@ describe('Experience Integration', { sequential: true }, () => {
       {
         name: testName('Experience'),
         description: 'Created by integration test',
-        templateId: templateId,
+        template: { sys: { type: 'Link', linkType: 'Template', id: templateId } },
         viewports: [testViewport],
         contentProperties: {},
         designProperties: {},
