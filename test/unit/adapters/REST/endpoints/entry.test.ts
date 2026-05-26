@@ -207,6 +207,18 @@ describe('Rest Entry', () => {
       })
   })
 
+  test('getManyWithCursor throws when releaseId is provided', async () => {
+    const { adapterMock } = setup(Promise.resolve({}))
+    await expect(
+      adapterMock.makeRequest({
+        entityType: 'Entry',
+        action: 'getManyWithCursor',
+        userAgent: 'mocked',
+        params: { spaceId: 'space123', environmentId: 'master', releaseId: 'release123' },
+      })
+    ).rejects.toThrow('getManyWithCursor is not supported for release-scoped entries')
+  })
+
   test('patch without releaseId', async () => {
     const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
 

@@ -355,4 +355,16 @@ describe('Rest Asset', { concurrent: true }, async () => {
         expect(r.pages).to.eql({})
       })
   })
+
+  test('getManyWithCursor throws when releaseId is provided', async () => {
+    const { adapterMock } = setup(Promise.resolve({}))
+    await expect(
+      adapterMock.makeRequest({
+        entityType: 'Asset',
+        action: 'getManyWithCursor',
+        userAgent: 'mocked',
+        params: { spaceId: 'space123', environmentId: 'master', releaseId: 'release123' },
+      })
+    ).rejects.toThrow('getManyWithCursor is not supported for release-scoped assets')
+  })
 })
