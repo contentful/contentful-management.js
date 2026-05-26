@@ -54,7 +54,7 @@ export type FragmentProps = {
 }
 
 export type CreateFragmentProps = Except<FragmentProps, 'sys'> & {
-  componentTypeId: string
+  componentType: Link<'ComponentType'>
 }
 
 export type UpdateFragmentProps = Omit<FragmentProps, 'sys'> & {

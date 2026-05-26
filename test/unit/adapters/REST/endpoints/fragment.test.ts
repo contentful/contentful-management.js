@@ -126,7 +126,7 @@ describe('Rest Fragment', { concurrent: true }, () => {
       })
   })
 
-  test('create calls correct URL with POST', async () => {
+  test('create calls correct URL with POST and passes componentType link', async () => {
     const mockResponse = {
       sys: { id: 'fragment123', type: 'Fragment' },
       name: 'New Fragment',
@@ -143,13 +143,23 @@ describe('Rest Fragment', { concurrent: true }, () => {
           spaceId: 'space123',
           environmentId: 'master',
         },
-        payload: { name: 'New Fragment' },
+        payload: {
+          name: 'New Fragment',
+          componentType: { sys: { type: 'Link', linkType: 'ComponentType', id: 'ct-abc' } },
+          viewports: [],
+          designProperties: {},
+          dimensionKeyMap: { designProperties: {} },
+        },
       })
       .then((r) => {
         expect(r).to.eql(mockResponse)
         expect(httpMock.post.mock.calls[0][0]).to.eql(
           '/spaces/space123/environments/master/fragments',
         )
+        const body = httpMock.post.mock.calls[0][1]
+        expect(body.componentType).to.eql({
+          sys: { type: 'Link', linkType: 'ComponentType', id: 'ct-abc' },
+        })
       })
   })
 

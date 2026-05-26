@@ -41,7 +41,7 @@ describe('Fragment Integration', { sequential: true }, () => {
       {
         name: testName('Fragment'),
         description: 'Created by integration test',
-        componentTypeId: componentTypeId,
+        componentType: { sys: { type: 'Link', linkType: 'ComponentType', id: componentTypeId } },
         viewports: [testViewport],
         designProperties: {},
         dimensionKeyMap: { designProperties: {} },

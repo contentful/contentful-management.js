@@ -66,7 +66,7 @@ export type ExperiencePlainClientAPI = {
    * }, {
    *   name: 'My Experience',
    *   description: 'A new experience',
-   *   templateId: '<template_id>',
+   *   template: { sys: { type: 'Link', linkType: 'Template', id: '<template_id>' } },
    *   viewports: [],
    *   contentProperties: {},
    *   designProperties: {},
