@@ -364,7 +364,7 @@ describe('Rest Asset', { concurrent: true }, async () => {
         action: 'getManyWithCursor',
         userAgent: 'mocked',
         params: { spaceId: 'space123', environmentId: 'master', releaseId: 'release123' },
-      })
+      }),
     ).rejects.toThrow('getManyWithCursor is not supported for release-scoped assets')
   })
 })
