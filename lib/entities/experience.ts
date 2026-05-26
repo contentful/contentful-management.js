@@ -76,7 +76,7 @@ export type ExperienceQueryOptions = CursorPaginationParams &
 export type ExperienceLocalePublishPayload = { add: string[] } | { remove: string[] }
 
 export type CreateExperienceProps = ExperienceCommonProps & {
-  templateId: string
+  template: Link<'Template'>
 }
 
 export type UpsertExperienceProps = ExperienceCommonProps & {
@@ -85,7 +85,7 @@ export type UpsertExperienceProps = ExperienceCommonProps & {
     type: 'Experience'
     version?: number
   }
-  templateId?: string
+  template?: Link<'Template'>
 }
 
 export type InlineFragmentNode = {
