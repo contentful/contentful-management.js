@@ -163,18 +163,17 @@ export type ComponentNode = {
   id: string
   name?: string
   nodeType: 'Component'
-  componentTypeId: string
+  componentType: ResourceLink<'Contentful:ComponentType'>
   contentProperties: Record<string, ContentPropertyPointerValue | unknown> | string
   designProperties: Record<string, ComponentTreeDesignPropertyValue>
   slots: Record<string, TreeNode[]>
-  contentBindings?: string
 }
 
 export type FragmentNode = {
   id: string
   name?: string
   nodeType: 'Fragment'
-  fragmentId: string
+  fragment: ResourceLink<'Contentful:Fragment'>
 }
 
 export type SlotNode = {
@@ -186,7 +185,7 @@ export type SlotNode = {
 export type TreeNode = ComponentNode | FragmentNode | SlotNode
 
 // DataAssembly link type
-export type DataAssemblyLink = Link<'DataAssembly'>
+export type DataAssemblyLink = ResourceLink<'Contentful:DataAssembly'>
 
 // Slot definition
 export type ComponentTypeSlotDefinition = {

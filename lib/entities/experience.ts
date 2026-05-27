@@ -4,6 +4,7 @@ import type {
   ExperienceMetadataProps,
   ExoQueryFilters,
   Link,
+  ResourceLink,
 } from '../common-types'
 import type {
   ComponentTypeViewport,
@@ -16,12 +17,8 @@ export type ExperienceDimensionKeyMap = {
 }
 
 export type ExperienceContentBindings = {
-  sys: {
-    type: 'Link'
-    id: string
-    linkType: 'DataAssembly'
-  }
-  parameters: Record<string, Link<string>>
+  sys: ResourceLink<'Contentful:DataAssembly'>['sys']
+  parameters: Record<string, ResourceLink<string>>
 }
 
 export type ExperienceSys = {
@@ -30,7 +27,7 @@ export type ExperienceSys = {
   version: number
   space: Link<'Space'>
   environment: Link<'Environment'>
-  template?: Link<'Template'>
+  template?: ResourceLink<'Contentful:Template'>
   createdAt: string
   updatedAt: string
   createdBy: Link<'User'>
@@ -76,7 +73,7 @@ export type ExperienceQueryOptions = CursorPaginationParams &
 export type ExperienceLocalePublishPayload = { add: string[] } | { remove: string[] }
 
 export type CreateExperienceProps = ExperienceCommonProps & {
-  template: Link<'Template'>
+  template: ResourceLink<'Contentful:Template'>
 }
 
 export type UpsertExperienceProps = ExperienceCommonProps & {
@@ -85,13 +82,13 @@ export type UpsertExperienceProps = ExperienceCommonProps & {
     type: 'Experience'
     version?: number
   }
-  template?: Link<'Template'>
+  template?: ResourceLink<'Contentful:Template'>
 }
 
 export type InlineFragmentNode = {
   id: string
   nodeType: 'InlineFragment'
-  componentTypeId: string
+  componentType: ResourceLink<'Contentful:ComponentType'>
   designProperties: Record<string, DimensionedDesignPropertyValue>
   contentBindings?: ExperienceContentBindings
   slots?: Record<string, Array<FragmentNode | InlineFragmentNode>>

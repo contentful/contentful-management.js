@@ -5,6 +5,7 @@ import type {
   ExoQueryFilters,
   ExperienceMetadataProps,
   Link,
+  ResourceLink,
 } from '../common-types'
 import type {
   ComponentTypeViewport,
@@ -23,7 +24,7 @@ export type FragmentSys = {
   version: number
   space: Link<'Space'>
   environment: Link<'Environment'>
-  componentType: Link<'ComponentType'>
+  componentType: ResourceLink<'Contentful:ComponentType'>
   archivedAt?: string
   archivedBy?: Link<'User'>
   archivedVersion?: number
@@ -54,7 +55,7 @@ export type FragmentProps = {
 }
 
 export type CreateFragmentProps = Except<FragmentProps, 'sys'> & {
-  componentType: Link<'ComponentType'>
+  componentType: ResourceLink<'Contentful:ComponentType'>
 }
 
 export type UpdateFragmentProps = Omit<FragmentProps, 'sys'> & {
