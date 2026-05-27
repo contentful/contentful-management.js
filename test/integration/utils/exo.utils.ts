@@ -1,6 +1,5 @@
 import type { PlainClientAPI, ResourceLink } from '../../../lib/index'
 import { generateRandomId } from '../../helpers'
-import { TestDefaults } from '../../defaults'
 
 export const TEST_PREFIX = '[ExO Integration Test]'
 
@@ -15,20 +14,22 @@ export const testViewport = {
   previewSize: '100%',
 } as const
 
+const EXO_CRN_PREFIX = 'crn:contentful:::experience:spaces/$self/environments/$self'
+
 const entityPaths: Record<string, string> = {
   'Contentful:Template': 'templates',
-  'Contentful:ComponentType': 'component_types',
+  'Contentful:ComponentType': 'componentTypes',
   'Contentful:Fragment': 'fragments',
-  'Contentful:DataAssembly': 'data_assemblies',
+  'Contentful:DataAssembly': 'dataAssemblies',
 }
 
 export function makeResourceLink<T extends string>(linkType: T, id: string): ResourceLink<T> {
-  const path = entityPaths[linkType] ?? linkType.toLowerCase().replace('contentful:', '') + 's'
+  const path = entityPaths[linkType] ?? linkType.replace('Contentful:', '').toLowerCase() + 's'
   return {
     sys: {
       type: 'ResourceLink',
       linkType,
-      urn: `crn:contentful:::content:spaces/${TestDefaults.spaceId}/environments/${TestDefaults.environmentId}/${path}/${id}`,
+      urn: `${EXO_CRN_PREFIX}/${path}/${id}`,
     },
   }
 }
