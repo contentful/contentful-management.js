@@ -192,9 +192,13 @@ export type DataAssemblyLink = Link<'DataAssembly'>
 export type ComponentTypeSlotDefinition = {
   id: string
   name: string
-  componentTypeId: string[]
   required: boolean
-  validations: unknown[]
+  validations: Array<{ size?: { min?: number; max?: number } }>
+  allowedResources?: Array<{
+    type: 'Contentful:ComponentType'
+    source: string
+    allowedTypes: string[]
+  }>
 }
 
 // ComponentType sys properties (management API shape)
