@@ -2386,7 +2386,7 @@ export type MRActions = {
       headers?: RawAxiosRequestHeaders
       return: SpaceProps
     }
-    delete: { params: GetSpaceParams; return: void }
+    delete: { params: GetSpaceParams & { version: number }; return: void }
   }
   SpaceMember: {
     get: { params: GetSpaceParams & { spaceMemberId: string }; return: SpaceMemberProps }

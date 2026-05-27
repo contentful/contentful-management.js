@@ -75,7 +75,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
       return makeRequest({
         entityType: 'Space',
         action: 'delete',
-        params: { spaceId: raw.sys.id },
+        params: { spaceId: raw.sys.id, version: raw.sys.version },
       })
     },
     /**

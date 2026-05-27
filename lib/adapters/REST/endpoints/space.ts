@@ -83,5 +83,10 @@ export const unarchive: RestEndpoint<'Space', 'unarchive'> = (
   })
 }
 
-export const del: RestEndpoint<'Space', 'delete'> = (http: AxiosInstance, params: GetSpaceParams) =>
-  raw.del(http, `/spaces/${params.spaceId}`)
+export const del: RestEndpoint<'Space', 'delete'> = (
+  http: AxiosInstance,
+  params: GetSpaceParams & { version: number },
+) =>
+  raw.del(http, `/spaces/${params.spaceId}`, {
+    headers: { 'X-Contentful-Version': params.version },
+  })
