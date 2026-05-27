@@ -1,5 +1,6 @@
-import type { PlainClientAPI } from '../../../lib/index'
+import type { PlainClientAPI, ResourceLink } from '../../../lib/index'
 import { generateRandomId } from '../../helpers'
+import { TestDefaults } from '../../defaults'
 
 export const TEST_PREFIX = '[ExO Integration Test]'
 
@@ -13,6 +14,24 @@ export const testViewport = {
   displayName: 'Desktop',
   previewSize: '100%',
 } as const
+
+const entityPaths: Record<string, string> = {
+  'Contentful:Template': 'templates',
+  'Contentful:ComponentType': 'component_types',
+  'Contentful:Fragment': 'fragments',
+  'Contentful:DataAssembly': 'data_assemblies',
+}
+
+export function makeResourceLink<T extends string>(linkType: T, id: string): ResourceLink<T> {
+  const path = entityPaths[linkType] ?? linkType.toLowerCase().replace('contentful:', '') + 's'
+  return {
+    sys: {
+      type: 'ResourceLink',
+      linkType,
+      urn: `crn:contentful:::content:spaces/${TestDefaults.spaceId}/environments/${TestDefaults.environmentId}/${path}/${id}`,
+    },
+  }
+}
 
 const SWEEP_KEY = '__exoIntegrationSwept'
 

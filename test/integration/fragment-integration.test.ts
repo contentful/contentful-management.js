@@ -1,7 +1,7 @@
 import { describe, it, beforeAll, afterAll, expect } from 'vitest'
 import { initPlainClient, timeoutToCalmRateLimiting } from '../helpers'
 import { TestDefaults } from '../defaults'
-import { testName, testViewport, sweepStaleExoEntities } from './utils/exo.utils'
+import { testName, testViewport, sweepStaleExoEntities, makeResourceLink } from './utils/exo.utils'
 
 describe('Fragment Integration', { sequential: true }, () => {
   const client = initPlainClient({
@@ -41,7 +41,7 @@ describe('Fragment Integration', { sequential: true }, () => {
       {
         name: testName('Fragment'),
         description: 'Created by integration test',
-        componentType: { sys: { type: 'Link', linkType: 'ComponentType', id: componentTypeId } },
+        componentType: makeResourceLink('Contentful:ComponentType', componentTypeId),
         viewports: [testViewport],
         designProperties: {},
         dimensionKeyMap: { designProperties: {} },
@@ -95,7 +95,9 @@ describe('Fragment Integration', { sequential: true }, () => {
     expect(frag.sys.updatedAt).toBeDefined()
     expect(frag.sys.createdBy).toBeDefined()
     expect(frag.sys.componentType).toBeDefined()
-    expect(frag.sys.componentType.sys.id).toBe(componentTypeId)
+    expect(frag.sys.componentType.sys.type).toBe('ResourceLink')
+    expect(frag.sys.componentType.sys.linkType).toBe('Contentful:ComponentType')
+    expect(frag.sys.componentType.sys.urn).toContain(componentTypeId)
     expect(frag.name).toBe(testName('Fragment'))
   })
 
