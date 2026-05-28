@@ -1,31 +1,18 @@
 import type {
   CursorPaginationParams,
+  DataTypeDefinition,
   ExoCursorPaginatedCollectionProp,
   Link,
   MetadataProps,
   ResourceLink,
 } from '../common-types'
-import { User } from './user'
 
-export type DataAssemblyPrimitiveDataTypeField = {
+// DataTypeField — DataTypeDefinition extended with id, name, and optional source
+export type DataAssemblyDataTypeField = DataTypeDefinition & {
   id: string
   name: string
-  type: string
-  required: boolean
   source?: string
 }
-
-export type DataAssemblyTypeRefDataTypeField = {
-  id: string
-  name: string
-  type: 'TypeRef'
-  ref: ResourceLink<'Contentful:DataAssembly'>
-  required: boolean
-}
-
-export type DataAssemblyDataTypeField =
-  | DataAssemblyPrimitiveDataTypeField
-  | DataAssemblyTypeRefDataTypeField
 
 export type DataAssemblyLinkParameter = {
   name?: string

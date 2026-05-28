@@ -1,6 +1,7 @@
 import type { Except } from 'type-fest'
 import type {
   CursorPaginationParams,
+  DataTypeDefinition,
   ExoCursorPaginatedCollectionProp,
   ExoMetadataProps,
   ExoQueryFilters,
@@ -22,28 +23,13 @@ export type ComponentTypeViewport = {
   previewSize: string
 }
 
-// Primitive content property — String, Number, Boolean
-export type ComponentTypePrimitiveContentProperty = {
+// Content property — DataTypeDefinition extended with id, name, required, defaultValue
+export type ComponentTypeContentProperty = DataTypeDefinition & {
   id: string
   name: string
-  type: 'String' | 'Number' | 'Boolean'
   required: boolean
   defaultValue?: unknown
 }
-
-// TypeRef content property — references a DataAssembly or ComponentType
-export type ComponentTypeTypeRefContentProperty = {
-  id: string
-  name: string
-  type: 'TypeRef'
-  ref: ResourceLink<'Contentful:DataAssembly'> | ResourceLink<'Contentful:ComponentType'>
-  required: boolean
-}
-
-// Discriminated union covering all content property variants
-export type ComponentTypeContentProperty =
-  | ComponentTypePrimitiveContentProperty
-  | ComponentTypeTypeRefContentProperty
 
 // Validation entry for legacy design property validations.in
 export type ComponentTypeDesignPropertyValidation =
