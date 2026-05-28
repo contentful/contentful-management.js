@@ -22,9 +22,7 @@ describe('Template Integration', { sequential: true }, () => {
         description: 'Created by integration test',
         viewports: [testViewport],
         contentProperties: [{ id: 'heading', name: 'Heading', type: 'String', required: false }],
-        designProperties: [
-          { id: 'bgColor', name: 'Background Color', type: 'Symbol', required: false },
-        ],
+        designProperties: [{ id: 'bgColor', name: 'Background Color', type: 'Symbol' }],
         dimensionKeyMap: { designProperties: {} },
       },
     )

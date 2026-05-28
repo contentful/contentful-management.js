@@ -77,7 +77,6 @@ export type DTCGDesignPropertyType =
 type DesignPropertyCommonFields = {
   id: string
   name: string
-  required: boolean
   description?: string
 }
 
@@ -85,6 +84,7 @@ type DesignPropertyCommonFields = {
 export type LegacyDesignProperty = DesignPropertyCommonFields & {
   type: 'Symbol' | 'Number' | 'Boolean'
   defaultValue?: DesignPropertyDefinitionValue
+  fallbackValue?: DesignPropertyDefinitionValue
   validations?: {
     in?: ComponentTypeDesignPropertyValidation[]
   }
@@ -94,6 +94,7 @@ export type LegacyDesignProperty = DesignPropertyCommonFields & {
 export type StringDesignProperty = DesignPropertyCommonFields & {
   type: 'String'
   defaultValue?: { type: 'ManualDesignValue'; value: string }
+  fallbackValue?: { type: 'ManualDesignValue'; value: string }
   validations?: StringDesignPropertyRegexpValidation[]
 }
 
@@ -101,6 +102,7 @@ export type StringDesignProperty = DesignPropertyCommonFields & {
 export type TokenBackedDesignProperty = DesignPropertyCommonFields & {
   type: DTCGDesignPropertyType
   defaultValue?: DesignTokenValue
+  fallbackValue?: DesignTokenValue
   allowedResources?: DesignTokenAllowedResource[]
 }
 
