@@ -289,6 +289,58 @@ export interface ResourceLink<T extends string> {
   }
 }
 
+// Canonical DataTypeDefinition — mirrors @contentful/data-type
+export type PrimitiveDataTypeName = 'String' | 'Number' | 'Integer' | 'Boolean'
+
+export type BaseDataTypeDefinition = {
+  name?: string
+  required?: boolean
+}
+
+export type PrimitiveDataTypeDefinition = BaseDataTypeDefinition & {
+  type: PrimitiveDataTypeName
+}
+
+export type RichTextDataTypeDefinition = BaseDataTypeDefinition & {
+  type: 'RichText'
+}
+
+export type ArrayDataTypeDefinition = BaseDataTypeDefinition & {
+  type: 'Array'
+  items: DataTypeDefinition
+}
+
+export type RecordDataTypeDefinition = BaseDataTypeDefinition & {
+  type: 'Record'
+  fields: Record<string, DataTypeDefinition>
+}
+
+export type TypeRefDataTypeDefinition = BaseDataTypeDefinition & {
+  type: 'TypeRef'
+  ref: ResourceLink<string>
+}
+
+export type LiteralDataTypeDefinition = BaseDataTypeDefinition & {
+  type: 'Literal'
+  value: string | number | boolean
+  valueType: PrimitiveDataTypeDefinition
+}
+
+export type DiscriminatedUnionDataTypeDefinition = BaseDataTypeDefinition & {
+  type: 'DiscriminatedUnion'
+  discriminator: string
+  members: DataTypeDefinition[]
+}
+
+export type DataTypeDefinition =
+  | PrimitiveDataTypeDefinition
+  | RichTextDataTypeDefinition
+  | ArrayDataTypeDefinition
+  | RecordDataTypeDefinition
+  | TypeRefDataTypeDefinition
+  | LiteralDataTypeDefinition
+  | DiscriminatedUnionDataTypeDefinition
+
 export interface VersionedLink<T extends string> {
   sys: {
     type: 'Link'

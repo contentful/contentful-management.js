@@ -1,6 +1,7 @@
 import type { Except } from 'type-fest'
 import type {
   CursorPaginationParams,
+  DataTypeDefinition,
   ExoCursorPaginatedCollectionProp,
   ExoMetadataProps,
   ExoQueryFilters,
@@ -22,28 +23,13 @@ export type ComponentTypeViewport = {
   previewSize: string
 }
 
-// Primitive content property — String, Number, Boolean
-export type ComponentTypePrimitiveContentProperty = {
+// Content property — DataTypeDefinition extended with id, name, required, defaultValue
+export type ComponentTypeContentProperty = DataTypeDefinition & {
   id: string
   name: string
-  type: 'String' | 'Number' | 'Boolean'
   required: boolean
   defaultValue?: unknown
 }
-
-// TypeRef content property — references a DataAssembly or ComponentType
-export type ComponentTypeTypeRefContentProperty = {
-  id: string
-  name: string
-  type: 'TypeRef'
-  ref: ResourceLink<'Contentful:DataAssembly'> | ResourceLink<'Contentful:ComponentType'>
-  required: boolean
-}
-
-// Discriminated union covering all content property variants
-export type ComponentTypeContentProperty =
-  | ComponentTypePrimitiveContentProperty
-  | ComponentTypeTypeRefContentProperty
 
 // Validation entry for legacy design property validations.in
 export type ComponentTypeDesignPropertyValidation =
@@ -91,7 +77,6 @@ export type DTCGDesignPropertyType =
 type DesignPropertyCommonFields = {
   id: string
   name: string
-  required: boolean
   description?: string
 }
 
@@ -99,6 +84,7 @@ type DesignPropertyCommonFields = {
 export type LegacyDesignProperty = DesignPropertyCommonFields & {
   type: 'Symbol' | 'Number' | 'Boolean'
   defaultValue?: DesignPropertyDefinitionValue
+  fallbackValue?: DesignPropertyDefinitionValue
   validations?: {
     in?: ComponentTypeDesignPropertyValidation[]
   }
@@ -108,6 +94,7 @@ export type LegacyDesignProperty = DesignPropertyCommonFields & {
 export type StringDesignProperty = DesignPropertyCommonFields & {
   type: 'String'
   defaultValue?: { type: 'ManualDesignValue'; value: string }
+  fallbackValue?: { type: 'ManualDesignValue'; value: string }
   validations?: StringDesignPropertyRegexpValidation[]
 }
 
@@ -115,6 +102,7 @@ export type StringDesignProperty = DesignPropertyCommonFields & {
 export type TokenBackedDesignProperty = DesignPropertyCommonFields & {
   type: DTCGDesignPropertyType
   defaultValue?: DesignTokenValue
+  fallbackValue?: DesignTokenValue
   allowedResources?: DesignTokenAllowedResource[]
 }
 
