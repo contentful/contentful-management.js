@@ -1,7 +1,7 @@
 import { describe, it, beforeAll, afterAll, expect } from 'vitest'
 import { initPlainClient, timeoutToCalmRateLimiting } from '../helpers'
 import { TestDefaults } from '../defaults'
-import { testName, testViewport, sweepStaleExoEntities } from './utils/exo.utils'
+import { testName, testViewport, sweepStaleExoEntities, makeResourceLink } from './utils/exo.utils'
 
 describe('Experience Integration', { sequential: true }, () => {
   const client = initPlainClient({
@@ -42,7 +42,7 @@ describe('Experience Integration', { sequential: true }, () => {
       {
         name: testName('Experience'),
         description: 'Created by integration test',
-        template: { sys: { type: 'Link', linkType: 'Template', id: templateId } },
+        template: makeResourceLink('Contentful:Template', templateId),
         viewports: [testViewport],
         contentProperties: {},
         designProperties: {},
@@ -97,7 +97,9 @@ describe('Experience Integration', { sequential: true }, () => {
     expect(exp.sys.updatedAt).toBeDefined()
     expect(exp.sys.createdBy).toBeDefined()
     expect(exp.sys.template).toBeDefined()
-    expect(exp.sys.template!.sys.id).toBe(templateId)
+    expect(exp.sys.template!.sys.type).toBe('ResourceLink')
+    expect(exp.sys.template!.sys.linkType).toBe('Contentful:Template')
+    expect(exp.sys.template!.sys.urn).toContain(templateId)
     expect(exp.name).toBe(testName('Experience'))
   })
 
