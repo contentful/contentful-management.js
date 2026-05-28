@@ -50,7 +50,6 @@ type ExperienceCommonProps = {
   name: string
   description: string
   viewports: ComponentTypeViewport[]
-  contentProperties: Record<string, unknown>
   designProperties: Record<string, DimensionedDesignPropertyValue>
   dimensionKeyMap: ExperienceDimensionKeyMap
   contentBindings?: ExperienceContentBindings

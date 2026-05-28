@@ -44,7 +44,6 @@ describe('Experience Integration', { sequential: true }, () => {
         description: 'Created by integration test',
         template: makeResourceLink('Contentful:Template', templateId),
         viewports: [testViewport],
-        contentProperties: {},
         designProperties: {},
         dimensionKeyMap: { designProperties: {} },
       },

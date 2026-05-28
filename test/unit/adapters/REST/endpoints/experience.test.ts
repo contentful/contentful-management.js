@@ -105,7 +105,7 @@ describe('Rest Experience', { concurrent: true }, () => {
       name: 'Test Experience',
       description: 'A test experience',
       viewports: [],
-      contentProperties: {},
+
       designProperties: {},
       dimensionKeyMap: { designProperties: {} },
     }
@@ -208,7 +208,7 @@ describe('Rest Experience', { concurrent: true }, () => {
       name: 'New Experience',
       description: 'A new experience',
       viewports: [],
-      contentProperties: {},
+
       designProperties: {},
       dimensionKeyMap: { designProperties: {} },
     }
@@ -231,7 +231,7 @@ describe('Rest Experience', { concurrent: true }, () => {
           description: 'A new experience',
           template: templateLink,
           viewports: [],
-          contentProperties: {},
+
           designProperties: {},
           dimensionKeyMap: { designProperties: {} },
         },
@@ -252,7 +252,7 @@ describe('Rest Experience', { concurrent: true }, () => {
       name: 'Updated Experience',
       description: 'An updated experience',
       viewports: [],
-      contentProperties: {},
+
       designProperties: {},
       dimensionKeyMap: { designProperties: {} },
     }
@@ -274,7 +274,7 @@ describe('Rest Experience', { concurrent: true }, () => {
           name: 'Updated Experience',
           description: 'An updated experience',
           viewports: [],
-          contentProperties: {},
+
           designProperties: {},
           dimensionKeyMap: { designProperties: {} },
         },
@@ -296,7 +296,7 @@ describe('Rest Experience', { concurrent: true }, () => {
       name: 'New Experience via Upsert',
       description: 'Created via upsert',
       viewports: [],
-      contentProperties: {},
+
       designProperties: {},
       dimensionKeyMap: { designProperties: {} },
     }
@@ -318,7 +318,7 @@ describe('Rest Experience', { concurrent: true }, () => {
           name: 'New Experience via Upsert',
           description: 'Created via upsert',
           viewports: [],
-          contentProperties: {},
+
           designProperties: {},
           dimensionKeyMap: { designProperties: {} },
         },
@@ -367,7 +367,7 @@ describe('Rest Experience', { concurrent: true }, () => {
       name: 'Test Experience',
       description: 'A test experience',
       viewports: [],
-      contentProperties: {},
+
       designProperties: {},
       dimensionKeyMap: { designProperties: {} },
     }
