@@ -96,10 +96,9 @@ describe('Experience Integration', { sequential: true }, () => {
     expect(exp.sys.createdAt).toBeDefined()
     expect(exp.sys.updatedAt).toBeDefined()
     expect(exp.sys.createdBy).toBeDefined()
-    expect(exp.sys.template).toBeDefined()
-    expect(exp.sys.template!.sys.type).toBe('ResourceLink')
-    expect(exp.sys.template!.sys.linkType).toBe('Contentful:Template')
-    expect(exp.sys.template!.sys.urn).toContain(templateId)
+    expect(exp.sys.template.sys.type).toBe('ResourceLink')
+    expect(exp.sys.template.sys.linkType).toBe('Contentful:Template')
+    expect(exp.sys.template.sys.urn).toContain(templateId)
     expect(exp.name).toBe(testName('Experience'))
   })
 

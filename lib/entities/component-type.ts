@@ -238,14 +238,17 @@ export type ComponentTypeProps = {
   source?: ResourceLink<'Contentful:DesignSystemSource'>
 }
 
-export type CreateComponentTypeProps = Except<ComponentTypeProps, 'sys'>
+export type CreateComponentTypeProps = Except<ComponentTypeProps, 'sys' | 'source'> & {
+  source?: ResourceLink<'Contentful:DesignSystemSource'> | null
+}
 
-export type UpsertComponentTypeProps = Except<ComponentTypeProps, 'sys'> & {
+export type UpsertComponentTypeProps = Except<ComponentTypeProps, 'sys' | 'source'> & {
   sys: {
     id: string
     type: 'ComponentType'
     version?: number
   }
+  source?: ResourceLink<'Contentful:DesignSystemSource'> | null
 }
 
 export type ComponentTypeCollection = ExoCursorPaginatedCollectionProp<ComponentTypeProps>
