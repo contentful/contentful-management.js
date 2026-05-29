@@ -37,7 +37,7 @@ describe('Locale API', () => {
     })
   })
 
-  it.skip('Creates, gets, updates, and deletes a locale', async () => {
+  it('Creates, gets, updates, and deletes a locale', async () => {
     const createdLocale = await environment.createLocale({
       name: 'German (Austria)',
       code: 'de-AT',
@@ -62,7 +62,7 @@ describe('Locale API', () => {
     await updatedLocale.delete()
   })
 
-  it.skip('Creates, gets page (respects limit), deletes a locale', async () => {
+  it('Creates, gets page (respects limit), deletes a locale', async () => {
     const createdLocal = await environment.createLocale({
       name: 'Chinese (Simplified, China)',
       code: 'zh-Hans-CN',

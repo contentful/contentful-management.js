@@ -287,7 +287,7 @@ describe('Release Api', () => {
     }
     const plainClient = initPlainClient(defaultParams)
 
-    it.skip('release.publish', async () => {
+    it('release.publish', async () => {
       const entry = await plainClient.entry.get({
         entryId: TestDefaults.entry.testEntryReleasesId,
       })
@@ -348,7 +348,7 @@ describe('Release Api', () => {
       })
     })
 
-    it.skip('release.unpublish', async () => {
+    it('release.unpublish', async () => {
       const entry = await plainClient.entry.get({
         entryId: TestDefaults.entry.testEntryReleasesId,
       })
