@@ -22,7 +22,7 @@ describe('ComponentType Integration', { sequential: true }, () => {
         description: 'Created by integration test',
         viewports: [testViewport],
         contentProperties: [{ id: 'title', name: 'Title', type: 'String', required: false }],
-        designProperties: [{ id: 'color', name: 'Color', type: 'Symbol' }],
+        designProperties: [{ id: 'color', name: 'Color', type: 'String' }],
         dimensionKeyMap: { designProperties: {} },
       },
     )
