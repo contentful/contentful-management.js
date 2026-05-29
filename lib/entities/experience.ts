@@ -27,7 +27,7 @@ export type ExperienceSys = {
   version: number
   space: Link<'Space'>
   environment: Link<'Environment'>
-  template?: ResourceLink<'Contentful:Template'>
+  template: ResourceLink<'Contentful:Template'>
   createdAt: string
   updatedAt: string
   createdBy: Link<'User'>
