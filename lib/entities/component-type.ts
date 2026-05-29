@@ -31,19 +31,6 @@ export type ComponentTypeContentProperty = DataTypeDefinition & {
   defaultValue?: unknown
 }
 
-// Validation entry for legacy design property validations.in
-export type ComponentTypeDesignPropertyValidation =
-  | {
-      type: 'ManualDesignValue'
-      value: string | number | boolean
-      name?: string
-    }
-  | {
-      type: 'DesignToken'
-      value: string
-      name?: string
-    }
-
 // Regexp validation shape for String design properties
 export type StringDesignPropertyRegexpValidation = {
   regexp: {
@@ -80,36 +67,30 @@ type DesignPropertyCommonFields = {
   description?: string
 }
 
-// Legacy design property — Symbol, Number, Boolean
-export type LegacyDesignProperty = DesignPropertyCommonFields & {
-  type: 'Symbol' | 'Number' | 'Boolean'
-  defaultValue?: DesignPropertyDefinitionValue
-  fallbackValue?: DesignPropertyDefinitionValue
-  validations?: {
-    in?: ComponentTypeDesignPropertyValidation[]
-  }
-}
-
 // String design property — free-text with optional regexp validations
 export type StringDesignProperty = DesignPropertyCommonFields & {
   type: 'String'
-  defaultValue?: { type: 'ManualDesignValue'; value: string }
   fallbackValue?: { type: 'ManualDesignValue'; value: string }
   validations?: StringDesignPropertyRegexpValidation[]
+}
+
+// Boolean design property — narrowed fallbackValue to boolean only
+export type BooleanDesignProperty = DesignPropertyCommonFields & {
+  type: 'Boolean'
+  fallbackValue?: { type: 'ManualDesignValue'; value: boolean }
 }
 
 // Token-backed design property — DTCG types with optional allowedResources
 export type TokenBackedDesignProperty = DesignPropertyCommonFields & {
   type: DTCGDesignPropertyType
-  defaultValue?: DesignTokenValue
   fallbackValue?: DesignTokenValue
   allowedResources?: DesignTokenAllowedResource[]
 }
 
-// Discriminated union covering all three upstream arms
+// Discriminated union covering all upstream design property arms
 export type ComponentTypeDesignProperty =
-  | LegacyDesignProperty
   | StringDesignProperty
+  | BooleanDesignProperty
   | TokenBackedDesignProperty
 
 // Dimension key map
@@ -134,8 +115,6 @@ export type DesignTokenValue = {
   /** Must be non-empty (min length 1) */
   value: string
 }
-
-export type DesignPropertyDefinitionValue = ManualDesignValue | DesignTokenValue
 
 export type DesignPropertyValue = ManualDesignValue | DesignTokenValue
 
