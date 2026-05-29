@@ -65,7 +65,7 @@ describe('Workflow Api', () => {
         ],
       },
     )
-  }, 180000)
+  })
 
   afterAll(async () => {
     if (space) {

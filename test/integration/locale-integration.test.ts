@@ -16,7 +16,7 @@ describe('Locale API', () => {
     space = await createTestSpace(defaultClient, 'Locale')
     environment = await createTestEnvironment(space, 'Test')
     await waitForEnvironmentToBeReady(space, environment)
-  }, 120000)
+  })
 
   afterAll(async () => {
     if (space) {

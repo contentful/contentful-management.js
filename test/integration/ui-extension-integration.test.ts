@@ -16,7 +16,7 @@ describe('Extension API', () => {
     space = await createTestSpace(defaultClient, 'TSM')
     environment = await createTestEnvironment(space, 'Test')
     await waitForEnvironmentToBeReady(space, environment)
-  }, 120000)
+  })
 
   afterAll(async () => {
     if (space) {
