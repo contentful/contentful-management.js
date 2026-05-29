@@ -64,6 +64,7 @@ export type UpdateFragmentProps = Omit<FragmentProps, 'sys'> & {
     type: 'Fragment'
     version: number
   }
+  componentType?: ResourceLink<'Contentful:ComponentType'>
 }
 
 export type FragmentQueryOptions = CursorPaginationParams &

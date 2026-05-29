@@ -320,10 +320,18 @@ export type TypeRefDataTypeDefinition = BaseDataTypeDefinition & {
   ref: ResourceLink<string>
 }
 
+export type JsonValue =
+  | string
+  | number
+  | boolean
+  | null
+  | JsonValue[]
+  | { [key: string]: JsonValue }
+
 export type LiteralDataTypeDefinition = BaseDataTypeDefinition & {
   type: 'Literal'
-  value: string | number | boolean
-  valueType: PrimitiveDataTypeDefinition
+  value: JsonValue
+  valueType: DataTypeDefinition
 }
 
 export type DiscriminatedUnionDataTypeDefinition = BaseDataTypeDefinition & {
@@ -340,6 +348,11 @@ export type DataTypeDefinition =
   | TypeRefDataTypeDefinition
   | LiteralDataTypeDefinition
   | DiscriminatedUnionDataTypeDefinition
+
+export type PointerExpressionValue =
+  | string
+  | { $literal: JsonValue }
+  | { [key: string]: PointerExpressionValue }
 
 export interface VersionedLink<T extends string> {
   sys: {
