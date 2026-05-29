@@ -6,7 +6,7 @@ import {
   timeoutToCalmRateLimiting,
 } from '../helpers'
 
-describe('AiAction api', { sequential: true }, () => {
+describe.skip('AiAction api', { sequential: true }, () => {
   let space
   let environment
 

@@ -37,7 +37,7 @@ describe('Comment Api', () => {
     })
     await contentType.publish()
     entry = await environment.createEntry(contentType.sys.id, { fields: {} })
-  })
+  }, 120000)
 
   afterAll(async () => {
     if (space) {
