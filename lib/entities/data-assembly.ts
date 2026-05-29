@@ -4,6 +4,7 @@ import type {
   ExoCursorPaginatedCollectionProp,
   Link,
   MetadataProps,
+  PointerExpressionValue,
   ResourceLink,
 } from '../common-types'
 
@@ -38,13 +39,13 @@ export type DataAssemblyParameterConfig = Record<
 export type DataAssemblyGraphQLResolver = {
   source: 'Contentful:GraphQL'
   query: string
-  parameters?: Record<string, unknown>
+  parameters?: PointerExpressionValue
 }
 
 export type DataAssemblyNestedResolver = {
   source: 'Contentful:DataAssembly'
   dataAssembly: ResourceLink<'Contentful:DataAssembly'>
-  parameters?: Record<string, unknown>
+  parameters?: PointerExpressionValue
 }
 
 export type DataAssemblyResolverDefinition =
@@ -53,29 +54,7 @@ export type DataAssemblyResolverDefinition =
 
 export type DataAssemblyResolverConfig = Record<string, DataAssemblyResolverDefinition>
 
-export type DataAssemblyReturnMappingSelectValue =
-  | string
-  | {
-      $on: {
-        type: Record<string, DataAssemblyReturnMappingSelectValue>
-        default?: DataAssemblyReturnMappingSelectValue
-      }
-    }
-  | { [key: string]: DataAssemblyReturnMappingSelectValue }
-
-export type DataAssemblyReturnMappingFromObject = {
-  $from: {
-    source: string
-    select?: DataAssemblyReturnMappingSelectValue
-  }
-}
-
-export type DataAssemblyReturnMappingValue =
-  | string
-  | DataAssemblyReturnMappingFromObject
-  | { [key: string]: DataAssemblyReturnMappingValue }
-
-export type DataAssemblyReturnMappingConfig = Record<string, DataAssemblyReturnMappingValue>
+export type DataAssemblyReturnMappingConfig = Record<string, PointerExpressionValue>
 
 export type DataAssemblySys = {
   id: string
