@@ -349,6 +349,11 @@ export type DataTypeDefinition =
   | LiteralDataTypeDefinition
   | DiscriminatedUnionDataTypeDefinition
 
+export type PointerExpressionValue =
+  | string
+  | { $literal: JsonValue }
+  | { [key: string]: PointerExpressionValue }
+
 export interface VersionedLink<T extends string> {
   sys: {
     type: 'Link'
