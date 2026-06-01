@@ -87,23 +87,6 @@ export async function getTestOrganization(): Promise<Organization> {
   return org
 }
 
-export async function getTestProductId(): Promise<string> {
-  if (process.env.CONTENTFUL_PRODUCT_ID) {
-    return process.env.CONTENTFUL_PRODUCT_ID
-  }
-
-  const organization = await getTestOrganization()
-  const availableLicenses = await organization.getAvailableLicenses()
-  const license = availableLicenses.items.find(({ count }) => count > 0)
-
-  if (!license) {
-    throw new Error('No available license found for integration test space creation')
-  }
-
-  // AvailableLicense.id is the product/offer id used when creating a space.
-  return license.id
-}
-
 export async function getTestUser() {
   const { userId } = TestDefaults
   const organization = await getTestOrganization()
@@ -158,17 +141,13 @@ export async function createAppInstallation(appDefinitionId) {
 }
 
 export const createTestSpace = async (client, testSuiteName = '') => {
-  const spaceName = `%JS CMA ${testSuiteName}`
-  const productId = await getTestProductId()
-
-  return client.createSpace(
-    {
-      name: spaceName,
-      productId,
-      defaultLocale: 'en',
-    },
-    orgId,
-  ) as unknown as Space
+  return testUtils.createTestSpace({
+    client,
+    organizationId: orgId,
+    repo: 'CMA',
+    language: 'JS',
+    testSuiteName,
+  }) as unknown as Space
 }
 
 export const createTestEnvironment = async (space, environmentName) => {
