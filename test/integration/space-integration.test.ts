@@ -1,14 +1,20 @@
 import { describe, it, beforeAll, afterAll } from 'vitest'
 import { expect } from 'vitest'
-import { defaultClient, getTestOrganization, timeoutToCalmRateLimiting } from '../helpers'
+import {
+  defaultClient,
+  getTestOrganization,
+  getTestProductId,
+  timeoutToCalmRateLimiting,
+} from '../helpers'
 import type { Organization } from '../../lib/export-types'
 
 describe('Space API', () => {
   let organization: Organization
-  const INTERNAL_PRODUCT_ID = process.env.CONTENTFUL_PRODUCT_ID || '54jwueRJC2BOihxYMIdYoD'
+  let productId: string
 
   beforeAll(async () => {
     organization = await getTestOrganization()
+    productId = await getTestProductId()
   })
 
   afterAll(timeoutToCalmRateLimiting)
@@ -24,7 +30,7 @@ describe('Space API', () => {
     const space = await defaultClient.createSpace(
       {
         name: 'test space',
-        productId: INTERNAL_PRODUCT_ID,
+        productId,
         defaultLocale: 'en',
       },
       organization.sys.id,
@@ -40,13 +46,13 @@ describe('Space API', () => {
     const space = await defaultClient.createSpace(
       {
         name: 'test space for unarchive',
-        productId: INTERNAL_PRODUCT_ID,
+        productId,
         defaultLocale: 'en',
       },
       organization.sys.id,
     )
     try {
-      await space.unarchive(INTERNAL_PRODUCT_ID)
+      await space.unarchive(productId)
     } catch (e) {
       expect((e as { name: string }).name).toEqual('ValidationFailed')
     } finally {
