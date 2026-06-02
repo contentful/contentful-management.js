@@ -58,7 +58,7 @@ export type CreateFragmentProps = Except<FragmentProps, 'sys'> & {
   componentType: ResourceLink<'Contentful:ComponentType'>
 }
 
-export type UpdateFragmentProps = Omit<FragmentProps, 'sys'> & {
+export type UpsertFragmentProps = Omit<FragmentProps, 'sys'> & {
   sys: {
     id: string
     type: 'Fragment'

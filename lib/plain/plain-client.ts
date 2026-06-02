@@ -632,7 +632,7 @@ export const createPlainClient = (
       getMany: wrap(wrapParams, 'Fragment', 'getMany'),
       get: wrap(wrapParams, 'Fragment', 'get'),
       create: wrap(wrapParams, 'Fragment', 'create'),
-      update: wrap(wrapParams, 'Fragment', 'update'),
+      upsert: wrap(wrapParams, 'Fragment', 'upsert'),
       delete: wrap(wrapParams, 'Fragment', 'delete'),
       publish: wrap(wrapParams, 'Fragment', 'publish'),
       unpublish: wrap(wrapParams, 'Fragment', 'unpublish'),

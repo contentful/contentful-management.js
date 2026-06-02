@@ -163,7 +163,7 @@ describe('Rest Fragment', { concurrent: true }, () => {
       })
   })
 
-  test('update calls correct URL with PUT and X-Contentful-Version header', async () => {
+  test('upsert calls correct URL with PUT and X-Contentful-Version header', async () => {
     const mockResponse = {
       sys: { id: 'fragment123', type: 'Fragment', version: 2 },
       name: 'Updated Fragment',
@@ -174,7 +174,7 @@ describe('Rest Fragment', { concurrent: true }, () => {
     return adapterMock
       .makeRequest({
         entityType: 'Fragment',
-        action: 'update',
+        action: 'upsert',
         userAgent: 'mocked',
         params: {
           spaceId: 'space123',
