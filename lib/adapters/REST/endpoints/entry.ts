@@ -7,6 +7,8 @@ import type {
   CollectionProp,
   CreateReleaseEntryParams,
   CreateWithIdReleaseEntryParams,
+  CursorBasedParams,
+  CursorPaginatedCollectionProp,
   GetManyReleaseEntryParams,
   GetReleaseEntryParams,
   GetSpaceEnvironmentParams,
@@ -17,6 +19,7 @@ import type {
 } from '../../../common-types'
 import type { CreateEntryProps, EntryProps, EntryReferenceProps } from '../../../entities/entry'
 import type { RestEndpoint } from '../types'
+import { normalizeCursorPaginationResponse } from '../../../common-utils'
 import * as raw from './raw'
 import * as releaseEntry from './release-entry'
 import { normalizeSelect } from './utils'
@@ -77,6 +80,30 @@ export const getMany: RestEndpoint<'Entry', 'getMany'> = <T extends KeyValueMap 
       headers: { ...headers },
     },
   )
+}
+
+export const getManyWithCursor: RestEndpoint<'Entry', 'getManyWithCursor'> = <
+  T extends KeyValueMap = KeyValueMap,
+>(
+  http: AxiosInstance,
+  params: GetSpaceEnvironmentParams & CursorBasedParams & { releaseId?: string },
+  rawData?: unknown,
+  headers?: RawAxiosRequestHeaders,
+) => {
+  if (params.releaseId) {
+    throw new Error('getManyWithCursor is not supported for release-scoped entries')
+  }
+
+  return raw
+    .get<CursorPaginatedCollectionProp<EntryProps<T>>>(
+      http,
+      `/spaces/${params.spaceId}/environments/${params.environmentId}/entries`,
+      {
+        params: { cursor: true, ...(params.query ?? {}) },
+        headers: { ...headers },
+      },
+    )
+    .then(normalizeCursorPaginationResponse)
 }
 
 export const patch: RestEndpoint<'Entry', 'patch'> = <T extends KeyValueMap = KeyValueMap>(
