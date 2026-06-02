@@ -25,7 +25,6 @@ describe('Fragment Integration', { sequential: true }, () => {
         viewports: [testViewport],
         contentProperties: [],
         designProperties: [],
-        dimensionKeyMap: { designProperties: {} },
       },
     )
     componentTypeId = ct.sys.id
@@ -44,7 +43,6 @@ describe('Fragment Integration', { sequential: true }, () => {
         componentType: makeResourceLink('Contentful:ComponentType', componentTypeId),
         viewports: [testViewport],
         designProperties: {},
-        dimensionKeyMap: { designProperties: {} },
       },
     )
     fragmentId = frag.sys.id

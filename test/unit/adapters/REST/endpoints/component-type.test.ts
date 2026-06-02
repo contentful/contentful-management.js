@@ -144,7 +144,6 @@ describe('Rest ComponentType', { concurrent: true }, () => {
       viewports: [],
       contentProperties: [],
       designProperties: [],
-      dimensionKeyMap: { designProperties: {} },
     }
 
     const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
@@ -184,7 +183,6 @@ describe('Rest ComponentType', { concurrent: true }, () => {
       viewports: [],
       contentProperties: [],
       designProperties: [],
-      dimensionKeyMap: { designProperties: {} },
     }
 
     const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
@@ -237,7 +235,6 @@ describe('Rest ComponentType', { concurrent: true }, () => {
       viewports: [],
       contentProperties: [],
       designProperties: [],
-      dimensionKeyMap: { designProperties: {} },
     }
 
     const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
@@ -259,7 +256,6 @@ describe('Rest ComponentType', { concurrent: true }, () => {
           viewports: [],
           contentProperties: [],
           designProperties: [],
-          dimensionKeyMap: { designProperties: {} },
         },
       })
       .then((r) => {
@@ -281,7 +277,6 @@ describe('Rest ComponentType', { concurrent: true }, () => {
       viewports: [],
       contentProperties: [],
       designProperties: [],
-      dimensionKeyMap: { designProperties: {} },
     }
 
     const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
@@ -303,7 +298,6 @@ describe('Rest ComponentType', { concurrent: true }, () => {
           viewports: [],
           contentProperties: [],
           designProperties: [],
-          dimensionKeyMap: { designProperties: {} },
         },
       })
       .then((r) => {
@@ -325,7 +319,6 @@ describe('Rest ComponentType', { concurrent: true }, () => {
       viewports: [],
       contentProperties: [],
       designProperties: [],
-      dimensionKeyMap: { designProperties: {} },
     }
 
     const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
@@ -345,7 +338,6 @@ describe('Rest ComponentType', { concurrent: true }, () => {
           viewports: [],
           contentProperties: [],
           designProperties: [],
-          dimensionKeyMap: { designProperties: {} },
         },
       })
       .then((r) => {
@@ -359,7 +351,6 @@ describe('Rest ComponentType', { concurrent: true }, () => {
           viewports: [],
           contentProperties: [],
           designProperties: [],
-          dimensionKeyMap: { designProperties: {} },
         })
       })
   })

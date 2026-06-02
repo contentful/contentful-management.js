@@ -148,7 +148,6 @@ describe('Rest Fragment', { concurrent: true }, () => {
           componentType: { sys: { type: 'Link', linkType: 'ComponentType', id: 'ct-abc' } },
           viewports: [],
           designProperties: {},
-          dimensionKeyMap: { designProperties: {} },
         },
       })
       .then((r) => {

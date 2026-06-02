@@ -68,7 +68,6 @@ export type FragmentPlainClientAPI = {
    *   componentType: { sys: { type: 'Link', linkType: 'ComponentType', id: '<component_type_id>' } },
    *   viewports: [],
    *   designProperties: {},
-   *   dimensionKeyMap: { designProperties: {} },
    * });
    * ```
    */
