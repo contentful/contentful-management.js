@@ -50,7 +50,7 @@ export type DataAssemblyResolverDefinition =
 
 export type DataAssemblyResolverConfig = Record<string, DataAssemblyResolverDefinition>
 
-export type DataAssemblyReturnMappingConfig = Record<string, PointerExpressionValue>
+export type DataAssemblyReturnMappingConfig = PointerExpressionValue
 
 export type DataAssemblySys = {
   id: string
