@@ -68,7 +68,6 @@ export type TemplatePlainClientAPI = {
    *   viewports: [],
    *   contentProperties: [],
    *   designProperties: [],
-   *   dimensionKeyMap: { designProperties: {} },
    * });
    * ```
    */

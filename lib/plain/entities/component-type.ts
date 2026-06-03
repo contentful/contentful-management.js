@@ -71,7 +71,6 @@ export type ComponentTypePlainClientAPI = {
    *   viewports: [],
    *   contentProperties: [],
    *   designProperties: [],
-   *   dimensionKeyMap: { designProperties: {} },
    * });
    * ```
    */

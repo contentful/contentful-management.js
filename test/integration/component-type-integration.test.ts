@@ -23,7 +23,6 @@ describe('ComponentType Integration', { sequential: true }, () => {
         viewports: [testViewport],
         contentProperties: [{ id: 'title', name: 'Title', type: 'String', required: false }],
         designProperties: [{ id: 'color', name: 'Color', type: 'String' }],
-        dimensionKeyMap: { designProperties: {} },
       },
     )
     componentTypeId = created.sys.id
@@ -127,7 +126,6 @@ describe('ComponentType Integration', { sequential: true }, () => {
         description: 'Should fail — missing name and viewports',
         contentProperties: [],
         designProperties: [],
-        dimensionKeyMap: { designProperties: {} },
       } as any),
     ).rejects.toThrow()
   })
