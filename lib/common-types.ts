@@ -71,7 +71,7 @@ import type {
   CreateFragmentProps,
   FragmentProps,
   FragmentQueryOptions,
-  UpdateFragmentProps,
+  UpsertFragmentProps,
 } from './entities/fragment'
 import type {
   CreateTemplateProps,
@@ -351,7 +351,10 @@ export type DataTypeDefinition =
 
 export type PointerExpressionValue =
   | string
+  | { $from: string | { source: string; select?: PointerExpressionValue } }
   | { $literal: JsonValue }
+  | { $object: Record<string, PointerExpressionValue> }
+  | { $on: { type: Record<string, PointerExpressionValue>; default?: PointerExpressionValue } }
   | { [key: string]: PointerExpressionValue }
 
 export interface VersionedLink<T extends string> {
@@ -1102,7 +1105,7 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Fragment', 'getMany', UA>): MRReturn<'Fragment', 'getMany'>
   (opts: MROpts<'Fragment', 'get', UA>): MRReturn<'Fragment', 'get'>
   (opts: MROpts<'Fragment', 'create', UA>): MRReturn<'Fragment', 'create'>
-  (opts: MROpts<'Fragment', 'update', UA>): MRReturn<'Fragment', 'update'>
+  (opts: MROpts<'Fragment', 'upsert', UA>): MRReturn<'Fragment', 'upsert'>
   (opts: MROpts<'Fragment', 'delete', UA>): MRReturn<'Fragment', 'delete'>
   (opts: MROpts<'Fragment', 'publish', UA>): MRReturn<'Fragment', 'publish'>
   (opts: MROpts<'Fragment', 'unpublish', UA>): MRReturn<'Fragment', 'unpublish'>
@@ -2841,9 +2844,9 @@ export type MRActions = {
       payload: CreateFragmentProps
       return: FragmentProps
     }
-    update: {
+    upsert: {
       params: GetFragmentParams
-      payload: UpdateFragmentProps
+      payload: UpsertFragmentProps
       return: FragmentProps
     }
     delete: {

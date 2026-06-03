@@ -1,5 +1,6 @@
 import { describe, test, expect } from 'vitest'
 import setupRestAdapter from '../helpers/setupRestAdapter'
+import type { CreateDataAssemblyProps } from '../../../../../lib/entities/data-assembly'
 
 describe('Rest DataAssembly', { concurrent: true }, () => {
   test('getMany calls correct URL', async () => {
@@ -345,6 +346,185 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
           pageNext: 'next-page-token',
         })
       })
+  })
+
+  test('create accepts a bare-string return mapping', async () => {
+    const mockResponse = {
+      sys: { id: 'da123', type: 'DataAssembly', version: 1 },
+    }
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
+
+    const payload: CreateDataAssemblyProps = {
+      sys: { type: 'DataAssembly', dataType: [] },
+      metadata: { tags: [] },
+      name: 'Bare-string return',
+      description: '',
+      parameters: {},
+      resolvers: {},
+      return: 'graphql.entry.fields.title',
+    }
+
+    await adapterMock.makeRequest({
+      entityType: 'DataAssembly',
+      action: 'create',
+      userAgent: 'mocked',
+      params: { spaceId: 'space123', environmentId: 'master' },
+      payload,
+    })
+
+    expect(httpMock.post.mock.calls[0][1].return).to.eql('graphql.entry.fields.title')
+  })
+
+  test('create accepts a top-level $from return mapping', async () => {
+    const mockResponse = {
+      sys: { id: 'da123', type: 'DataAssembly', version: 1 },
+    }
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
+
+    const payload: CreateDataAssemblyProps = {
+      sys: { type: 'DataAssembly', dataType: [] },
+      metadata: { tags: [] },
+      name: '$from return',
+      description: '',
+      parameters: {},
+      resolvers: {},
+      return: { $from: { source: 'graphql.entry', select: 'fields.title' } },
+    }
+
+    await adapterMock.makeRequest({
+      entityType: 'DataAssembly',
+      action: 'create',
+      userAgent: 'mocked',
+      params: { spaceId: 'space123', environmentId: 'master' },
+      payload,
+    })
+
+    expect(httpMock.post.mock.calls[0][1].return).to.eql({
+      $from: { source: 'graphql.entry', select: 'fields.title' },
+    })
+  })
+
+  test('create accepts a top-level $object return mapping', async () => {
+    const mockResponse = {
+      sys: { id: 'da123', type: 'DataAssembly', version: 1 },
+    }
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
+
+    const payload: CreateDataAssemblyProps = {
+      sys: { type: 'DataAssembly', dataType: [] },
+      metadata: { tags: [] },
+      name: '$object return',
+      description: '',
+      parameters: {},
+      resolvers: {},
+      return: {
+        $object: {
+          title: 'graphql.entry.fields.title',
+          subtitle: { $literal: 'static value' },
+        },
+      },
+    }
+
+    await adapterMock.makeRequest({
+      entityType: 'DataAssembly',
+      action: 'create',
+      userAgent: 'mocked',
+      params: { spaceId: 'space123', environmentId: 'master' },
+      payload,
+    })
+
+    expect(httpMock.post.mock.calls[0][1].return).to.eql({
+      $object: {
+        title: 'graphql.entry.fields.title',
+        subtitle: { $literal: 'static value' },
+      },
+    })
+  })
+
+  test('create accepts a top-level $on return mapping', async () => {
+    const mockResponse = {
+      sys: { id: 'da123', type: 'DataAssembly', version: 1 },
+    }
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
+
+    const payload: CreateDataAssemblyProps = {
+      sys: { type: 'DataAssembly', dataType: [] },
+      metadata: { tags: [] },
+      name: '$on return',
+      description: '',
+      parameters: {},
+      resolvers: {},
+      return: {
+        $on: {
+          type: {
+            article: 'graphql.entry.fields.headline',
+            page: 'graphql.entry.fields.title',
+          },
+          default: { $literal: null },
+        },
+      },
+    }
+
+    await adapterMock.makeRequest({
+      entityType: 'DataAssembly',
+      action: 'create',
+      userAgent: 'mocked',
+      params: { spaceId: 'space123', environmentId: 'master' },
+      payload,
+    })
+
+    expect(httpMock.post.mock.calls[0][1].return).to.eql({
+      $on: {
+        type: {
+          article: 'graphql.entry.fields.headline',
+          page: 'graphql.entry.fields.title',
+        },
+        default: { $literal: null },
+      },
+    })
+  })
+
+  test('create accepts a ResourceLink parameter with literal Contentful:Entry source', async () => {
+    const mockResponse = {
+      sys: { id: 'da123', type: 'DataAssembly', version: 1 },
+    }
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
+
+    const payload: CreateDataAssemblyProps = {
+      sys: { type: 'DataAssembly', dataType: [] },
+      metadata: { tags: [] },
+      name: 'ResourceLink param',
+      description: '',
+      parameters: {
+        primary: {
+          name: 'Primary',
+          type: 'ResourceLink',
+          linkType: 'Contentful:Entry',
+          allowedResources: [
+            {
+              type: 'Contentful:Entry',
+              source: 'crn:contentful:::content:spaces/$self/environments/$self',
+              allowedTypes: ['article'],
+            },
+          ],
+        },
+      },
+      resolvers: {},
+      return: {},
+    }
+
+    await adapterMock.makeRequest({
+      entityType: 'DataAssembly',
+      action: 'create',
+      userAgent: 'mocked',
+      params: { spaceId: 'space123', environmentId: 'master' },
+      payload,
+    })
+
+    expect(httpMock.post.mock.calls[0][1].parameters.primary.type).to.eql('ResourceLink')
+    expect(httpMock.post.mock.calls[0][1].parameters.primary.allowedResources[0].source).to.eql(
+      'crn:contentful:::content:spaces/$self/environments/$self',
+    )
   })
 
   test('unpublish calls correct URL with DELETE method and version header', async () => {

@@ -25,7 +25,6 @@ describe('Fragment Integration', { sequential: true }, () => {
         viewports: [testViewport],
         contentProperties: [],
         designProperties: [],
-        dimensionKeyMap: { designProperties: {} },
       },
     )
     componentTypeId = ct.sys.id
@@ -44,7 +43,6 @@ describe('Fragment Integration', { sequential: true }, () => {
         componentType: makeResourceLink('Contentful:ComponentType', componentTypeId),
         viewports: [testViewport],
         designProperties: {},
-        dimensionKeyMap: { designProperties: {} },
       },
     )
     fragmentId = frag.sys.id
@@ -108,11 +106,11 @@ describe('Fragment Integration', { sequential: true }, () => {
     expect(fetched.sys.type).toBe('Fragment')
   })
 
-  it('updates a fragment', async () => {
+  it('upserts a fragment', async () => {
     const current = await client.fragment.get({ fragmentId: fragmentId })
 
-    // Update types require minimal sys — full entity sys is not assignable
-    const updated = await client.fragment.update(
+    // Upsert types require minimal sys — full entity sys is not assignable
+    const updated = await client.fragment.upsert(
       { fragmentId: fragmentId },
       {
         ...current,

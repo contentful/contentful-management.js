@@ -106,7 +106,6 @@ describe('Rest Experience', { concurrent: true }, () => {
       description: 'A test experience',
       viewports: [],
       designProperties: {},
-      dimensionKeyMap: { designProperties: {} },
     }
 
     const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
@@ -208,7 +207,6 @@ describe('Rest Experience', { concurrent: true }, () => {
       description: 'A new experience',
       viewports: [],
       designProperties: {},
-      dimensionKeyMap: { designProperties: {} },
     }
 
     const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
@@ -230,7 +228,6 @@ describe('Rest Experience', { concurrent: true }, () => {
           template: templateLink,
           viewports: [],
           designProperties: {},
-          dimensionKeyMap: { designProperties: {} },
         },
       })
       .then((r) => {
@@ -250,7 +247,6 @@ describe('Rest Experience', { concurrent: true }, () => {
       description: 'An updated experience',
       viewports: [],
       designProperties: {},
-      dimensionKeyMap: { designProperties: {} },
     }
 
     const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
@@ -271,7 +267,6 @@ describe('Rest Experience', { concurrent: true }, () => {
           description: 'An updated experience',
           viewports: [],
           designProperties: {},
-          dimensionKeyMap: { designProperties: {} },
         },
       })
       .then((r) => {
@@ -292,7 +287,6 @@ describe('Rest Experience', { concurrent: true }, () => {
       description: 'Created via upsert',
       viewports: [],
       designProperties: {},
-      dimensionKeyMap: { designProperties: {} },
     }
 
     const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
@@ -313,7 +307,6 @@ describe('Rest Experience', { concurrent: true }, () => {
           description: 'Created via upsert',
           viewports: [],
           designProperties: {},
-          dimensionKeyMap: { designProperties: {} },
         },
       })
       .then((r) => {
@@ -361,7 +354,6 @@ describe('Rest Experience', { concurrent: true }, () => {
       description: 'A test experience',
       viewports: [],
       designProperties: {},
-      dimensionKeyMap: { designProperties: {} },
     }
 
     const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))

@@ -12,10 +12,6 @@ import type {
   FragmentNode,
 } from './component-type'
 
-export type ExperienceDimensionKeyMap = {
-  designProperties: Record<string, { breakpoint: string }>
-}
-
 export type ExperienceContentBindings = {
   sys: ResourceLink<'Contentful:DataAssembly'>['sys']
   parameters: Record<string, ResourceLink<string>>
@@ -51,7 +47,6 @@ type ExperienceCommonProps = {
   description: string
   viewports: ComponentTypeViewport[]
   designProperties: Record<string, DimensionedDesignPropertyValue>
-  dimensionKeyMap: ExperienceDimensionKeyMap
   contentBindings?: ExperienceContentBindings
   metadata?: ExperienceMetadataProps
   slots?: Record<string, Array<FragmentNode | InlineFragmentNode>>

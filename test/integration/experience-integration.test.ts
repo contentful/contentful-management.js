@@ -26,7 +26,6 @@ describe('Experience Integration', { sequential: true }, () => {
         viewports: [testViewport],
         contentProperties: [],
         designProperties: [],
-        dimensionKeyMap: { designProperties: {} },
       },
     )
     templateId = tmpl.sys.id
@@ -45,7 +44,6 @@ describe('Experience Integration', { sequential: true }, () => {
         template: makeResourceLink('Contentful:Template', templateId),
         viewports: [testViewport],
         designProperties: {},
-        dimensionKeyMap: { designProperties: {} },
       },
     )
     experienceId = exp.sys.id

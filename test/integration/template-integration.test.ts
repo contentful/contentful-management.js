@@ -23,7 +23,6 @@ describe('Template Integration', { sequential: true }, () => {
         viewports: [testViewport],
         contentProperties: [{ id: 'heading', name: 'Heading', type: 'String', required: false }],
         designProperties: [{ id: 'bgColor', name: 'Background Color', type: 'String' }],
-        dimensionKeyMap: { designProperties: {} },
       },
     )
     templateId = created.sys.id

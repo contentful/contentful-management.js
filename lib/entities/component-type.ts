@@ -93,11 +93,6 @@ export type ComponentTypeDesignProperty =
   | BooleanDesignProperty
   | TokenBackedDesignProperty
 
-// Dimension key map
-export type ComponentTypeDimensionKeyMap = {
-  designProperties: Record<string, Record<string, string>>
-}
-
 // Content property pointer value types
 export type ContentPropertyPointerValue = `$contentProperties/${string}`
 
@@ -197,7 +192,6 @@ export type ComponentTypeProps = {
   viewports: ComponentTypeViewport[]
   contentProperties: ComponentTypeContentProperty[]
   designProperties: ComponentTypeDesignProperty[]
-  dimensionKeyMap: ComponentTypeDimensionKeyMap
   componentTree?: TreeNode[]
   slots?: ComponentTypeSlotDefinition[]
   metadata?: ExoMetadataProps

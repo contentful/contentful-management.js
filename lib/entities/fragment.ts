@@ -12,11 +12,7 @@ import type {
   DimensionedDesignPropertyValue,
   FragmentNode,
 } from './component-type'
-import type {
-  ExperienceContentBindings,
-  ExperienceDimensionKeyMap,
-  InlineFragmentNode,
-} from './experience'
+import type { ExperienceContentBindings, InlineFragmentNode } from './experience'
 
 export type FragmentSys = {
   id: string
@@ -48,7 +44,6 @@ export type FragmentProps = {
   description: string
   viewports: ComponentTypeViewport[]
   designProperties: Record<string, DimensionedDesignPropertyValue>
-  dimensionKeyMap: ExperienceDimensionKeyMap
   contentBindings?: ExperienceContentBindings
   metadata?: ExperienceMetadataProps
   slots?: Record<string, Array<FragmentNode | InlineFragmentNode>>
@@ -58,7 +53,7 @@ export type CreateFragmentProps = Except<FragmentProps, 'sys'> & {
   componentType: ResourceLink<'Contentful:ComponentType'>
 }
 
-export type UpdateFragmentProps = Omit<FragmentProps, 'sys'> & {
+export type UpsertFragmentProps = Omit<FragmentProps, 'sys'> & {
   sys: {
     id: string
     type: 'Fragment'

@@ -70,7 +70,6 @@ export type ExperiencePlainClientAPI = {
    *   viewports: [],
    *   contentProperties: {},
    *   designProperties: {},
-   *   dimensionKeyMap: { designProperties: {} },
    * });
    * ```
    */

@@ -8,6 +8,9 @@ import type {
   ResourceLink,
 } from '../common-types'
 
+export const SAME_SPACE_CONTENT_SOURCE =
+  'crn:contentful:::content:spaces/$self/environments/$self' as const
+
 export type CanonicalDataAssemblyDataTypeField = DataTypeDefinition & {
   id: string
   name: string
@@ -28,26 +31,19 @@ export type DataAssemblyDataTypeField =
   | CanonicalDataAssemblyDataTypeField
   | LegacyDataAssemblyDataTypeField
 
-export type DataAssemblyLinkParameter = {
-  name?: string
-  description?: string
-  type: 'Link'
-  linkType: string
-  allowedContentTypes: string[]
-}
-
 export type DataAssemblyResourceLinkParameter = {
   name?: string
   description?: string
   type: 'ResourceLink'
-  linkType: string
-  allowedResources: Array<{ type: string; source: string; allowedTypes: string[] }>
+  linkType: 'Contentful:Entry'
+  allowedResources: Array<{
+    type: 'Contentful:Entry'
+    source: typeof SAME_SPACE_CONTENT_SOURCE
+    allowedTypes: string[]
+  }>
 }
 
-export type DataAssemblyParameterConfig = Record<
-  string,
-  DataAssemblyLinkParameter | DataAssemblyResourceLinkParameter
->
+export type DataAssemblyParameterConfig = Record<string, DataAssemblyResourceLinkParameter>
 
 export type DataAssemblyGraphQLResolver = {
   source: 'Contentful:GraphQL'
@@ -67,7 +63,7 @@ export type DataAssemblyResolverDefinition =
 
 export type DataAssemblyResolverConfig = Record<string, DataAssemblyResolverDefinition>
 
-export type DataAssemblyReturnMappingConfig = Record<string, PointerExpressionValue>
+export type DataAssemblyReturnMappingConfig = PointerExpressionValue
 
 export type DataAssemblySys = {
   id: string

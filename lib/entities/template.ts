@@ -9,7 +9,6 @@ import type {
 import type {
   ComponentTypeContentProperty,
   ComponentTypeDesignProperty,
-  ComponentTypeDimensionKeyMap,
   ComponentTypeSlotDefinition,
   ComponentTypeViewport,
   DataAssemblyLink,
@@ -46,7 +45,6 @@ export type TemplateProps = {
   viewports: ComponentTypeViewport[]
   contentProperties: ComponentTypeContentProperty[]
   designProperties: ComponentTypeDesignProperty[]
-  dimensionKeyMap: ComponentTypeDimensionKeyMap
   componentTree?: TreeNode[]
   slots?: ComponentTypeSlotDefinition[]
   metadata?: ExoMetadataProps
