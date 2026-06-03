@@ -11,12 +11,25 @@ import type {
 export const SAME_SPACE_CONTENT_SOURCE =
   'crn:contentful:::content:spaces/$self/environments/$self' as const
 
-// DataTypeField — DataTypeDefinition extended with id, name, and optional source
-export type DataAssemblyDataTypeField = DataTypeDefinition & {
+export type CanonicalDataAssemblyDataTypeField = DataTypeDefinition & {
   id: string
   name: string
-  source?: string
 }
+
+// Permissive shape for pre-cutover stored records. Will be removed after the
+// assemblies API completes its backfill to the canonical DataTypeDefinition.
+export type LegacyDataAssemblyDataTypeField = {
+  id: string
+  name: string
+  type: string
+  required?: boolean
+  source?: string
+  ref?: unknown
+}
+
+export type DataAssemblyDataTypeField =
+  | CanonicalDataAssemblyDataTypeField
+  | LegacyDataAssemblyDataTypeField
 
 export type DataAssemblyResourceLinkParameter = {
   name?: string
