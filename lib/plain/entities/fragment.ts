@@ -7,7 +7,7 @@ import type {
   CreateFragmentProps,
   FragmentProps,
   FragmentQueryOptions,
-  UpdateFragmentProps,
+  UpsertFragmentProps,
 } from '../../entities/fragment'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
@@ -77,24 +77,24 @@ export type FragmentPlainClientAPI = {
   ): Promise<FragmentProps>
 
   /**
-   * Updates a fragment with PUT
+   * Upserts a fragment (creates or updates via PUT)
    * @param params the space, environment, and fragment IDs
-   * @param data the fragment data (including sys.version)
-   * @returns the updated fragment
+   * @param data the fragment data to upsert (include sys.version for updates, omit for creates)
+   * @returns the upserted fragment
    * @throws if the request fails, or the space, environment, or fragment is not found
    * @internal - Experimental endpoint, subject to breaking changes without notice
    * @example
    * ```javascript
-   * const fragment = await client.fragment.update({
+   * const fragment = await client.fragment.upsert({
    *   spaceId: '<space_id>',
    *   environmentId: '<environment_id>',
    *   fragmentId: '<fragment_id>',
    * }, fragmentData);
    * ```
    */
-  update(
+  upsert(
     params: OptionalDefaults<GetFragmentParams>,
-    data: UpdateFragmentProps,
+    data: UpsertFragmentProps,
   ): Promise<FragmentProps>
 
   /**

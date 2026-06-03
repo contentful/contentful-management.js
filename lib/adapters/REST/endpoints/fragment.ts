@@ -6,7 +6,7 @@ import type {
   CreateFragmentProps,
   FragmentProps,
   FragmentQueryOptions,
-  UpdateFragmentProps,
+  UpsertFragmentProps,
   FragmentCollection,
 } from '../../../entities/fragment'
 import type { RestEndpoint } from '../types'
@@ -44,10 +44,10 @@ export const create: RestEndpoint<'Fragment', 'create'> = (
   return raw.post<FragmentProps>(http, getBaseUrl(params), data, { headers })
 }
 
-export const update: RestEndpoint<'Fragment', 'update'> = (
+export const upsert: RestEndpoint<'Fragment', 'upsert'> = (
   http: AxiosInstance,
   params: GetFragmentParams,
-  rawData: UpdateFragmentProps,
+  rawData: UpsertFragmentProps,
   headers?: RawAxiosRequestHeaders,
 ) => {
   const { sys, ...body } = copy(rawData)
