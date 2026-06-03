@@ -57,7 +57,7 @@ export type UpsertFragmentProps = Omit<FragmentProps, 'sys'> & {
   sys: {
     id: string
     type: 'Fragment'
-    version: number
+    version?: number
   }
   componentType?: ResourceLink<'Contentful:ComponentType'>
 }
