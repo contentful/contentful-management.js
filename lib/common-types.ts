@@ -351,7 +351,10 @@ export type DataTypeDefinition =
 
 export type PointerExpressionValue =
   | string
+  | { $from: string | { source: string; select?: PointerExpressionValue } }
   | { $literal: JsonValue }
+  | { $object: Record<string, PointerExpressionValue> }
+  | { $on: { type: Record<string, PointerExpressionValue>; default?: PointerExpressionValue } }
   | { [key: string]: PointerExpressionValue }
 
 export interface VersionedLink<T extends string> {
