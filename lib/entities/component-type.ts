@@ -149,6 +149,9 @@ export type TreeNode = ComponentNode | FragmentNode | SlotNode
 // DataAssembly link type
 export type DataAssemblyLink = ResourceLink<'Contentful:DataAssembly'>
 
+export const COMPONENT_TYPE_ALLOWED_RESOURCE_SOURCE =
+  'crn:contentful:::experience:spaces/$self/environments/$self' as const
+
 // Slot definition
 export type ComponentTypeSlotDefinition = {
   id: string
@@ -157,7 +160,7 @@ export type ComponentTypeSlotDefinition = {
   validations: Array<{ size?: { min?: number; max?: number } }>
   allowedResources?: Array<{
     type: 'Contentful:ComponentType'
-    source: string
+    source: typeof COMPONENT_TYPE_ALLOWED_RESOURCE_SOURCE
     allowedTypes: string[]
   }>
 }
