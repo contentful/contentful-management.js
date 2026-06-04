@@ -8,6 +8,8 @@ import type {
   CreateReleaseAssetParams,
   CreateWithFilesReleaseAssetParams,
   CreateWithIdReleaseAssetParams,
+  CursorBasedParams,
+  CursorPaginatedCollectionProp,
   GetReleaseAssetParams,
   GetSpaceEnvironmentParams,
   Link,
@@ -20,6 +22,7 @@ import type {
   AssetProps,
   CreateAssetProps,
 } from '../../../entities/asset'
+import { normalizeCursorPaginationResponse } from '../../../common-utils'
 import { getUploadHttpClient } from '../../../upload-http-client'
 import type { RestEndpoint } from '../types'
 import * as raw from './raw'
@@ -81,6 +84,28 @@ export const getMany: RestEndpoint<'Asset', 'getMany'> = (
       headers: headers ? { ...headers } : undefined,
     },
   )
+}
+
+export const getManyWithCursor: RestEndpoint<'Asset', 'getManyWithCursor'> = (
+  http: AxiosInstance,
+  params: GetSpaceEnvironmentParams & CursorBasedParams & { releaseId?: string },
+  rawData?: unknown,
+  headers?: RawAxiosRequestHeaders,
+) => {
+  if (params.releaseId) {
+    throw new Error('getManyWithCursor is not supported for release-scoped assets')
+  }
+
+  return raw
+    .get<CursorPaginatedCollectionProp<AssetProps>>(
+      http,
+      `/spaces/${params.spaceId}/environments/${params.environmentId}/assets`,
+      {
+        params: { cursor: true, ...(params.query ?? {}) },
+        headers: headers ? { ...headers } : undefined,
+      },
+    )
+    .then(normalizeCursorPaginationResponse)
 }
 
 export const update: RestEndpoint<'Asset', 'update'> = (

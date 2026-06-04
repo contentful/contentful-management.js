@@ -4,12 +4,15 @@ import copy from 'fast-copy'
 import type { SetOptional } from 'type-fest'
 import type {
   CollectionProp,
+  CursorBasedParams,
+  CursorPaginatedCollectionProp,
   GetContentTypeParams,
   GetSpaceEnvironmentParams,
   QueryParams,
 } from '../../../common-types'
 import type { ContentTypeProps, CreateContentTypeProps } from '../../../entities/content-type'
 import type { RestEndpoint } from '../types'
+import { normalizeCursorPaginationResponse } from '../../../common-utils'
 import * as raw from './raw'
 import { normalizeSelect } from './utils'
 
@@ -39,6 +42,19 @@ export const getMany: RestEndpoint<'ContentType', 'getMany'> = (
     params: params.query,
     headers,
   })
+}
+
+export const getManyWithCursor: RestEndpoint<'ContentType', 'getManyWithCursor'> = (
+  http: AxiosInstance,
+  params: GetSpaceEnvironmentParams & CursorBasedParams,
+  headers?: RawAxiosRequestHeaders,
+) => {
+  return raw
+    .get<CursorPaginatedCollectionProp<ContentTypeProps>>(http, getBaseUrl(params), {
+      params: { cursor: true, ...(params.query ?? {}) },
+      headers,
+    })
+    .then(normalizeCursorPaginationResponse)
 }
 
 export const create: RestEndpoint<'ContentType', 'create'> = (
