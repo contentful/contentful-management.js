@@ -31,7 +31,9 @@ describe('Rest Comment', { concurrent: true }, () => {
       parentEntityId: 'parent',
     })
 
-    expect(httpMock.get.mock.calls[0][0]).toBe(`/spaces/space/environments/env/${path}/parent/comments`)
+    expect(httpMock.get.mock.calls[0][0]).toBe(
+      `/spaces/space/environments/env/${path}/parent/comments`,
+    )
   })
 
   test.each([
