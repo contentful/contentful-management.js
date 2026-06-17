@@ -193,7 +193,6 @@ import type { AiActionProps, AiActionQueryOptions, CreateAiActionProps } from '.
 import type {
   AiActionInvocationProps,
   AiActionInvocationType,
-  AiActionInvocationVariable,
 } from './entities/ai-action-invocation'
 import type { AgentGeneratePayload, AgentProps } from './entities/agent'
 import type {
