@@ -4,6 +4,8 @@ import type { SetOptional } from 'type-fest'
 import type {
   CollectionProp,
   GetEntryParams,
+  GetSpaceEnvironmentParams,
+  GetTaskParentEntityParams,
   GetTaskParams,
   PaginationQueryOptions,
   QueryParams,
@@ -12,6 +14,8 @@ import type {
   CreateTaskParams,
   CreateTaskProps,
   DeleteTaskParams,
+  TaskParentEntityPath,
+  TaskParentEntityType,
   TaskProps,
   UpdateTaskProps,
 } from '../../../entities/task'
@@ -19,8 +23,42 @@ import type { RestEndpoint } from '../types'
 import * as raw from './raw'
 import { normalizeSelect } from './utils'
 
-const getBaseUrl = (params: GetEntryParams) =>
-  `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}/tasks`
+const getSpaceEnvBaseUrl = (params: GetSpaceEnvironmentParams) =>
+  `/spaces/${params.spaceId}/environments/${params.environmentId}`
+
+function getParentPlural(parentEntityType: TaskParentEntityType): TaskParentEntityPath {
+  switch (parentEntityType) {
+    case 'Entry':
+      return 'entries'
+    case 'Experience':
+      return 'experiences'
+    case 'Fragment':
+      return 'fragments'
+    case 'Template':
+      return 'templates'
+    case 'ComponentType':
+      return 'component_types'
+  }
+}
+
+const normalizeTaskParentParams = (
+  paramsOrg: GetEntryParams | GetTaskParentEntityParams,
+): GetTaskParentEntityParams =>
+  'entryId' in paramsOrg
+    ? {
+        spaceId: paramsOrg.spaceId,
+        environmentId: paramsOrg.environmentId,
+        parentEntityType: 'Entry' as const,
+        parentEntityId: paramsOrg.entryId,
+      }
+    : paramsOrg
+
+const getBaseUrl = (paramsOrg: GetEntryParams | GetTaskParentEntityParams) => {
+  const params = normalizeTaskParentParams(paramsOrg)
+  const parentPlural = getParentPlural(params.parentEntityType)
+
+  return `${getSpaceEnvBaseUrl(params)}/${parentPlural}/${params.parentEntityId}/tasks`
+}
 const getTaskUrl = (params: GetTaskParams) => `${getBaseUrl(params)}/${params.taskId}`
 
 export const get: RestEndpoint<'Task', 'get'> = (http: AxiosInstance, params: GetTaskParams) =>
@@ -28,7 +66,7 @@ export const get: RestEndpoint<'Task', 'get'> = (http: AxiosInstance, params: Ge
 
 export const getMany: RestEndpoint<'Task', 'getMany'> = (
   http: AxiosInstance,
-  params: GetEntryParams & QueryParams & PaginationQueryOptions,
+  params: (GetEntryParams | GetTaskParentEntityParams) & QueryParams & PaginationQueryOptions,
 ) =>
   raw.get<CollectionProp<TaskProps>>(http, getBaseUrl(params), {
     params: normalizeSelect(params.query),

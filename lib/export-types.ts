@@ -249,7 +249,14 @@ export type {
   SpaceMembershipProps,
 } from './entities/space-membership'
 export type { CreateTagProps, Tag, TagProps, TagSysProps, TagVisibility } from './entities/tag'
-export type { CreateTaskProps, Task, TaskProps, UpdateTaskProps } from './entities/task'
+export type {
+  CreateTaskProps,
+  Task,
+  TaskParentEntityPath,
+  TaskParentEntityType,
+  TaskProps,
+  UpdateTaskProps,
+} from './entities/task'
 export type { CreateTeamProps, Team, TeamProps } from './entities/team'
 export type {
   CreateTeamMembershipProps,
