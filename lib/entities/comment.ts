@@ -23,6 +23,17 @@ interface LinkWithReference<T extends string> extends Link<T> {
   }
 }
 
+export type CommentParentEntityType =
+  | 'ContentType'
+  | 'Entry'
+  | 'Workflow'
+  | 'Experience'
+  | 'Fragment'
+  | 'ComponentType'
+  | 'Template'
+
+type NonWorkflowCommentParentEntityType = Exclude<CommentParentEntityType, 'Workflow'>
+
 export type CommentSysProps = Pick<
   BasicMetaSysProps,
   'id' | 'version' | 'createdAt' | 'createdBy' | 'updatedAt' | 'updatedBy'
@@ -31,10 +42,8 @@ export type CommentSysProps = Pick<
   space: SysLink
   environment: SysLink
   parentEntity:
-    | Link<'ContentType'>
-    | LinkWithReference<'ContentType'>
-    | Link<'Entry'>
-    | LinkWithReference<'Entry'>
+    | Link<NonWorkflowCommentParentEntityType>
+    | LinkWithReference<NonWorkflowCommentParentEntityType>
     | VersionedLink<'Workflow'>
   parent: Link<'Comment'> | null
 }
@@ -93,12 +102,7 @@ export type RichTextCommentProps = Omit<CommentProps, 'body'> & RichTextCommentB
 export type GetCommentParentEntityParams = GetSpaceEnvironmentParams &
   (
     | {
-        parentEntityType: 'ContentType'
-        parentEntityId: string
-        parentEntityReference?: string
-      }
-    | {
-        parentEntityType: 'Entry'
+        parentEntityType: NonWorkflowCommentParentEntityType
         parentEntityId: string
         parentEntityReference?: string
       }
@@ -139,12 +143,17 @@ export interface RichTextComment
  * @internal
  */
 export default function createCommentApi(makeRequest: MakeRequest): CommentApi {
-  const getParams = (comment: CommentProps): GetCommentParams => ({
-    spaceId: comment.sys.space.sys.id,
-    environmentId: comment.sys.environment.sys.id,
-    entryId: comment.sys.parentEntity.sys.id,
-    commentId: comment.sys.id,
-  })
+  const getParams = (comment: CommentProps): GetCommentParams => {
+    const parentEntity = comment.sys.parentEntity
+
+    return {
+      spaceId: comment.sys.space.sys.id,
+      environmentId: comment.sys.environment.sys.id,
+      commentId: comment.sys.id,
+      parentEntityType: parentEntity.sys.linkType,
+      parentEntityId: parentEntity.sys.id,
+    }
+  }
 
   return {
     update: async function () {
