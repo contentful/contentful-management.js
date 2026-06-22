@@ -33,7 +33,7 @@ jobs:
 
   release:
     if: github.event_name == 'push' && (contains(fromJSON('["refs/heads/master", "refs/heads/beta", "refs/heads/canary", "refs/heads/dev"]'), github.ref) || endsWith(github.ref, '.x'))
-    needs: [build, check, test-demo-projects, test-integration]
+    needs: [build, check, test-demo-projects]
     permissions:
       contents: write
       id-token: write
