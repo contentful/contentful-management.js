@@ -13,7 +13,11 @@ export type {
   CreateAppAccessTokenProps,
 } from './entities/app-access-token'
 export type { AiAction, AiActionProps, CreateAiActionProps } from './entities/ai-action'
-export type { AiActionInvocation, AiActionInvocationProps } from './entities/ai-action-invocation'
+export type {
+  AiActionInvocation,
+  AiActionInvocationProps,
+  AiActionInvocationVariable,
+} from './entities/ai-action-invocation'
 export type { Agent, AgentGeneratePayload, AgentProps, AgentToolLink } from './entities/agent'
 export type {
   AgentGenerateResponse,
@@ -245,7 +249,14 @@ export type {
   SpaceMembershipProps,
 } from './entities/space-membership'
 export type { CreateTagProps, Tag, TagProps, TagSysProps, TagVisibility } from './entities/tag'
-export type { CreateTaskProps, Task, TaskProps, UpdateTaskProps } from './entities/task'
+export type {
+  CreateTaskProps,
+  Task,
+  TaskParentEntityPath,
+  TaskParentEntityType,
+  TaskProps,
+  UpdateTaskProps,
+} from './entities/task'
 export type { CreateTeamProps, Team, TeamProps } from './entities/team'
 export type {
   CreateTeamMembershipProps,

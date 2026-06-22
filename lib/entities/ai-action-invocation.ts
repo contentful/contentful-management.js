@@ -49,30 +49,54 @@ export type AiActionInvocationProps = {
   result?: InvocationResult
 }
 
+export type AiActionTextVariable = {
+  id: string
+  value: string
+}
+
+export type AiActionEntityLinkVariable = {
+  id: string
+  value: {
+    sys: {
+      type: 'Link'
+      linkType: 'Entry' | 'Asset' | 'ResourceLink'
+      id: string
+      release?: SysLink
+      /** JSON Pointers to entity fields, e.g. `"/fields/title/en-US"` */
+      entityPaths?: Array<string>
+    }
+  }
+}
+
+/** @deprecated Use `AiActionEntityLinkVariable` with the sys-nested format instead. */
+export type AiActionLegacyEntityPathVariable = {
+  id: string
+  value: {
+    entityPath: string
+    entityType: 'Entry' | 'Asset' | 'ResourceLink'
+    entityId: string
+  }
+}
+
+/** @deprecated Use `AiActionEntityLinkVariable` with the sys-nested format instead. */
+export type AiActionLegacyEntityPathsVariable = {
+  id: string
+  value: {
+    entityPaths: Array<string>
+    entityType: 'Entry'
+    entityId: string
+  }
+}
+
+export type AiActionInvocationVariable =
+  | AiActionTextVariable
+  | AiActionEntityLinkVariable
+  | AiActionLegacyEntityPathVariable
+  | AiActionLegacyEntityPathsVariable
+
 export type AiActionInvocationType = {
   outputFormat?: 'RichText' | 'Markdown' | 'PlainText'
-  variables?: Array<
-    | {
-        value: string
-        id: string
-      }
-    | {
-        value: {
-          entityPath: string
-          entityType: 'Entry' | 'Asset' | 'ResourceLink'
-          entityId: string
-        }
-        id: string
-      }
-    | {
-        value: {
-          entityPaths: Array<string>
-          entityType: 'Entry'
-          entityId: string
-        }
-        id: string
-      }
-  >
+  variables?: Array<AiActionInvocationVariable>
 }
 
 /**

@@ -152,6 +152,7 @@ import type {
   CreateTaskParams,
   CreateTaskProps,
   DeleteTaskParams,
+  TaskParentEntityType,
   TaskProps,
   UpdateTaskParams,
   UpdateTaskProps,
@@ -2744,11 +2745,15 @@ export type MRActions = {
   Task: {
     get: { params: GetTaskParams; return: TaskProps }
     getMany: {
-      params: GetEntryParams & QueryParams
+      // Keep GetEntryParams for backwards compatibility with existing entry task callers.
+      // New task parent entity support should use GetTaskParentEntityParams.
+      params: (GetEntryParams | GetTaskParentEntityParams) & QueryParams
       return: CollectionProp<TaskProps>
     }
     getAll: {
-      params: GetEntryParams & QueryParams
+      // Keep GetEntryParams for backwards compatibility with existing entry task callers.
+      // New task parent entity support should use GetTaskParentEntityParams.
+      params: (GetEntryParams | GetTaskParentEntityParams) & QueryParams
       return: CollectionProp<TaskProps>
     }
     create: { params: CreateTaskParams; payload: CreateTaskProps; return: TaskProps }
@@ -3299,7 +3304,14 @@ export type GetSpaceParams = { spaceId: string }
 /** @internal */
 export type GetTagParams = GetSpaceEnvironmentParams & { tagId: string }
 /** @internal */
-export type GetTaskParams = GetEntryParams & { taskId: string }
+export type GetTaskParentEntityParams = GetSpaceEnvironmentParams & {
+  parentEntityType: TaskParentEntityType
+  parentEntityId: string
+}
+/** @internal */
+// Keep GetEntryParams for backwards compatibility with existing entry task callers.
+// New task parent entity support should use GetTaskParentEntityParams.
+export type GetTaskParams = (GetEntryParams | GetTaskParentEntityParams) & { taskId: string }
 /** @internal */
 export type GetTeamMembershipParams = GetTeamParams & { teamMembershipId: string }
 /** @internal */
