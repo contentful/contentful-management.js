@@ -173,7 +173,7 @@ You can use the commonjs require with the library as follows
 
 ```js
 // import createClient directly
-const contentful = require('contentful-management');
+const contentful = require('contentful-management')
 const client = contentful.createClient({
   // This is the access token for this space. Normally you get the token in the Contentful web app
   accessToken: 'YOUR_ACCESS_TOKEN',
@@ -226,8 +226,8 @@ const entries = await scopedClient.entry.getMany({
   },
 })
 ```
- 
-You can try and change the above example on [Runkit](https://npm.runkit.com/contentful-management). 
+
+You can try and change the above example on [Runkit](https://npm.runkit.com/contentful-management).
 
 The benefits of the default client are:
 

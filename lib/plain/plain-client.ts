@@ -240,6 +240,12 @@ export const createPlainClient = (
     },
     componentType: {
       getMany: wrap(wrapParams, 'ComponentType', 'getMany'),
+      get: wrap(wrapParams, 'ComponentType', 'get'),
+      create: wrap(wrapParams, 'ComponentType', 'create'),
+      upsert: wrap(wrapParams, 'ComponentType', 'upsert'),
+      delete: wrap(wrapParams, 'ComponentType', 'delete'),
+      publish: wrap(wrapParams, 'ComponentType', 'publish'),
+      unpublish: wrap(wrapParams, 'ComponentType', 'unpublish'),
     },
     contentType: {
       get: wrap(wrapParams, 'ContentType', 'get'),
@@ -257,6 +263,17 @@ export const createPlainClient = (
           { ...({ ...defaults, ...params } as GetContentTypeParams), fieldId },
           contentType,
         ),
+    },
+    dataAssembly: {
+      getMany: wrap(wrapParams, 'DataAssembly', 'getMany'),
+      getManyPublished: wrap(wrapParams, 'DataAssembly', 'getManyPublished'),
+      getPublished: wrap(wrapParams, 'DataAssembly', 'getPublished'),
+      get: wrap(wrapParams, 'DataAssembly', 'get'),
+      create: wrap(wrapParams, 'DataAssembly', 'create'),
+      update: wrap(wrapParams, 'DataAssembly', 'update'),
+      delete: wrap(wrapParams, 'DataAssembly', 'delete'),
+      publish: wrap(wrapParams, 'DataAssembly', 'publish'),
+      unpublish: wrap(wrapParams, 'DataAssembly', 'unpublish'),
     },
     user: {
       getManyForSpace: wrap(wrapParams, 'User', 'getManyForSpace'),
@@ -611,6 +628,24 @@ export const createPlainClient = (
       update: wrap(wrapParams, 'TeamSpaceMembership', 'update'),
       delete: wrap(wrapParams, 'TeamSpaceMembership', 'delete'),
     },
+    fragment: {
+      getMany: wrap(wrapParams, 'Fragment', 'getMany'),
+      get: wrap(wrapParams, 'Fragment', 'get'),
+      create: wrap(wrapParams, 'Fragment', 'create'),
+      upsert: wrap(wrapParams, 'Fragment', 'upsert'),
+      delete: wrap(wrapParams, 'Fragment', 'delete'),
+      publish: wrap(wrapParams, 'Fragment', 'publish'),
+      unpublish: wrap(wrapParams, 'Fragment', 'unpublish'),
+    },
+    template: {
+      getMany: wrap(wrapParams, 'Template', 'getMany'),
+      get: wrap(wrapParams, 'Template', 'get'),
+      create: wrap(wrapParams, 'Template', 'create'),
+      upsert: wrap(wrapParams, 'Template', 'upsert'),
+      delete: wrap(wrapParams, 'Template', 'delete'),
+      publish: wrap(wrapParams, 'Template', 'publish'),
+      unpublish: wrap(wrapParams, 'Template', 'unpublish'),
+    },
     uiConfig: {
       get: wrap(wrapParams, 'UIConfig', 'get'),
       update: wrap(wrapParams, 'UIConfig', 'update'),
@@ -618,6 +653,15 @@ export const createPlainClient = (
     userUIConfig: {
       get: wrap(wrapParams, 'UserUIConfig', 'get'),
       update: wrap(wrapParams, 'UserUIConfig', 'update'),
+    },
+    experience: {
+      getMany: wrap(wrapParams, 'Experience', 'getMany'),
+      get: wrap(wrapParams, 'Experience', 'get'),
+      create: wrap(wrapParams, 'Experience', 'create'),
+      upsert: wrap(wrapParams, 'Experience', 'upsert'),
+      delete: wrap(wrapParams, 'Experience', 'delete'),
+      publish: wrap(wrapParams, 'Experience', 'publish'),
+      unpublish: wrap(wrapParams, 'Experience', 'unpublish'),
     },
     workflowDefinition: {
       get: wrap(wrapParams, 'WorkflowDefinition', 'get'),

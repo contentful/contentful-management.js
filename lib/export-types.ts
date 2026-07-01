@@ -363,3 +363,16 @@ export type {
   WorkflowsChangelogEntryProps,
   WorkflowsChangelogQueryOptions,
 } from './entities/workflows-changelog-entry'
+export type { ComponentTypeCollection } from './entities/component-type'
+export type { TemplateCollection } from './entities/template'
+export type {
+  ExperienceCollection,
+  ReleaseExperience,
+  ReleaseExperienceCollection,
+  ReleaseExperienceSys,
+} from './entities/experience'
+export type { FragmentCollection } from './entities/fragment'
+export type {
+  DataAssemblyCollection,
+  DataAssemblyResourceLinkParameter,
+} from './entities/data-assembly'
