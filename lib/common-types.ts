@@ -110,7 +110,11 @@ import type {
   CreateTeamSpaceMembershipProps,
   TeamSpaceMembershipProps,
 } from './entities/team-space-membership'
-import type { UsageProps } from './entities/usage'
+import type {
+  AggregatedUsageCollectionProps,
+  AssetBandwidthUsageCollectionProps,
+  UsageProps,
+} from './entities/usage'
 import type { UserProps } from './entities/user'
 import type {
   CreateWebhooksProps,
@@ -912,6 +916,8 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'Usage', 'getManyForSpace', UA>): MRReturn<'Usage', 'getManyForSpace'>
   (opts: MROpts<'Usage', 'getManyForOrganization', UA>): MRReturn<'Usage', 'getManyForOrganization'>
+  (opts: MROpts<'Usage', 'getAggregated', UA>): MRReturn<'Usage', 'getAggregated'>
+  (opts: MROpts<'Usage', 'getDetailedAssetBandwidth', UA>): MRReturn<'Usage', 'getDetailedAssetBandwidth'>
 
   (opts: MROpts<'User', 'getManyForSpace', UA>): MRReturn<'User', 'getManyForSpace'>
   (opts: MROpts<'User', 'getForSpace', UA>): MRReturn<'User', 'getForSpace'>
@@ -2561,13 +2567,23 @@ export type MRActions = {
     }
   }
   Usage: {
+    /** @deprecated Use `getAggregated` instead. Sunset: 2026-12-31. */
     getManyForSpace: {
       params: { organizationId: string } & QueryParams
       return: CollectionProp<UsageProps>
     }
+    /** @deprecated Use `getAggregated` instead. Sunset: 2026-12-31. */
     getManyForOrganization: {
       params: { organizationId: string } & QueryParams
       return: CollectionProp<UsageProps>
+    }
+    getAggregated: {
+      params: { organizationId: string; metricKey: string } & QueryParams
+      return: AggregatedUsageCollectionProps
+    }
+    getDetailedAssetBandwidth: {
+      params: { organizationId: string } & QueryParams
+      return: AssetBandwidthUsageCollectionProps
     }
   }
   User: {
