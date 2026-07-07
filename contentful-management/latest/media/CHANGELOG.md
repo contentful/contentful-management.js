@@ -1,10 +1,3 @@
-# [12.8.0](https://github.com/contentful/contentful-management.js/compare/v12.7.0...v12.8.0) (2026-06-22)
-
-
-### Features
-
-* **task:** add ExO parent entity support [CFISO-3354] ([#3081](https://github.com/contentful/contentful-management.js/issues/3081)) ([23aa63a](https://github.com/contentful/contentful-management.js/commit/23aa63a59cf30ec05a3e97d93d52edd1d4be8e99))
-
 <!-- shared header  START -->
 
 <p align="center">
