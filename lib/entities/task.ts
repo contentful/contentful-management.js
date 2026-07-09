@@ -4,6 +4,7 @@ import type {
   BasicMetaSysProps,
   DefaultElements,
   GetEntryParams,
+  GetTaskParentEntityParams,
   GetTaskParams,
   Link,
   MakeRequest,
@@ -14,6 +15,20 @@ import enhanceWithMethods from '../enhance-with-methods'
 
 export type TaskStatus = 'active' | 'resolved'
 
+export type TaskParentEntityType =
+  | 'Entry'
+  | 'Experience'
+  | 'Fragment'
+  | 'Template'
+  | 'ComponentType'
+
+export type TaskParentEntityPath =
+  | 'entries'
+  | 'experiences'
+  | 'fragments'
+  | 'templates'
+  | 'component_types'
+
 export type TaskSysProps = Pick<
   BasicMetaSysProps,
   'id' | 'version' | 'createdAt' | 'createdBy' | 'updatedAt' | 'updatedBy'
@@ -21,7 +36,7 @@ export type TaskSysProps = Pick<
   type: 'Task'
   space: SysLink
   environment: SysLink
-  parentEntity: Link<'Entry'>
+  parentEntity: Link<TaskParentEntityType>
 }
 
 export type TaskProps = {
@@ -35,7 +50,9 @@ export type TaskProps = {
 export type CreateTaskProps = Omit<TaskProps, 'sys'>
 export type UpdateTaskProps = Omit<TaskProps, 'sys'> & { sys: Pick<TaskSysProps, 'version'> }
 
-export type CreateTaskParams = GetEntryParams
+// Keep GetEntryParams for backwards compatibility with existing entry task callers.
+// New task parent entity support should use GetTaskParentEntityParams.
+export type CreateTaskParams = GetEntryParams | GetTaskParentEntityParams
 export type UpdateTaskParams = GetTaskParams
 export type DeleteTaskParams = GetTaskParams & { version: number }
 
@@ -50,12 +67,17 @@ export interface Task extends TaskProps, DefaultElements<TaskProps>, TaskApi {}
  * @internal
  */
 export default function createTaskApi(makeRequest: MakeRequest): TaskApi {
-  const getParams = (task: TaskProps): GetTaskParams => ({
-    spaceId: task.sys.space.sys.id,
-    environmentId: task.sys.environment.sys.id,
-    entryId: task.sys.parentEntity.sys.id,
-    taskId: task.sys.id,
-  })
+  const getParams = (task: TaskProps): GetTaskParams => {
+    const parentEntity = task.sys.parentEntity
+
+    return {
+      spaceId: task.sys.space.sys.id,
+      environmentId: task.sys.environment.sys.id,
+      parentEntityType: parentEntity.sys.linkType,
+      parentEntityId: parentEntity.sys.id,
+      taskId: task.sys.id,
+    }
+  }
 
   return {
     update: function () {

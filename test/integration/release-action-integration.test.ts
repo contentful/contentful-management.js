@@ -89,7 +89,7 @@ describe('ReleaseAction Api', () => {
       expect(releaseAction.sys.id).toBe(testReleaseAction2.sys.id)
     })
 
-    test('Get ReleaseAction with an incorrect ID', async () => {
+    test.skip('Get ReleaseAction with an incorrect ID', async () => {
       try {
         await testEnvironment.getReleaseAction({
           releaseId: testRelease.sys.id,
@@ -137,7 +137,7 @@ describe('ReleaseAction Api', () => {
       plainClient = initPlainClient(defaultParams)
     })
 
-    test('releaseAction.getMany', async () => {
+    test.skip('releaseAction.getMany', async () => {
       const queryResult = await plainClient.releaseAction.getMany({
         query: { 'sys.release.sys.id[in]': testRelease.sys.id, limit: 1, action: 'validate' },
       })

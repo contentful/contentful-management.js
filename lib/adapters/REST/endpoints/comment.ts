@@ -18,6 +18,7 @@ import type {
   PlainTextBodyFormat,
   RichTextBodyFormat,
   RichTextCommentBodyPayload,
+  CommentParentEntityType,
 } from '../../../entities/comment'
 import type { RestEndpoint } from '../types'
 import * as raw from './raw'
@@ -33,7 +34,7 @@ const getSpaceEnvBaseUrl = (params: GetSpaceEnvironmentParams) =>
 const getEntityCommentUrl = (params: GetCommentParams) =>
   `${getEntityBaseUrl(params)}/${params.commentId}`
 
-function getParentPlural(parentEntityType: 'ContentType' | 'Entry' | 'Workflow') {
+function getParentPlural(parentEntityType: CommentParentEntityType) {
   switch (parentEntityType) {
     case 'ContentType':
       return 'content_types'
@@ -41,12 +42,20 @@ function getParentPlural(parentEntityType: 'ContentType' | 'Entry' | 'Workflow')
       return 'entries'
     case 'Workflow':
       return 'workflows'
+    case 'Experience':
+      return 'experiences'
+    case 'Fragment':
+      return 'fragments'
+    case 'ComponentType':
+      return 'component_types'
+    case 'Template':
+      return 'templates'
   }
 }
 
 /**
- * Comments can be added to a content type, an entry, and a workflow. Workflow comments requires a version
- * to be set as part of the URL path. Workflow comments only support `create` (with
+ * Comments can be added to a content type, an entry, a workflow, or ExO entities. Workflow comments requires a version
+ * to be set as part of the URL path for versioned operations. Workflow comments only support `create` (with
  * versionized URL) and `getMany` (without version). The API might support more methods
  * in the future with new use cases being discovered.
  */

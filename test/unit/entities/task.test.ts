@@ -1,4 +1,6 @@
-import { describe, test } from 'vitest'
+import { describe, expect, expectTypeOf, test } from 'vitest'
+import type { Link } from '../../../lib/common-types'
+import type { TaskProps } from '../../../lib/entities/task'
 import { wrapTask, wrapTaskCollection } from '../../../lib/entities/task'
 import { cloneMock } from '../mocks/entities'
 import setupMakeRequest from '../mocks/makeRequest'
@@ -54,6 +56,27 @@ describe('Entity Task', () => {
     return failingActionTest(setup, {
       wrapperMethod: wrapTask,
       actionMethod: 'delete',
+    })
+  })
+
+  test('Task parent entity typing supports ExO entities', () => {
+    expectTypeOf<TaskProps['sys']['parentEntity']>().toEqualTypeOf<
+      Link<'Entry' | 'Experience' | 'Fragment' | 'Template' | 'ComponentType'>
+    >()
+  })
+
+  test('Task update uses parent entity params', async () => {
+    const { makeRequest, entityMock } = setup(Promise.resolve({}))
+    entityMock.sys.parentEntity.sys.linkType = 'Experience'
+    entityMock.sys.parentEntity.sys.id = 'experience-id'
+
+    const task = wrapTask(makeRequest, entityMock)
+    await task.update()
+
+    expect(makeRequest.mock.calls[0][0].params).toMatchObject({
+      parentEntityType: 'Experience',
+      parentEntityId: 'experience-id',
+      taskId: entityMock.sys.id,
     })
   })
 })
