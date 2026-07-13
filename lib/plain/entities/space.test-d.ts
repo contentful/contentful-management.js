@@ -62,8 +62,17 @@ describe('SpacePlainClientAPI.getMany overloads', () => {
     })
   })
 
-  it('Parameters<>[0] is optional (empty object assignable)', () => {
-    type FirstParam = Parameters<GetMany>[0]
-    expectTypeOf<Record<string, never>>().toMatchTypeOf<FirstParam>()
+  it('Parameters<>[0] is optional (undefined is assignable)', () => {
+    void ((getMany: GetMany) => {
+      const param: Parameters<GetMany>[0] = undefined
+      expectTypeOf(getMany(param)).resolves.toEqualTypeOf<OffsetReturn>()
+    })
+  })
+
+  it('rejects passing both pageNext and pagePrev in the same query', () => {
+    void ((getMany: GetMany) => {
+      // @ts-expect-error — cursor overload is XOR: pageNext and pagePrev are mutually exclusive
+      getMany({ query: { pageNext: 'a', pagePrev: 'b' } })
+    })
   })
 })

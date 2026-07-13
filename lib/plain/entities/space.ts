@@ -41,7 +41,10 @@ export type SpacePlainClientAPI = {
     params: OptionalDefaults<
       {
         query: BasicCursorPaginationOptions &
-          ({ pageNext: string | undefined } | { pagePrev: string | undefined })
+          (
+            | { pageNext: string | undefined; pagePrev?: never }
+            | { pageNext?: never; pagePrev: string | undefined }
+          )
         organizationId?: string
       } & SpaceIncludeParam
     >,
