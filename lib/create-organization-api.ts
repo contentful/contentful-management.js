@@ -40,6 +40,7 @@ import { wrapAppKey, wrapAppKeyCollection } from './entities/app-key'
 import { wrapAppDetails } from './entities/app-details'
 import { wrapAppAction, wrapAppActionCollection } from './entities/app-action'
 import { wrapAvailableLicenseCollection } from './entities/available-license'
+import { wrapSpaceAddOnOrganizationCollection } from './entities/space-add-on'
 import { wrapFunction, wrapFunctionCollection } from './entities/function'
 import { wrapRoleCollection } from './entities/role'
 import { wrapSpaceCollection } from './entities/space'
@@ -503,6 +504,33 @@ export default function createOrganizationApi(makeRequest: MakeRequest) {
           query: createRequestConfig({ query }).params,
         },
       }).then((data) => wrapAvailableLicenseCollection(makeRequest, data))
+    },
+    /**
+     * Gets a collection of space add-ons across all spaces in the organization
+     * @param query - Object with search parameters
+     * @returns Promise for a collection of SpaceAddOnsOrganization
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getOrganization('<organization_id>')
+     * .then((organization) => organization.getSpaceAddOns())
+     * .then((addOns) => console.log(addOns))
+     * .catch(console.error)
+     * ```
+     */
+    getSpaceAddOns(query: QueryOptions = {}) {
+      const raw = this.toPlainObject() as OrganizationProps
+      return makeRequest({
+        entityType: 'SpaceAddOn',
+        action: 'getManyForOrganization',
+        params: {
+          organizationId: raw.sys.id,
+          query: createRequestConfig({ query }).params,
+        },
+      }).then((data) => wrapSpaceAddOnOrganizationCollection(makeRequest, data))
     },
     /**
      * Gets an Invitation in Organization
