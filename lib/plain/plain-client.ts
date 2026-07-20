@@ -379,6 +379,7 @@ export const createPlainClient = (
     usage: {
       getManyForSpace: wrap(wrapParams, 'Usage', 'getManyForSpace'),
       getManyForOrganization: wrap(wrapParams, 'Usage', 'getManyForOrganization'),
+      getAggregated: wrap(wrapParams, 'Usage', 'getAggregated'),
     },
     release: {
       asset: {

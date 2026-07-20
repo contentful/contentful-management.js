@@ -64,7 +64,7 @@ import type { ReleaseProps } from '../../../lib/entities/release'
 import type { ReleaseActionProps } from '../../../lib/entities/release-action'
 import type { ApiKey, ApiKeyProps } from '../../../lib/entities/api-key'
 import type { OrganizationProps } from '../../../lib/entities/organization'
-import type { UsageProps } from '../../../lib/entities/usage'
+import type { AggregatedUsageItemProps, UsageProps } from '../../../lib/entities/usage'
 import type { ExtensionProps } from '../../../lib/entities/extension'
 import type { AppInstallationProps } from '../../../lib/entities/app-installation'
 import type { EnvironmentAliasProps } from '../../../lib/entities/environment-alias'
@@ -1106,6 +1106,21 @@ const usageMock: UsageProps = {
   usagePerDay: {},
 }
 
+const aggregatedUsageMock: AggregatedUsageItemProps = {
+  sys: {
+    id: 'mock-metric-id',
+    type: 'FunctionInvocation',
+    key: 'functions_invocations',
+    organization: { sys: { type: 'Link', linkType: 'Organization', id: 'mock-org-id' } },
+    unitOfMeasurement: 'Invocation',
+    dimensions: {},
+    accumulation: 'integrate',
+  },
+  dateRange: { start: '2025-01-01', end: '2025-01-31' },
+  granularity: 'P1D',
+  data: [10, 20, 30],
+}
+
 const extensionMock: ExtensionProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'Extension',
@@ -1723,6 +1738,7 @@ const mocks = {
   upload: uploadMock,
   uploadCredential: uploadCredentialMock,
   usage: usageMock,
+  aggregatedUsage: aggregatedUsageMock,
   uiConfig: uiConfigMock,
   user: userMock,
   userUIConfig: userUIConfigMock,
@@ -2097,6 +2113,7 @@ export {
   accessTokenMock,
   environmentMock,
   usageMock,
+  aggregatedUsageMock,
   environmentAliasMock,
   environmentTemplateMock,
   environmentTemplateInstallationMock,
