@@ -273,7 +273,15 @@ export type {
 export type { UIConfig, UIConfigProps } from './entities/ui-config'
 export type { Upload, UploadProps } from './entities/upload'
 export type { UploadCredential, UploadCredentialProps } from './entities/upload-credential'
-export type { Usage, UsageProps } from './entities/usage'
+export type {
+  Usage,
+  UsageProps,
+  AggregatedUsage,
+  AggregatedUsageItemProps,
+  AggregatedUsageCollectionProps,
+  AggregatedUsageMetricKey,
+  AggregatedUsageQuery,
+} from './entities/usage'
 export type { User, UserProps } from './entities/user'
 export type { UserUIConfig, UserUIConfigProps } from './entities/user-ui-config'
 export type {
