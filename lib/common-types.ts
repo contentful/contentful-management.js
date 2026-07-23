@@ -114,7 +114,11 @@ import type {
   CreateTeamSpaceMembershipProps,
   TeamSpaceMembershipProps,
 } from './entities/team-space-membership'
-import type { UsageProps } from './entities/usage'
+import type {
+  AggregatedUsageCollectionProps,
+  AggregatedUsageMetricKey,
+  UsageProps,
+} from './entities/usage'
 import type { UserProps } from './entities/user'
 import type {
   CreateWebhooksProps,
@@ -919,7 +923,7 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'Usage', 'getManyForSpace', UA>): MRReturn<'Usage', 'getManyForSpace'>
   (opts: MROpts<'Usage', 'getManyForOrganization', UA>): MRReturn<'Usage', 'getManyForOrganization'>
-
+  (opts: MROpts<'Usage', 'getAggregated', UA>): MRReturn<'Usage', 'getAggregated'>
   (opts: MROpts<'User', 'getManyForSpace', UA>): MRReturn<'User', 'getManyForSpace'>
   (opts: MROpts<'User', 'getForSpace', UA>): MRReturn<'User', 'getForSpace'>
   (opts: MROpts<'User', 'getCurrent', UA>): MRReturn<'User', 'getCurrent'>
@@ -2572,13 +2576,26 @@ export type MRActions = {
     }
   }
   Usage: {
+    /**
+     * @deprecated Use `getAggregated` instead, calling it once per metric key and
+     * filtering by `filter[sys.dimensions.space.sys.id]` to scope to a space. Sunset: 2026-12-31.
+     */
     getManyForSpace: {
       params: { organizationId: string } & QueryParams
       return: CollectionProp<UsageProps>
     }
+    /**
+     * @deprecated Use `getAggregated` instead, calling it once per metric key
+     * (this action accepted multiple metrics per call via `metric[in]`; `getAggregated`
+     * is scoped to a single `metricKey` per request). Sunset: 2026-12-31.
+     */
     getManyForOrganization: {
       params: { organizationId: string } & QueryParams
       return: CollectionProp<UsageProps>
+    }
+    getAggregated: {
+      params: { organizationId: string; metricKey: AggregatedUsageMetricKey } & QueryParams
+      return: AggregatedUsageCollectionProps
     }
   }
   User: {
