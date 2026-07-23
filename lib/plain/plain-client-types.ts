@@ -125,6 +125,8 @@ import type { TaskPlainClientAPI } from './entities/task'
 import type { TeamPlainClientAPI } from './entities/team'
 import type { TeamMembershipPlainClientAPI } from './entities/team-membership'
 import type { TeamSpaceMembershipPlainClientAPI } from './entities/team-space-membership'
+import type { FragmentPlainClientAPI } from './entities/fragment'
+import type { TemplatePlainClientAPI } from './entities/template'
 import type { UIConfigPlainClientAPI } from './entities/ui-config'
 import type { UploadPlainClientAPI } from './entities/upload'
 import type { UploadCredentialAPI } from './entities/upload-credential'
@@ -151,6 +153,8 @@ import type { SemanticSearchPlainClientAPI } from './entities/semantic-search'
 import type { SemanticSettingsPlainClientAPI } from './entities/semantic-settings'
 import type { ContentSemanticsIndexPlainClientAPI } from './entities/content-semantics-index'
 import type { ComponentTypePlainClientAPI } from './entities/component-type'
+import type { DataAssemblyPlainClientAPI } from './entities/data-assembly'
+import type { ExperiencePlainClientAPI } from './entities/experience'
 
 export type PlainClientAPI = {
   raw: {
@@ -284,6 +288,7 @@ export type PlainClientAPI = {
   }
   comment: CommentPlainClientAPI
   componentType: ComponentTypePlainClientAPI
+  dataAssembly: DataAssemblyPlainClientAPI
   concept: ConceptPlainClientAPI
   conceptScheme: ConceptSchemePlainClientAPI
   contentType: {
@@ -726,12 +731,15 @@ export type PlainClientAPI = {
   team: TeamPlainClientAPI
   teamMembership: TeamMembershipPlainClientAPI
   teamSpaceMembership: TeamSpaceMembershipPlainClientAPI
+  fragment: FragmentPlainClientAPI
+  template: TemplatePlainClientAPI
   uiConfig: UIConfigPlainClientAPI
   userUIConfig: UserUIConfigPlainClientAPI
   workflowDefinition: WorkflowDefinitionPlainClientAPI
   workflow: WorkflowPlainClientAPI
   workflowsChangelog: WorkflowsChangelogPlainClientAPI
   oauthApplication: OAuthApplicationPlainClientAPI
+  experience: ExperiencePlainClientAPI
   semanticSearch: SemanticSearchPlainClientAPI
   semanticDuplicates: SemanticDuplicatesPlainClientAPI
   semanticRecommendations: SemanticRecommendationsPlainClientAPI

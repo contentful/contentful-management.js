@@ -1,11 +1,19 @@
-import type { Link, MetadataProps, SysLink } from '../common-types'
+import type { Except } from 'type-fest'
+import type {
+  CursorPaginationParams,
+  DataTypeDefinition,
+  ExoCursorPaginatedCollectionProp,
+  ExoMetadataProps,
+  ExoQueryFilters,
+  Link,
+  ResourceLink,
+} from '../common-types'
 
-// Query options for getMany - matches Bridge API contract
-export type ComponentTypeQueryOptions = {
-  _experienceCtId: string
-  skip?: number
-  limit?: number
-}
+// Query options for getMany - cursor-based pagination with typed filter fields
+export type ComponentTypeQueryOptions = CursorPaginationParams &
+  ExoQueryFilters & {
+    order?: string
+  }
 
 // Viewport definition
 export type ComponentTypeViewport = {
@@ -15,45 +23,78 @@ export type ComponentTypeViewport = {
   previewSize: string
 }
 
-// Content property definition
-export type ComponentTypeContentProperty = {
+// Content property — DataTypeDefinition extended with id, name, required, defaultValue
+export type ComponentTypeContentProperty = DataTypeDefinition & {
   id: string
   name: string
-  type: string
   required: boolean
   defaultValue?: unknown
 }
 
-// Design property validation option
-export type ComponentTypeDesignPropertyValidation = {
-  value: string | number | boolean
-  name: string
-  description?: string
-}
-
-// Design property definition
-export type ComponentTypeDesignProperty = {
-  id: string
-  name: string
-  type: string
-  required: boolean
-  description?: string
-  defaultValue?: unknown
-  validations?: {
-    in: ComponentTypeDesignPropertyValidation[]
+// Regexp validation shape for String design properties
+export type StringDesignPropertyRegexpValidation = {
+  regexp: {
+    pattern: string
   }
-  designTokenSet?: string[]
 }
 
-// Dimension key map
-export type ComponentTypeDimensionKeyMap = {
-  designProperties: Record<string, Record<string, string>>
+// Allowed resource entry for token-backed design properties
+export type DesignTokenAllowedResource = {
+  type: 'DesignToken'
+  value: string
+  name?: string
 }
+
+// DTCG token type literals
+export type DTCGDesignPropertyType =
+  | 'DTCG.Color'
+  | 'DTCG.Dimension'
+  | 'DTCG.FontFamily'
+  | 'DTCG.FontWeight'
+  | 'DTCG.Duration'
+  | 'DTCG.CubicBezier'
+  | 'DTCG.Number'
+  | 'DTCG.StrokeStyle'
+  | 'DTCG.Border'
+  | 'DTCG.Transition'
+  | 'DTCG.Shadow'
+  | 'DTCG.Gradient'
+  | 'DTCG.Typography'
+
+type DesignPropertyCommonFields = {
+  id: string
+  name: string
+  description?: string
+}
+
+// String design property — free-text with optional regexp validations
+export type StringDesignProperty = DesignPropertyCommonFields & {
+  type: 'String'
+  fallbackValue?: { type: 'ManualDesignValue'; value: string }
+  validations?: StringDesignPropertyRegexpValidation[]
+}
+
+// Boolean design property — narrowed fallbackValue to boolean only
+export type BooleanDesignProperty = DesignPropertyCommonFields & {
+  type: 'Boolean'
+  fallbackValue?: { type: 'ManualDesignValue'; value: boolean }
+}
+
+// Token-backed design property — DTCG types with optional allowedResources
+export type TokenBackedDesignProperty = DesignPropertyCommonFields & {
+  type: DTCGDesignPropertyType
+  fallbackValue?: DesignTokenValue
+  allowedResources?: DesignTokenAllowedResource[]
+}
+
+// Discriminated union covering all upstream design property arms
+export type ComponentTypeDesignProperty =
+  | StringDesignProperty
+  | BooleanDesignProperty
+  | TokenBackedDesignProperty
 
 // Content property pointer value types
-export type ContentPropertyPointerValue =
-  | `$contentProperties/${string}`
-  | `$contentBindings/${string}`
+export type ContentPropertyPointerValue = `$contentProperties/${string}`
 
 // Design property pointer value types
 export type DesignPropertyPointerValue = `$designProperties/${string}`
@@ -61,35 +102,40 @@ export type DesignPropertyPointerValue = `$designProperties/${string}`
 // Design property value types
 export type ManualDesignValue = {
   type: 'ManualDesignValue'
-  value: string | number | boolean | Record<string, unknown>
+  value: string | number | boolean
 }
 
 export type DesignTokenValue = {
-  type: 'DesignValue'
-  token: string
+  type: 'DesignToken'
+  /** Must be non-empty (min length 1) */
+  value: string
 }
 
-export type DesignPropertyValue =
-  | ManualDesignValue
-  | DesignTokenValue
+export type DesignPropertyValue = ManualDesignValue | DesignTokenValue
+
+export type DimensionedDesignPropertyValue = Record<string, DesignPropertyValue>
+
+export type ComponentTreeDesignPropertyValue =
+  | DesignPropertyValue
   | DesignPropertyPointerValue
-  | Record<string, ManualDesignValue | DesignTokenValue | DesignPropertyPointerValue>
+  | DimensionedDesignPropertyValue
 
 // Tree node types for component tree
 export type ComponentNode = {
   id: string
+  name?: string
   nodeType: 'Component'
-  componentTypeId: string
-  contentProperties: Record<string, ContentPropertyPointerValue | unknown>
-  designProperties: Record<string, DesignPropertyValue>
+  componentType: ResourceLink<'Contentful:ComponentType'>
+  contentProperties: Record<string, ContentPropertyPointerValue | unknown> | string
+  designProperties: Record<string, ComponentTreeDesignPropertyValue>
   slots: Record<string, TreeNode[]>
-  contentBindings?: string
 }
 
-export type ViewNode = {
+export type FragmentNode = {
   id: string
-  nodeType: 'View'
-  viewId: string
+  name?: string
+  nodeType: 'Fragment'
+  fragment: ResourceLink<'Contentful:Fragment'>
 }
 
 export type SlotNode = {
@@ -98,33 +144,25 @@ export type SlotNode = {
   slotId: string
 }
 
-export type TreeNode = ComponentNode | ViewNode | SlotNode
-
-// Data type field for content bindings
-export type ComponentTypeDataTypeField = {
-  id: string
-  name: string
-  type: string
-  required: boolean
-  source?: string
-}
+export type TreeNode = ComponentNode | FragmentNode | SlotNode
 
 // DataAssembly link type
-export type DataAssemblyLink = Link<'DataAssembly'>
+export type DataAssemblyLink = ResourceLink<'Contentful:DataAssembly'>
 
-// Content bindings definition
-export type ComponentTypeContentBindings = DataAssemblyLink['sys'] & {
-  required: boolean
-  dataType: ComponentTypeDataTypeField[]
-}
+export const COMPONENT_TYPE_ALLOWED_RESOURCE_SOURCE =
+  'crn:contentful:::experience:spaces/$self/environments/$self' as const
 
 // Slot definition
 export type ComponentTypeSlotDefinition = {
   id: string
   name: string
-  componentTypeId: string[]
   required: boolean
-  validations: unknown[]
+  validations: Array<{ size?: { min?: number; max?: number } }>
+  allowedResources?: Array<{
+    type: 'Contentful:ComponentType'
+    source: typeof COMPONENT_TYPE_ALLOWED_RESOURCE_SOURCE
+    allowedTypes: string[]
+  }>
 }
 
 // ComponentType sys properties (management API shape)
@@ -132,8 +170,8 @@ export type ComponentTypeSys = {
   id: string
   type: 'ComponentType'
   version: number
-  space: SysLink
-  environment: SysLink
+  space: Link<'Space'>
+  environment: Link<'Environment'>
   fieldStatus?: Record<string, Record<string, 'draft' | 'published' | 'changed'>>
   publishedAt?: string
   publishedVersion?: number
@@ -141,10 +179,12 @@ export type ComponentTypeSys = {
   firstPublishedAt?: string
   publishedBy?: Link<'User'> | Link<'AppDefinition'>
   variant?: string
-  createdAt?: string
-  createdBy?: Link<'User'>
-  updatedAt?: string
-  updatedBy?: Link<'User'>
+  variantType?: string
+  variantDimension?: string
+  createdAt: string
+  createdBy: Link<'User'>
+  updatedAt: string
+  updatedBy: Link<'User'>
 }
 
 // Main ComponentType props
@@ -155,10 +195,24 @@ export type ComponentTypeProps = {
   viewports: ComponentTypeViewport[]
   contentProperties: ComponentTypeContentProperty[]
   designProperties: ComponentTypeDesignProperty[]
-  dimensionKeyMap: ComponentTypeDimensionKeyMap
   componentTree?: TreeNode[]
-  contentBindings?: ComponentTypeContentBindings
   slots?: ComponentTypeSlotDefinition[]
-  metadata?: MetadataProps
+  metadata?: ExoMetadataProps
   dataAssemblies?: DataAssemblyLink[]
+  source?: ResourceLink<'Contentful:DesignSystemSource'>
 }
+
+export type CreateComponentTypeProps = Except<ComponentTypeProps, 'sys' | 'source'> & {
+  source?: ResourceLink<'Contentful:DesignSystemSource'> | null
+}
+
+export type UpsertComponentTypeProps = Except<ComponentTypeProps, 'sys' | 'source'> & {
+  sys: {
+    id: string
+    type: 'ComponentType'
+    version?: number
+  }
+  source?: ResourceLink<'Contentful:DesignSystemSource'> | null
+}
+
+export type ComponentTypeCollection = ExoCursorPaginatedCollectionProp<ComponentTypeProps>

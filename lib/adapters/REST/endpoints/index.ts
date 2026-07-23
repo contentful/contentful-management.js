@@ -27,6 +27,7 @@ import * as ComponentType from './component-type'
 import * as Concept from './concept'
 import * as ConceptScheme from './concept-scheme'
 import * as ContentType from './content-type'
+import * as DataAssembly from './data-assembly'
 import * as EditorInterface from './editor-interface'
 import * as EligibleLicense from './eligible-license'
 import * as Entry from './entry'
@@ -35,6 +36,7 @@ import * as EnvironmentAlias from './environment-alias'
 import * as EnvironmentTemplate from './environment-template'
 import * as EnvironmentTemplateInstallation from './environment-template-installation'
 import * as Extension from './extension'
+import * as Fragment from './fragment'
 import * as Function from './function'
 import * as FunctionLog from './function-log'
 import * as Http from './http'
@@ -70,8 +72,10 @@ import * as Task from './task'
 import * as Team from './team'
 import * as TeamMembership from './team-membership'
 import * as TeamSpaceMembership from './team-space-membership'
+import * as Template from './template'
 import * as UIConfig from './ui-config'
 import * as Upload from './upload'
+import * as Experience from './experience'
 import * as UploadCredential from './upload-credentials'
 import * as Usage from './usage'
 import * as User from './user'
@@ -110,6 +114,7 @@ export default {
   Concept,
   ConceptScheme,
   ContentType,
+  DataAssembly,
   EditorInterface,
   EligibleLicense,
   Entry,
@@ -118,6 +123,7 @@ export default {
   EnvironmentTemplate,
   EnvironmentTemplateInstallation,
   Extension,
+  Fragment,
   Function,
   FunctionLog,
   Http,
@@ -154,9 +160,11 @@ export default {
   Team,
   TeamMembership,
   TeamSpaceMembership,
+  Template,
   UIConfig,
   Upload,
   UploadCredential,
+  Experience,
   Usage,
   User,
   UserUIConfig,
