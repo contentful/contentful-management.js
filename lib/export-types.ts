@@ -365,16 +365,37 @@ export type {
   WorkflowsChangelogEntryProps,
   WorkflowsChangelogQueryOptions,
 } from './entities/workflows-changelog-entry'
-export type { ComponentTypeCollection } from './entities/component-type'
-export type { TemplateCollection } from './entities/template'
+export type {
+  ComponentTypeCollection,
+  ComponentTypeProps,
+  CreateComponentTypeProps,
+  UpsertComponentTypeProps,
+} from './entities/component-type'
+export type {
+  TemplateCollection,
+  TemplateProps,
+  CreateTemplateProps,
+  UpsertTemplateProps,
+} from './entities/template'
 export type {
   ExperienceCollection,
+  ExperienceProps,
+  CreateExperienceProps,
+  UpsertExperienceProps,
   ReleaseExperience,
   ReleaseExperienceCollection,
   ReleaseExperienceSys,
 } from './entities/experience'
-export type { FragmentCollection } from './entities/fragment'
+export type {
+  FragmentCollection,
+  FragmentProps,
+  CreateFragmentProps,
+  UpsertFragmentProps,
+} from './entities/fragment'
 export type {
   DataAssemblyCollection,
+  DataAssemblyProps,
   DataAssemblyResourceLinkParameter,
+  CreateDataAssemblyProps,
+  UpdateDataAssemblyProps,
 } from './entities/data-assembly'
