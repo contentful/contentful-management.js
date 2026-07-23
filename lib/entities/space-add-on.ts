@@ -16,12 +16,25 @@ export type SpaceAddOnProps = {
   allocated: number
 }
 
+export type SpaceAddOnOrganizationProps = {
+  sys: BasicMetaSysProps & {
+    organization: SysLink
+  }
+  name: string
+  used: number
+  allocated: number
+}
+
 export type UpdateSpaceAddOnAllocationProps = {
   add_on: SpaceAddOnType
   allocation: number
 }
 
 export interface SpaceAddOn extends SpaceAddOnProps, DefaultElements<SpaceAddOnProps> {}
+
+export interface SpaceAddOnOrganization
+  extends SpaceAddOnOrganizationProps,
+    DefaultElements<SpaceAddOnOrganizationProps> {}
 
 /**
  * @internal
@@ -39,3 +52,20 @@ export function wrapSpaceAddOn(makeRequest: MakeRequest, data: SpaceAddOnProps):
  * @internal
  */
 export const wrapSpaceAddOnCollection = wrapCollection(wrapSpaceAddOn)
+
+/**
+ * @internal
+ */
+export function wrapSpaceAddOnOrganization(
+  makeRequest: MakeRequest,
+  data: SpaceAddOnOrganizationProps,
+): SpaceAddOnOrganization {
+  const orgAddOn = toPlainObject(copy(data))
+  const orgAddOnWithMethods = enhanceWithMethods(orgAddOn, {})
+  return freezeSys(orgAddOnWithMethods)
+}
+
+/**
+ * @internal
+ */
+export const wrapSpaceAddOnOrganizationCollection = wrapCollection(wrapSpaceAddOnOrganization)

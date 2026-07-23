@@ -238,7 +238,9 @@ export type { Snapshot, SnapshotProps } from './entities/snapshot'
 export type { Space, SpaceProps } from './entities/space'
 export type {
   SpaceAddOn,
+  SpaceAddOnOrganization,
   SpaceAddOnProps,
+  SpaceAddOnOrganizationProps,
   SpaceAddOnType,
   UpdateSpaceAddOnAllocationProps,
 } from './entities/space-add-on'

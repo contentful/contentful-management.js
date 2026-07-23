@@ -40,6 +40,7 @@ type LocationType =
   | 'dialog'
   | 'page'
   | 'home'
+  | 'experience-toolbar'
   | InternalLocationType
 
 export interface SimpleLocation {

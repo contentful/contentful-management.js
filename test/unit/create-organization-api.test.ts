@@ -23,7 +23,9 @@ import {
   contentSemanticsIndexMock,
   contentSemanticsIndexCollectionMock,
   availableLicenseMock,
+  spaceAddOnOrganizationMock,
 } from './mocks/entities'
+
 import {
   makeGetEntityTest,
   makeGetCollectionTest,
@@ -972,5 +974,33 @@ describe('A createOrganizationApi', () => {
     return makeEntityMethodFailingTest(setup, {
       methodToTest: 'getAvailableLicenses',
     })
+  })
+
+  test('API call getSpaceAddOns (organization)', async () => {
+    const responseData = {
+      total: 1,
+      skip: 0,
+      limit: 10,
+      items: [spaceAddOnOrganizationMock],
+    }
+    const { api, makeRequest, entitiesMock } = setup(Promise.resolve(responseData))
+    entitiesMock.spaceAddOn.wrapSpaceAddOnOrganizationCollection.mockReturnValue(responseData)
+
+    await api.getSpaceAddOns().then((r) => {
+      expect(r).toEqual(responseData)
+      expect(makeRequest.mock.calls[0][0].entityType).toBe('SpaceAddOn')
+      expect(makeRequest.mock.calls[0][0].action).toBe('getManyForOrganization')
+    })
+  })
+
+  test('API call getSpaceAddOns (organization) fails', async () => {
+    const error = cloneMock('error')
+    const { api } = setup(Promise.reject(error))
+
+    try {
+      await api.getSpaceAddOns()
+    } catch (e) {
+      expect(e).toEqual(error)
+    }
   })
 })
