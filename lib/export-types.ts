@@ -370,6 +370,14 @@ export type {
   ComponentTypeProps,
   CreateComponentTypeProps,
   UpsertComponentTypeProps,
+  ComponentTypeViewport,
+  ComponentTypeContentProperty,
+  ComponentTypeDesignProperty,
+  ComponentTypeSlotDefinition,
+  TreeNode,
+  ComponentNode,
+  FragmentNode,
+  SlotNode,
 } from './entities/component-type'
 export type {
   TemplateCollection,
@@ -385,6 +393,8 @@ export type {
   ReleaseExperience,
   ReleaseExperienceCollection,
   ReleaseExperienceSys,
+  ExperienceContentBindings,
+  InlineFragmentNode,
 } from './entities/experience'
 export type {
   FragmentCollection,
