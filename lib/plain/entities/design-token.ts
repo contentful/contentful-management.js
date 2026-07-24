@@ -58,6 +58,8 @@ export type DesignTokenPlainClientAPI = {
    * @param rawData the design token data to upsert (include sys.version for updates, omit for creates)
    * @returns the upserted design token
    * @throws if the request fails
+   * @remarks Unlike ComponentType/Fragment, DesignToken has no separate publish step — every
+   * upsert auto-publishes server-side, which bumps `sys.version` by 2 (not 1) per call.
    * @internal - Experimental endpoint, subject to breaking changes without notice
    * @example
    * ```javascript

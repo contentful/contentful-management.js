@@ -45,7 +45,9 @@ describe('DesignToken Integration', { sequential: true }, () => {
 
     expect(token.sys.id).toBeDefined()
     expect(token.sys.type).toBe('DesignToken')
-    expect(token.sys.version).toBeGreaterThanOrEqual(1)
+    // DesignToken auto-publishes on every upsert (set + publish in one transaction upstream),
+    // so a fresh create lands at version 2, not version 1 like ComponentType/Fragment.
+    expect(token.sys.version).toBe(2)
     expect(token.sys.createdAt).toBeDefined()
     expect(token.sys.updatedAt).toBeDefined()
     expect(token.sys.createdBy).toBeDefined()
@@ -74,7 +76,8 @@ describe('DesignToken Integration', { sequential: true }, () => {
     )
 
     expect(updated.name).toBe(testName('Token Updated'))
-    expect(updated.sys.version).toBeGreaterThan(current.sys.version)
+    // Each upsert bumps version by 2 (set + auto-publish), not 1 as with ComponentType/Fragment.
+    expect(updated.sys.version).toBe(current.sys.version + 2)
   })
 
   it('lists design tokens with cursor pagination', async () => {
