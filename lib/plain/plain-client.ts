@@ -275,6 +275,12 @@ export const createPlainClient = (
       publish: wrap(wrapParams, 'DataAssembly', 'publish'),
       unpublish: wrap(wrapParams, 'DataAssembly', 'unpublish'),
     },
+    designToken: {
+      getMany: wrap(wrapParams, 'DesignToken', 'getMany'),
+      get: wrap(wrapParams, 'DesignToken', 'get'),
+      upsert: wrap(wrapParams, 'DesignToken', 'upsert'),
+      delete: wrap(wrapParams, 'DesignToken', 'delete'),
+    },
     user: {
       getManyForSpace: wrap(wrapParams, 'User', 'getManyForSpace'),
       getForSpace: wrap(wrapParams, 'User', 'getForSpace'),

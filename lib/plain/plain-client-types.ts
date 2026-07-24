@@ -154,6 +154,7 @@ import type { SemanticSettingsPlainClientAPI } from './entities/semantic-setting
 import type { ContentSemanticsIndexPlainClientAPI } from './entities/content-semantics-index'
 import type { ComponentTypePlainClientAPI } from './entities/component-type'
 import type { DataAssemblyPlainClientAPI } from './entities/data-assembly'
+import type { DesignTokenPlainClientAPI } from './entities/design-token'
 import type { ExperiencePlainClientAPI } from './entities/experience'
 
 export type PlainClientAPI = {
@@ -289,6 +290,7 @@ export type PlainClientAPI = {
   comment: CommentPlainClientAPI
   componentType: ComponentTypePlainClientAPI
   dataAssembly: DataAssemblyPlainClientAPI
+  designToken: DesignTokenPlainClientAPI
   concept: ConceptPlainClientAPI
   conceptScheme: ConceptSchemePlainClientAPI
   contentType: {

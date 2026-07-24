@@ -399,3 +399,8 @@ export type {
   CreateDataAssemblyProps,
   UpdateDataAssemblyProps,
 } from './entities/data-assembly'
+export type {
+  DesignTokenCollection,
+  DesignTokenProps,
+  UpsertDesignTokenProps,
+} from './entities/design-token'
