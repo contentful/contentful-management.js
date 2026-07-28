@@ -1,11 +1,8 @@
 import { describe, test, expect } from 'vitest'
 import setupRestAdapter from '../helpers/setupRestAdapter'
 
-const ALPHA_HEADER = 'x-contentful-enable-alpha-feature'
-const ALPHA_VALUE = 'new-exo-entity-types'
-
 describe('Rest ExperienceFragment', { concurrent: true }, () => {
-  test('getMany calls correct URL and sends alpha header', async () => {
+  test('getMany calls correct URL', async () => {
     const mockResponse = {
       sys: { type: 'Array' },
       limit: 100,
@@ -28,10 +25,9 @@ describe('Rest ExperienceFragment', { concurrent: true }, () => {
       .then((r) => {
         expect(r).to.eql(mockResponse)
         expect(httpMock.get.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/experienceFragments',
+          '/spaces/space123/environments/master/experience_fragments',
         )
         expect(httpMock.get.mock.calls[0][1].params).to.eql({})
-        expect(httpMock.get.mock.calls[0][1].headers[ALPHA_HEADER]).to.eql(ALPHA_VALUE)
       })
   })
 
@@ -61,7 +57,7 @@ describe('Rest ExperienceFragment', { concurrent: true }, () => {
       .then((r) => {
         expect(r).to.eql(mockResponse)
         expect(httpMock.get.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/experienceFragments',
+          '/spaces/space123/environments/master/experience_fragments',
         )
         expect(httpMock.get.mock.calls[0][1].params).to.eql({
           limit: 20,
@@ -70,7 +66,7 @@ describe('Rest ExperienceFragment', { concurrent: true }, () => {
       })
   })
 
-  test('get calls correct URL and sends alpha header', async () => {
+  test('get calls correct URL', async () => {
     const mockResponse = {
       sys: { id: 'ef123', type: 'ExperienceFragment' },
       name: 'Test Experience Fragment',
@@ -92,9 +88,8 @@ describe('Rest ExperienceFragment', { concurrent: true }, () => {
       .then((r) => {
         expect(r).to.eql(mockResponse)
         expect(httpMock.get.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/experienceFragments/ef123',
+          '/spaces/space123/environments/master/experience_fragments/ef123',
         )
-        expect(httpMock.get.mock.calls[0][1].headers[ALPHA_HEADER]).to.eql(ALPHA_VALUE)
       })
   })
 
@@ -134,11 +129,10 @@ describe('Rest ExperienceFragment', { concurrent: true }, () => {
       .then((r) => {
         expect(r).to.eql(mockResponse)
         expect(httpMock.post.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/experienceFragments',
+          '/spaces/space123/environments/master/experience_fragments',
         )
         const body = httpMock.post.mock.calls[0][1]
         expect(body.component).to.eql(componentLink)
-        expect(httpMock.post.mock.calls[0][2].headers[ALPHA_HEADER]).to.eql(ALPHA_VALUE)
       })
   })
 
@@ -168,16 +162,15 @@ describe('Rest ExperienceFragment', { concurrent: true }, () => {
       .then((r) => {
         expect(r).to.eql(mockResponse)
         expect(httpMock.put.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/experienceFragments/ef123',
+          '/spaces/space123/environments/master/experience_fragments/ef123',
         )
         expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(1)
-        expect(httpMock.put.mock.calls[0][2].headers[ALPHA_HEADER]).to.eql(ALPHA_VALUE)
         const body = httpMock.put.mock.calls[0][1]
         expect(body.sys).to.be.undefined
       })
   })
 
-  test('delete calls correct URL and sends alpha header', async () => {
+  test('delete calls correct URL', async () => {
     const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: '' }))
 
     return adapterMock
@@ -193,9 +186,8 @@ describe('Rest ExperienceFragment', { concurrent: true }, () => {
       })
       .then(() => {
         expect(httpMock.delete.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/experienceFragments/ef123',
+          '/spaces/space123/environments/master/experience_fragments/ef123',
         )
-        expect(httpMock.delete.mock.calls[0][1].headers[ALPHA_HEADER]).to.eql(ALPHA_VALUE)
       })
   })
 
@@ -222,10 +214,9 @@ describe('Rest ExperienceFragment', { concurrent: true }, () => {
       .then((r) => {
         expect(r).to.eql(mockResponse)
         expect(httpMock.put.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/experienceFragments/ef123/published',
+          '/spaces/space123/environments/master/experience_fragments/ef123/published',
         )
         expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(1)
-        expect(httpMock.put.mock.calls[0][2].headers[ALPHA_HEADER]).to.eql(ALPHA_VALUE)
       })
   })
 
@@ -252,10 +243,9 @@ describe('Rest ExperienceFragment', { concurrent: true }, () => {
       .then((r) => {
         expect(r).to.eql(mockResponse)
         expect(httpMock.delete.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/experienceFragments/ef123/published',
+          '/spaces/space123/environments/master/experience_fragments/ef123/published',
         )
         expect(httpMock.delete.mock.calls[0][1].headers['X-Contentful-Version']).to.eql(2)
-        expect(httpMock.delete.mock.calls[0][1].headers[ALPHA_HEADER]).to.eql(ALPHA_VALUE)
       })
   })
 })
