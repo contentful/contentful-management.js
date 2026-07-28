@@ -171,8 +171,36 @@ export async function sweepStaleExoEntities(
     }
   }
 
+  const sweepExperienceFragments = async () => {
+    try {
+      const { items } = await client.experienceFragment.getMany({ query: { limit: 100 } })
+      for (const item of items) {
+        if (item.name.startsWith(TEST_PREFIX) && new Date(item.sys.createdAt) < cutoff) {
+          try {
+            if (item.sys.publishedVersion) {
+              await client.experienceFragment.unpublish({
+                experienceFragmentId: item.sys.id,
+                version: item.sys.version,
+              })
+            }
+            await client.experienceFragment.delete({ experienceFragmentId: item.sys.id })
+          } catch {
+            // best-effort cleanup
+          }
+        }
+      }
+    } catch {
+      // ignore if listing fails
+    }
+  }
+
   // Sweep dependents first, then parents
-  await Promise.all([sweepExperiences(), sweepFragments(), sweepDataAssemblies()])
+  await Promise.all([
+    sweepExperiences(),
+    sweepFragments(),
+    sweepExperienceFragments(),
+    sweepDataAssemblies(),
+  ])
   await sweepTemplates()
   await sweepComponentTypes()
 }

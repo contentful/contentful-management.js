@@ -11,6 +11,10 @@ import type {
 } from '../../entities/fragment'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
+/**
+ * @deprecated Use {@link ExperienceFragmentPlainClientAPI} (`client.experienceFragment`) instead.
+ * The `fragment` endpoint is superseded by the `experienceFragment` endpoint.
+ */
 export type FragmentPlainClientAPI = {
   /**
    * Fetches all fragments for a space and environment

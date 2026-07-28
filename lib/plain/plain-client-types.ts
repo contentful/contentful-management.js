@@ -155,6 +155,7 @@ import type { ContentSemanticsIndexPlainClientAPI } from './entities/content-sem
 import type { ComponentTypePlainClientAPI } from './entities/component-type'
 import type { DataAssemblyPlainClientAPI } from './entities/data-assembly'
 import type { ExperiencePlainClientAPI } from './entities/experience'
+import type { ExperienceFragmentPlainClientAPI } from './entities/experience-fragment'
 
 export type PlainClientAPI = {
   raw: {
@@ -731,6 +732,7 @@ export type PlainClientAPI = {
   team: TeamPlainClientAPI
   teamMembership: TeamMembershipPlainClientAPI
   teamSpaceMembership: TeamSpaceMembershipPlainClientAPI
+  /** @deprecated Use `experienceFragment` instead. The `fragment` endpoint is superseded by `experienceFragment`. */
   fragment: FragmentPlainClientAPI
   template: TemplatePlainClientAPI
   uiConfig: UIConfigPlainClientAPI
@@ -740,6 +742,7 @@ export type PlainClientAPI = {
   workflowsChangelog: WorkflowsChangelogPlainClientAPI
   oauthApplication: OAuthApplicationPlainClientAPI
   experience: ExperiencePlainClientAPI
+  experienceFragment: ExperienceFragmentPlainClientAPI
   semanticSearch: SemanticSearchPlainClientAPI
   semanticDuplicates: SemanticDuplicatesPlainClientAPI
   semanticRecommendations: SemanticRecommendationsPlainClientAPI

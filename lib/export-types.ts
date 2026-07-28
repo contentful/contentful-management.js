@@ -398,12 +398,22 @@ export type {
   InlineExperienceFragmentNode,
 } from './entities/experience'
 export type {
+  /** @deprecated Use `ExperienceFragmentCollection` instead */
   FragmentCollection,
+  /** @deprecated Use `ExperienceFragmentProps` instead */
   FragmentProps,
+  /** @deprecated Use `CreateExperienceFragmentProps` instead */
   CreateFragmentProps,
+  /** @deprecated Use `UpsertExperienceFragmentProps` instead */
   UpsertFragmentProps,
   InlineFragmentNode,
 } from './entities/fragment'
+export type {
+  ExperienceFragmentCollection,
+  ExperienceFragmentProps,
+  CreateExperienceFragmentProps,
+  UpsertExperienceFragmentProps,
+} from './entities/experience-fragment'
 export type {
   DataAssemblyCollection,
   DataAssemblyProps,

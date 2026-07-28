@@ -25,6 +25,10 @@ export type InlineFragmentNode = {
   slots?: Record<string, Array<FragmentNode | InlineFragmentNode>>
 }
 
+/**
+ * @deprecated Use the ExperienceFragment entity (see `./experience-fragment`) instead.
+ * The Fragment endpoint is superseded by the ExperienceFragment endpoint.
+ */
 export type FragmentSys = {
   id: string
   type: 'Fragment'
