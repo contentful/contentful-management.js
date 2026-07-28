@@ -138,6 +138,14 @@ export type FragmentNode = {
   fragment: ResourceLink<'Contentful:Fragment'>
 }
 
+// Renamed form of FragmentNode used in Experience slot trees (post-migration).
+export type ExperienceFragmentNode = {
+  id: string
+  name?: string
+  nodeType: 'ExperienceFragment'
+  experienceFragment: ResourceLink<'Contentful:ExperienceFragment'>
+}
+
 export type SlotNode = {
   id: string
   nodeType: 'Slot'

@@ -16,6 +16,13 @@ import * as raw from './raw'
 const getBaseUrl = (params: GetSpaceEnvironmentParams) =>
   `/spaces/${params.spaceId}/environments/${params.environmentId}/experiences`
 
+// Opts into the renamed ("new ExO entity types") Experience shape: sys.experienceTemplate
+// instead of sys.template, and ExperienceFragment slot nodes. The renamed family shares the
+// `/experiences` URLs with the legacy routes and is discriminated server-side on this header.
+const ExperienceAlphaHeaders = {
+  'x-contentful-enable-alpha-feature': 'new-exo-entity-types',
+}
+
 export const getMany: RestEndpoint<'Experience', 'getMany'> = (
   http: AxiosInstance,
   params: GetSpaceEnvironmentParams & { query: ExperienceQueryOptions },
@@ -23,7 +30,10 @@ export const getMany: RestEndpoint<'Experience', 'getMany'> = (
 ) => {
   return raw.get<ExperienceCollection>(http, getBaseUrl(params), {
     params: params.query,
-    headers,
+    headers: {
+      ...ExperienceAlphaHeaders,
+      ...headers,
+    },
   })
 }
 
@@ -33,7 +43,10 @@ export const get: RestEndpoint<'Experience', 'get'> = (
   headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.get<ExperienceProps>(http, getBaseUrl(params) + `/${params.experienceId}`, {
-    headers,
+    headers: {
+      ...ExperienceAlphaHeaders,
+      ...headers,
+    },
   })
 }
 
@@ -44,7 +57,12 @@ export const create: RestEndpoint<'Experience', 'create'> = (
   headers?: RawAxiosRequestHeaders,
 ) => {
   const data = copy(rawData)
-  return raw.post<ExperienceProps>(http, getBaseUrl(params), data, { headers })
+  return raw.post<ExperienceProps>(http, getBaseUrl(params), data, {
+    headers: {
+      ...ExperienceAlphaHeaders,
+      ...headers,
+    },
+  })
 }
 
 export const upsert: RestEndpoint<'Experience', 'upsert'> = (
@@ -56,6 +74,7 @@ export const upsert: RestEndpoint<'Experience', 'upsert'> = (
   const { sys, ...body } = copy(rawData)
   return raw.put<ExperienceProps>(http, getBaseUrl(params) + `/${params.experienceId}`, body, {
     headers: {
+      ...ExperienceAlphaHeaders,
       ...(sys.version !== undefined && {
         'X-Contentful-Version': sys.version,
       }),
@@ -68,7 +87,11 @@ export const del: RestEndpoint<'Experience', 'delete'> = (
   http: AxiosInstance,
   params: GetExperienceParams,
 ) => {
-  return raw.del(http, getBaseUrl(params) + `/${params.experienceId}`)
+  return raw.del(http, getBaseUrl(params) + `/${params.experienceId}`, {
+    headers: {
+      ...ExperienceAlphaHeaders,
+    },
+  })
 }
 
 export const publish: RestEndpoint<'Experience', 'publish'> = (
@@ -79,6 +102,7 @@ export const publish: RestEndpoint<'Experience', 'publish'> = (
 ) => {
   return raw.put(http, getBaseUrl(params) + `/${params.experienceId}/published`, payload ?? null, {
     headers: {
+      ...ExperienceAlphaHeaders,
       'X-Contentful-Version': params.version,
       ...headers,
     },
@@ -92,6 +116,7 @@ export const unpublish: RestEndpoint<'Experience', 'unpublish'> = (
 ) => {
   return raw.del(http, getBaseUrl(params) + `/${params.experienceId}/published`, {
     headers: {
+      ...ExperienceAlphaHeaders,
       'X-Contentful-Version': params.version,
       ...headers,
     },

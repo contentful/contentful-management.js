@@ -12,7 +12,18 @@ import type {
   DimensionedDesignPropertyValue,
   FragmentNode,
 } from './component-type'
-import type { ExperienceContentBindings, InlineFragmentNode } from './experience'
+import type { ExperienceContentBindings } from './experience'
+
+// Legacy inline node for Fragment slot trees. The Experience entity has migrated to
+// InlineExperienceFragmentNode (see ./experience); Fragment retains the legacy shape.
+export type InlineFragmentNode = {
+  id: string
+  nodeType: 'InlineFragment'
+  componentType: ResourceLink<'Contentful:ComponentType'>
+  designProperties: Record<string, DimensionedDesignPropertyValue>
+  contentBindings?: ExperienceContentBindings
+  slots?: Record<string, Array<FragmentNode | InlineFragmentNode>>
+}
 
 export type FragmentSys = {
   id: string

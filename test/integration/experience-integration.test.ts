@@ -41,7 +41,7 @@ describe('Experience Integration', { sequential: true }, () => {
       {
         name: testName('Experience'),
         description: 'Created by integration test',
-        template: makeResourceLink('Contentful:Template', templateId),
+        experienceTemplate: makeResourceLink('Contentful:ExperienceTemplate', templateId),
         viewports: [testViewport],
         designProperties: {},
       },
@@ -93,9 +93,9 @@ describe('Experience Integration', { sequential: true }, () => {
     expect(exp.sys.createdAt).toBeDefined()
     expect(exp.sys.updatedAt).toBeDefined()
     expect(exp.sys.createdBy).toBeDefined()
-    expect(exp.sys.template.sys.type).toBe('ResourceLink')
-    expect(exp.sys.template.sys.linkType).toBe('Contentful:Template')
-    expect(exp.sys.template.sys.urn).toContain(templateId)
+    expect(exp.sys.experienceTemplate.sys.type).toBe('ResourceLink')
+    expect(exp.sys.experienceTemplate.sys.linkType).toBe('Contentful:ExperienceTemplate')
+    expect(exp.sys.experienceTemplate.sys.urn).toContain(templateId)
     expect(exp.name).toBe(testName('Experience'))
   })
 

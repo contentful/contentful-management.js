@@ -18,8 +18,11 @@ const EXO_CRN_PREFIX = 'crn:contentful:::experience:spaces/$self/environments/$s
 
 const entityPaths: Record<string, string> = {
   'Contentful:Template': 'templates',
+  'Contentful:ExperienceTemplate': 'experienceTemplates',
   'Contentful:ComponentType': 'componentTypes',
+  'Contentful:Component': 'components',
   'Contentful:Fragment': 'fragments',
+  'Contentful:ExperienceFragment': 'experienceFragments',
   'Contentful:DataAssembly': 'dataAssemblies',
 }
 

@@ -377,6 +377,7 @@ export type {
   TreeNode,
   ComponentNode,
   FragmentNode,
+  ExperienceFragmentNode,
   SlotNode,
 } from './entities/component-type'
 export type {
@@ -394,13 +395,14 @@ export type {
   ReleaseExperienceCollection,
   ReleaseExperienceSys,
   ExperienceContentBindings,
-  InlineFragmentNode,
+  InlineExperienceFragmentNode,
 } from './entities/experience'
 export type {
   FragmentCollection,
   FragmentProps,
   CreateFragmentProps,
   UpsertFragmentProps,
+  InlineFragmentNode,
 } from './entities/fragment'
 export type {
   DataAssemblyCollection,
