@@ -194,6 +194,29 @@ export async function sweepStaleExoEntities(
     }
   }
 
+  const sweepExperienceTemplates = async () => {
+    try {
+      const { items } = await client.experienceTemplate.getMany({ query: { limit: 100 } })
+      for (const item of items) {
+        if (item.name.startsWith(TEST_PREFIX) && new Date(item.sys.createdAt) < cutoff) {
+          try {
+            if (item.sys.publishedVersion) {
+              await client.experienceTemplate.unpublish({
+                experienceTemplateId: item.sys.id,
+                version: item.sys.version,
+              })
+            }
+            await client.experienceTemplate.delete({ experienceTemplateId: item.sys.id })
+          } catch {
+            // best-effort cleanup
+          }
+        }
+      }
+    } catch {
+      // ignore if listing fails
+    }
+  }
+
   // Sweep dependents first, then parents
   await Promise.all([
     sweepExperiences(),
@@ -202,5 +225,6 @@ export async function sweepStaleExoEntities(
     sweepDataAssemblies(),
   ])
   await sweepTemplates()
+  await sweepExperienceTemplates()
   await sweepComponentTypes()
 }

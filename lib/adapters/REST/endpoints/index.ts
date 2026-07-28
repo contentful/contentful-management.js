@@ -77,6 +77,7 @@ import * as UIConfig from './ui-config'
 import * as Upload from './upload'
 import * as Experience from './experience'
 import * as ExperienceFragment from './experience-fragment'
+import * as ExperienceTemplate from './experience-template'
 import * as UploadCredential from './upload-credentials'
 import * as Usage from './usage'
 import * as User from './user'
@@ -167,6 +168,7 @@ export default {
   UploadCredential,
   Experience,
   ExperienceFragment,
+  ExperienceTemplate,
   Usage,
   User,
   UserUIConfig,

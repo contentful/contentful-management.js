@@ -12,17 +12,14 @@ import type {
   ComponentTypeSlotDefinition,
   ComponentTypeViewport,
   DataAssemblyLink,
-  TreeNode,
+  ExperienceTreeNode,
 } from './component-type'
 
-/**
- * @deprecated Use the ExperienceTemplate entity (see `./experience-template`) instead.
- * The Template endpoint is superseded by the ExperienceTemplate endpoint.
- */
-// Template sys properties (management API shape)
-export type TemplateSys = {
+// ExperienceTemplate sys properties (management API shape).
+// Renamed form of Template: sys.type is 'ExperienceTemplate'.
+export type ExperienceTemplateSys = {
   id: string
-  type: 'Template'
+  type: 'ExperienceTemplate'
   version: number
   space: Link<'Space'>
   environment: Link<'Environment'>
@@ -41,34 +38,35 @@ export type TemplateSys = {
   updatedBy: Link<'User'>
 }
 
-// Main TemplateProps — config fields are identical to ComponentType (TemplateConfigSchema extends ComponentTypeConfigSchema upstream)
-export type TemplateProps = {
-  sys: TemplateSys
+// componentTree uses the renamed ExperienceTreeNode nodes.
+export type ExperienceTemplateProps = {
+  sys: ExperienceTemplateSys
   name: string
   description: string
   viewports: ComponentTypeViewport[]
   contentProperties: ComponentTypeContentProperty[]
   designProperties: ComponentTypeDesignProperty[]
-  componentTree?: TreeNode[]
+  componentTree?: ExperienceTreeNode[]
   slots?: ComponentTypeSlotDefinition[]
   metadata?: ExoMetadataProps
   dataAssemblies?: DataAssemblyLink[]
 }
 
-export type CreateTemplateProps = Except<TemplateProps, 'sys'>
+export type CreateExperienceTemplateProps = Except<ExperienceTemplateProps, 'sys'>
 
-export type UpsertTemplateProps = Except<TemplateProps, 'sys'> & {
+export type UpsertExperienceTemplateProps = Except<ExperienceTemplateProps, 'sys'> & {
   sys: {
     id: string
-    type: 'Template'
+    type: 'ExperienceTemplate'
     version?: number
   }
 }
 
 // Query options for getMany - cursor-based pagination with typed filter fields
-export type TemplateQueryOptions = CursorPaginationParams &
+export type ExperienceTemplateQueryOptions = CursorPaginationParams &
   ExoQueryFilters & {
     order?: string
   }
 
-export type TemplateCollection = ExoCursorPaginatedCollectionProp<TemplateProps>
+export type ExperienceTemplateCollection =
+  ExoCursorPaginatedCollectionProp<ExperienceTemplateProps>

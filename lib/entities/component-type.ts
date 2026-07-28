@@ -152,7 +152,22 @@ export type SlotNode = {
   slotId: string
 }
 
+// Renamed form of ComponentNode used in ExperienceTemplate component trees (post-migration).
+// `component` replaces `componentType`, and slots recurse over the renamed tree nodes.
+export type ExperienceComponentNode = {
+  id: string
+  name?: string
+  nodeType: 'Component'
+  component: ResourceLink<'Contentful:Component'>
+  contentProperties: Record<string, ContentPropertyPointerValue | unknown> | string
+  designProperties: Record<string, ComponentTreeDesignPropertyValue>
+  slots: Record<string, ExperienceTreeNode[]>
+}
+
 export type TreeNode = ComponentNode | FragmentNode | SlotNode
+
+// Renamed form of TreeNode used in ExperienceTemplate component trees (post-migration).
+export type ExperienceTreeNode = ExperienceComponentNode | ExperienceFragmentNode | SlotNode
 
 // DataAssembly link type
 export type DataAssemblyLink = ResourceLink<'Contentful:DataAssembly'>

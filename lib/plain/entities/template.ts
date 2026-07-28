@@ -11,6 +11,10 @@ import type {
 } from '../../entities/template'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
+/**
+ * @deprecated Use {@link ExperienceTemplatePlainClientAPI} (`client.experienceTemplate`) instead.
+ * The `template` endpoint is superseded by the `experienceTemplate` endpoint.
+ */
 export type TemplatePlainClientAPI = {
   /**
    * Fetches all templates for a space and environment

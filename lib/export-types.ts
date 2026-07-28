@@ -378,14 +378,26 @@ export type {
   ComponentNode,
   FragmentNode,
   ExperienceFragmentNode,
+  ExperienceComponentNode,
+  ExperienceTreeNode,
   SlotNode,
 } from './entities/component-type'
 export type {
+  /** @deprecated Use `ExperienceTemplateCollection` instead */
   TemplateCollection,
+  /** @deprecated Use `ExperienceTemplateProps` instead */
   TemplateProps,
+  /** @deprecated Use `CreateExperienceTemplateProps` instead */
   CreateTemplateProps,
+  /** @deprecated Use `UpsertExperienceTemplateProps` instead */
   UpsertTemplateProps,
 } from './entities/template'
+export type {
+  ExperienceTemplateCollection,
+  ExperienceTemplateProps,
+  CreateExperienceTemplateProps,
+  UpsertExperienceTemplateProps,
+} from './entities/experience-template'
 export type {
   ExperienceCollection,
   ExperienceProps,
