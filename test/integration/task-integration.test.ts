@@ -9,6 +9,9 @@ import {
 } from '../helpers'
 import type { Space, Environment, Entry, Task, Link } from '../../lib/export-types'
 
+// Production App Definition ID for the native Tasks app (same across all orgs).
+const TASKS_APP_DEFINITION_ID = '7CPoljE4C0HpsVZ7a7HrZG'
+
 describe('Task API', () => {
   let space: Space
   let environment: Environment
@@ -25,6 +28,9 @@ describe('Task API', () => {
     space = await createTestSpace(defaultClient, 'Task')
     environment = await space.createEnvironment({ name: 'Task Testing Environment' })
     await waitForEnvironmentToBeReady(space, environment)
+    // Tasks must be explicitly installed per-environment; it is not installed by default
+    // on newly created spaces/environments (see CFISO-3416).
+    await environment.createAppInstallation(TASKS_APP_DEFINITION_ID, {}, { acceptAllTerms: true })
     const contentType = await environment.createContentType({ name: 'Content Type', fields: [] })
     await contentType.publish()
     entry = await environment.createEntry(contentType.sys.id, { fields: {} })
