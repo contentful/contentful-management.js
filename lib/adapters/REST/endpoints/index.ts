@@ -28,6 +28,7 @@ import * as Concept from './concept'
 import * as ConceptScheme from './concept-scheme'
 import * as ContentType from './content-type'
 import * as DataAssembly from './data-assembly'
+import * as DesignToken from './design-token'
 import * as EditorInterface from './editor-interface'
 import * as EligibleLicense from './eligible-license'
 import * as Entry from './entry'
@@ -115,6 +116,7 @@ export default {
   ConceptScheme,
   ContentType,
   DataAssembly,
+  DesignToken,
   EditorInterface,
   EligibleLicense,
   Entry,
