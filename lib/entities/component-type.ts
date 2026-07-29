@@ -183,7 +183,7 @@ export type TreeNode = ComponentNode | FragmentNode | SlotNode
 
 /**
  * Renamed form of TreeNode used in ExperienceTemplate component trees (post-migration).
- * 
+ *
  * This will be renamed to TreeNode in the future, but during the migration, we need to support both.
  */
 export type TreeNodeV2 = ComponentNodeV2 | ExperienceFragmentNode | SlotNode

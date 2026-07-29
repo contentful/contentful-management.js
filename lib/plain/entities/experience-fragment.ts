@@ -30,9 +30,7 @@ export type ExperienceFragmentPlainClientAPI = {
    * ```
    */
   getMany(
-    params: OptionalDefaults<
-      GetSpaceEnvironmentParams & { query: ExperienceFragmentQueryOptions }
-    >,
+    params: OptionalDefaults<GetSpaceEnvironmentParams & { query: ExperienceFragmentQueryOptions }>,
   ): Promise<ExoCursorPaginatedCollectionProp<ExperienceFragmentProps>>
 
   /**

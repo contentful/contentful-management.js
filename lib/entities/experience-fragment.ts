@@ -67,5 +67,4 @@ export type ExperienceFragmentQueryOptions = CursorPaginationParams &
     order?: string
   }
 
-export type ExperienceFragmentCollection =
-  ExoCursorPaginatedCollectionProp<ExperienceFragmentProps>
+export type ExperienceFragmentCollection = ExoCursorPaginatedCollectionProp<ExperienceFragmentProps>

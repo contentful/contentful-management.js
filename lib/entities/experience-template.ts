@@ -68,5 +68,4 @@ export type ExperienceTemplateQueryOptions = CursorPaginationParams &
     order?: string
   }
 
-export type ExperienceTemplateCollection =
-  ExoCursorPaginatedCollectionProp<ExperienceTemplateProps>
+export type ExperienceTemplateCollection = ExoCursorPaginatedCollectionProp<ExperienceTemplateProps>
