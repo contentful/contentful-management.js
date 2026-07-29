@@ -374,12 +374,15 @@ export type {
   ComponentTypeContentProperty,
   ComponentTypeDesignProperty,
   ComponentTypeSlotDefinition,
+  /** @deprecated Use `TreeNodeV2` instead */
   TreeNode,
+  /** @deprecated Use `ComponentNodeV2` instead */
   ComponentNode,
+  /** @deprecated Use `ExperienceFragmentNode` instead */
   FragmentNode,
   ExperienceFragmentNode,
-  ExperienceComponentNode,
-  ExperienceTreeNode,
+  ComponentNodeV2,
+  TreeNodeV2,
   SlotNode,
 } from './entities/component-type'
 export type {

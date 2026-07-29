@@ -12,7 +12,7 @@ import type {
   ComponentTypeSlotDefinition,
   ComponentTypeViewport,
   DataAssemblyLink,
-  ExperienceTreeNode,
+  TreeNodeV2,
 } from './component-type'
 
 // ExperienceTemplate sys properties (management API shape).
@@ -38,7 +38,7 @@ export type ExperienceTemplateSys = {
   updatedBy: Link<'User'>
 }
 
-// componentTree uses the renamed ExperienceTreeNode nodes.
+// componentTree uses the renamed TreeNodeV2 nodes.
 export type ExperienceTemplateProps = {
   sys: ExperienceTemplateSys
   name: string
@@ -46,7 +46,7 @@ export type ExperienceTemplateProps = {
   viewports: ComponentTypeViewport[]
   contentProperties: ComponentTypeContentProperty[]
   designProperties: ComponentTypeDesignProperty[]
-  componentTree?: ExperienceTreeNode[]
+  componentTree?: TreeNodeV2[]
   slots?: ComponentTypeSlotDefinition[]
   metadata?: ExoMetadataProps
   dataAssemblies?: DataAssemblyLink[]

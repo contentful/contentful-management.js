@@ -121,6 +121,10 @@ export type ComponentTreeDesignPropertyValue =
   | DimensionedDesignPropertyValue
 
 // Tree node types for component tree
+/**
+ * @deprecated Use `ComponentNodeV2` instead. `ComponentNodeV2` uses the renamed
+ * `component` link (`Contentful:Component`) in place of `componentType`.
+ */
 export type ComponentNode = {
   id: string
   name?: string
@@ -131,6 +135,10 @@ export type ComponentNode = {
   slots: Record<string, TreeNode[]>
 }
 
+/**
+ * @deprecated Use `ExperienceFragmentNode` instead. `ExperienceFragmentNode` uses the
+ * renamed `experienceFragment` link (`Contentful:ExperienceFragment`).
+ */
 export type FragmentNode = {
   id: string
   name?: string
@@ -154,20 +162,27 @@ export type SlotNode = {
 
 // Renamed form of ComponentNode used in ExperienceTemplate component trees (post-migration).
 // `component` replaces `componentType`, and slots recurse over the renamed tree nodes.
-export type ExperienceComponentNode = {
+export type ComponentNodeV2 = {
   id: string
   name?: string
   nodeType: 'Component'
   component: ResourceLink<'Contentful:Component'>
   contentProperties: Record<string, ContentPropertyPointerValue | unknown> | string
   designProperties: Record<string, ComponentTreeDesignPropertyValue>
-  slots: Record<string, ExperienceTreeNode[]>
+  slots: Record<string, TreeNodeV2[]>
 }
 
+/**
+ * @deprecated Use TreeNodeV2 instead.
+ */
 export type TreeNode = ComponentNode | FragmentNode | SlotNode
 
-// Renamed form of TreeNode used in ExperienceTemplate component trees (post-migration).
-export type ExperienceTreeNode = ExperienceComponentNode | ExperienceFragmentNode | SlotNode
+/**
+ * Renamed form of TreeNode used in ExperienceTemplate component trees (post-migration).
+ * 
+ * This will be renamed to TreeNode in the future, but during the migration, we need to support both.
+ */
+export type TreeNodeV2 = ComponentNodeV2 | ExperienceFragmentNode | SlotNode
 
 // DataAssembly link type
 export type DataAssemblyLink = ResourceLink<'Contentful:DataAssembly'>
