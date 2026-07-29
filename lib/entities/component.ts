@@ -15,11 +15,11 @@ import type {
   TreeNodeV2,
 } from './component-type'
 
-// ExperienceTemplate sys properties (management API shape).
-// Renamed form of Template: sys.type is 'ExperienceTemplate'.
-export type ExperienceTemplateSys = {
+// Component sys properties (management API shape).
+// Renamed form of ComponentType: sys.type is 'Component'.
+export type ComponentSys = {
   id: string
-  type: 'ExperienceTemplate'
+  type: 'Component'
   version: number
   space: Link<'Space'>
   environment: Link<'Environment'>
@@ -38,9 +38,12 @@ export type ExperienceTemplateSys = {
   updatedBy: Link<'User'>
 }
 
-// componentTree uses the renamed TreeNodeV2 nodes.
-export type ExperienceTemplateProps = {
-  sys: ExperienceTemplateSys
+// Main Component props.
+// componentTree uses the renamed TreeNodeV2 nodes and slots use ComponentSlotDefinition.
+// Unlike ComponentType, there is no top-level `source` field — design system source
+// provenance is stored inside `metadata`.
+export type ComponentProps = {
+  sys: ComponentSys
   name: string
   description: string
   viewports: ComponentTypeViewport[]
@@ -52,21 +55,20 @@ export type ExperienceTemplateProps = {
   dataAssemblies?: DataAssemblyLink[]
 }
 
-export type CreateExperienceTemplateProps = Except<ExperienceTemplateProps, 'sys'>
+export type CreateComponentProps = Except<ComponentProps, 'sys'>
 
-export type UpsertExperienceTemplateProps = Except<ExperienceTemplateProps, 'sys'> & {
+export type UpsertComponentProps = Except<ComponentProps, 'sys'> & {
   sys: {
     id: string
-    type: 'ExperienceTemplate'
+    type: 'Component'
     version?: number
   }
 }
 
 // Query options for getMany - cursor-based pagination with typed filter fields
-export type ExperienceTemplateQueryOptions = CursorPaginationParams &
+export type ComponentQueryOptions = CursorPaginationParams &
   ExoQueryFilters & {
     order?: string
   }
 
-export type ExperienceTemplateCollection =
-  ExoCursorPaginatedCollectionProp<ExperienceTemplateProps>
+export type ComponentCollection = ExoCursorPaginatedCollectionProp<ComponentProps>

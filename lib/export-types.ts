@@ -366,14 +366,20 @@ export type {
   WorkflowsChangelogQueryOptions,
 } from './entities/workflows-changelog-entry'
 export type {
+  /** @deprecated Use `ComponentCollection` instead */
   ComponentTypeCollection,
+  /** @deprecated Use `ComponentProps` instead */
   ComponentTypeProps,
+  /** @deprecated Use `CreateComponentProps` instead */
   CreateComponentTypeProps,
+  /** @deprecated Use `UpsertComponentProps` instead */
   UpsertComponentTypeProps,
   ComponentTypeViewport,
   ComponentTypeContentProperty,
   ComponentTypeDesignProperty,
+  /** @deprecated Use `ComponentSlotDefinition` instead */
   ComponentTypeSlotDefinition,
+  ComponentSlotDefinition,
   /** @deprecated Use `TreeNodeV2` instead */
   TreeNode,
   /** @deprecated Use `ComponentNodeV2` instead */
@@ -385,6 +391,12 @@ export type {
   TreeNodeV2,
   SlotNode,
 } from './entities/component-type'
+export type {
+  ComponentCollection,
+  ComponentProps,
+  CreateComponentProps,
+  UpsertComponentProps,
+} from './entities/component'
 export type {
   /** @deprecated Use `ExperienceTemplateCollection` instead */
   TemplateCollection,

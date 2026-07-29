@@ -68,6 +68,12 @@ import type {
   UpsertComponentTypeProps,
 } from './entities/component-type'
 import type {
+  ComponentProps,
+  ComponentQueryOptions,
+  CreateComponentProps,
+  UpsertComponentProps,
+} from './entities/component'
+import type {
   CreateFragmentProps,
   FragmentProps,
   FragmentQueryOptions,
@@ -808,6 +814,13 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'ComponentType', 'delete', UA>): MRReturn<'ComponentType', 'delete'>
   (opts: MROpts<'ComponentType', 'publish', UA>): MRReturn<'ComponentType', 'publish'>
   (opts: MROpts<'ComponentType', 'unpublish', UA>): MRReturn<'ComponentType', 'unpublish'>
+  (opts: MROpts<'Component', 'getMany', UA>): MRReturn<'Component', 'getMany'>
+  (opts: MROpts<'Component', 'get', UA>): MRReturn<'Component', 'get'>
+  (opts: MROpts<'Component', 'create', UA>): MRReturn<'Component', 'create'>
+  (opts: MROpts<'Component', 'upsert', UA>): MRReturn<'Component', 'upsert'>
+  (opts: MROpts<'Component', 'delete', UA>): MRReturn<'Component', 'delete'>
+  (opts: MROpts<'Component', 'publish', UA>): MRReturn<'Component', 'publish'>
+  (opts: MROpts<'Component', 'unpublish', UA>): MRReturn<'Component', 'unpublish'>
 
   (opts: MROpts<'Concept', 'get', UA>): MRReturn<'Concept', 'get'>
   (opts: MROpts<'Concept', 'getMany', UA>): MRReturn<'Concept', 'getMany'>
@@ -1889,6 +1902,38 @@ export type MRActions = {
     unpublish: {
       params: GetComponentTypeParams & { version: number }
       return: ComponentTypeProps
+    }
+  }
+  Component: {
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query: ComponentQueryOptions }
+      return: ExoCursorPaginatedCollectionProp<ComponentProps>
+    }
+    get: {
+      params: GetComponentParams
+      return: ComponentProps
+    }
+    create: {
+      params: GetSpaceEnvironmentParams
+      payload: CreateComponentProps
+      return: ComponentProps
+    }
+    upsert: {
+      params: GetComponentParams
+      payload: UpsertComponentProps
+      return: ComponentProps
+    }
+    delete: {
+      params: GetComponentParams
+      return: void
+    }
+    publish: {
+      params: GetComponentParams & { version: number }
+      return: ComponentProps
+    }
+    unpublish: {
+      params: GetComponentParams & { version: number }
+      return: ComponentProps
     }
   }
   Concept: {
@@ -3286,6 +3331,8 @@ export type GetCommentParams = (GetEntryParams | GetCommentParentEntityParams) &
 }
 /** @internal */
 export type GetComponentTypeParams = GetSpaceEnvironmentParams & { componentTypeId: string }
+/** @internal */
+export type GetComponentParams = GetSpaceEnvironmentParams & { componentId: string }
 /** @internal */
 export type GetExperienceParams = GetSpaceEnvironmentParams & { experienceId: string }
 /** @internal */

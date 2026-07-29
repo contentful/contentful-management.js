@@ -10,6 +10,10 @@ import type {
 } from '../common-types'
 
 // Query options for getMany - cursor-based pagination with typed filter fields
+/**
+ * @deprecated Use `ComponentQueryOptions` (see `./component`) instead.
+ * The ComponentType entity is superseded by the Component entity.
+ */
 export type ComponentTypeQueryOptions = CursorPaginationParams &
   ExoQueryFilters & {
     order?: string
@@ -191,6 +195,10 @@ export const COMPONENT_TYPE_ALLOWED_RESOURCE_SOURCE =
   'crn:contentful:::experience:spaces/$self/environments/$self' as const
 
 // Slot definition
+/**
+ * @deprecated Use `ComponentSlotDefinition` instead. `ComponentSlotDefinition` uses the
+ * renamed `allowedResources[].type` value (`Contentful:Component`).
+ */
 export type ComponentTypeSlotDefinition = {
   id: string
   name: string
@@ -203,7 +211,25 @@ export type ComponentTypeSlotDefinition = {
   }>
 }
 
+// Renamed form of ComponentTypeSlotDefinition used in Component / ExperienceTemplate
+// slot definitions (post-migration). `allowedResources[].type` is `Contentful:Component`.
+export type ComponentSlotDefinition = {
+  id: string
+  name: string
+  required: boolean
+  validations: Array<{ size?: { min?: number; max?: number } }>
+  allowedResources?: Array<{
+    type: 'Contentful:Component'
+    source: typeof COMPONENT_TYPE_ALLOWED_RESOURCE_SOURCE
+    allowedTypes: string[]
+  }>
+}
+
 // ComponentType sys properties (management API shape)
+/**
+ * @deprecated Use the Component entity (see `./component`) instead.
+ * The ComponentType endpoint is superseded by the Component endpoint.
+ */
 export type ComponentTypeSys = {
   id: string
   type: 'ComponentType'
@@ -226,6 +252,10 @@ export type ComponentTypeSys = {
 }
 
 // Main ComponentType props
+/**
+ * @deprecated Use `ComponentProps` (see `./component`) instead.
+ * The ComponentType entity is superseded by the Component entity.
+ */
 export type ComponentTypeProps = {
   sys: ComponentTypeSys
   name: string
@@ -240,10 +270,18 @@ export type ComponentTypeProps = {
   source?: ResourceLink<'Contentful:DesignSystemSource'>
 }
 
+/**
+ * @deprecated Use `CreateComponentProps` (see `./component`) instead.
+ * The ComponentType entity is superseded by the Component entity.
+ */
 export type CreateComponentTypeProps = Except<ComponentTypeProps, 'sys' | 'source'> & {
   source?: ResourceLink<'Contentful:DesignSystemSource'> | null
 }
 
+/**
+ * @deprecated Use `UpsertComponentProps` (see `./component`) instead.
+ * The ComponentType entity is superseded by the Component entity.
+ */
 export type UpsertComponentTypeProps = Except<ComponentTypeProps, 'sys' | 'source'> & {
   sys: {
     id: string
@@ -253,4 +291,8 @@ export type UpsertComponentTypeProps = Except<ComponentTypeProps, 'sys' | 'sourc
   source?: ResourceLink<'Contentful:DesignSystemSource'> | null
 }
 
+/**
+ * @deprecated Use `ComponentCollection` (see `./component`) instead.
+ * The ComponentType entity is superseded by the Component entity.
+ */
 export type ComponentTypeCollection = ExoCursorPaginatedCollectionProp<ComponentTypeProps>

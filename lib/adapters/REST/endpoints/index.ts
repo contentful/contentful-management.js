@@ -23,6 +23,7 @@ import * as AssetKey from './asset-key'
 import * as AvailableLicense from './available-license'
 import * as BulkAction from './bulk-action'
 import * as Comment from './comment'
+import * as Component from './component'
 import * as ComponentType from './component-type'
 import * as Concept from './concept'
 import * as ConceptScheme from './concept-scheme'
@@ -112,6 +113,7 @@ export default {
   AvailableLicense,
   BulkAction,
   Comment,
+  Component,
   ComponentType,
   Concept,
   ConceptScheme,

@@ -153,6 +153,7 @@ import type { SemanticSearchPlainClientAPI } from './entities/semantic-search'
 import type { SemanticSettingsPlainClientAPI } from './entities/semantic-settings'
 import type { ContentSemanticsIndexPlainClientAPI } from './entities/content-semantics-index'
 import type { ComponentTypePlainClientAPI } from './entities/component-type'
+import type { ComponentPlainClientAPI } from './entities/component'
 import type { DataAssemblyPlainClientAPI } from './entities/data-assembly'
 import type { ExperiencePlainClientAPI } from './entities/experience'
 import type { ExperienceFragmentPlainClientAPI } from './entities/experience-fragment'
@@ -289,7 +290,9 @@ export type PlainClientAPI = {
     >
   }
   comment: CommentPlainClientAPI
+  /** @deprecated Use `component` instead. The `componentType` endpoint is superseded by `component`. */
   componentType: ComponentTypePlainClientAPI
+  component: ComponentPlainClientAPI
   dataAssembly: DataAssemblyPlainClientAPI
   concept: ConceptPlainClientAPI
   conceptScheme: ConceptSchemePlainClientAPI

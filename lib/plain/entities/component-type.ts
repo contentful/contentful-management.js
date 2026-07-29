@@ -11,6 +11,10 @@ import type {
 } from '../../entities/component-type'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
+/**
+ * @deprecated Use {@link ComponentPlainClientAPI} (`client.component`) instead.
+ * The `componentType` endpoint is superseded by the `component` endpoint.
+ */
 export type ComponentTypePlainClientAPI = {
   /**
    * Fetches all component types for a space and environment
