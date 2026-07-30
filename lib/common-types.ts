@@ -196,6 +196,12 @@ import type {
   DataAssemblyCollection,
 } from './entities/data-assembly'
 import type {
+  DesignTokenCollection,
+  DesignTokenProps,
+  DesignTokenQueryOptions,
+  UpsertDesignTokenProps,
+} from './entities/design-token'
+import type {
   CreateEnvironmentTemplateProps,
   EnvironmentTemplateProps,
 } from './entities/environment-template'
@@ -864,6 +870,11 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'DataAssembly', 'delete', UA>): MRReturn<'DataAssembly', 'delete'>
   (opts: MROpts<'DataAssembly', 'publish', UA>): MRReturn<'DataAssembly', 'publish'>
   (opts: MROpts<'DataAssembly', 'unpublish', UA>): MRReturn<'DataAssembly', 'unpublish'>
+
+  (opts: MROpts<'DesignToken', 'getMany', UA>): MRReturn<'DesignToken', 'getMany'>
+  (opts: MROpts<'DesignToken', 'get', UA>): MRReturn<'DesignToken', 'get'>
+  (opts: MROpts<'DesignToken', 'upsert', UA>): MRReturn<'DesignToken', 'upsert'>
+  (opts: MROpts<'DesignToken', 'delete', UA>): MRReturn<'DesignToken', 'delete'>
 
   (opts: MROpts<'EditorInterface', 'get', UA>): MRReturn<'EditorInterface', 'get'>
   (opts: MROpts<'EditorInterface', 'getMany', UA>): MRReturn<'EditorInterface', 'getMany'>
@@ -2090,6 +2101,25 @@ export type MRActions = {
     unpublish: {
       params: GetDataAssemblyParams & { version: number }
       return: DataAssemblyProps
+    }
+  }
+  DesignToken: {
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query: DesignTokenQueryOptions }
+      return: DesignTokenCollection
+    }
+    get: {
+      params: GetDesignTokenParams
+      return: DesignTokenProps
+    }
+    upsert: {
+      params: GetDesignTokenParams
+      payload: UpsertDesignTokenProps
+      return: DesignTokenProps
+    }
+    delete: {
+      params: GetDesignTokenParams
+      return: void
     }
   }
   EditorInterface: {
@@ -3341,6 +3371,8 @@ export type GetExperienceFragmentParams = GetSpaceEnvironmentParams & {
 }
 /** @internal */
 export type GetDataAssemblyParams = GetSpaceEnvironmentParams & { dataAssemblyId: string }
+/** @internal */
+export type GetDesignTokenParams = GetSpaceEnvironmentParams & { designTokenId: string }
 /** @internal */
 export type GetFragmentParams = GetSpaceEnvironmentParams & { fragmentId: string }
 /** @internal */

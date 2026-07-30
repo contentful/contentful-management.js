@@ -7,6 +7,8 @@ on:
         required: true
       CONTENTFUL_ORGANIZATION_ID:
         required: true
+      TASKS_APP_DEFINITION_ID:
+        required: true
 
 jobs:
   test-integration:
@@ -41,3 +43,4 @@ jobs:
         env:
           CONTENTFUL_INTEGRATION_TEST_CMA_TOKEN: ${{ secrets.CONTENTFUL_INTEGRATION_TEST_CMA_TOKEN }}
           CONTENTFUL_ORGANIZATION_ID: ${{ secrets.CONTENTFUL_ORGANIZATION_ID }}
+          TASKS_APP_DEFINITION_ID: ${{ secrets.TASKS_APP_DEFINITION_ID }}

@@ -67,14 +67,14 @@ describe('ExperienceFragment Integration', { sequential: true }, () => {
 
     for (const id of createdComponentTypeIds) {
       try {
-        const latest = await client.componentType.get({ componentTypeId: id })
+        const latest = await client.component.get({ componentId: id })
         if (latest.sys.publishedVersion) {
-          await client.componentType.unpublish({
-            componentTypeId: id,
+          await client.component.unpublish({
+            componentId: id,
             version: latest.sys.version,
           })
         }
-        await client.componentType.delete({ componentTypeId: id })
+        await client.component.delete({ componentId: id })
       } catch {
         // entity already deleted or not found
       }

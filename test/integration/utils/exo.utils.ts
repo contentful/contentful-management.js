@@ -240,12 +240,30 @@ export async function sweepStaleExoEntities(
     }
   }
 
+  const sweepDesignTokens = async () => {
+    try {
+      const { items } = await client.designToken.getMany({ query: { limit: 100 } })
+      for (const item of items) {
+        if (item.name.startsWith(TEST_PREFIX) && new Date(item.sys.createdAt) < cutoff) {
+          try {
+            await client.designToken.delete({ designTokenId: item.sys.id })
+          } catch {
+            // best-effort cleanup
+          }
+        }
+      }
+    } catch {
+      // ignore if listing fails
+    }
+  }
+
   // Sweep dependents first, then parents
   await Promise.all([
     sweepExperiences(),
     sweepFragments(),
     sweepExperienceFragments(),
     sweepDataAssemblies(),
+    sweepDesignTokens(),
   ])
   await sweepTemplates()
   await sweepExperienceTemplates()

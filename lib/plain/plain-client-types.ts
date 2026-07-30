@@ -155,6 +155,7 @@ import type { ContentSemanticsIndexPlainClientAPI } from './entities/content-sem
 import type { ComponentTypePlainClientAPI } from './entities/component-type'
 import type { ComponentPlainClientAPI } from './entities/component'
 import type { DataAssemblyPlainClientAPI } from './entities/data-assembly'
+import type { DesignTokenPlainClientAPI } from './entities/design-token'
 import type { ExperiencePlainClientAPI } from './entities/experience'
 import type { ExperienceFragmentPlainClientAPI } from './entities/experience-fragment'
 import type { ExperienceTemplatePlainClientAPI } from './entities/experience-template'
@@ -294,6 +295,7 @@ export type PlainClientAPI = {
   componentType: ComponentTypePlainClientAPI
   component: ComponentPlainClientAPI
   dataAssembly: DataAssemblyPlainClientAPI
+  designToken: DesignTokenPlainClientAPI
   concept: ConceptPlainClientAPI
   conceptScheme: ConceptSchemePlainClientAPI
   contentType: {
