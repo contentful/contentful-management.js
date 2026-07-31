@@ -23,6 +23,7 @@ import * as AssetKey from './asset-key'
 import * as AvailableLicense from './available-license'
 import * as BulkAction from './bulk-action'
 import * as Comment from './comment'
+import * as Component from './component'
 import * as ComponentType from './component-type'
 import * as Concept from './concept'
 import * as ConceptScheme from './concept-scheme'
@@ -77,6 +78,8 @@ import * as Template from './template'
 import * as UIConfig from './ui-config'
 import * as Upload from './upload'
 import * as Experience from './experience'
+import * as ExperienceFragment from './experience-fragment'
+import * as ExperienceTemplate from './experience-template'
 import * as UploadCredential from './upload-credentials'
 import * as Usage from './usage'
 import * as User from './user'
@@ -111,6 +114,7 @@ export default {
   AvailableLicense,
   BulkAction,
   Comment,
+  Component,
   ComponentType,
   Concept,
   ConceptScheme,
@@ -167,6 +171,8 @@ export default {
   Upload,
   UploadCredential,
   Experience,
+  ExperienceFragment,
+  ExperienceTemplate,
   Usage,
   User,
   UserUIConfig,

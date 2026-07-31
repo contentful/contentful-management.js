@@ -200,7 +200,7 @@ describe('Rest Experience', { concurrent: true }, () => {
       })
   })
 
-  test('create calls correct URL with POST and passes template link', async () => {
+  test('create calls correct URL with POST and passes experienceTemplate link', async () => {
     const mockResponse = {
       sys: { id: 'new-experience-123', type: 'Experience', version: 1 },
       name: 'New Experience',
@@ -211,7 +211,13 @@ describe('Rest Experience', { concurrent: true }, () => {
 
     const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
 
-    const templateLink = { sys: { type: 'Link', linkType: 'Template', id: 'tmpl-123' } }
+    const experienceTemplateLink = {
+      sys: {
+        type: 'ResourceLink',
+        linkType: 'Contentful:ExperienceTemplate',
+        urn: 'crn:contentful:::experience:spaces/space123/environments/master/experienceTemplates/tmpl-123',
+      },
+    }
 
     return adapterMock
       .makeRequest({
@@ -225,7 +231,7 @@ describe('Rest Experience', { concurrent: true }, () => {
         payload: {
           name: 'New Experience',
           description: 'A new experience',
-          template: templateLink,
+          experienceTemplate: experienceTemplateLink,
           viewports: [],
           designProperties: {},
         },
@@ -236,7 +242,10 @@ describe('Rest Experience', { concurrent: true }, () => {
           '/spaces/space123/environments/master/experiences',
         )
         const body = httpMock.post.mock.calls[0][1]
-        expect(body.template).to.eql(templateLink)
+        expect(body.experienceTemplate).to.eql(experienceTemplateLink)
+        expect(httpMock.post.mock.calls[0][2].headers['x-contentful-enable-alpha-feature']).to.eql(
+          'new-exo-entity-types',
+        )
       })
   })
 

@@ -9,7 +9,7 @@ import type {
 import type {
   ComponentTypeViewport,
   DimensionedDesignPropertyValue,
-  FragmentNode,
+  ExperienceFragmentNode,
 } from './component-type'
 
 export type ExperienceContentBindings = {
@@ -23,7 +23,7 @@ export type ExperienceSys = {
   version: number
   space: Link<'Space'>
   environment: Link<'Environment'>
-  template: ResourceLink<'Contentful:Template'>
+  experienceTemplate: ResourceLink<'Contentful:ExperienceTemplate'>
   createdAt: string
   updatedAt: string
   createdBy: Link<'User'>
@@ -49,7 +49,7 @@ type ExperienceCommonProps = {
   designProperties: Record<string, DimensionedDesignPropertyValue>
   contentBindings?: ExperienceContentBindings
   metadata?: ExperienceMetadataProps
-  slots?: Record<string, Array<FragmentNode | InlineFragmentNode>>
+  slots?: Record<string, Array<ExperienceFragmentNode | InlineExperienceFragmentNode>>
 }
 
 export type ExperienceProps = ExperienceCommonProps & {
@@ -67,7 +67,7 @@ export type ExperienceQueryOptions = CursorPaginationParams &
 export type ExperienceLocalePublishPayload = { add: string[] } | { remove: string[] }
 
 export type CreateExperienceProps = ExperienceCommonProps & {
-  template: ResourceLink<'Contentful:Template'>
+  experienceTemplate: ResourceLink<'Contentful:ExperienceTemplate'>
 }
 
 export type UpsertExperienceProps = ExperienceCommonProps & {
@@ -76,16 +76,16 @@ export type UpsertExperienceProps = ExperienceCommonProps & {
     type: 'Experience'
     version?: number
   }
-  template?: ResourceLink<'Contentful:Template'>
+  experienceTemplate?: ResourceLink<'Contentful:ExperienceTemplate'>
 }
 
-export type InlineFragmentNode = {
+export type InlineExperienceFragmentNode = {
   id: string
-  nodeType: 'InlineFragment'
-  componentType: ResourceLink<'Contentful:ComponentType'>
+  nodeType: 'InlineExperienceFragment'
+  component: ResourceLink<'Contentful:Component'>
   designProperties: Record<string, DimensionedDesignPropertyValue>
   contentBindings?: ExperienceContentBindings
-  slots?: Record<string, Array<FragmentNode | InlineFragmentNode>>
+  slots?: Record<string, Array<ExperienceFragmentNode | InlineExperienceFragmentNode>>
 }
 
 export type ExperienceCollection = ExoCursorPaginatedCollectionProp<ExperienceProps>

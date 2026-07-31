@@ -12,8 +12,27 @@ import type {
   DimensionedDesignPropertyValue,
   FragmentNode,
 } from './component-type'
-import type { ExperienceContentBindings, InlineFragmentNode } from './experience'
+import type { ExperienceContentBindings } from './experience'
 
+// Legacy inline node for Fragment slot trees. The Experience entity has migrated to
+// InlineExperienceFragmentNode (see ./experience); Fragment retains the legacy shape.
+/**
+ * @deprecated Use `InlineExperienceFragmentNode` (see `./experience`) instead.
+ * The Fragment entity is superseded by the ExperienceFragment entity.
+ */
+export type InlineFragmentNode = {
+  id: string
+  nodeType: 'InlineFragment'
+  componentType: ResourceLink<'Contentful:ComponentType'>
+  designProperties: Record<string, DimensionedDesignPropertyValue>
+  contentBindings?: ExperienceContentBindings
+  slots?: Record<string, Array<FragmentNode | InlineFragmentNode>>
+}
+
+/**
+ * @deprecated Use the ExperienceFragment entity (see `./experience-fragment`) instead.
+ * The Fragment endpoint is superseded by the ExperienceFragment endpoint.
+ */
 export type FragmentSys = {
   id: string
   type: 'Fragment'
@@ -38,6 +57,10 @@ export type FragmentSys = {
   publishedBy?: Link<'User'> | Link<'AppDefinition'>
 }
 
+/**
+ * @deprecated Use `ExperienceFragmentProps` (see `./experience-fragment`) instead.
+ * The Fragment entity is superseded by the ExperienceFragment entity.
+ */
 export type FragmentProps = {
   sys: FragmentSys
   name: string
@@ -49,10 +72,18 @@ export type FragmentProps = {
   slots?: Record<string, Array<FragmentNode | InlineFragmentNode>>
 }
 
+/**
+ * @deprecated Use `CreateExperienceFragmentProps` (see `./experience-fragment`) instead.
+ * The Fragment entity is superseded by the ExperienceFragment entity.
+ */
 export type CreateFragmentProps = Except<FragmentProps, 'sys'> & {
   componentType: ResourceLink<'Contentful:ComponentType'>
 }
 
+/**
+ * @deprecated Use `UpsertExperienceFragmentProps` (see `./experience-fragment`) instead.
+ * The Fragment entity is superseded by the ExperienceFragment entity.
+ */
 export type UpsertFragmentProps = Omit<FragmentProps, 'sys'> & {
   sys: {
     id: string
@@ -62,9 +93,17 @@ export type UpsertFragmentProps = Omit<FragmentProps, 'sys'> & {
   componentType?: ResourceLink<'Contentful:ComponentType'>
 }
 
+/**
+ * @deprecated Use `ExperienceFragmentQueryOptions` (see `./experience-fragment`) instead.
+ * The Fragment entity is superseded by the ExperienceFragment entity.
+ */
 export type FragmentQueryOptions = CursorPaginationParams &
   ExoQueryFilters & {
     order?: string
   }
 
+/**
+ * @deprecated Use `ExperienceFragmentCollection` (see `./experience-fragment`) instead.
+ * The Fragment entity is superseded by the ExperienceFragment entity.
+ */
 export type FragmentCollection = ExoCursorPaginatedCollectionProp<FragmentProps>

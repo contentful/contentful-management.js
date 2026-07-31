@@ -16,6 +16,10 @@ import type {
 } from './component-type'
 
 // Template sys properties (management API shape)
+/**
+ * @deprecated Use the ExperienceTemplate entity (see `./experience-template`) instead.
+ * The Template endpoint is superseded by the ExperienceTemplate endpoint.
+ */
 export type TemplateSys = {
   id: string
   type: 'Template'
@@ -38,6 +42,10 @@ export type TemplateSys = {
 }
 
 // Main TemplateProps — config fields are identical to ComponentType (TemplateConfigSchema extends ComponentTypeConfigSchema upstream)
+/**
+ * @deprecated Use `ExperienceTemplateProps` (see `./experience-template`) instead.
+ * The Template entity is superseded by the ExperienceTemplate entity.
+ */
 export type TemplateProps = {
   sys: TemplateSys
   name: string
@@ -51,8 +59,16 @@ export type TemplateProps = {
   dataAssemblies?: DataAssemblyLink[]
 }
 
+/**
+ * @deprecated Use `CreateExperienceTemplateProps` (see `./experience-template`) instead.
+ * The Template entity is superseded by the ExperienceTemplate entity.
+ */
 export type CreateTemplateProps = Except<TemplateProps, 'sys'>
 
+/**
+ * @deprecated Use `UpsertExperienceTemplateProps` (see `./experience-template`) instead.
+ * The Template entity is superseded by the ExperienceTemplate entity.
+ */
 export type UpsertTemplateProps = Except<TemplateProps, 'sys'> & {
   sys: {
     id: string
@@ -62,9 +78,17 @@ export type UpsertTemplateProps = Except<TemplateProps, 'sys'> & {
 }
 
 // Query options for getMany - cursor-based pagination with typed filter fields
+/**
+ * @deprecated Use `ExperienceTemplateQueryOptions` (see `./experience-template`) instead.
+ * The Template entity is superseded by the ExperienceTemplate entity.
+ */
 export type TemplateQueryOptions = CursorPaginationParams &
   ExoQueryFilters & {
     order?: string
   }
 
+/**
+ * @deprecated Use `ExperienceTemplateCollection` (see `./experience-template`) instead.
+ * The Template entity is superseded by the ExperienceTemplate entity.
+ */
 export type TemplateCollection = ExoCursorPaginatedCollectionProp<TemplateProps>

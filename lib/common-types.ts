@@ -68,6 +68,12 @@ import type {
   UpsertComponentTypeProps,
 } from './entities/component-type'
 import type {
+  ComponentProps,
+  ComponentQueryOptions,
+  CreateComponentProps,
+  UpsertComponentProps,
+} from './entities/component'
+import type {
   CreateFragmentProps,
   FragmentProps,
   FragmentQueryOptions,
@@ -86,6 +92,18 @@ import type {
   ExperienceProps,
   ExperienceQueryOptions,
 } from './entities/experience'
+import type {
+  CreateExperienceFragmentProps,
+  ExperienceFragmentProps,
+  ExperienceFragmentQueryOptions,
+  UpsertExperienceFragmentProps,
+} from './entities/experience-fragment'
+import type {
+  CreateExperienceTemplateProps,
+  ExperienceTemplateProps,
+  ExperienceTemplateQueryOptions,
+  UpsertExperienceTemplateProps,
+} from './entities/experience-template'
 import type { ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
 import type { EditorInterfaceProps } from './entities/editor-interface'
 import type { EligibleLicenseProps } from './entities/eligible-license'
@@ -802,6 +820,13 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'ComponentType', 'delete', UA>): MRReturn<'ComponentType', 'delete'>
   (opts: MROpts<'ComponentType', 'publish', UA>): MRReturn<'ComponentType', 'publish'>
   (opts: MROpts<'ComponentType', 'unpublish', UA>): MRReturn<'ComponentType', 'unpublish'>
+  (opts: MROpts<'Component', 'getMany', UA>): MRReturn<'Component', 'getMany'>
+  (opts: MROpts<'Component', 'get', UA>): MRReturn<'Component', 'get'>
+  (opts: MROpts<'Component', 'create', UA>): MRReturn<'Component', 'create'>
+  (opts: MROpts<'Component', 'upsert', UA>): MRReturn<'Component', 'upsert'>
+  (opts: MROpts<'Component', 'delete', UA>): MRReturn<'Component', 'delete'>
+  (opts: MROpts<'Component', 'publish', UA>): MRReturn<'Component', 'publish'>
+  (opts: MROpts<'Component', 'unpublish', UA>): MRReturn<'Component', 'unpublish'>
 
   (opts: MROpts<'Concept', 'get', UA>): MRReturn<'Concept', 'get'>
   (opts: MROpts<'Concept', 'getMany', UA>): MRReturn<'Concept', 'getMany'>
@@ -1182,6 +1207,21 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Experience', 'delete', UA>): MRReturn<'Experience', 'delete'>
   (opts: MROpts<'Experience', 'publish', UA>): MRReturn<'Experience', 'publish'>
   (opts: MROpts<'Experience', 'unpublish', UA>): MRReturn<'Experience', 'unpublish'>
+
+  (opts: MROpts<'ExperienceFragment', 'getMany', UA>): MRReturn<'ExperienceFragment', 'getMany'>
+  (opts: MROpts<'ExperienceFragment', 'get', UA>): MRReturn<'ExperienceFragment', 'get'>
+  (opts: MROpts<'ExperienceFragment', 'create', UA>): MRReturn<'ExperienceFragment', 'create'>
+  (opts: MROpts<'ExperienceFragment', 'upsert', UA>): MRReturn<'ExperienceFragment', 'upsert'>
+  (opts: MROpts<'ExperienceFragment', 'delete', UA>): MRReturn<'ExperienceFragment', 'delete'>
+  (opts: MROpts<'ExperienceFragment', 'publish', UA>): MRReturn<'ExperienceFragment', 'publish'>
+  (opts: MROpts<'ExperienceFragment', 'unpublish', UA>): MRReturn<'ExperienceFragment', 'unpublish'>
+  (opts: MROpts<'ExperienceTemplate', 'getMany', UA>): MRReturn<'ExperienceTemplate', 'getMany'>
+  (opts: MROpts<'ExperienceTemplate', 'get', UA>): MRReturn<'ExperienceTemplate', 'get'>
+  (opts: MROpts<'ExperienceTemplate', 'create', UA>): MRReturn<'ExperienceTemplate', 'create'>
+  (opts: MROpts<'ExperienceTemplate', 'upsert', UA>): MRReturn<'ExperienceTemplate', 'upsert'>
+  (opts: MROpts<'ExperienceTemplate', 'delete', UA>): MRReturn<'ExperienceTemplate', 'delete'>
+  (opts: MROpts<'ExperienceTemplate', 'publish', UA>): MRReturn<'ExperienceTemplate', 'publish'>
+  (opts: MROpts<'ExperienceTemplate', 'unpublish', UA>): MRReturn<'ExperienceTemplate', 'unpublish'>
 
   (opts: MROpts<'Webhook', 'get', UA>): MRReturn<'Webhook', 'get'>
   (opts: MROpts<'Webhook', 'getMany', UA>): MRReturn<'Webhook', 'getMany'>
@@ -1873,6 +1913,38 @@ export type MRActions = {
     unpublish: {
       params: GetComponentTypeParams & { version: number }
       return: ComponentTypeProps
+    }
+  }
+  Component: {
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query: ComponentQueryOptions }
+      return: ExoCursorPaginatedCollectionProp<ComponentProps>
+    }
+    get: {
+      params: GetComponentParams
+      return: ComponentProps
+    }
+    create: {
+      params: GetSpaceEnvironmentParams
+      payload: CreateComponentProps
+      return: ComponentProps
+    }
+    upsert: {
+      params: GetComponentParams
+      payload: UpsertComponentProps
+      return: ComponentProps
+    }
+    delete: {
+      params: GetComponentParams
+      return: void
+    }
+    publish: {
+      params: GetComponentParams & { version: number }
+      return: ComponentProps
+    }
+    unpublish: {
+      params: GetComponentParams & { version: number }
+      return: ComponentProps
     }
   }
   Concept: {
@@ -3016,6 +3088,70 @@ export type MRActions = {
       return: ExperienceProps
     }
   }
+  ExperienceFragment: {
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query: ExperienceFragmentQueryOptions }
+      return: ExoCursorPaginatedCollectionProp<ExperienceFragmentProps>
+    }
+    get: {
+      params: GetExperienceFragmentParams
+      return: ExperienceFragmentProps
+    }
+    create: {
+      params: GetSpaceEnvironmentParams
+      payload: CreateExperienceFragmentProps
+      return: ExperienceFragmentProps
+    }
+    upsert: {
+      params: GetExperienceFragmentParams
+      payload: UpsertExperienceFragmentProps
+      return: ExperienceFragmentProps
+    }
+    delete: {
+      params: GetExperienceFragmentParams
+      return: void
+    }
+    publish: {
+      params: GetExperienceFragmentParams & { version: number }
+      return: ExperienceFragmentProps
+    }
+    unpublish: {
+      params: GetExperienceFragmentParams & { version: number }
+      return: ExperienceFragmentProps
+    }
+  }
+  ExperienceTemplate: {
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query: ExperienceTemplateQueryOptions }
+      return: ExoCursorPaginatedCollectionProp<ExperienceTemplateProps>
+    }
+    get: {
+      params: GetExperienceTemplateParams
+      return: ExperienceTemplateProps
+    }
+    create: {
+      params: GetSpaceEnvironmentParams
+      payload: CreateExperienceTemplateProps
+      return: ExperienceTemplateProps
+    }
+    upsert: {
+      params: GetExperienceTemplateParams
+      payload: UpsertExperienceTemplateProps
+      return: ExperienceTemplateProps
+    }
+    delete: {
+      params: GetExperienceTemplateParams
+      return: void
+    }
+    publish: {
+      params: GetExperienceTemplateParams & { version: number }
+      return: ExperienceTemplateProps
+    }
+    unpublish: {
+      params: GetExperienceTemplateParams & { version: number }
+      return: ExperienceTemplateProps
+    }
+  }
   Webhook: {
     get: { params: GetWebhookParams; return: WebhookProps }
     getMany: { params: GetSpaceParams & QueryParams; return: CollectionProp<WebhookProps> }
@@ -3226,7 +3362,13 @@ export type GetCommentParams = (GetEntryParams | GetCommentParentEntityParams) &
 /** @internal */
 export type GetComponentTypeParams = GetSpaceEnvironmentParams & { componentTypeId: string }
 /** @internal */
+export type GetComponentParams = GetSpaceEnvironmentParams & { componentId: string }
+/** @internal */
 export type GetExperienceParams = GetSpaceEnvironmentParams & { experienceId: string }
+/** @internal */
+export type GetExperienceFragmentParams = GetSpaceEnvironmentParams & {
+  experienceFragmentId: string
+}
 /** @internal */
 export type GetDataAssemblyParams = GetSpaceEnvironmentParams & { dataAssemblyId: string }
 /** @internal */
@@ -3235,6 +3377,10 @@ export type GetDesignTokenParams = GetSpaceEnvironmentParams & { designTokenId: 
 export type GetFragmentParams = GetSpaceEnvironmentParams & { fragmentId: string }
 /** @internal */
 export type GetTemplateParams = GetSpaceEnvironmentParams & { templateId: string }
+/** @internal */
+export type GetExperienceTemplateParams = GetSpaceEnvironmentParams & {
+  experienceTemplateId: string
+}
 /** @internal */
 export type GetContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
 /** @internal */

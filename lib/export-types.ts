@@ -366,25 +366,53 @@ export type {
   WorkflowsChangelogQueryOptions,
 } from './entities/workflows-changelog-entry'
 export type {
+  /** @deprecated Use `ComponentCollection` instead */
   ComponentTypeCollection,
+  /** @deprecated Use `ComponentProps` instead */
   ComponentTypeProps,
+  /** @deprecated Use `CreateComponentProps` instead */
   CreateComponentTypeProps,
+  /** @deprecated Use `UpsertComponentProps` instead */
   UpsertComponentTypeProps,
   ComponentTypeViewport,
   ComponentTypeContentProperty,
   ComponentTypeDesignProperty,
+  /** @deprecated Use `ComponentSlotDefinition` instead */
   ComponentTypeSlotDefinition,
+  ComponentSlotDefinition,
+  /** @deprecated Use `TreeNodeV2` instead */
   TreeNode,
+  /** @deprecated Use `ComponentNodeV2` instead */
   ComponentNode,
+  /** @deprecated Use `ExperienceFragmentNode` instead */
   FragmentNode,
+  ExperienceFragmentNode,
+  ComponentNodeV2,
+  TreeNodeV2,
   SlotNode,
 } from './entities/component-type'
 export type {
+  ComponentCollection,
+  ComponentProps,
+  CreateComponentProps,
+  UpsertComponentProps,
+} from './entities/component'
+export type {
+  /** @deprecated Use `ExperienceTemplateCollection` instead */
   TemplateCollection,
+  /** @deprecated Use `ExperienceTemplateProps` instead */
   TemplateProps,
+  /** @deprecated Use `CreateExperienceTemplateProps` instead */
   CreateTemplateProps,
+  /** @deprecated Use `UpsertExperienceTemplateProps` instead */
   UpsertTemplateProps,
 } from './entities/template'
+export type {
+  ExperienceTemplateCollection,
+  ExperienceTemplateProps,
+  CreateExperienceTemplateProps,
+  UpsertExperienceTemplateProps,
+} from './entities/experience-template'
 export type {
   ExperienceCollection,
   ExperienceProps,
@@ -394,14 +422,25 @@ export type {
   ReleaseExperienceCollection,
   ReleaseExperienceSys,
   ExperienceContentBindings,
-  InlineFragmentNode,
+  InlineExperienceFragmentNode,
 } from './entities/experience'
 export type {
+  /** @deprecated Use `ExperienceFragmentCollection` instead */
   FragmentCollection,
+  /** @deprecated Use `ExperienceFragmentProps` instead */
   FragmentProps,
+  /** @deprecated Use `CreateExperienceFragmentProps` instead */
   CreateFragmentProps,
+  /** @deprecated Use `UpsertExperienceFragmentProps` instead */
   UpsertFragmentProps,
+  InlineFragmentNode,
 } from './entities/fragment'
+export type {
+  ExperienceFragmentCollection,
+  ExperienceFragmentProps,
+  CreateExperienceFragmentProps,
+  UpsertExperienceFragmentProps,
+} from './entities/experience-fragment'
 export type {
   DataAssemblyCollection,
   DataAssemblyProps,

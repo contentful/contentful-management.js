@@ -10,6 +10,10 @@ import type {
 } from '../common-types'
 
 // Query options for getMany - cursor-based pagination with typed filter fields
+/**
+ * @deprecated Use `ComponentQueryOptions` (see `./component`) instead.
+ * The ComponentType entity is superseded by the Component entity.
+ */
 export type ComponentTypeQueryOptions = CursorPaginationParams &
   ExoQueryFilters & {
     order?: string
@@ -121,6 +125,10 @@ export type ComponentTreeDesignPropertyValue =
   | DimensionedDesignPropertyValue
 
 // Tree node types for component tree
+/**
+ * @deprecated Use `ComponentNodeV2` instead. `ComponentNodeV2` uses the renamed
+ * `component` link (`Contentful:Component`) in place of `componentType`.
+ */
 export type ComponentNode = {
   id: string
   name?: string
@@ -131,11 +139,23 @@ export type ComponentNode = {
   slots: Record<string, TreeNode[]>
 }
 
+/**
+ * @deprecated Use `ExperienceFragmentNode` instead. `ExperienceFragmentNode` uses the
+ * renamed `experienceFragment` link (`Contentful:ExperienceFragment`).
+ */
 export type FragmentNode = {
   id: string
   name?: string
   nodeType: 'Fragment'
   fragment: ResourceLink<'Contentful:Fragment'>
+}
+
+// Renamed form of FragmentNode used in Experience slot trees (post-migration).
+export type ExperienceFragmentNode = {
+  id: string
+  name?: string
+  nodeType: 'ExperienceFragment'
+  experienceFragment: ResourceLink<'Contentful:ExperienceFragment'>
 }
 
 export type SlotNode = {
@@ -144,7 +164,29 @@ export type SlotNode = {
   slotId: string
 }
 
+// Renamed form of ComponentNode used in ExperienceTemplate component trees (post-migration).
+// `component` replaces `componentType`, and slots recurse over the renamed tree nodes.
+export type ComponentNodeV2 = {
+  id: string
+  name?: string
+  nodeType: 'Component'
+  component: ResourceLink<'Contentful:Component'>
+  contentProperties: Record<string, ContentPropertyPointerValue | unknown> | string
+  designProperties: Record<string, ComponentTreeDesignPropertyValue>
+  slots: Record<string, TreeNodeV2[]>
+}
+
+/**
+ * @deprecated Use TreeNodeV2 instead.
+ */
 export type TreeNode = ComponentNode | FragmentNode | SlotNode
+
+/**
+ * Renamed form of TreeNode used in ExperienceTemplate component trees (post-migration).
+ *
+ * This will be renamed to TreeNode in the future, but during the migration, we need to support both.
+ */
+export type TreeNodeV2 = ComponentNodeV2 | ExperienceFragmentNode | SlotNode
 
 // DataAssembly link type
 export type DataAssemblyLink = ResourceLink<'Contentful:DataAssembly'>
@@ -153,6 +195,10 @@ export const COMPONENT_TYPE_ALLOWED_RESOURCE_SOURCE =
   'crn:contentful:::experience:spaces/$self/environments/$self' as const
 
 // Slot definition
+/**
+ * @deprecated Use `ComponentSlotDefinition` instead. `ComponentSlotDefinition` uses the
+ * renamed `allowedResources[].type` value (`Contentful:Component`).
+ */
 export type ComponentTypeSlotDefinition = {
   id: string
   name: string
@@ -165,7 +211,25 @@ export type ComponentTypeSlotDefinition = {
   }>
 }
 
+// Renamed form of ComponentTypeSlotDefinition used in Component / ExperienceTemplate
+// slot definitions (post-migration). `allowedResources[].type` is `Contentful:Component`.
+export type ComponentSlotDefinition = {
+  id: string
+  name: string
+  required: boolean
+  validations: Array<{ size?: { min?: number; max?: number } }>
+  allowedResources?: Array<{
+    type: 'Contentful:Component'
+    source: typeof COMPONENT_TYPE_ALLOWED_RESOURCE_SOURCE
+    allowedTypes: string[]
+  }>
+}
+
 // ComponentType sys properties (management API shape)
+/**
+ * @deprecated Use the Component entity (see `./component`) instead.
+ * The ComponentType endpoint is superseded by the Component endpoint.
+ */
 export type ComponentTypeSys = {
   id: string
   type: 'ComponentType'
@@ -188,6 +252,10 @@ export type ComponentTypeSys = {
 }
 
 // Main ComponentType props
+/**
+ * @deprecated Use `ComponentProps` (see `./component`) instead.
+ * The ComponentType entity is superseded by the Component entity.
+ */
 export type ComponentTypeProps = {
   sys: ComponentTypeSys
   name: string
@@ -202,10 +270,18 @@ export type ComponentTypeProps = {
   source?: ResourceLink<'Contentful:DesignSystemSource'>
 }
 
+/**
+ * @deprecated Use `CreateComponentProps` (see `./component`) instead.
+ * The ComponentType entity is superseded by the Component entity.
+ */
 export type CreateComponentTypeProps = Except<ComponentTypeProps, 'sys' | 'source'> & {
   source?: ResourceLink<'Contentful:DesignSystemSource'> | null
 }
 
+/**
+ * @deprecated Use `UpsertComponentProps` (see `./component`) instead.
+ * The ComponentType entity is superseded by the Component entity.
+ */
 export type UpsertComponentTypeProps = Except<ComponentTypeProps, 'sys' | 'source'> & {
   sys: {
     id: string
@@ -215,4 +291,8 @@ export type UpsertComponentTypeProps = Except<ComponentTypeProps, 'sys' | 'sourc
   source?: ResourceLink<'Contentful:DesignSystemSource'> | null
 }
 
+/**
+ * @deprecated Use `ComponentCollection` (see `./component`) instead.
+ * The ComponentType entity is superseded by the Component entity.
+ */
 export type ComponentTypeCollection = ExoCursorPaginatedCollectionProp<ComponentTypeProps>

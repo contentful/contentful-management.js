@@ -153,9 +153,12 @@ import type { SemanticSearchPlainClientAPI } from './entities/semantic-search'
 import type { SemanticSettingsPlainClientAPI } from './entities/semantic-settings'
 import type { ContentSemanticsIndexPlainClientAPI } from './entities/content-semantics-index'
 import type { ComponentTypePlainClientAPI } from './entities/component-type'
+import type { ComponentPlainClientAPI } from './entities/component'
 import type { DataAssemblyPlainClientAPI } from './entities/data-assembly'
 import type { DesignTokenPlainClientAPI } from './entities/design-token'
 import type { ExperiencePlainClientAPI } from './entities/experience'
+import type { ExperienceFragmentPlainClientAPI } from './entities/experience-fragment'
+import type { ExperienceTemplatePlainClientAPI } from './entities/experience-template'
 
 export type PlainClientAPI = {
   raw: {
@@ -288,7 +291,9 @@ export type PlainClientAPI = {
     >
   }
   comment: CommentPlainClientAPI
+  /** @deprecated Use `component` instead. The `componentType` endpoint is superseded by `component`. */
   componentType: ComponentTypePlainClientAPI
+  component: ComponentPlainClientAPI
   dataAssembly: DataAssemblyPlainClientAPI
   designToken: DesignTokenPlainClientAPI
   concept: ConceptPlainClientAPI
@@ -733,7 +738,9 @@ export type PlainClientAPI = {
   team: TeamPlainClientAPI
   teamMembership: TeamMembershipPlainClientAPI
   teamSpaceMembership: TeamSpaceMembershipPlainClientAPI
+  /** @deprecated Use `experienceFragment` instead. The `fragment` endpoint is superseded by `experienceFragment`. */
   fragment: FragmentPlainClientAPI
+  /** @deprecated Use `experienceTemplate` instead. The `template` endpoint is superseded by `experienceTemplate`. */
   template: TemplatePlainClientAPI
   uiConfig: UIConfigPlainClientAPI
   userUIConfig: UserUIConfigPlainClientAPI
@@ -742,6 +749,8 @@ export type PlainClientAPI = {
   workflowsChangelog: WorkflowsChangelogPlainClientAPI
   oauthApplication: OAuthApplicationPlainClientAPI
   experience: ExperiencePlainClientAPI
+  experienceFragment: ExperienceFragmentPlainClientAPI
+  experienceTemplate: ExperienceTemplatePlainClientAPI
   semanticSearch: SemanticSearchPlainClientAPI
   semanticDuplicates: SemanticDuplicatesPlainClientAPI
   semanticRecommendations: SemanticRecommendationsPlainClientAPI

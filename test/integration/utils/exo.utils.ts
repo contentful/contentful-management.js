@@ -18,8 +18,11 @@ const EXO_CRN_PREFIX = 'crn:contentful:::experience:spaces/$self/environments/$s
 
 const entityPaths: Record<string, string> = {
   'Contentful:Template': 'templates',
+  'Contentful:ExperienceTemplate': 'experienceTemplates',
   'Contentful:ComponentType': 'componentTypes',
+  'Contentful:Component': 'components',
   'Contentful:Fragment': 'fragments',
+  'Contentful:ExperienceFragment': 'experienceFragments',
   'Contentful:DataAssembly': 'dataAssemblies',
 }
 
@@ -168,6 +171,75 @@ export async function sweepStaleExoEntities(
     }
   }
 
+  const sweepExperienceFragments = async () => {
+    try {
+      const { items } = await client.experienceFragment.getMany({ query: { limit: 100 } })
+      for (const item of items) {
+        if (item.name.startsWith(TEST_PREFIX) && new Date(item.sys.createdAt) < cutoff) {
+          try {
+            if (item.sys.publishedVersion) {
+              await client.experienceFragment.unpublish({
+                experienceFragmentId: item.sys.id,
+                version: item.sys.version,
+              })
+            }
+            await client.experienceFragment.delete({ experienceFragmentId: item.sys.id })
+          } catch {
+            // best-effort cleanup
+          }
+        }
+      }
+    } catch {
+      // ignore if listing fails
+    }
+  }
+
+  const sweepExperienceTemplates = async () => {
+    try {
+      const { items } = await client.experienceTemplate.getMany({ query: { limit: 100 } })
+      for (const item of items) {
+        if (item.name.startsWith(TEST_PREFIX) && new Date(item.sys.createdAt) < cutoff) {
+          try {
+            if (item.sys.publishedVersion) {
+              await client.experienceTemplate.unpublish({
+                experienceTemplateId: item.sys.id,
+                version: item.sys.version,
+              })
+            }
+            await client.experienceTemplate.delete({ experienceTemplateId: item.sys.id })
+          } catch {
+            // best-effort cleanup
+          }
+        }
+      }
+    } catch {
+      // ignore if listing fails
+    }
+  }
+
+  const sweepComponents = async () => {
+    try {
+      const { items } = await client.component.getMany({ query: { limit: 100 } })
+      for (const item of items) {
+        if (item.name.startsWith(TEST_PREFIX) && new Date(item.sys.createdAt) < cutoff) {
+          try {
+            if (item.sys.publishedVersion) {
+              await client.component.unpublish({
+                componentId: item.sys.id,
+                version: item.sys.version,
+              })
+            }
+            await client.component.delete({ componentId: item.sys.id })
+          } catch {
+            // best-effort cleanup
+          }
+        }
+      }
+    } catch {
+      // ignore if listing fails
+    }
+  }
+
   const sweepDesignTokens = async () => {
     try {
       const { items } = await client.designToken.getMany({ query: { limit: 100 } })
@@ -189,9 +261,12 @@ export async function sweepStaleExoEntities(
   await Promise.all([
     sweepExperiences(),
     sweepFragments(),
+    sweepExperienceFragments(),
     sweepDataAssemblies(),
     sweepDesignTokens(),
   ])
   await sweepTemplates()
+  await sweepExperienceTemplates()
   await sweepComponentTypes()
+  await sweepComponents()
 }
