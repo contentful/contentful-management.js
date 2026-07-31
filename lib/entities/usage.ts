@@ -115,7 +115,9 @@ export interface AggregatedUsageQuery {
   limit?: number
   /** Number of items to skip */
   skip?: number
-  /** Column to sort by with optional `-` prefix for descending, e.g. `"total_usage"` or `"-total_usage"` (descending).
+  /** Comma-separated columns in `sys.dimensions.<name>.sys.<suffix>` form (matching the `group` and `filter` grammar),
+   *  optionally prefixed with `-` for descending, e.g. `"total_usage"` or `"-total_usage"` (descending).
+   *  The synthetic aggregate `total_usage` is a bare-token passthrough (`"total_usage"`, `"-total_usage"`).
    *  For `api_call_*` metrics, `total_usage` sorts by the per-group sum across the requested date range. */
   order?: string
 }
@@ -124,6 +126,18 @@ type SysLink = {
   sys: { type: 'Link'; linkType: string; id: string }
 }
 
+type EmbeddedDimensionEntity = {
+  sys: { type: string } & { [suffix: string]: string }
+}
+
+/**
+ * A response value under `dimensions`. Id-only families (`space`, `app`, `function`, `ai_action`, `asset`)
+ * render as classic Contentful Links. Families like `model` render as an embedded-entity block whose
+ * `sys.type` names the entity (e.g. `"Model"`) and carries the grouped suffixes alongside (`sys.id`,
+ * `sys.provider`, …). Narrow with `dim.sys.type === 'Link'` vs a specific entity type.
+ */
+export type AggregatedUsageDimension = SysLink | EmbeddedDimensionEntity
+
 export type AggregatedUsageItemProps = {
   sys: {
     id: string
@@ -131,7 +145,7 @@ export type AggregatedUsageItemProps = {
     key: string
     organization: { sys: { type: 'Link'; linkType: 'Organization'; id: string } }
     unitOfMeasurement: string
-    dimensions: Record<string, SysLink>
+    dimensions: Record<string, AggregatedUsageDimension>
     accumulation: string
   }
   dateRange: { start: string; end: string }

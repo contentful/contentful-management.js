@@ -1113,7 +1113,10 @@ const aggregatedUsageMock: AggregatedUsageItemProps = {
     key: 'functions_invocations',
     organization: { sys: { type: 'Link', linkType: 'Organization', id: 'mock-org-id' } },
     unitOfMeasurement: 'Invocation',
-    dimensions: {},
+    dimensions: {
+      space: { sys: { type: 'Link', linkType: 'Space', id: 'mock-space-id' } },
+      model: { sys: { type: 'Model', id: 'gpt-4', provider: 'openai' } },
+    },
     accumulation: 'integrate',
   },
   dateRange: { start: '2025-01-01', end: '2025-01-31' },
