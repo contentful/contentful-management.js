@@ -45,7 +45,7 @@ function getParentPlural(parentEntityType: CommentParentEntityType) {
     case 'Experience':
       return 'experiences'
     case 'ExperienceFragment':
-      return 'fragments'
+      return 'experience_fragments'
     case 'Component':
       return 'components'
     case 'ExperienceTemplate':

@@ -32,12 +32,12 @@ function getParentPlural(parentEntityType: TaskParentEntityType): TaskParentEnti
       return 'entries'
     case 'Experience':
       return 'experiences'
-    case 'Fragment':
-      return 'fragments'
-    case 'Template':
-      return 'templates'
-    case 'ComponentType':
-      return 'component_types'
+    case 'ExperienceFragment':
+      return 'experience_fragments'
+    case 'ExperienceTemplate':
+      return 'experience_templates'
+    case 'Component':
+      return 'components'
   }
 }
 

@@ -36,9 +36,9 @@ describe('Rest Task', { concurrent: true }, () => {
 
   test.each([
     ['Experience', 'experiences'],
-    ['Fragment', 'fragments'],
-    ['Template', 'templates'],
-    ['ComponentType', 'component_types'],
+    ['ExperienceFragment', 'experience_fragments'],
+    ['ExperienceTemplate', 'experience_templates'],
+    ['Component', 'components'],
   ] as const)('getMany supports %s tasks', (parentEntityType, path) => {
     const httpMock = request('getMany', {
       spaceId: 'space',
@@ -61,14 +61,14 @@ describe('Rest Task', { concurrent: true }, () => {
     const httpMock = request(action, {
       spaceId: 'space',
       environmentId: 'env',
-      parentEntityType: 'ComponentType',
-      parentEntityId: 'component-type',
+      parentEntityType: 'Component',
+      parentEntityId: 'component',
       taskId: 'task',
       version: 2,
     })
 
     expect(httpMock[method].mock.calls[0][0]).toBe(
-      `/spaces/space/environments/env/component_types/component-type/tasks${suffix}`,
+      `/spaces/space/environments/env/components/component/tasks${suffix}`,
     )
   })
 
