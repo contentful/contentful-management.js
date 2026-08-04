@@ -1,0 +1,39 @@
+Critical technical invariants for contentful-management.js:
+
+PUBLIC API SURFACE:
+- All public types and functions must be exported from lib/index.ts or lib/export-types.ts.
+  Deep imports from internal paths are not supported and the `exports` field blocks them.
+- Never remove or rename a publicly exported type/function without a major version bump.
+- Use `import type` for type-only imports — enforced by eslint rule
+  @typescript-eslint/consistent-type-imports: error.
+
+ENTITY / ENDPOINT PATTERN:
+- Every CMA entity has two files: lib/entities/<name>.ts (types) and
+  lib/adapters/REST/endpoints/<name>.ts (HTTP implementation).
+- These must stay 1:1. Adding an entity without both files is incomplete.
+- New endpoints go in the plain client only (lib/plain/plain-client-types.ts).
+  Do NOT add methods to lib/create-*-api.ts (legacy, deprecated).
+
+VERSIONING:
+- The version field in package.json is a placeholder (0.0.0-determined-by-semantic-release).
+  semantic-release sets the real version at publish time.
+- Never manually edit the version. The test:version script validates this.
+- Commit messages control version bumps: feat = minor, fix = patch, feat! = major,
+  build(deps) = patch.
+
+BUILD OUTPUT:
+- dist/ is not committed. It contains three variants: ESM (.mjs), CJS (.cjs),
+  and browser UMD (.min.js).
+- The browser bundle is self-contained (includes deps). ESM/CJS builds externalize deps.
+
+TESTING:
+- Integration tests require live CMA credentials (CONTENTFUL_INTEGRATION_TEST_CMA_TOKEN).
+  They are not mockable and hit real Contentful infrastructure.
+- Type tests (*.test-d.ts) live alongside source in lib/ and use vitest typecheck.
+- Unit tests must not make network calls.
+
+RATE LIMITING:
+- The SDK has built-in retry logic for HTTP 429 (rate limit) and 500 (server error).
+  This is controlled by the `retryOnError` option (default: true).
+- The `throttle` option allows proactive rate limiting. It must never be removed or
+  its default changed — downstream consumers rely on it for production workloads.
