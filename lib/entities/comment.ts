@@ -28,9 +28,9 @@ export type CommentParentEntityType =
   | 'Entry'
   | 'Workflow'
   | 'Experience'
-  | 'Fragment'
-  | 'ComponentType'
-  | 'Template'
+  | 'ExperienceFragment'
+  | 'Component'
+  | 'ExperienceTemplate'
 
 type NonWorkflowCommentParentEntityType = Exclude<CommentParentEntityType, 'Workflow'>
 
@@ -134,7 +134,8 @@ type CommentApi = {
 export interface Comment extends CommentProps, DefaultElements<CommentProps>, CommentApi {}
 
 export interface RichTextComment
-  extends Omit<CommentProps, 'body'>,
+  extends
+    Omit<CommentProps, 'body'>,
     RichTextCommentProps,
     DefaultElements<CommentProps>,
     CommentApi {}

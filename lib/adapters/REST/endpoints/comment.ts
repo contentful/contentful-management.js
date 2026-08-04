@@ -44,12 +44,12 @@ function getParentPlural(parentEntityType: CommentParentEntityType) {
       return 'workflows'
     case 'Experience':
       return 'experiences'
-    case 'Fragment':
+    case 'ExperienceFragment':
       return 'fragments'
-    case 'ComponentType':
-      return 'component_types'
-    case 'Template':
-      return 'templates'
+    case 'Component':
+      return 'components'
+    case 'ExperienceTemplate':
+      return 'experience_templates'
   }
 }
 
