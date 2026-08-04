@@ -28,9 +28,9 @@ export type CommentParentEntityType =
   | 'Entry'
   | 'Workflow'
   | 'Experience'
-  | 'Fragment'
-  | 'ComponentType'
-  | 'Template'
+  | 'ExperienceFragment'
+  | 'Component'
+  | 'ExperienceTemplate'
 
 type NonWorkflowCommentParentEntityType = Exclude<CommentParentEntityType, 'Workflow'>
 

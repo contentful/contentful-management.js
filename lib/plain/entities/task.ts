@@ -98,12 +98,12 @@ export type TaskPlainClientAPI = {
    *   }
    * );
    *
-   * const fragmentTask = await client.task.create(
+   * const experienceFragmentTask = await client.task.create(
    *   {
    *     spaceId: '<space_id>',
    *     environmentId: '<environment_id>',
-   *     parentEntityType: 'Fragment',
-   *     parentEntityId: '<fragment_id>',
+   *     parentEntityType: 'ExperienceFragment',
+   *     parentEntityId: '<experience_fragment_id>',
    *   },
    *   {
    *     body: "Review Translation",
@@ -152,12 +152,12 @@ export type TaskPlainClientAPI = {
    *   }
    * );
    *
-   * const templateTask = await client.task.update(
+   * const experienceTemplateTask = await client.task.update(
    *   {
    *     spaceId: '<space_id>',
    *     environmentId: '<environment_id>',
-   *     parentEntityType: 'Template',
-   *     parentEntityId: '<template_id>',
+   *     parentEntityType: 'ExperienceTemplate',
+   *     parentEntityId: '<experience_template_id>',
    *     taskId: '<task_id>',
    *   },
    *   {
@@ -196,8 +196,8 @@ export type TaskPlainClientAPI = {
    * await client.task.delete({
    *   spaceId: '<space_id>',
    *   environmentId: '<environment_id>',
-   *   parentEntityType: 'ComponentType',
-   *   parentEntityId: '<component_type_id>',
+   *   parentEntityType: 'Component',
+   *   parentEntityId: '<component_id>',
    *   taskId: '<task_id>',
    *   version: 1,
    * });

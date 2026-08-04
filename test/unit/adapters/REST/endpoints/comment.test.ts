@@ -20,9 +20,9 @@ describe('Rest Comment', { concurrent: true }, () => {
 
   test.each([
     ['Experience', 'experiences'],
-    ['Fragment', 'fragments'],
-    ['ComponentType', 'component_types'],
-    ['Template', 'templates'],
+    ['ExperienceFragment', 'experience_fragments'],
+    ['Component', 'components'],
+    ['ExperienceTemplate', 'experience_templates'],
   ] as const)('getMany supports %s comments', (parentEntityType, path) => {
     const httpMock = request('getMany', {
       spaceId: 'space',
@@ -44,14 +44,14 @@ describe('Rest Comment', { concurrent: true }, () => {
     const httpMock = request(action, {
       spaceId: 'space',
       environmentId: 'env',
-      parentEntityType: 'ComponentType',
-      parentEntityId: 'component-type',
+      parentEntityType: 'Component',
+      parentEntityId: 'component',
       commentId: 'comment',
       version: 1,
     })
 
     expect(httpMock[method].mock.calls[0][0]).toBe(
-      `/spaces/space/environments/env/component_types/component-type/comments${suffix}`,
+      `/spaces/space/environments/env/components/component/comments${suffix}`,
     )
   })
 })

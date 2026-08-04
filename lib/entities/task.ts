@@ -18,16 +18,16 @@ export type TaskStatus = 'active' | 'resolved'
 export type TaskParentEntityType =
   | 'Entry'
   | 'Experience'
-  | 'Fragment'
-  | 'Template'
-  | 'ComponentType'
+  | 'ExperienceFragment'
+  | 'ExperienceTemplate'
+  | 'Component'
 
 export type TaskParentEntityPath =
   | 'entries'
   | 'experiences'
-  | 'fragments'
-  | 'templates'
-  | 'component_types'
+  | 'experience_fragments'
+  | 'experience_templates'
+  | 'components'
 
 export type TaskSysProps = Pick<
   BasicMetaSysProps,

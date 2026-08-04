@@ -61,7 +61,7 @@ describe('Entity Task', () => {
 
   test('Task parent entity typing supports ExO entities', () => {
     expectTypeOf<TaskProps['sys']['parentEntity']>().toEqualTypeOf<
-      Link<'Entry' | 'Experience' | 'Fragment' | 'Template' | 'ComponentType'>
+      Link<'Entry' | 'Experience' | 'ExperienceFragment' | 'ExperienceTemplate' | 'Component'>
     >()
   })
 
