@@ -134,8 +134,7 @@ type CommentApi = {
 export interface Comment extends CommentProps, DefaultElements<CommentProps>, CommentApi {}
 
 export interface RichTextComment
-  extends
-    Omit<CommentProps, 'body'>,
+  extends Omit<CommentProps, 'body'>,
     RichTextCommentProps,
     DefaultElements<CommentProps>,
     CommentApi {}
