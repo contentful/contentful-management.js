@@ -85,7 +85,7 @@
     "@rollup/plugin-replace": "^6.0.3",
     "@rollup/plugin-terser": "^1.0.0",
     "@rollup/plugin-typescript": "^12.3.0",
-    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/changelog": "^7.0.0",
     "@size-limit/file": "^11.1.6",
     "@types/lodash": "^4.14.168",
     "@types/node": "^20.12.13",
