@@ -28,11 +28,11 @@ Contentful will not deactivate any published packages, so existing installations
 
 ## Version Support Schedule
 
-| Version | Status | Maintenance End |
-| ------- | ------ | --------------- |
-| v12.x | Active | — |
-| v11.x | Maintenance | 6 months after v12 release |
-| v10.x and earlier | End of Life | — |
+| Version           | Status      | Maintenance End            |
+| ----------------- | ----------- | -------------------------- |
+| v12.x             | Active      | —                          |
+| v11.x             | Maintenance | 6 months after v12 release |
+| v10.x and earlier | End of Life | —                          |
 
 ## Reporting Issues
 

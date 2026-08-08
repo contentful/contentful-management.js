@@ -1,10 +1,3 @@
-# [12.14.0](https://github.com/contentful/contentful-management.js/compare/v12.13.0...v12.14.0) (2026-08-04)
-
-
-### Features
-
-* update ExO comments endpoints [CFISO-3436] ([#3116](https://github.com/contentful/contentful-management.js/issues/3116)) ([4c5078a](https://github.com/contentful/contentful-management.js/commit/4c5078a33a52d1c7d9201d515345d8e8bf442815))
-
 <!-- shared header  START -->
 
 <p align="center">
