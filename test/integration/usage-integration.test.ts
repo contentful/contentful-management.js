@@ -59,6 +59,30 @@ describe('Usage API', async function () {
       })
     })
 
+    describe('getUsageAssetBandwidthDetailed', () => {
+      test('returns a collection with sys.type Array', async () => {
+        const result = await defaultClient.getUsageAssetBandwidthDetailed(orgId, {
+          'date[gte]': gte,
+          'date[lte]': lte,
+        })
+        expect(result.sys.type).toBe('Array')
+        expect(typeof result.limit).toBe('number')
+        expect(Array.isArray(result.items)).toBe(true)
+      })
+
+      test('each item has the expected shape', async () => {
+        const result = await defaultClient.getUsageAssetBandwidthDetailed(orgId, {
+          'date[gte]': gte,
+          'date[lte]': lte,
+        })
+        for (const item of result.items) {
+          expect(item.sys.asset.sys.linkType).toBe('Asset')
+          expect(item.sys.space.sys.linkType).toBe('Space')
+          expect(typeof item.usedBandwidth).toBe('number')
+        }
+      })
+    })
+
     describe('getOrganizationUsage (deprecated)', () => {
       test('still returns a collection', async () => {
         const result = await defaultClient.getOrganizationUsage(orgId, {
@@ -102,6 +126,36 @@ describe('Usage API', async function () {
         })
         for (const item of result.items) {
           expect(item.sys.key).toBe('api_call_cma')
+        }
+      })
+    })
+
+    describe('usage.getAssetBandwidthUsageDetailed', () => {
+      test('returns a collection with sys.type Array', async () => {
+        const result = await plainClient.usage.getAssetBandwidthUsageDetailed({
+          organizationId: orgId,
+          query: {
+            'date[gte]': gte,
+            'date[lte]': lte,
+          },
+        })
+        expect(result.sys.type).toBe('Array')
+        expect(typeof result.limit).toBe('number')
+        expect(Array.isArray(result.items)).toBe(true)
+      })
+
+      test('each item has the expected shape', async () => {
+        const result = await plainClient.usage.getAssetBandwidthUsageDetailed({
+          organizationId: orgId,
+          query: {
+            'date[gte]': gte,
+            'date[lte]': lte,
+          },
+        })
+        for (const item of result.items) {
+          expect(item.sys.asset.sys.linkType).toBe('Asset')
+          expect(item.sys.space.sys.linkType).toBe('Space')
+          expect(typeof item.usedBandwidth).toBe('number')
         }
       })
     })

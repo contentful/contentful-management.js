@@ -30,7 +30,11 @@ import {
 } from './entities/personal-access-token'
 import { wrapAccessToken, wrapAccessTokenCollection } from './entities/access-token'
 import { wrapOrganization, wrapOrganizationCollection } from './entities/organization'
-import { wrapAggregatedUsageCollection, wrapUsageCollection } from './entities/usage'
+import {
+  wrapAggregatedUsageCollection,
+  wrapAssetBandwidthUsageDetailedCollection,
+  wrapUsageCollection,
+} from './entities/usage'
 import { wrapAppDefinition } from './entities/app-definition'
 import {
   wrapEnvironmentTemplate,
@@ -47,7 +51,12 @@ import type { Organization, OrganizationProps } from './entities/organization'
 import type { CreatePersonalAccessTokenProps } from './entities/personal-access-token'
 import type { Space, SpaceIncludeParam, SpaceProps } from './entities/space'
 import type { AppDefinition } from './entities/app-definition'
-import type { AggregatedUsageMetricKey, AggregatedUsageQuery, UsageQuery } from './entities/usage'
+import type {
+  AggregatedUsageMetricKey,
+  AggregatedUsageQuery,
+  AssetBandwidthUsageDetailedQuery,
+  UsageQuery,
+} from './entities/usage'
 import type { UserProps } from './entities/user'
 import type {
   CreateEnvironmentTemplateProps,
@@ -732,6 +741,38 @@ export default function createClientApi(makeRequest: MakeRequest) {
         action: 'getAggregated',
         params: { organizationId, metricKey, query },
       }).then((data) => wrapAggregatedUsageCollection(makeRequest, data))
+    },
+
+    /**
+     * Get detailed asset-bandwidth usage for an organization.
+     *
+     * @param organizationId - Id of the organization
+     * @param query - Query parameters (date range only)
+     * @returns Promise of a detailed asset-bandwidth usage collection
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getUsageAssetBandwidthDetailed('<organizationId>', {
+     *   'date[gte]': '2025-01-01',
+     *   'date[lte]': '2025-01-31',
+     * })
+     * .then(result => console.log(result.items))
+     * .catch(console.error)
+     * ```
+     */
+    getUsageAssetBandwidthDetailed: function getUsageAssetBandwidthDetailed(
+      organizationId: string,
+      query: AssetBandwidthUsageDetailedQuery = {},
+    ) {
+      return makeRequest({
+        entityType: 'Usage',
+        action: 'getAssetBandwidthUsageDetailed',
+        params: { organizationId, query },
+      }).then((data) => wrapAssetBandwidthUsageDetailedCollection(makeRequest, data))
     },
 
     /**

@@ -120,4 +120,63 @@ describe('Rest Usage', { concurrent: true }, () => {
       })
     })
   })
+
+  describe('getAssetBandwidthUsageDetailed', () => {
+    const assetBandwidthMockResponse = {
+      sys: { type: 'Array' },
+      limit: 100,
+      items: [
+        {
+          sys: {
+            id: 'mock-asset-bandwidth-id',
+            type: 'AssetBandwidthUsage',
+            asset: { sys: { type: 'Link', linkType: 'Asset', id: 'asset-id' } },
+            space: { sys: { type: 'Link', linkType: 'Space', id: 'space-id' } },
+          },
+          usedBandwidth: 1024,
+        },
+      ],
+    }
+
+    test('fetches correct URL', async () => {
+      const { httpMock, adapterMock } = setupRestAdapter(
+        Promise.resolve({ data: assetBandwidthMockResponse }),
+      )
+
+      await adapterMock.makeRequest({
+        entityType: 'Usage',
+        action: 'getAssetBandwidthUsageDetailed',
+        userAgent: 'mocked',
+        params: {
+          organizationId: 'org-id',
+          query: { 'date[gte]': '2026-06-01', 'date[lte]': '2026-06-30' },
+        },
+      })
+
+      expect(httpMock.get.mock.calls[0][0]).to.eql(
+        '/organizations/org-id/usages-detailed/asset_bandwidth',
+      )
+    })
+
+    test('passes date range as query params', async () => {
+      const { httpMock, adapterMock } = setupRestAdapter(
+        Promise.resolve({ data: assetBandwidthMockResponse }),
+      )
+
+      await adapterMock.makeRequest({
+        entityType: 'Usage',
+        action: 'getAssetBandwidthUsageDetailed',
+        userAgent: 'mocked',
+        params: {
+          organizationId: 'org-id',
+          query: { 'date[gte]': '2026-06-01', 'date[lte]': '2026-06-30' },
+        },
+      })
+
+      expect(httpMock.get.mock.calls[0][1].params).to.include({
+        'date[gte]': '2026-06-01',
+        'date[lte]': '2026-06-30',
+      })
+    })
+  })
 })

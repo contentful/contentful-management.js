@@ -281,6 +281,10 @@ export type {
   AggregatedUsageCollectionProps,
   AggregatedUsageMetricKey,
   AggregatedUsageQuery,
+  AssetBandwidthUsage,
+  AssetBandwidthUsageItemProps,
+  AssetBandwidthUsageDetailedCollectionProps,
+  AssetBandwidthUsageDetailedQuery,
 } from './entities/usage'
 export type { User, UserProps } from './entities/user'
 export type { UserUIConfig, UserUIConfigProps } from './entities/user-ui-config'

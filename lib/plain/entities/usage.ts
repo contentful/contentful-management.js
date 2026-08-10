@@ -2,6 +2,7 @@ import type { CollectionProp, QueryParams } from '../../common-types'
 import type {
   AggregatedUsageCollectionProps,
   AggregatedUsageMetricKey,
+  AssetBandwidthUsageDetailedCollectionProps,
   UsageProps,
 } from '../../entities/usage'
 import type { OptionalDefaults } from '../wrappers/wrap'
@@ -43,4 +44,21 @@ export type UsagePlainClientAPI = {
       { organizationId: string; metricKey: AggregatedUsageMetricKey } & QueryParams
     >,
   ): Promise<AggregatedUsageCollectionProps>
+  /**
+   * Fetches detailed asset-bandwidth usage for an organization.
+   *
+   * @param params organization ID and query parameters
+   * @returns a collection of detailed asset-bandwidth usage items
+   * @throws if the request fails
+   * @example
+   * ```javascript
+   * const usage = await client.usage.getAssetBandwidthUsageDetailed({
+   *   organizationId: '<organization_id>',
+   *   query: { 'date[gte]': '2025-01-01', 'date[lte]': '2025-01-31' },
+   * });
+   * ```
+   */
+  getAssetBandwidthUsageDetailed(
+    params: OptionalDefaults<{ organizationId: string } & QueryParams>,
+  ): Promise<AssetBandwidthUsageDetailedCollectionProps>
 }

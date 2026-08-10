@@ -170,3 +170,59 @@ export function wrapAggregatedUsage(
 
 /** @internal */
 export const wrapAggregatedUsageCollection = wrapCollection(wrapAggregatedUsage)
+
+// ─── Detailed asset-bandwidth usage types ─────────────────────────────────────
+
+export interface AssetBandwidthUsageDetailedQuery {
+  /** Start date (inclusive) in YYYY-MM-DD format */
+  'date[gte]'?: string
+  /** End date (inclusive) in YYYY-MM-DD format */
+  'date[lte]'?: string
+}
+
+export type AssetBandwidthUsageItemProps = {
+  sys: {
+    id: string
+    type: string
+    asset: SysLink
+    space: SysLink
+  }
+  usedBandwidth: number
+}
+
+export type AssetBandwidthUsageDetailedCollectionProps = {
+  sys: { type: 'Array' }
+  limit: number
+  items: AssetBandwidthUsageItemProps[]
+}
+
+export interface AssetBandwidthUsage
+  extends AssetBandwidthUsageItemProps,
+    DefaultElements<AssetBandwidthUsageItemProps> {}
+
+export interface AssetBandwidthUsageDetailedCollection
+  extends DefaultElements<AssetBandwidthUsageDetailedCollectionProps> {
+  sys: { type: 'Array' }
+  limit: number
+  items: AssetBandwidthUsage[]
+}
+
+/** @internal */
+export function wrapAssetBandwidthUsage(
+  _makeRequest: MakeRequest,
+  data: AssetBandwidthUsageItemProps,
+): AssetBandwidthUsage {
+  const item = toPlainObject(copy(data))
+  return freezeSys(enhanceWithMethods(item, {}))
+}
+
+/** @internal */
+export function wrapAssetBandwidthUsageDetailedCollection(
+  makeRequest: MakeRequest,
+  data: AssetBandwidthUsageDetailedCollectionProps,
+): AssetBandwidthUsageDetailedCollection {
+  const collectionData = toPlainObject(copy(data))
+  collectionData.items = collectionData.items.map((item) => wrapAssetBandwidthUsage(makeRequest, item))
+  // @ts-expect-error items is reassigned above from AssetBandwidthUsageItemProps[] to AssetBandwidthUsage[]
+  return collectionData
+}

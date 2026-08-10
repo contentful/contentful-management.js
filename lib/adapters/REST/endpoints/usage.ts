@@ -3,6 +3,7 @@ import type { CollectionProp, QueryParams } from '../../../common-types'
 import type {
   AggregatedUsageCollectionProps,
   AggregatedUsageMetricKey,
+  AssetBandwidthUsageDetailedCollectionProps,
   UsageProps,
 } from '../../../entities/usage'
 import type { RestEndpoint } from '../types'
@@ -50,6 +51,19 @@ export const getAggregated: RestEndpoint<'Usage', 'getAggregated'> = (
   return raw.get<AggregatedUsageCollectionProps>(
     http,
     `/organizations/${params.organizationId}/usages/${params.metricKey}`,
+    {
+      params: params.query,
+    },
+  )
+}
+
+export const getAssetBandwidthUsageDetailed: RestEndpoint<
+  'Usage',
+  'getAssetBandwidthUsageDetailed'
+> = (http: AxiosInstance, params: { organizationId: string } & QueryParams) => {
+  return raw.get<AssetBandwidthUsageDetailedCollectionProps>(
+    http,
+    `/organizations/${params.organizationId}/usages-detailed/asset_bandwidth`,
     {
       params: params.query,
     },

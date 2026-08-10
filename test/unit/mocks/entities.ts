@@ -64,7 +64,11 @@ import type { ReleaseProps } from '../../../lib/entities/release'
 import type { ReleaseActionProps } from '../../../lib/entities/release-action'
 import type { ApiKey, ApiKeyProps } from '../../../lib/entities/api-key'
 import type { OrganizationProps } from '../../../lib/entities/organization'
-import type { AggregatedUsageItemProps, UsageProps } from '../../../lib/entities/usage'
+import type {
+  AggregatedUsageItemProps,
+  AssetBandwidthUsageItemProps,
+  UsageProps,
+} from '../../../lib/entities/usage'
 import type { ExtensionProps } from '../../../lib/entities/extension'
 import type { AppInstallationProps } from '../../../lib/entities/app-installation'
 import type { EnvironmentAliasProps } from '../../../lib/entities/environment-alias'
@@ -1124,6 +1128,16 @@ const aggregatedUsageMock: AggregatedUsageItemProps = {
   data: [10, 20, 30],
 }
 
+const assetBandwidthUsageDetailedMock: AssetBandwidthUsageItemProps = {
+  sys: {
+    id: 'mock-asset-bandwidth-id',
+    type: 'AssetBandwidthUsage',
+    asset: { sys: { type: 'Link', linkType: 'Asset', id: 'mock-asset-id' } },
+    space: { sys: { type: 'Link', linkType: 'Space', id: 'mock-space-id' } },
+  },
+  usedBandwidth: 1024,
+}
+
 const extensionMock: ExtensionProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'Extension',
@@ -1742,6 +1756,7 @@ const mocks = {
   uploadCredential: uploadCredentialMock,
   usage: usageMock,
   aggregatedUsage: aggregatedUsageMock,
+  assetBandwidthUsageDetailed: assetBandwidthUsageDetailedMock,
   uiConfig: uiConfigMock,
   user: userMock,
   userUIConfig: userUIConfigMock,

@@ -159,6 +159,7 @@ import type {
 import type {
   AggregatedUsageCollectionProps,
   AggregatedUsageMetricKey,
+  AssetBandwidthUsageDetailedCollectionProps,
   UsageProps,
 } from './entities/usage'
 import type { UserProps } from './entities/user'
@@ -1178,6 +1179,9 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Usage', 'getManyForSpace', UA>): MRReturn<'Usage', 'getManyForSpace'>
   (opts: MROpts<'Usage', 'getManyForOrganization', UA>): MRReturn<'Usage', 'getManyForOrganization'>
   (opts: MROpts<'Usage', 'getAggregated', UA>): MRReturn<'Usage', 'getAggregated'>
+  (
+    opts: MROpts<'Usage', 'getAssetBandwidthUsageDetailed', UA>,
+  ): MRReturn<'Usage', 'getAssetBandwidthUsageDetailed'>
   (opts: MROpts<'User', 'getManyForSpace', UA>): MRReturn<'User', 'getManyForSpace'>
   (opts: MROpts<'User', 'getForSpace', UA>): MRReturn<'User', 'getForSpace'>
   (opts: MROpts<'User', 'getCurrent', UA>): MRReturn<'User', 'getCurrent'>
@@ -3056,6 +3060,10 @@ export type MRActions = {
     getAggregated: {
       params: { organizationId: string; metricKey: AggregatedUsageMetricKey } & QueryParams
       return: AggregatedUsageCollectionProps
+    }
+    getAssetBandwidthUsageDetailed: {
+      params: { organizationId: string } & QueryParams
+      return: AssetBandwidthUsageDetailedCollectionProps
     }
   }
   User: {
