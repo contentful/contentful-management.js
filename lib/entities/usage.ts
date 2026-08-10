@@ -67,7 +67,7 @@ export interface Usage extends UsageProps, DefaultElements<UsageProps> {}
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw data
  * @returns Normalized usage
- * @deprecated
+ * @deprecated Use {@link wrapAggregatedUsage} / `usage.getAggregated()` instead. Sunset: 2026-12-31.
  */
 export function wrapUsage(_makeRequest: MakeRequest, data: UsageProps): Usage {
   const usage = toPlainObject(copy(data))
@@ -92,12 +92,12 @@ export type AggregatedUsageMetricKey =
   | 'ai_consumption_unit'
 
 export interface AggregatedUsageQuery {
-  /** Start date (inclusive) in YYYY-MM-DD format */
-  'date[gte]'?: string
-  /** End date (inclusive) in YYYY-MM-DD format */
-  'date[lte]'?: string
-  /** Granularity in ISO-8601 duration format, e.g. "P1D" or "P1M" */
-  granularity?: string
+  /** Start date (inclusive) in YYYY-MM-DD format. Required. */
+  'date[gte]': string
+  /** End date (inclusive) in YYYY-MM-DD format. Required. */
+  'date[lte]': string
+  /** ISO-8601 granularity. Defaults to `"P1D"` server-side when omitted. `"P1D"` is limited to a 31-day range; `"P1M"` to 12 calendar months (including the current one). */
+  granularity?: 'P1D' | 'P1M'
   /** Comma-separated dimension keys to group results by */
   group?: string
   /**
@@ -174,10 +174,10 @@ export const wrapAggregatedUsageCollection = wrapCollection(wrapAggregatedUsage)
 // ─── Detailed asset-bandwidth usage types ─────────────────────────────────────
 
 export interface AssetBandwidthUsageDetailedQuery {
-  /** Start date (inclusive) in YYYY-MM-DD format */
-  'date[gte]'?: string
-  /** End date (inclusive) in YYYY-MM-DD format */
-  'date[lte]'?: string
+  /** Start date (inclusive) in YYYY-MM-DD format. Required. */
+  'date[gte]': string
+  /** End date (inclusive) in YYYY-MM-DD format. Required. */
+  'date[lte]': string
 }
 
 export type AssetBandwidthUsageItemProps = {

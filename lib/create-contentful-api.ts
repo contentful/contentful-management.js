@@ -734,7 +734,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
     getUsageAggregated: function getUsageAggregated(
       organizationId: string,
       metricKey: AggregatedUsageMetricKey,
-      query: AggregatedUsageQuery = {},
+      query: AggregatedUsageQuery,
     ) {
       return makeRequest({
         entityType: 'Usage',
@@ -766,7 +766,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      */
     getUsageAssetBandwidthDetailed: function getUsageAssetBandwidthDetailed(
       organizationId: string,
-      query: AssetBandwidthUsageDetailedQuery = {},
+      query: AssetBandwidthUsageDetailedQuery,
     ) {
       return makeRequest({
         entityType: 'Usage',
