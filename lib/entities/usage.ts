@@ -222,7 +222,9 @@ export function wrapAssetBandwidthUsageDetailedCollection(
   data: AssetBandwidthUsageDetailedCollectionProps,
 ): AssetBandwidthUsageDetailedCollection {
   const collectionData = toPlainObject(copy(data))
-  collectionData.items = collectionData.items.map((item) => wrapAssetBandwidthUsage(makeRequest, item))
+  collectionData.items = collectionData.items.map((item) =>
+    wrapAssetBandwidthUsage(makeRequest, item),
+  )
   // @ts-expect-error items is reassigned above from AssetBandwidthUsageItemProps[] to AssetBandwidthUsage[]
   return collectionData
 }
