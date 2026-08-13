@@ -19,7 +19,7 @@ export interface UsageQuery extends QueryOptions {
   'dateRange.endAt'?: string
 }
 
-/** @deprecated Use {@link AggregatedUsageQuery} with `usage.getAggregated()` instead. Sunset: 2026-12-31. */
+/** @deprecated Use {@link AggregatedUsageQuery} with `usage.getAggregated()` instead. Sunset: 2027-02-28. */
 export type UsageProps = {
   /**
    * System metadata
@@ -59,7 +59,7 @@ export type UsageProps = {
   }
 }
 
-/** @deprecated Use `usage.getAggregated()` instead. Sunset: 2026-12-31. */
+/** @deprecated Use `usage.getAggregated()` instead. Sunset: 2027-02-28. */
 export interface Usage extends UsageProps, DefaultElements<UsageProps> {}
 
 /**
@@ -67,7 +67,7 @@ export interface Usage extends UsageProps, DefaultElements<UsageProps> {}
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw data
  * @returns Normalized usage
- * @deprecated Use {@link wrapAggregatedUsage} / `usage.getAggregated()` instead. Sunset: 2026-12-31.
+ * @deprecated Use {@link wrapAggregatedUsage} / `usage.getAggregated()` instead. Sunset: 2027-02-28.
  */
 export function wrapUsage(_makeRequest: MakeRequest, data: UsageProps): Usage {
   const usage = toPlainObject(copy(data))

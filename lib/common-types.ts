@@ -3042,7 +3042,7 @@ export type MRActions = {
   Usage: {
     /**
      * @deprecated Use `getAggregated` instead, calling it once per metric key and
-     * filtering by `filter[sys.dimensions.space.sys.id]` to scope to a space. Sunset: 2026-12-31.
+     * filtering by `filter[sys.dimensions.space.sys.id]` to scope to a space. Sunset: 2027-02-28.
      */
     getManyForSpace: {
       params: { organizationId: string } & QueryParams
@@ -3051,7 +3051,7 @@ export type MRActions = {
     /**
      * @deprecated Use `getAggregated` instead, calling it once per metric key
      * (this action accepted multiple metrics per call via `metric[in]`; `getAggregated`
-     * is scoped to a single `metricKey` per request). Sunset: 2026-12-31.
+     * is scoped to a single `metricKey` per request). Sunset: 2027-02-28.
      */
     getManyForOrganization: {
       params: { organizationId: string } & QueryParams

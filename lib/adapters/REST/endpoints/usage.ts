@@ -11,7 +11,7 @@ import * as raw from './raw'
 
 /**
  * @deprecated Use {@link getAggregated} instead, calling it once per metric key and
- * filtering by `filter[sys.dimensions.space.sys.id]` to scope to a space. Sunset: 2026-12-31.
+ * filtering by `filter[sys.dimensions.space.sys.id]` to scope to a space. Sunset: 2027-02-28.
  */
 export const getManyForSpace: RestEndpoint<'Usage', 'getManyForSpace'> = (
   http: AxiosInstance,
@@ -29,7 +29,7 @@ export const getManyForSpace: RestEndpoint<'Usage', 'getManyForSpace'> = (
 /**
  * @deprecated Use {@link getAggregated} instead, calling it once per metric key
  * (this endpoint accepted multiple metrics per call via `metric[in]`; {@link getAggregated}
- * is scoped to a single `metricKey` per request). Sunset: 2026-12-31.
+ * is scoped to a single `metricKey` per request). Sunset: 2027-02-28.
  */
 export const getManyForOrganization: RestEndpoint<'Usage', 'getManyForOrganization'> = (
   http: AxiosInstance,

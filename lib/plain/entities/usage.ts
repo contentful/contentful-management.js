@@ -12,7 +12,7 @@ export type UsagePlainClientAPI = {
    * @deprecated Use {@link getAggregated} instead, calling it once per `metricKey` and
    * passing `'filter[sys.dimensions.space.sys.id]': spaceId` in the query to scope to a space.
    * Note: {@link getAggregated} is scoped to a single metric key per request, whereas this method
-   * accepted multiple metrics via `metric[in]`. Sunset: 2026-12-31.
+   * accepted multiple metrics via `metric[in]`. Sunset: 2027-02-28.
    */
   getManyForSpace(
     params: OptionalDefaults<{ organizationId: string } & QueryParams>,
@@ -20,7 +20,7 @@ export type UsagePlainClientAPI = {
   /**
    * @deprecated Use {@link getAggregated} instead, calling it once per metric key
    * (this method accepted multiple metrics per call via `metric[in]`; {@link getAggregated}
-   * is scoped to a single `metricKey` per request). Sunset: 2026-12-31.
+   * is scoped to a single `metricKey` per request). Sunset: 2027-02-28.
    */
   getManyForOrganization(
     params: OptionalDefaults<{ organizationId: string } & QueryParams>,

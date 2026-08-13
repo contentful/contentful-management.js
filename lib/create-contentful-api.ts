@@ -640,7 +640,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * @returns Promise of a collection of usages
      * @deprecated Use {@link getUsageAggregated} instead, calling it once per metric key
      * (this method accepted multiple metrics per call via `metric[in]`; {@link getUsageAggregated}
-     * is scoped to a single `metricKey` per request). Sunset: 2026-12-31.
+     * is scoped to a single `metricKey` per request). Sunset: 2027-02-28.
      * @example ```javascript
      *
      * const contentful = require('contentful-management')
@@ -677,7 +677,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * @param query - Query parameters
      * @returns Promise of a collection of usages
      * @deprecated Use {@link getUsageAggregated} instead, calling it once per metric key and
-     * filtering by `filter[sys.dimensions.space.sys.id]` to scope to a space. Sunset: 2026-12-31.
+     * filtering by `filter[sys.dimensions.space.sys.id]` to scope to a space. Sunset: 2027-02-28.
      * ```javascript
      * const contentful = require('contentful-management')
      *
