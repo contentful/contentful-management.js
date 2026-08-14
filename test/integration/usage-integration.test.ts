@@ -59,7 +59,8 @@ describe('Usage API', async function () {
       })
     })
 
-    describe('getUsageAssetBandwidthDetailed', () => {
+    // Skipped: /usages-detailed/asset_bandwidth is not exposed publicly yet, causing a 404. [MOI-7207]
+    describe.skip('getUsageAssetBandwidthDetailed', () => {
       test('returns a collection with sys.type Array', async () => {
         const result = await defaultClient.getUsageAssetBandwidthDetailed(orgId, {
           'date[gte]': gte,
@@ -130,7 +131,8 @@ describe('Usage API', async function () {
       })
     })
 
-    describe('usage.getAssetBandwidthUsageDetailed', () => {
+    // Skipped: /usages-detailed/asset_bandwidth is not exposed publicly yet, causing a 404. [MOI-7207]
+    describe.skip('usage.getAssetBandwidthUsageDetailed', () => {
       test('returns a collection with sys.type Array', async () => {
         const result = await plainClient.usage.getAssetBandwidthUsageDetailed({
           organizationId: orgId,
