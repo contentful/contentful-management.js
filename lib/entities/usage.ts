@@ -7,6 +7,7 @@ import type {
   MetaLinkProps,
   MetaSysProps,
   QueryOptions,
+  SysLink,
 } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -102,13 +103,13 @@ export interface AggregatedUsageQuery {
   group?: string
   /**
    * Filter by a single dimension value, e.g. `filter[sys.dimensions.space.sys.id]=<id>`.
-   * Allowed dimension keys per metric are documented in `MetricDimensions` in the OpenAPI spec.
+   * Allowed dimension keys per metric are documented in `MetricDimensions` in the Usage API reference docs.
    */
   [filterKey: `filter[sys.dimensions.${string}.sys.${string}]`]: string | undefined
   /**
    * Filter by multiple dimension values using the `[in]` operator, e.g.
    * `filter[sys.dimensions.space.sys.id][in]=id1,id2` (max 10 comma-separated values).
-   * Allowed dimension keys per metric are documented in `MetricDimensions` in the OpenAPI spec.
+   * Allowed dimension keys per metric are documented in `MetricDimensions` in the Usage API reference docs.
    */
   [filterInKey: `filter[sys.dimensions.${string}.sys.${string}][in]`]: string | undefined
   /** Maximum number of items to return */
@@ -122,7 +123,7 @@ export interface AggregatedUsageQuery {
   order?: string
 }
 
-type SysLink = {
+type LinkDimension = {
   sys: { type: 'Link'; linkType: string; id: string }
 }
 
@@ -136,7 +137,7 @@ type EmbeddedDimensionEntity = {
  * `sys.type` names the entity (e.g. `"Model"`) and carries the grouped suffixes alongside (`sys.id`,
  * `sys.provider`, …). Narrow with `dim.sys.type === 'Link'` vs a specific entity type.
  */
-export type AggregatedUsageDimension = SysLink | EmbeddedDimensionEntity
+export type AggregatedUsageDimension = LinkDimension | EmbeddedDimensionEntity
 
 export type AggregatedUsageItemProps = {
   sys: {
