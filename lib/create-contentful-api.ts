@@ -30,7 +30,11 @@ import {
 } from './entities/personal-access-token'
 import { wrapAccessToken, wrapAccessTokenCollection } from './entities/access-token'
 import { wrapOrganization, wrapOrganizationCollection } from './entities/organization'
-import { wrapUsageCollection } from './entities/usage'
+import {
+  wrapAggregatedUsageCollection,
+  wrapAssetBandwidthUsageDetailedCollection,
+  wrapUsageCollection,
+} from './entities/usage'
 import { wrapAppDefinition } from './entities/app-definition'
 import {
   wrapEnvironmentTemplate,
@@ -47,7 +51,12 @@ import type { Organization, OrganizationProps } from './entities/organization'
 import type { CreatePersonalAccessTokenProps } from './entities/personal-access-token'
 import type { Space, SpaceIncludeParam, SpaceProps } from './entities/space'
 import type { AppDefinition } from './entities/app-definition'
-import type { UsageQuery } from './entities/usage'
+import type {
+  AggregatedUsageMetricKey,
+  AggregatedUsageQuery,
+  AssetBandwidthUsageDetailedQuery,
+  UsageQuery,
+} from './entities/usage'
 import type { UserProps } from './entities/user'
 import type {
   CreateEnvironmentTemplateProps,
@@ -629,6 +638,9 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * @param organizationId - Id of an organization
      * @param query - Query parameters
      * @returns Promise of a collection of usages
+     * @deprecated Use {@link getUsageAggregated} instead, calling it once per metric key
+     * (this method accepted multiple metrics per call via `metric[in]`; {@link getUsageAggregated}
+     * is scoped to a single `metricKey` per request). Sunset: 2027-02-28.
      * @example ```javascript
      *
      * const contentful = require('contentful-management')
@@ -664,6 +676,8 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * @param organizationId - Id of an organization
      * @param query - Query parameters
      * @returns Promise of a collection of usages
+     * @deprecated Use {@link getUsageAggregated} instead, calling it once per metric key and
+     * filtering by `filter[sys.dimensions.space.sys.id]` to scope to a space. Sunset: 2027-02-28.
      * ```javascript
      * const contentful = require('contentful-management')
      *
@@ -692,6 +706,73 @@ export default function createClientApi(makeRequest: MakeRequest) {
           query,
         },
       }).then((data) => wrapUsageCollection(makeRequest, data))
+    },
+
+    /**
+     * Get aggregated usage for an organization metric.
+     *
+     * @param organizationId - Id of the organization
+     * @param metricKey - Key of the metric, e.g. `"functions_invocations"`, `"asset_bandwidth"`, `"api_call_cma"`, `"api_call_cpa"`, `"api_call_cda"`, `"api_call_graphql"`, `"ai_action_invocation"`, `"ai_action_word_count"`, `"ai_consumption_unit"`
+     * @param query - Query parameters (date range, granularity, grouping, pagination)
+     * @returns Promise of an aggregated usage collection
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getUsageAggregated('<organizationId>', 'functions_invocations', {
+     *   'date[gte]': '2025-01-01',
+     *   'date[lte]': '2025-01-31',
+     *   granularity: 'P1D',
+     * })
+     * .then(result => console.log(result.items))
+     * .catch(console.error)
+     * ```
+     */
+    getUsageAggregated: function getUsageAggregated(
+      organizationId: string,
+      metricKey: AggregatedUsageMetricKey,
+      query: AggregatedUsageQuery,
+    ) {
+      return makeRequest({
+        entityType: 'Usage',
+        action: 'getAggregated',
+        params: { organizationId, metricKey, query },
+      }).then((data) => wrapAggregatedUsageCollection(makeRequest, data))
+    },
+
+    /**
+     * Get detailed asset-bandwidth usage for an organization.
+     *
+     * @param organizationId - Id of the organization
+     * @param query - Query parameters (date range only)
+     * @returns Promise of a detailed asset-bandwidth usage collection
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getUsageAssetBandwidthDetailed('<organizationId>', {
+     *   'date[gte]': '2025-01-01',
+     *   'date[lte]': '2025-01-31',
+     * })
+     * .then(result => console.log(result.items))
+     * .catch(console.error)
+     * ```
+     */
+    getUsageAssetBandwidthDetailed: function getUsageAssetBandwidthDetailed(
+      organizationId: string,
+      query: AssetBandwidthUsageDetailedQuery,
+    ) {
+      return makeRequest({
+        entityType: 'Usage',
+        action: 'getAssetBandwidthUsageDetailed',
+        params: { organizationId, query },
+      }).then((data) => wrapAssetBandwidthUsageDetailedCollection(makeRequest, data))
     },
 
     /**
