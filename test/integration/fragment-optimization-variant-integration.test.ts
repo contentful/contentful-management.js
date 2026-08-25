@@ -124,7 +124,7 @@ describe('FragmentOptimizationVariant Integration', { sequential: true }, () => 
     await timeoutToCalmRateLimiting()
   })
 
-  it('has correct sys fields after creation', async () => {
+  it('gets an optimization variant by ID with the expected sys fields', async () => {
     const variant = await client.fragmentOptimizationVariant.get({ fragmentId, variantId })
 
     expect(variant.sys.id).toBe(variantId)
@@ -134,13 +134,6 @@ describe('FragmentOptimizationVariant Integration', { sequential: true }, () => 
     expect(variant.sys.variantType).toBeDefined()
     expect(variant.sys.variantDimension).toBeDefined()
     expect(variant.name).toBe(testName('FragmentOptimizationVariant'))
-  })
-
-  it('gets an optimization variant by ID', async () => {
-    const fetched = await client.fragmentOptimizationVariant.get({ fragmentId, variantId })
-
-    expect(fetched.sys.id).toBe(variantId)
-    expect(fetched.sys.type).toBe('Fragment')
   })
 
   it('lists optimization variants', async () => {
