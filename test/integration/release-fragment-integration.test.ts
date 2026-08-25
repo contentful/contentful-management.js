@@ -92,7 +92,7 @@ describe('ReleaseFragment Integration', { sequential: true }, () => {
     await timeoutToCalmRateLimiting()
   })
 
-  it('has correct sys fields after creation', async () => {
+  it('gets a release fragment by ID with the expected sys fields', async () => {
     const fragment = await client.releaseFragment.get({ releaseId, fragmentId: releaseFragmentId })
 
     expect(fragment.sys.id).toBe(releaseFragmentId)
@@ -104,16 +104,6 @@ describe('ReleaseFragment Integration', { sequential: true }, () => {
     expect(fragment.sys.componentType.sys.linkType).toBe('Contentful:ComponentType')
     expect(fragment.sys.componentType.sys.urn).toContain(componentTypeId)
     expect(fragment.name).toBe(testName('ReleaseFragment'))
-  })
-
-  it('gets a release fragment by ID', async () => {
-    const fetched = await client.releaseFragment.get({
-      releaseId,
-      fragmentId: releaseFragmentId,
-    })
-
-    expect(fetched.sys.id).toBe(releaseFragmentId)
-    expect(fetched.sys.release.sys.id).toBe(releaseId)
   })
 
   it('lists release fragments with cursor pagination', async () => {
