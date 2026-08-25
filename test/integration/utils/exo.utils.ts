@@ -314,8 +314,64 @@ export async function sweepStaleExoEntities(
     }
   }
 
+  const sweepFragmentOptimizationVariants = async () => {
+    try {
+      const { items: fragments } = await client.fragment.getMany({ query: { limit: 100 } })
+      for (const fragment of fragments) {
+        if (!fragment.name.startsWith(TEST_PREFIX)) continue
+
+        try {
+          const { items: variants } = await client.fragmentOptimizationVariant.getMany({
+            fragmentId: fragment.sys.id,
+            query: {},
+          })
+          for (const variant of variants) {
+            if (
+              !variant.name.startsWith(TEST_PREFIX) ||
+              new Date(variant.sys.createdAt) >= cutoff
+            ) {
+              continue
+            }
+
+            try {
+              let latest = await client.fragmentOptimizationVariant.get({
+                fragmentId: fragment.sys.id,
+                variantId: variant.sys.id,
+              })
+              if (latest.sys.archivedVersion) {
+                latest = await client.fragmentOptimizationVariant.unarchive({
+                  fragmentId: fragment.sys.id,
+                  variantId: variant.sys.id,
+                  version: latest.sys.version,
+                })
+              }
+              if (latest.sys.publishedVersion) {
+                latest = await client.fragmentOptimizationVariant.unpublish({
+                  fragmentId: fragment.sys.id,
+                  variantId: variant.sys.id,
+                  version: latest.sys.version,
+                })
+              }
+              await client.fragmentOptimizationVariant.delete({
+                fragmentId: fragment.sys.id,
+                variantId: variant.sys.id,
+              })
+            } catch {
+              // best-effort cleanup
+            }
+          }
+        } catch {
+          // ignore if listing fragment variants fails
+        }
+      }
+    } catch {
+      // ignore if listing fragments fails
+    }
+  }
+
   // Sweep dependents first, then parents
   await sweepExperienceVariants()
+  await sweepFragmentOptimizationVariants()
   await Promise.all([
     sweepExperiences(),
     sweepFragments(),
