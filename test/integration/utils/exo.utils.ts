@@ -258,6 +258,63 @@ export async function sweepStaleExoEntities(
   }
 
   // Sweep dependents first, then parents
+  const sweepExperienceOptimizationVariants = async () => {
+    try {
+      const { items: experiences } = await client.experience.getMany({ query: { limit: 100 } })
+      for (const experience of experiences) {
+        if (!experience.name.startsWith(TEST_PREFIX)) continue
+
+        try {
+          const { items: variants } = await client.experienceOptimizationVariant.getMany({
+            experienceId: experience.sys.id,
+            query: {},
+          })
+          for (const variant of variants) {
+            if (
+              !variant.name.startsWith(TEST_PREFIX) ||
+              new Date(variant.sys.createdAt) >= cutoff
+            ) {
+              continue
+            }
+
+            try {
+              let latest = await client.experienceOptimizationVariant.get({
+                experienceId: experience.sys.id,
+                variantId: variant.sys.id,
+              })
+              if (latest.sys.archivedVersion) {
+                latest = await client.experienceOptimizationVariant.unarchive({
+                  experienceId: experience.sys.id,
+                  variantId: variant.sys.id,
+                  version: latest.sys.version,
+                })
+              }
+              if (latest.sys.publishedVersion) {
+                latest = await client.experienceOptimizationVariant.unpublish({
+                  experienceId: experience.sys.id,
+                  variantId: variant.sys.id,
+                  version: latest.sys.version,
+                })
+              }
+              await client.experienceOptimizationVariant.delete({
+                experienceId: experience.sys.id,
+                variantId: variant.sys.id,
+              })
+            } catch {
+              // best-effort cleanup
+            }
+          }
+        } catch {
+          // ignore if listing experience variants fails
+        }
+      }
+    } catch {
+      // ignore if listing experiences fails
+    }
+  }
+
+  // Sweep dependents first, then parents
+  await sweepExperienceOptimizationVariants()
   await Promise.all([
     sweepExperiences(),
     sweepFragments(),
