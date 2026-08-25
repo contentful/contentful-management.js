@@ -107,3 +107,22 @@ export type FragmentQueryOptions = CursorPaginationParams &
  * The Fragment entity is superseded by the ExperienceFragment entity.
  */
 export type FragmentCollection = ExoCursorPaginatedCollectionProp<FragmentProps>
+
+export type ReleaseFragmentQueryOptions = FragmentQueryOptions
+
+export type CreateReleaseFragmentProps = CreateFragmentProps
+
+export type UpsertReleaseFragmentProps = UpsertFragmentProps
+
+export type ReleaseFragmentSys = Omit<
+  FragmentSys,
+  'variant' | 'variantType' | 'variantDimension'
+> & {
+  release: Link<'Release'>
+}
+
+export type ReleaseFragment = Omit<FragmentProps, 'sys'> & {
+  sys: ReleaseFragmentSys
+}
+
+export type ReleaseFragmentCollection = ExoCursorPaginatedCollectionProp<ReleaseFragment>

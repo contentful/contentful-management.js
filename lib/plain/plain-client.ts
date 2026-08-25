@@ -705,6 +705,13 @@ export const createPlainClient = (
       publish: wrap(wrapParams, 'ExperienceTemplate', 'publish'),
       unpublish: wrap(wrapParams, 'ExperienceTemplate', 'unpublish'),
     },
+    releaseFragment: {
+      getMany: wrap(wrapParams, 'ReleaseFragment', 'getMany'),
+      get: wrap(wrapParams, 'ReleaseFragment', 'get'),
+      create: wrap(wrapParams, 'ReleaseFragment', 'create'),
+      upsert: wrap(wrapParams, 'ReleaseFragment', 'upsert'),
+      delete: wrap(wrapParams, 'ReleaseFragment', 'delete'),
+    },
     workflowDefinition: {
       get: wrap(wrapParams, 'WorkflowDefinition', 'get'),
       getMany: wrap(wrapParams, 'WorkflowDefinition', 'getMany'),

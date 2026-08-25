@@ -449,6 +449,12 @@ export type {
   /** @deprecated Use `UpsertExperienceFragmentProps` instead */
   UpsertFragmentProps,
   InlineFragmentNode,
+  ReleaseFragment,
+  ReleaseFragmentCollection,
+  ReleaseFragmentSys,
+  ReleaseFragmentQueryOptions,
+  CreateReleaseFragmentProps,
+  UpsertReleaseFragmentProps,
 } from './entities/fragment'
 export type {
   ExperienceFragmentCollection,
