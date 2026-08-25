@@ -62,6 +62,12 @@ export type ExperienceQueryOptions = CursorPaginationParams &
     order?: string
   }
 
+export type ReleaseExperienceQueryOptions = ExperienceQueryOptions
+
+export type CreateReleaseExperienceProps = CreateExperienceProps
+
+export type UpsertReleaseExperienceProps = UpsertExperienceProps
+
 // Locale-based publish payload — add or remove specific locales.
 // Omit the payload entirely for a full publish (all locales).
 export type ExperienceLocalePublishPayload = { add: string[] } | { remove: string[] }

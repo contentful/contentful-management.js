@@ -433,6 +433,9 @@ export type {
   ReleaseExperience,
   ReleaseExperienceCollection,
   ReleaseExperienceSys,
+  ReleaseExperienceQueryOptions,
+  CreateReleaseExperienceProps,
+  UpsertReleaseExperienceProps,
   ExperienceContentBindings,
   InlineExperienceFragmentNode,
 } from './entities/experience'

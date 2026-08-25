@@ -159,6 +159,7 @@ import type { DesignTokenPlainClientAPI } from './entities/design-token'
 import type { ExperiencePlainClientAPI } from './entities/experience'
 import type { ExperienceFragmentPlainClientAPI } from './entities/experience-fragment'
 import type { ExperienceTemplatePlainClientAPI } from './entities/experience-template'
+import type { ReleaseExperiencePlainClientAPI } from './entities/release-experience'
 
 export type PlainClientAPI = {
   raw: {
@@ -749,6 +750,7 @@ export type PlainClientAPI = {
   workflowsChangelog: WorkflowsChangelogPlainClientAPI
   oauthApplication: OAuthApplicationPlainClientAPI
   experience: ExperiencePlainClientAPI
+  releaseExperience: ReleaseExperiencePlainClientAPI
   experienceFragment: ExperienceFragmentPlainClientAPI
   experienceTemplate: ExperienceTemplatePlainClientAPI
   semanticSearch: SemanticSearchPlainClientAPI
