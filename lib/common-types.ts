@@ -111,6 +111,13 @@ import type {
   ExperienceTemplateQueryOptions,
   UpsertExperienceTemplateProps,
 } from './entities/experience-template'
+import type {
+  CreateFragmentOptimizationVariantProps,
+  FragmentOptimizationVariantCollection,
+  FragmentOptimizationVariantProps,
+  FragmentOptimizationVariantQueryOptions,
+  UpsertFragmentOptimizationVariantProps,
+} from './entities/fragment-optimization-variant'
 import type { ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
 import type { EditorInterfaceProps } from './entities/editor-interface'
 import type { EligibleLicenseProps } from './entities/eligible-license'
@@ -3226,6 +3233,48 @@ export type MRActions = {
       return: ExperienceTemplateProps
     }
   }
+  FragmentOptimizationVariant: {
+    getMany: {
+      params: GetManyFragmentOptimizationVariantParams & {
+        query: FragmentOptimizationVariantQueryOptions
+      }
+      return: FragmentOptimizationVariantCollection
+    }
+    get: {
+      params: GetFragmentOptimizationVariantParams
+      return: FragmentOptimizationVariantProps
+    }
+    create: {
+      params: GetManyFragmentOptimizationVariantParams
+      payload: CreateFragmentOptimizationVariantProps
+      return: FragmentOptimizationVariantProps
+    }
+    upsert: {
+      params: GetFragmentOptimizationVariantParams
+      payload: UpsertFragmentOptimizationVariantProps
+      return: FragmentOptimizationVariantProps
+    }
+    delete: {
+      params: GetFragmentOptimizationVariantParams
+      return: void
+    }
+    publish: {
+      params: GetFragmentOptimizationVariantParams & { version: number }
+      return: FragmentOptimizationVariantProps
+    }
+    unpublish: {
+      params: GetFragmentOptimizationVariantParams & { version: number }
+      return: FragmentOptimizationVariantProps
+    }
+    archive: {
+      params: GetFragmentOptimizationVariantParams & { version: number }
+      return: FragmentOptimizationVariantProps
+    }
+    unarchive: {
+      params: GetFragmentOptimizationVariantParams & { version: number }
+      return: FragmentOptimizationVariantProps
+    }
+  }
   Webhook: {
     get: { params: GetWebhookParams; return: WebhookProps }
     getMany: { params: GetSpaceParams & QueryParams; return: CollectionProp<WebhookProps> }
@@ -3457,6 +3506,14 @@ export type GetDataAssemblyParams = GetSpaceEnvironmentParams & { dataAssemblyId
 export type GetDesignTokenParams = GetSpaceEnvironmentParams & { designTokenId: string }
 /** @internal */
 export type GetFragmentParams = GetSpaceEnvironmentParams & { fragmentId: string }
+/** @internal */
+export type GetManyFragmentOptimizationVariantParams = GetSpaceEnvironmentParams & {
+  fragmentId: string
+}
+/** @internal */
+export type GetFragmentOptimizationVariantParams = GetManyFragmentOptimizationVariantParams & {
+  variantId: string
+}
 /** @internal */
 export type GetTemplateParams = GetSpaceEnvironmentParams & { templateId: string }
 /** @internal */

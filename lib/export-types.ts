@@ -461,6 +461,13 @@ export type {
   UpsertExperienceFragmentProps,
 } from './entities/experience-fragment'
 export type {
+  CreateFragmentOptimizationVariantProps,
+  FragmentOptimizationVariantCollection,
+  FragmentOptimizationVariantProps,
+  FragmentOptimizationVariantQueryOptions,
+  UpsertFragmentOptimizationVariantProps,
+} from './entities/fragment-optimization-variant'
+export type {
   DataAssemblyCollection,
   DataAssemblyProps,
   DataAssemblyResourceLinkParameter,
