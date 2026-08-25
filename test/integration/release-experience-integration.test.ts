@@ -92,7 +92,7 @@ describe('ReleaseExperience Integration', { sequential: true }, () => {
     await timeoutToCalmRateLimiting()
   })
 
-  it('has correct sys fields after creation', async () => {
+  it('gets a release experience by ID with the expected sys fields', async () => {
     const experience = await client.releaseExperience.get({
       releaseId,
       experienceId: releaseExperienceId,
@@ -107,16 +107,6 @@ describe('ReleaseExperience Integration', { sequential: true }, () => {
     expect(experience.sys.experienceTemplate.sys.linkType).toBe('Contentful:ExperienceTemplate')
     expect(experience.sys.experienceTemplate.sys.urn).toContain(experienceTemplateId)
     expect(experience.name).toBe(testName('ReleaseExperience'))
-  })
-
-  it('gets a release experience by ID', async () => {
-    const fetched = await client.releaseExperience.get({
-      releaseId,
-      experienceId: releaseExperienceId,
-    })
-
-    expect(fetched.sys.id).toBe(releaseExperienceId)
-    expect(fetched.sys.release.sys.id).toBe(releaseId)
   })
 
   it('lists release experiences with cursor pagination', async () => {
