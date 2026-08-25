@@ -93,6 +93,13 @@ import type {
   ExperienceQueryOptions,
 } from './entities/experience'
 import type {
+  CreateExperienceOptimizationVariantProps,
+  ExperienceOptimizationVariantCollection,
+  ExperienceOptimizationVariantProps,
+  ExperienceOptimizationVariantQueryOptions,
+  UpsertExperienceOptimizationVariantProps,
+} from './entities/experience-optimization-variant'
+import type {
   CreateExperienceFragmentProps,
   ExperienceFragmentProps,
   ExperienceFragmentQueryOptions,
@@ -3113,6 +3120,48 @@ export type MRActions = {
       return: ExperienceProps
     }
   }
+  ExperienceOptimizationVariant: {
+    getMany: {
+      params: GetManyExperienceOptimizationVariantParams & {
+        query: ExperienceOptimizationVariantQueryOptions
+      }
+      return: ExperienceOptimizationVariantCollection
+    }
+    get: {
+      params: GetExperienceOptimizationVariantParams
+      return: ExperienceOptimizationVariantProps
+    }
+    create: {
+      params: GetManyExperienceOptimizationVariantParams
+      payload: CreateExperienceOptimizationVariantProps
+      return: ExperienceOptimizationVariantProps
+    }
+    upsert: {
+      params: GetExperienceOptimizationVariantParams
+      payload: UpsertExperienceOptimizationVariantProps
+      return: ExperienceOptimizationVariantProps
+    }
+    delete: {
+      params: GetExperienceOptimizationVariantParams
+      return: void
+    }
+    publish: {
+      params: GetExperienceOptimizationVariantParams & { version: number }
+      return: ExperienceOptimizationVariantProps
+    }
+    unpublish: {
+      params: GetExperienceOptimizationVariantParams & { version: number }
+      return: ExperienceOptimizationVariantProps
+    }
+    archive: {
+      params: GetExperienceOptimizationVariantParams & { version: number }
+      return: ExperienceOptimizationVariantProps
+    }
+    unarchive: {
+      params: GetExperienceOptimizationVariantParams & { version: number }
+      return: ExperienceOptimizationVariantProps
+    }
+  }
   ExperienceFragment: {
     getMany: {
       params: GetSpaceEnvironmentParams & { query: ExperienceFragmentQueryOptions }
@@ -3390,6 +3439,14 @@ export type GetComponentTypeParams = GetSpaceEnvironmentParams & { componentType
 export type GetComponentParams = GetSpaceEnvironmentParams & { componentId: string }
 /** @internal */
 export type GetExperienceParams = GetSpaceEnvironmentParams & { experienceId: string }
+/** @internal */
+export type GetManyExperienceOptimizationVariantParams = GetSpaceEnvironmentParams & {
+  experienceId: string
+}
+/** @internal */
+export type GetExperienceOptimizationVariantParams = GetManyExperienceOptimizationVariantParams & {
+  variantId: string
+}
 /** @internal */
 export type GetExperienceFragmentParams = GetSpaceEnvironmentParams & {
   experienceFragmentId: string
