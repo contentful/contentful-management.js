@@ -282,6 +282,25 @@ export async function sweepStaleExoEntities(
           }
 
           try {
+            const { items: releaseFragments } = await client.releaseFragment.getMany({
+              releaseId: release.sys.id,
+              query: { limit: 100 },
+            })
+            for (const fragment of releaseFragments) {
+              try {
+                await client.releaseFragment.delete({
+                  releaseId: release.sys.id,
+                  fragmentId: fragment.sys.id,
+                })
+              } catch {
+                // best-effort cleanup
+              }
+            }
+          } catch {
+            // ignore if listing release fragments fails
+          }
+
+          try {
             await client.release.delete({ releaseId: release.sys.id })
           } catch {
             // best-effort cleanup
