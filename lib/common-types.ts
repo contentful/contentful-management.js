@@ -77,7 +77,12 @@ import type {
   CreateFragmentProps,
   FragmentProps,
   FragmentQueryOptions,
+  CreateReleaseFragmentProps,
+  ReleaseFragment,
+  ReleaseFragmentCollection,
+  ReleaseFragmentQueryOptions,
   UpsertFragmentProps,
+  UpsertReleaseFragmentProps,
 } from './entities/fragment'
 import type {
   CreateTemplateProps,
@@ -2670,6 +2675,30 @@ export type MRActions = {
       return: void
     }
   }
+  ReleaseFragment: {
+    getMany: {
+      params: GetManyReleaseFragmentParams & { query: ReleaseFragmentQueryOptions }
+      return: ReleaseFragmentCollection
+    }
+    get: {
+      params: GetReleaseFragmentParams
+      return: ReleaseFragment
+    }
+    create: {
+      params: GetManyReleaseFragmentParams
+      payload: CreateReleaseFragmentProps
+      return: ReleaseFragment
+    }
+    upsert: {
+      params: GetReleaseFragmentParams
+      payload: UpsertReleaseFragmentProps
+      return: ReleaseFragment
+    }
+    delete: {
+      params: GetReleaseFragmentParams
+      return: void
+    }
+  }
   Role: {
     get: { params: GetSpaceParams & { roleId: string }; return: RoleProps }
     getMany: { params: GetSpaceParams & QueryParams; return: CollectionProp<RoleProps> }
@@ -3430,6 +3459,9 @@ export type GetDesignTokenParams = GetSpaceEnvironmentParams & { designTokenId: 
 /** @internal */
 export type GetFragmentParams = GetSpaceEnvironmentParams & { fragmentId: string }
 /** @internal */
+export type GetManyReleaseFragmentParams = GetSpaceEnvironmentParams & { releaseId: string }
+/** @internal */
+export type GetReleaseFragmentParams = GetManyReleaseFragmentParams & { fragmentId: string }
 export type GetTemplateParams = GetSpaceEnvironmentParams & { templateId: string }
 /** @internal */
 export type GetExperienceTemplateParams = GetSpaceEnvironmentParams & {
