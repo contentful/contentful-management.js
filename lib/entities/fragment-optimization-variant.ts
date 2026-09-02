@@ -1,3 +1,4 @@
+import type { ExoCursorPaginatedCollectionProp } from '../common-types'
 import type {
   CreateFragmentProps,
   FragmentProps,
@@ -24,9 +25,5 @@ export type FragmentOptimizationVariantQueryOptions = Pick<
   'sys.archivedAt[exists]'
 >
 
-export type FragmentOptimizationVariantCollection = {
-  sys: {
-    type: 'Array'
-  }
-  items: FragmentOptimizationVariantProps[]
-}
+export type FragmentOptimizationVariantCollection =
+  ExoCursorPaginatedCollectionProp<FragmentOptimizationVariantProps>

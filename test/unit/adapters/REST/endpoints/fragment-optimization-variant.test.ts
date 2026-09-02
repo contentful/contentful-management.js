@@ -124,7 +124,7 @@ describe('Rest FragmentOptimizationVariant', { concurrent: true }, () => {
         expect(httpMock.put.mock.calls[0][0]).to.eql(
           '/spaces/space123/environments/master/fragments/fragment123/optimization_variants/variant123',
         )
-        expect(httpMock.put.mock.calls[0][1].sys).to.be.undefined
+        expect(httpMock.put.mock.calls[0][1].sys).toBeUndefined()
         expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(2)
       })
   })
