@@ -1,10 +1,3 @@
-# [12.15.0](https://github.com/contentful/contentful-management.js/compare/v12.14.0...v12.15.0) (2026-08-18)
-
-
-### Features
-
-* **usage:** add getAggregated and getDetailedAssetBandwidth, deprecate legacy usage methods [MOI-6817] ([#3088](https://github.com/contentful/contentful-management.js/issues/3088)) ([cc096a3](https://github.com/contentful/contentful-management.js/commit/cc096a337f0e1db6114e8da645d69bb6eb90f11c)), closes [contentful/usage-api#1101](https://github.com/contentful/usage-api/issues/1101)
-
 <!-- shared header  START -->
 
 <p align="center">
