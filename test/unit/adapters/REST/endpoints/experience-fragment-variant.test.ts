@@ -4,7 +4,7 @@ import setupRestAdapter from '../helpers/setupRestAdapter'
 const fragmentParams = {
   spaceId: 'space123',
   environmentId: 'master',
-  fragmentId: 'fragment123',
+  experienceFragmentId: 'fragment123',
 }
 
 const variantParams = {
@@ -15,7 +15,7 @@ const variantParams = {
 const variantResponse = {
   sys: {
     id: 'variant123',
-    type: 'Fragment',
+    type: 'ExperienceFragment',
     version: 1,
     variant: 'variant123',
     variantType: 'ab-test',
@@ -27,7 +27,7 @@ const variantResponse = {
   designProperties: {},
 }
 
-describe('Rest FragmentOptimizationVariant', { concurrent: true }, () => {
+describe('Rest ExperienceFragmentVariant', { concurrent: true }, () => {
   test('getMany calls the optimization variant URL and passes query parameters', async () => {
     const { httpMock, adapterMock } = setupRestAdapter(
       Promise.resolve({ data: { sys: { type: 'Array' }, items: [] } }),
@@ -35,7 +35,7 @@ describe('Rest FragmentOptimizationVariant', { concurrent: true }, () => {
 
     return adapterMock
       .makeRequest({
-        entityType: 'FragmentOptimizationVariant',
+        entityType: 'ExperienceFragmentVariant',
         action: 'getMany',
         userAgent: 'mocked',
         params: {
@@ -45,7 +45,7 @@ describe('Rest FragmentOptimizationVariant', { concurrent: true }, () => {
       })
       .then(() => {
         expect(httpMock.get.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/fragments/fragment123/optimization_variants',
+          '/spaces/space123/environments/master/experience_fragments/fragment123/optimization_variants',
         )
         expect(httpMock.get.mock.calls[0][1].params).to.eql({ 'sys.archivedAt[exists]': true })
       })
@@ -56,7 +56,7 @@ describe('Rest FragmentOptimizationVariant', { concurrent: true }, () => {
 
     return adapterMock
       .makeRequest({
-        entityType: 'FragmentOptimizationVariant',
+        entityType: 'ExperienceFragmentVariant',
         action: 'get',
         userAgent: 'mocked',
         params: variantParams,
@@ -64,7 +64,7 @@ describe('Rest FragmentOptimizationVariant', { concurrent: true }, () => {
       .then((result) => {
         expect(result).to.eql(variantResponse)
         expect(httpMock.get.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/fragments/fragment123/optimization_variants/variant123',
+          '/spaces/space123/environments/master/experience_fragments/fragment123/optimization_variants/variant123',
         )
       })
   })
@@ -76,18 +76,18 @@ describe('Rest FragmentOptimizationVariant', { concurrent: true }, () => {
       description: 'An optimization variant',
       viewports: [],
       designProperties: {},
-      componentType: {
+      component: {
         sys: {
           type: 'ResourceLink',
-          linkType: 'Contentful:ComponentType',
-          urn: 'crn:contentful:::component-type/component123',
+          linkType: 'Contentful:Component',
+          urn: 'crn:contentful:::component/component123',
         },
       },
     }
 
     return adapterMock
       .makeRequest({
-        entityType: 'FragmentOptimizationVariant',
+        entityType: 'ExperienceFragmentVariant',
         action: 'create',
         userAgent: 'mocked',
         params: fragmentParams,
@@ -96,7 +96,7 @@ describe('Rest FragmentOptimizationVariant', { concurrent: true }, () => {
       .then((result) => {
         expect(result).to.eql(variantResponse)
         expect(httpMock.post.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/fragments/fragment123/optimization_variants',
+          '/spaces/space123/environments/master/experience_fragments/fragment123/optimization_variants',
         )
         expect(httpMock.post.mock.calls[0][1]).to.eql(payload)
       })
@@ -105,7 +105,7 @@ describe('Rest FragmentOptimizationVariant', { concurrent: true }, () => {
   test('upsert calls the optimization variant URL and sends the version header', async () => {
     const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: variantResponse }))
     const payload = {
-      sys: { id: 'variant123', type: 'Fragment', version: 2 },
+      sys: { id: 'variant123', type: 'ExperienceFragment', version: 2 },
       name: 'Updated Optimization Variant',
       description: 'An updated optimization variant',
       viewports: [],
@@ -114,7 +114,7 @@ describe('Rest FragmentOptimizationVariant', { concurrent: true }, () => {
 
     return adapterMock
       .makeRequest({
-        entityType: 'FragmentOptimizationVariant',
+        entityType: 'ExperienceFragmentVariant',
         action: 'upsert',
         userAgent: 'mocked',
         params: variantParams,
@@ -122,7 +122,7 @@ describe('Rest FragmentOptimizationVariant', { concurrent: true }, () => {
       })
       .then(() => {
         expect(httpMock.put.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/fragments/fragment123/optimization_variants/variant123',
+          '/spaces/space123/environments/master/experience_fragments/fragment123/optimization_variants/variant123',
         )
         expect(httpMock.put.mock.calls[0][1].sys).toBeUndefined()
         expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(2)
@@ -134,14 +134,14 @@ describe('Rest FragmentOptimizationVariant', { concurrent: true }, () => {
 
     return adapterMock
       .makeRequest({
-        entityType: 'FragmentOptimizationVariant',
+        entityType: 'ExperienceFragmentVariant',
         action: 'delete',
         userAgent: 'mocked',
         params: variantParams,
       })
       .then(() => {
         expect(httpMock.delete.mock.calls[0][0]).to.eql(
-          '/spaces/space123/environments/master/fragments/fragment123/optimization_variants/variant123',
+          '/spaces/space123/environments/master/experience_fragments/fragment123/optimization_variants/variant123',
         )
       })
   })
@@ -156,7 +156,7 @@ describe('Rest FragmentOptimizationVariant', { concurrent: true }, () => {
 
     return adapterMock
       .makeRequest({
-        entityType: 'FragmentOptimizationVariant',
+        entityType: 'ExperienceFragmentVariant',
         action,
         userAgent: 'mocked',
         params: { ...variantParams, version: 3 },
@@ -164,7 +164,7 @@ describe('Rest FragmentOptimizationVariant', { concurrent: true }, () => {
       .then(() => {
         const request = httpMock[method].mock.calls[0]
         expect(request[0]).to.eql(
-          `/spaces/space123/environments/master/fragments/fragment123/optimization_variants/variant123/${suffix}`,
+          `/spaces/space123/environments/master/experience_fragments/fragment123/optimization_variants/variant123/${suffix}`,
         )
         if (method === 'put') {
           expect(request[1]).to.eql(null)

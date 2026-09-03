@@ -112,12 +112,12 @@ import type {
   UpsertExperienceTemplateProps,
 } from './entities/experience-template'
 import type {
-  CreateFragmentOptimizationVariantProps,
-  FragmentOptimizationVariantCollection,
-  FragmentOptimizationVariantProps,
-  FragmentOptimizationVariantQueryOptions,
-  UpsertFragmentOptimizationVariantProps,
-} from './entities/fragment-optimization-variant'
+  CreateExperienceFragmentVariantProps,
+  ExperienceFragmentVariantCollection,
+  ExperienceFragmentVariantProps,
+  ExperienceFragmentVariantQueryOptions,
+  UpsertExperienceFragmentVariantProps,
+} from './entities/experience-fragment-variant'
 import type { ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
 import type { EditorInterfaceProps } from './entities/editor-interface'
 import type { EligibleLicenseProps } from './entities/eligible-license'
@@ -3233,46 +3233,46 @@ export type MRActions = {
       return: ExperienceTemplateProps
     }
   }
-  FragmentOptimizationVariant: {
+  ExperienceFragmentVariant: {
     getMany: {
-      params: GetManyFragmentOptimizationVariantParams & {
-        query: FragmentOptimizationVariantQueryOptions
+      params: GetManyExperienceFragmentVariantParams & {
+        query: ExperienceFragmentVariantQueryOptions
       }
-      return: FragmentOptimizationVariantCollection
+      return: ExperienceFragmentVariantCollection
     }
     get: {
-      params: GetFragmentOptimizationVariantParams
-      return: FragmentOptimizationVariantProps
+      params: GetExperienceFragmentVariantParams
+      return: ExperienceFragmentVariantProps
     }
     create: {
-      params: GetManyFragmentOptimizationVariantParams
-      payload: CreateFragmentOptimizationVariantProps
-      return: FragmentOptimizationVariantProps
+      params: GetManyExperienceFragmentVariantParams
+      payload: CreateExperienceFragmentVariantProps
+      return: ExperienceFragmentVariantProps
     }
     upsert: {
-      params: GetFragmentOptimizationVariantParams
-      payload: UpsertFragmentOptimizationVariantProps
-      return: FragmentOptimizationVariantProps
+      params: GetExperienceFragmentVariantParams
+      payload: UpsertExperienceFragmentVariantProps
+      return: ExperienceFragmentVariantProps
     }
     delete: {
-      params: GetFragmentOptimizationVariantParams
+      params: GetExperienceFragmentVariantParams
       return: void
     }
     publish: {
-      params: GetFragmentOptimizationVariantParams & { version: number }
-      return: FragmentOptimizationVariantProps
+      params: GetExperienceFragmentVariantParams & { version: number }
+      return: ExperienceFragmentVariantProps
     }
     unpublish: {
-      params: GetFragmentOptimizationVariantParams & { version: number }
-      return: FragmentOptimizationVariantProps
+      params: GetExperienceFragmentVariantParams & { version: number }
+      return: ExperienceFragmentVariantProps
     }
     archive: {
-      params: GetFragmentOptimizationVariantParams & { version: number }
-      return: FragmentOptimizationVariantProps
+      params: GetExperienceFragmentVariantParams & { version: number }
+      return: ExperienceFragmentVariantProps
     }
     unarchive: {
-      params: GetFragmentOptimizationVariantParams & { version: number }
-      return: FragmentOptimizationVariantProps
+      params: GetExperienceFragmentVariantParams & { version: number }
+      return: ExperienceFragmentVariantProps
     }
   }
   Webhook: {
@@ -3507,11 +3507,11 @@ export type GetDesignTokenParams = GetSpaceEnvironmentParams & { designTokenId: 
 /** @internal */
 export type GetFragmentParams = GetSpaceEnvironmentParams & { fragmentId: string }
 /** @internal */
-export type GetManyFragmentOptimizationVariantParams = GetSpaceEnvironmentParams & {
-  fragmentId: string
+export type GetManyExperienceFragmentVariantParams = GetSpaceEnvironmentParams & {
+  experienceFragmentId: string
 }
 /** @internal */
-export type GetFragmentOptimizationVariantParams = GetManyFragmentOptimizationVariantParams & {
+export type GetExperienceFragmentVariantParams = GetManyExperienceFragmentVariantParams & {
   variantId: string
 }
 /** @internal */

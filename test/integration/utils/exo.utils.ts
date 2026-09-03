@@ -314,15 +314,17 @@ export async function sweepStaleExoEntities(
     }
   }
 
-  const sweepFragmentOptimizationVariants = async () => {
+  const sweepExperienceFragmentVariants = async () => {
     try {
-      const { items: fragments } = await client.fragment.getMany({ query: { limit: 100 } })
-      for (const fragment of fragments) {
-        if (!fragment.name.startsWith(TEST_PREFIX)) continue
+      const { items: experienceFragments } = await client.experienceFragment.getMany({
+        query: { limit: 100 },
+      })
+      for (const experienceFragment of experienceFragments) {
+        if (!experienceFragment.name.startsWith(TEST_PREFIX)) continue
 
         try {
-          const { items: variants } = await client.fragmentOptimizationVariant.getMany({
-            fragmentId: fragment.sys.id,
+          const { items: variants } = await client.experienceFragmentVariant.getMany({
+            experienceFragmentId: experienceFragment.sys.id,
             query: {},
           })
           for (const variant of variants) {
@@ -335,26 +337,26 @@ export async function sweepStaleExoEntities(
             }
 
             try {
-              let latest = await client.fragmentOptimizationVariant.get({
-                fragmentId: fragment.sys.id,
+              let latest = await client.experienceFragmentVariant.get({
+                experienceFragmentId: experienceFragment.sys.id,
                 variantId: variant.sys.variant,
               })
               if (latest.sys.archivedVersion) {
-                latest = await client.fragmentOptimizationVariant.unarchive({
-                  fragmentId: fragment.sys.id,
+                latest = await client.experienceFragmentVariant.unarchive({
+                  experienceFragmentId: experienceFragment.sys.id,
                   variantId: variant.sys.variant,
                   version: latest.sys.version,
                 })
               }
               if (latest.sys.publishedVersion) {
-                latest = await client.fragmentOptimizationVariant.unpublish({
-                  fragmentId: fragment.sys.id,
+                latest = await client.experienceFragmentVariant.unpublish({
+                  experienceFragmentId: experienceFragment.sys.id,
                   variantId: variant.sys.variant,
                   version: latest.sys.version,
                 })
               }
-              await client.fragmentOptimizationVariant.delete({
-                fragmentId: fragment.sys.id,
+              await client.experienceFragmentVariant.delete({
+                experienceFragmentId: experienceFragment.sys.id,
                 variantId: variant.sys.variant,
               })
             } catch {
@@ -362,17 +364,17 @@ export async function sweepStaleExoEntities(
             }
           }
         } catch {
-          // ignore if listing fragment variants fails
+          // ignore if listing experience fragment variants fails
         }
       }
     } catch {
-      // ignore if listing fragments fails
+      // ignore if listing experience fragments fails
     }
   }
 
   // Sweep dependents first, then parents
   await sweepExperienceVariants()
-  await sweepFragmentOptimizationVariants()
+  await sweepExperienceFragmentVariants()
   await Promise.all([
     sweepExperiences(),
     sweepFragments(),
