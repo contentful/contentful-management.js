@@ -327,6 +327,7 @@ export async function sweepStaleExoEntities(
           })
           for (const variant of variants) {
             if (
+              !variant.sys.variant ||
               !variant.name.startsWith(TEST_PREFIX) ||
               new Date(variant.sys.createdAt) >= cutoff
             ) {
@@ -336,25 +337,25 @@ export async function sweepStaleExoEntities(
             try {
               let latest = await client.fragmentOptimizationVariant.get({
                 fragmentId: fragment.sys.id,
-                variantId: variant.sys.id,
+                variantId: variant.sys.variant,
               })
               if (latest.sys.archivedVersion) {
                 latest = await client.fragmentOptimizationVariant.unarchive({
                   fragmentId: fragment.sys.id,
-                  variantId: variant.sys.id,
+                  variantId: variant.sys.variant,
                   version: latest.sys.version,
                 })
               }
               if (latest.sys.publishedVersion) {
                 latest = await client.fragmentOptimizationVariant.unpublish({
                   fragmentId: fragment.sys.id,
-                  variantId: variant.sys.id,
+                  variantId: variant.sys.variant,
                   version: latest.sys.version,
                 })
               }
               await client.fragmentOptimizationVariant.delete({
                 fragmentId: fragment.sys.id,
-                variantId: variant.sys.id,
+                variantId: variant.sys.variant,
               })
             } catch {
               // best-effort cleanup
