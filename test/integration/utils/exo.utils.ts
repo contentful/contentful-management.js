@@ -271,6 +271,7 @@ export async function sweepStaleExoEntities(
           })
           for (const variant of variants) {
             if (
+              !variant.sys.variant ||
               !variant.name.startsWith(TEST_PREFIX) ||
               new Date(variant.sys.createdAt) >= cutoff
             ) {
@@ -280,25 +281,25 @@ export async function sweepStaleExoEntities(
             try {
               let latest = await client.experienceOptimizationVariant.get({
                 experienceId: experience.sys.id,
-                variantId: variant.sys.id,
+                variantId: variant.sys.variant,
               })
               if (latest.sys.archivedVersion) {
                 latest = await client.experienceOptimizationVariant.unarchive({
                   experienceId: experience.sys.id,
-                  variantId: variant.sys.id,
+                  variantId: variant.sys.variant,
                   version: latest.sys.version,
                 })
               }
               if (latest.sys.publishedVersion) {
                 latest = await client.experienceOptimizationVariant.unpublish({
                   experienceId: experience.sys.id,
-                  variantId: variant.sys.id,
+                  variantId: variant.sys.variant,
                   version: latest.sys.version,
                 })
               }
               await client.experienceOptimizationVariant.delete({
                 experienceId: experience.sys.id,
-                variantId: variant.sys.id,
+                variantId: variant.sys.variant,
               })
             } catch {
               // best-effort cleanup
