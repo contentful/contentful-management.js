@@ -60,7 +60,10 @@ describe('ExperienceOptimizationVariant Integration', { sequential: true }, () =
         designProperties: {},
       },
     )
-    variantId = variant.sys.id
+    if (!variant.sys.variant) {
+      throw new Error('Expected created optimization variant to have sys.variant set')
+    }
+    variantId = variant.sys.variant
     createdVariantIds.push(variantId)
   })
 
@@ -127,10 +130,10 @@ describe('ExperienceOptimizationVariant Integration', { sequential: true }, () =
   it('gets an optimization variant by ID with the expected sys fields', async () => {
     const variant = await client.experienceOptimizationVariant.get({ experienceId, variantId })
 
-    expect(variant.sys.id).toBe(variantId)
+    expect(variant.sys.id).toBe(experienceId)
     expect(variant.sys.type).toBe('Experience')
     expect(variant.sys.version).toBeGreaterThanOrEqual(1)
-    expect(variant.sys.variant).toBeDefined()
+    expect(variant.sys.variant).toBe(variantId)
     expect(variant.sys.variantType).toBeDefined()
     expect(variant.sys.variantDimension).toBeDefined()
     expect(variant.name).toBe(testName('ExperienceOptimizationVariant'))
@@ -143,7 +146,7 @@ describe('ExperienceOptimizationVariant Integration', { sequential: true }, () =
     })
 
     expect(collection.items.length).toBeGreaterThanOrEqual(1)
-    expect(collection.items.find((item) => item.sys.id === variantId)).toBeDefined()
+    expect(collection.items.find((item) => item.sys.variant === variantId)).toBeDefined()
   })
 
   it('upserts an optimization variant', async () => {
