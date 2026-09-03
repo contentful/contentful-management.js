@@ -1,3 +1,4 @@
+import type { ExoCursorPaginatedCollectionProp } from '../common-types'
 import type {
   CreateExperienceProps,
   ExperienceProps,
@@ -24,9 +25,5 @@ export type ExperienceOptimizationVariantQueryOptions = Pick<
   'sys.archivedAt[exists]'
 >
 
-export type ExperienceOptimizationVariantCollection = {
-  sys: {
-    type: 'Array'
-  }
-  items: ExperienceOptimizationVariantProps[]
-}
+export type ExperienceOptimizationVariantCollection =
+  ExoCursorPaginatedCollectionProp<ExperienceOptimizationVariantProps>
