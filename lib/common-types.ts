@@ -87,10 +87,15 @@ import type {
 } from './entities/template'
 import type {
   CreateExperienceProps,
+  CreateReleaseExperienceProps,
   UpsertExperienceProps,
+  UpsertReleaseExperienceProps,
   ExperienceLocalePublishPayload,
   ExperienceProps,
   ExperienceQueryOptions,
+  ReleaseExperience,
+  ReleaseExperienceCollection,
+  ReleaseExperienceQueryOptions,
 } from './entities/experience'
 import type {
   CreateExperienceFragmentProps,
@@ -2641,6 +2646,30 @@ export type MRActions = {
       return: Collection<ReleaseAction, ReleaseActionProps>
     }
   }
+  ReleaseExperience: {
+    getMany: {
+      params: GetManyReleaseExperienceParams & { query: ReleaseExperienceQueryOptions }
+      return: ReleaseExperienceCollection
+    }
+    get: {
+      params: GetReleaseExperienceParams
+      return: ReleaseExperience
+    }
+    create: {
+      params: GetManyReleaseExperienceParams
+      payload: CreateReleaseExperienceProps
+      return: ReleaseExperience
+    }
+    upsert: {
+      params: GetReleaseExperienceParams
+      payload: UpsertReleaseExperienceProps
+      return: ReleaseExperience
+    }
+    delete: {
+      params: GetReleaseExperienceParams
+      return: void
+    }
+  }
   Role: {
     get: { params: GetSpaceParams & { roleId: string }; return: RoleProps }
     getMany: { params: GetSpaceParams & QueryParams; return: CollectionProp<RoleProps> }
@@ -3435,6 +3464,10 @@ export type GetFunctionLogParams = GetManyFunctionLogParams & { logId: string }
 export type GetOrganizationParams = { organizationId: string }
 /** @internal */
 export type GetReleaseParams = ReleaseEnvironmentParams & { releaseId: string }
+/** @internal */
+export type GetManyReleaseExperienceParams = GetSpaceEnvironmentParams & { releaseId: string }
+/** @internal */
+export type GetReleaseExperienceParams = GetManyReleaseExperienceParams & { experienceId: string }
 /** @internal */
 export type GetReleaseAssetParams = GetSpaceEnvironmentParams & {
   releaseId: string

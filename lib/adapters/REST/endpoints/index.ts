@@ -53,6 +53,7 @@ import * as Release from './release'
 import * as ReleaseAsset from './release-asset'
 import * as ReleaseEntry from './release-entry'
 import * as ReleaseAction from './release-action'
+import * as ReleaseExperience from './release-experience'
 import * as Resource from './resource'
 import * as ResourceProvider from './resource-provider'
 import * as ResourceType from './resource-type'
@@ -145,6 +146,7 @@ export default {
   ReleaseAsset,
   ReleaseEntry,
   ReleaseAction,
+  ReleaseExperience,
   Resource,
   ResourceProvider,
   ResourceType,

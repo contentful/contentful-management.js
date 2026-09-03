@@ -19,7 +19,7 @@ const getBaseUrl = (params: GetSpaceEnvironmentParams) =>
 // Opts into the renamed ("new ExO entity types") Experience shape: sys.experienceTemplate
 // instead of sys.template, and ExperienceFragment slot nodes. The renamed family shares the
 // `/experiences` URLs with the legacy routes and is discriminated server-side on this header.
-const ExperienceAlphaHeaders = {
+export const ExperienceAlphaHeaders = {
   'x-contentful-enable-alpha-feature': 'new-exo-entity-types',
 }
 

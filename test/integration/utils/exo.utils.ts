@@ -257,7 +257,44 @@ export async function sweepStaleExoEntities(
     }
   }
 
+  const sweepReleases = async () => {
+    try {
+      const { items } = await client.release.query({ query: { limit: 100 } })
+      for (const release of items) {
+        if (release.title.startsWith(TEST_PREFIX) && new Date(release.sys.createdAt) < cutoff) {
+          try {
+            const { items: releaseExperiences } = await client.releaseExperience.getMany({
+              releaseId: release.sys.id,
+              query: { limit: 100 },
+            })
+            for (const experience of releaseExperiences) {
+              try {
+                await client.releaseExperience.delete({
+                  releaseId: release.sys.id,
+                  experienceId: experience.sys.id,
+                })
+              } catch {
+                // best-effort cleanup
+              }
+            }
+          } catch {
+            // ignore if listing release experiences fails
+          }
+
+          try {
+            await client.release.delete({ releaseId: release.sys.id })
+          } catch {
+            // best-effort cleanup
+          }
+        }
+      }
+    } catch {
+      // ignore if listing releases fails
+    }
+  }
+
   // Sweep dependents first, then parents
+  await sweepReleases()
   await Promise.all([
     sweepExperiences(),
     sweepFragments(),
