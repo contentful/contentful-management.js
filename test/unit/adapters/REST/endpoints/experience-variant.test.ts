@@ -27,7 +27,7 @@ const variantResponse = {
   designProperties: {},
 }
 
-describe('Rest ExperienceOptimizationVariant', { concurrent: true }, () => {
+describe('Rest ExperienceVariant', { concurrent: true }, () => {
   test('getMany calls the optimization variant URL and passes query parameters', async () => {
     const { httpMock, adapterMock } = setupRestAdapter(
       Promise.resolve({ data: { sys: { type: 'Array' }, items: [] } }),
@@ -35,7 +35,7 @@ describe('Rest ExperienceOptimizationVariant', { concurrent: true }, () => {
 
     return adapterMock
       .makeRequest({
-        entityType: 'ExperienceOptimizationVariant',
+        entityType: 'ExperienceVariant',
         action: 'getMany',
         userAgent: 'mocked',
         params: {
@@ -59,7 +59,7 @@ describe('Rest ExperienceOptimizationVariant', { concurrent: true }, () => {
 
     return adapterMock
       .makeRequest({
-        entityType: 'ExperienceOptimizationVariant',
+        entityType: 'ExperienceVariant',
         action: 'get',
         userAgent: 'mocked',
         params: variantParams,
@@ -90,7 +90,7 @@ describe('Rest ExperienceOptimizationVariant', { concurrent: true }, () => {
 
     return adapterMock
       .makeRequest({
-        entityType: 'ExperienceOptimizationVariant',
+        entityType: 'ExperienceVariant',
         action: 'create',
         userAgent: 'mocked',
         params: experienceParams,
@@ -117,7 +117,7 @@ describe('Rest ExperienceOptimizationVariant', { concurrent: true }, () => {
 
     return adapterMock
       .makeRequest({
-        entityType: 'ExperienceOptimizationVariant',
+        entityType: 'ExperienceVariant',
         action: 'upsert',
         userAgent: 'mocked',
         params: variantParams,
@@ -137,7 +137,7 @@ describe('Rest ExperienceOptimizationVariant', { concurrent: true }, () => {
 
     return adapterMock
       .makeRequest({
-        entityType: 'ExperienceOptimizationVariant',
+        entityType: 'ExperienceVariant',
         action: 'delete',
         userAgent: 'mocked',
         params: variantParams,
@@ -159,7 +159,7 @@ describe('Rest ExperienceOptimizationVariant', { concurrent: true }, () => {
 
     return adapterMock
       .makeRequest({
-        entityType: 'ExperienceOptimizationVariant',
+        entityType: 'ExperienceVariant',
         action,
         userAgent: 'mocked',
         params: { ...variantParams, version: 3 },

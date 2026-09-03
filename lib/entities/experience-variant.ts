@@ -13,17 +13,13 @@ import type {
  * variant identity is represented by the `variant`, `variantType`, and
  * `variantDimension` fields on `sys`.
  */
-export type ExperienceOptimizationVariantProps = ExperienceProps
+export type ExperienceVariantProps = ExperienceProps
 
-export type CreateExperienceOptimizationVariantProps = CreateExperienceProps
+export type CreateExperienceVariantProps = CreateExperienceProps
 
-export type UpsertExperienceOptimizationVariantProps = UpsertExperienceProps
+export type UpsertExperienceVariantProps = UpsertExperienceProps
 
 /** Query options for listing optimization variants. */
-export type ExperienceOptimizationVariantQueryOptions = Pick<
-  ExperienceQueryOptions,
-  'sys.archivedAt[exists]'
->
+export type ExperienceVariantQueryOptions = Pick<ExperienceQueryOptions, 'sys.archivedAt[exists]'>
 
-export type ExperienceOptimizationVariantCollection =
-  ExoCursorPaginatedCollectionProp<ExperienceOptimizationVariantProps>
+export type ExperienceVariantCollection = ExoCursorPaginatedCollectionProp<ExperienceVariantProps>

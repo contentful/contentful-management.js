@@ -93,12 +93,12 @@ import type {
   ExperienceQueryOptions,
 } from './entities/experience'
 import type {
-  CreateExperienceOptimizationVariantProps,
-  ExperienceOptimizationVariantCollection,
-  ExperienceOptimizationVariantProps,
-  ExperienceOptimizationVariantQueryOptions,
-  UpsertExperienceOptimizationVariantProps,
-} from './entities/experience-optimization-variant'
+  CreateExperienceVariantProps,
+  ExperienceVariantCollection,
+  ExperienceVariantProps,
+  ExperienceVariantQueryOptions,
+  UpsertExperienceVariantProps,
+} from './entities/experience-variant'
 import type {
   CreateExperienceFragmentProps,
   ExperienceFragmentProps,
@@ -3120,46 +3120,46 @@ export type MRActions = {
       return: ExperienceProps
     }
   }
-  ExperienceOptimizationVariant: {
+  ExperienceVariant: {
     getMany: {
-      params: GetManyExperienceOptimizationVariantParams & {
-        query: ExperienceOptimizationVariantQueryOptions
+      params: GetManyExperienceVariantParams & {
+        query: ExperienceVariantQueryOptions
       }
-      return: ExperienceOptimizationVariantCollection
+      return: ExperienceVariantCollection
     }
     get: {
-      params: GetExperienceOptimizationVariantParams
-      return: ExperienceOptimizationVariantProps
+      params: GetExperienceVariantParams
+      return: ExperienceVariantProps
     }
     create: {
-      params: GetManyExperienceOptimizationVariantParams
-      payload: CreateExperienceOptimizationVariantProps
-      return: ExperienceOptimizationVariantProps
+      params: GetManyExperienceVariantParams
+      payload: CreateExperienceVariantProps
+      return: ExperienceVariantProps
     }
     upsert: {
-      params: GetExperienceOptimizationVariantParams
-      payload: UpsertExperienceOptimizationVariantProps
-      return: ExperienceOptimizationVariantProps
+      params: GetExperienceVariantParams
+      payload: UpsertExperienceVariantProps
+      return: ExperienceVariantProps
     }
     delete: {
-      params: GetExperienceOptimizationVariantParams
+      params: GetExperienceVariantParams
       return: void
     }
     publish: {
-      params: GetExperienceOptimizationVariantParams & { version: number }
-      return: ExperienceOptimizationVariantProps
+      params: GetExperienceVariantParams & { version: number }
+      return: ExperienceVariantProps
     }
     unpublish: {
-      params: GetExperienceOptimizationVariantParams & { version: number }
-      return: ExperienceOptimizationVariantProps
+      params: GetExperienceVariantParams & { version: number }
+      return: ExperienceVariantProps
     }
     archive: {
-      params: GetExperienceOptimizationVariantParams & { version: number }
-      return: ExperienceOptimizationVariantProps
+      params: GetExperienceVariantParams & { version: number }
+      return: ExperienceVariantProps
     }
     unarchive: {
-      params: GetExperienceOptimizationVariantParams & { version: number }
-      return: ExperienceOptimizationVariantProps
+      params: GetExperienceVariantParams & { version: number }
+      return: ExperienceVariantProps
     }
   }
   ExperienceFragment: {
@@ -3440,11 +3440,11 @@ export type GetComponentParams = GetSpaceEnvironmentParams & { componentId: stri
 /** @internal */
 export type GetExperienceParams = GetSpaceEnvironmentParams & { experienceId: string }
 /** @internal */
-export type GetManyExperienceOptimizationVariantParams = GetSpaceEnvironmentParams & {
+export type GetManyExperienceVariantParams = GetSpaceEnvironmentParams & {
   experienceId: string
 }
 /** @internal */
-export type GetExperienceOptimizationVariantParams = GetManyExperienceOptimizationVariantParams & {
+export type GetExperienceVariantParams = GetManyExperienceVariantParams & {
   variantId: string
 }
 /** @internal */

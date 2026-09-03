@@ -3,7 +3,7 @@ import { initPlainClient, timeoutToCalmRateLimiting } from '../helpers'
 import { TestDefaults } from '../defaults'
 import { makeResourceLink, sweepStaleExoEntities, testName, testViewport } from './utils/exo.utils'
 
-describe('ExperienceOptimizationVariant Integration', { sequential: true }, () => {
+describe('ExperienceVariant Integration', { sequential: true }, () => {
   const client = initPlainClient({
     spaceId: TestDefaults.spaceId,
     environmentId: TestDefaults.environmentId,
@@ -22,7 +22,7 @@ describe('ExperienceOptimizationVariant Integration', { sequential: true }, () =
     const experienceTemplate = await client.experienceTemplate.create(
       {},
       {
-        name: testName('Template for ExperienceOptimizationVariant'),
+        name: testName('Template for ExperienceVariant'),
         description: 'Backing template for experience optimization variant integration test',
         viewports: [testViewport],
         contentProperties: [],
@@ -50,10 +50,10 @@ describe('ExperienceOptimizationVariant Integration', { sequential: true }, () =
     experienceId = experience.sys.id
     createdExperienceIds.push(experienceId)
 
-    const variant = await client.experienceOptimizationVariant.create(
+    const variant = await client.experienceVariant.create(
       { experienceId },
       {
-        name: testName('ExperienceOptimizationVariant'),
+        name: testName('ExperienceVariant'),
         description: 'Created by integration test',
         experienceTemplate: makeResourceLink('Contentful:ExperienceTemplate', experienceTemplateId),
         viewports: [testViewport],
@@ -70,25 +70,25 @@ describe('ExperienceOptimizationVariant Integration', { sequential: true }, () =
   afterAll(async () => {
     for (const id of createdVariantIds) {
       try {
-        let latest = await client.experienceOptimizationVariant.get({
+        let latest = await client.experienceVariant.get({
           experienceId,
           variantId: id,
         })
         if (latest.sys.archivedVersion) {
-          latest = await client.experienceOptimizationVariant.unarchive({
+          latest = await client.experienceVariant.unarchive({
             experienceId,
             variantId: id,
             version: latest.sys.version,
           })
         }
         if (latest.sys.publishedVersion) {
-          latest = await client.experienceOptimizationVariant.unpublish({
+          latest = await client.experienceVariant.unpublish({
             experienceId,
             variantId: id,
             version: latest.sys.version,
           })
         }
-        await client.experienceOptimizationVariant.delete({ experienceId, variantId: id })
+        await client.experienceVariant.delete({ experienceId, variantId: id })
       } catch {
         // entity already deleted or not found
       }
@@ -128,7 +128,7 @@ describe('ExperienceOptimizationVariant Integration', { sequential: true }, () =
   })
 
   it('gets an optimization variant by ID with the expected sys fields', async () => {
-    const variant = await client.experienceOptimizationVariant.get({ experienceId, variantId })
+    const variant = await client.experienceVariant.get({ experienceId, variantId })
 
     expect(variant.sys.id).toBe(experienceId)
     expect(variant.sys.type).toBe('Experience')
@@ -136,11 +136,11 @@ describe('ExperienceOptimizationVariant Integration', { sequential: true }, () =
     expect(variant.sys.variant).toBe(variantId)
     expect(variant.sys.variantType).toBeDefined()
     expect(variant.sys.variantDimension).toBeDefined()
-    expect(variant.name).toBe(testName('ExperienceOptimizationVariant'))
+    expect(variant.name).toBe(testName('ExperienceVariant'))
   })
 
   it('lists optimization variants', async () => {
-    const collection = await client.experienceOptimizationVariant.getMany({
+    const collection = await client.experienceVariant.getMany({
       experienceId,
       query: {},
     })
@@ -150,34 +150,34 @@ describe('ExperienceOptimizationVariant Integration', { sequential: true }, () =
   })
 
   it('upserts an optimization variant', async () => {
-    const current = await client.experienceOptimizationVariant.get({ experienceId, variantId })
+    const current = await client.experienceVariant.get({ experienceId, variantId })
     const { sys, ...body } = current
 
-    const updated = await client.experienceOptimizationVariant.upsert(
+    const updated = await client.experienceVariant.upsert(
       { experienceId, variantId },
       {
         sys: { id: sys.id, type: 'Experience', version: sys.version },
         ...body,
-        name: testName('ExperienceOptimizationVariant Updated'),
+        name: testName('ExperienceVariant Updated'),
       },
     )
 
-    expect(updated.name).toBe(testName('ExperienceOptimizationVariant Updated'))
+    expect(updated.name).toBe(testName('ExperienceVariant Updated'))
     expect(updated.sys.version).toBeGreaterThan(current.sys.version)
   })
 
   it('publishes and unpublishes an optimization variant', async () => {
-    let current = await client.experienceOptimizationVariant.get({ experienceId, variantId })
+    let current = await client.experienceVariant.get({ experienceId, variantId })
 
-    const published = await client.experienceOptimizationVariant.publish({
+    const published = await client.experienceVariant.publish({
       experienceId,
       variantId,
       version: current.sys.version,
     })
     expect(published.sys.publishedVersion).toBeDefined()
 
-    current = await client.experienceOptimizationVariant.get({ experienceId, variantId })
-    const unpublished = await client.experienceOptimizationVariant.unpublish({
+    current = await client.experienceVariant.get({ experienceId, variantId })
+    const unpublished = await client.experienceVariant.unpublish({
       experienceId,
       variantId,
       version: current.sys.version,
@@ -186,17 +186,17 @@ describe('ExperienceOptimizationVariant Integration', { sequential: true }, () =
   })
 
   it('archives and unarchives an optimization variant', async () => {
-    let current = await client.experienceOptimizationVariant.get({ experienceId, variantId })
+    let current = await client.experienceVariant.get({ experienceId, variantId })
 
-    const archived = await client.experienceOptimizationVariant.archive({
+    const archived = await client.experienceVariant.archive({
       experienceId,
       variantId,
       version: current.sys.version,
     })
     expect(archived.sys.archivedVersion).toBeDefined()
 
-    current = await client.experienceOptimizationVariant.get({ experienceId, variantId })
-    const unarchived = await client.experienceOptimizationVariant.unarchive({
+    current = await client.experienceVariant.get({ experienceId, variantId })
+    const unarchived = await client.experienceVariant.unarchive({
       experienceId,
       variantId,
       version: current.sys.version,
@@ -205,10 +205,8 @@ describe('ExperienceOptimizationVariant Integration', { sequential: true }, () =
   })
 
   it('deletes an optimization variant', async () => {
-    await client.experienceOptimizationVariant.delete({ experienceId, variantId })
-    await expect(
-      client.experienceOptimizationVariant.get({ experienceId, variantId }),
-    ).rejects.toThrow()
+    await client.experienceVariant.delete({ experienceId, variantId })
+    await expect(client.experienceVariant.get({ experienceId, variantId })).rejects.toThrow()
 
     const index = createdVariantIds.indexOf(variantId)
     if (index !== -1) createdVariantIds.splice(index, 1)

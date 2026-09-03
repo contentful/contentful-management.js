@@ -258,14 +258,14 @@ export async function sweepStaleExoEntities(
   }
 
   // Sweep dependents first, then parents
-  const sweepExperienceOptimizationVariants = async () => {
+  const sweepExperienceVariants = async () => {
     try {
       const { items: experiences } = await client.experience.getMany({ query: { limit: 100 } })
       for (const experience of experiences) {
         if (!experience.name.startsWith(TEST_PREFIX)) continue
 
         try {
-          const { items: variants } = await client.experienceOptimizationVariant.getMany({
+          const { items: variants } = await client.experienceVariant.getMany({
             experienceId: experience.sys.id,
             query: {},
           })
@@ -279,25 +279,25 @@ export async function sweepStaleExoEntities(
             }
 
             try {
-              let latest = await client.experienceOptimizationVariant.get({
+              let latest = await client.experienceVariant.get({
                 experienceId: experience.sys.id,
                 variantId: variant.sys.variant,
               })
               if (latest.sys.archivedVersion) {
-                latest = await client.experienceOptimizationVariant.unarchive({
+                latest = await client.experienceVariant.unarchive({
                   experienceId: experience.sys.id,
                   variantId: variant.sys.variant,
                   version: latest.sys.version,
                 })
               }
               if (latest.sys.publishedVersion) {
-                latest = await client.experienceOptimizationVariant.unpublish({
+                latest = await client.experienceVariant.unpublish({
                   experienceId: experience.sys.id,
                   variantId: variant.sys.variant,
                   version: latest.sys.version,
                 })
               }
-              await client.experienceOptimizationVariant.delete({
+              await client.experienceVariant.delete({
                 experienceId: experience.sys.id,
                 variantId: variant.sys.variant,
               })
@@ -315,7 +315,7 @@ export async function sweepStaleExoEntities(
   }
 
   // Sweep dependents first, then parents
-  await sweepExperienceOptimizationVariants()
+  await sweepExperienceVariants()
   await Promise.all([
     sweepExperiences(),
     sweepFragments(),
