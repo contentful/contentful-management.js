@@ -101,11 +101,25 @@ export type ReleaseMetadata = {
   }[]
 }
 
-/** The object returned by the Releases API */
+/**
+ * An entities.items entry as returned/accepted for a Release.v2 (Releases) release: each
+ * linked entity is wrapped alongside the per-entity publish/unpublish action Release.v2
+ * supports.
+ */
+export type ReleaseV2EntityItem = { entity: Link<Entity> } & ReleaseValidatePayload
+
+/**
+ * The object returned by the Releases API.
+ *
+ * The shape of `entities.items` depends on `sys.schemaVersion`: a `Release.v1` (Launch)
+ * release's items are flat `Link<Entity>`, while a `Release.v2` (Releases) release's items
+ * are `ReleaseV2EntityItem` (`{ entity: Link<Entity>, action? }`) - the API does not collapse
+ * v2 releases back down to flat links on read.
+ */
 export interface ReleaseProps {
   title: string
   sys: ReleaseSysProps
-  entities: BaseCollection<Link<Entity>>
+  entities: BaseCollection<Link<Entity> | ReleaseV2EntityItem>
   metadata?: ReleaseMetadata
 }
 
@@ -124,7 +138,7 @@ export interface ReleasePayloadV2 extends MakeRequestPayload {
     schemaVersion: 'Release.v2'
   }
   title: string
-  entities: BaseCollection<{ entity: Link<Entity> } & ReleaseValidatePayload>
+  entities: BaseCollection<ReleaseV2EntityItem>
 }
 
 export interface ReleaseValidatePayload {
