@@ -157,6 +157,7 @@ import type { ComponentPlainClientAPI } from './entities/component'
 import type { DataAssemblyPlainClientAPI } from './entities/data-assembly'
 import type { DesignTokenPlainClientAPI } from './entities/design-token'
 import type { ExperiencePlainClientAPI } from './entities/experience'
+import type { ExperienceVariantPlainClientAPI } from './entities/experience-variant'
 import type { ExperienceFragmentPlainClientAPI } from './entities/experience-fragment'
 import type { ExperienceTemplatePlainClientAPI } from './entities/experience-template'
 
@@ -749,6 +750,7 @@ export type PlainClientAPI = {
   workflowsChangelog: WorkflowsChangelogPlainClientAPI
   oauthApplication: OAuthApplicationPlainClientAPI
   experience: ExperiencePlainClientAPI
+  experienceVariant: ExperienceVariantPlainClientAPI
   experienceFragment: ExperienceFragmentPlainClientAPI
   experienceTemplate: ExperienceTemplatePlainClientAPI
   semanticSearch: SemanticSearchPlainClientAPI

@@ -437,6 +437,13 @@ export type {
   InlineExperienceFragmentNode,
 } from './entities/experience'
 export type {
+  CreateExperienceVariantProps,
+  ExperienceVariantCollection,
+  ExperienceVariantProps,
+  ExperienceVariantQueryOptions,
+  UpsertExperienceVariantProps,
+} from './entities/experience-variant'
+export type {
   /** @deprecated Use `ExperienceFragmentCollection` instead */
   FragmentCollection,
   /** @deprecated Use `ExperienceFragmentProps` instead */

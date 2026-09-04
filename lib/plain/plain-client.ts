@@ -680,6 +680,17 @@ export const createPlainClient = (
       publish: wrap(wrapParams, 'Experience', 'publish'),
       unpublish: wrap(wrapParams, 'Experience', 'unpublish'),
     },
+    experienceVariant: {
+      getMany: wrap(wrapParams, 'ExperienceVariant', 'getMany'),
+      get: wrap(wrapParams, 'ExperienceVariant', 'get'),
+      create: wrap(wrapParams, 'ExperienceVariant', 'create'),
+      upsert: wrap(wrapParams, 'ExperienceVariant', 'upsert'),
+      delete: wrap(wrapParams, 'ExperienceVariant', 'delete'),
+      publish: wrap(wrapParams, 'ExperienceVariant', 'publish'),
+      unpublish: wrap(wrapParams, 'ExperienceVariant', 'unpublish'),
+      archive: wrap(wrapParams, 'ExperienceVariant', 'archive'),
+      unarchive: wrap(wrapParams, 'ExperienceVariant', 'unarchive'),
+    },
     experienceFragment: {
       getMany: wrap(wrapParams, 'ExperienceFragment', 'getMany'),
       get: wrap(wrapParams, 'ExperienceFragment', 'get'),

@@ -93,6 +93,13 @@ import type {
   ExperienceQueryOptions,
 } from './entities/experience'
 import type {
+  CreateExperienceVariantProps,
+  ExperienceVariantCollection,
+  ExperienceVariantProps,
+  ExperienceVariantQueryOptions,
+  UpsertExperienceVariantProps,
+} from './entities/experience-variant'
+import type {
   CreateExperienceFragmentProps,
   ExperienceFragmentProps,
   ExperienceFragmentQueryOptions,
@@ -3113,6 +3120,48 @@ export type MRActions = {
       return: ExperienceProps
     }
   }
+  ExperienceVariant: {
+    getMany: {
+      params: GetManyExperienceVariantParams & {
+        query: ExperienceVariantQueryOptions
+      }
+      return: ExperienceVariantCollection
+    }
+    get: {
+      params: GetExperienceVariantParams
+      return: ExperienceVariantProps
+    }
+    create: {
+      params: GetManyExperienceVariantParams
+      payload: CreateExperienceVariantProps
+      return: ExperienceVariantProps
+    }
+    upsert: {
+      params: GetExperienceVariantParams
+      payload: UpsertExperienceVariantProps
+      return: ExperienceVariantProps
+    }
+    delete: {
+      params: GetExperienceVariantParams
+      return: void
+    }
+    publish: {
+      params: GetExperienceVariantParams & { version: number }
+      return: ExperienceVariantProps
+    }
+    unpublish: {
+      params: GetExperienceVariantParams & { version: number }
+      return: ExperienceVariantProps
+    }
+    archive: {
+      params: GetExperienceVariantParams & { version: number }
+      return: ExperienceVariantProps
+    }
+    unarchive: {
+      params: GetExperienceVariantParams & { version: number }
+      return: ExperienceVariantProps
+    }
+  }
   ExperienceFragment: {
     getMany: {
       params: GetSpaceEnvironmentParams & { query: ExperienceFragmentQueryOptions }
@@ -3390,6 +3439,14 @@ export type GetComponentTypeParams = GetSpaceEnvironmentParams & { componentType
 export type GetComponentParams = GetSpaceEnvironmentParams & { componentId: string }
 /** @internal */
 export type GetExperienceParams = GetSpaceEnvironmentParams & { experienceId: string }
+/** @internal */
+export type GetManyExperienceVariantParams = GetSpaceEnvironmentParams & {
+  experienceId: string
+}
+/** @internal */
+export type GetExperienceVariantParams = GetManyExperienceVariantParams & {
+  variantId: string
+}
 /** @internal */
 export type GetExperienceFragmentParams = GetSpaceEnvironmentParams & {
   experienceFragmentId: string
