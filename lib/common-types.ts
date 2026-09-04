@@ -111,6 +111,13 @@ import type {
   ExperienceTemplateQueryOptions,
   UpsertExperienceTemplateProps,
 } from './entities/experience-template'
+import type {
+  CreateExperienceFragmentVariantProps,
+  ExperienceFragmentVariantCollection,
+  ExperienceFragmentVariantProps,
+  ExperienceFragmentVariantQueryOptions,
+  UpsertExperienceFragmentVariantProps,
+} from './entities/experience-fragment-variant'
 import type { ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
 import type { EditorInterfaceProps } from './entities/editor-interface'
 import type { EligibleLicenseProps } from './entities/eligible-license'
@@ -3226,6 +3233,48 @@ export type MRActions = {
       return: ExperienceTemplateProps
     }
   }
+  ExperienceFragmentVariant: {
+    getMany: {
+      params: GetManyExperienceFragmentVariantParams & {
+        query: ExperienceFragmentVariantQueryOptions
+      }
+      return: ExperienceFragmentVariantCollection
+    }
+    get: {
+      params: GetExperienceFragmentVariantParams
+      return: ExperienceFragmentVariantProps
+    }
+    create: {
+      params: GetManyExperienceFragmentVariantParams
+      payload: CreateExperienceFragmentVariantProps
+      return: ExperienceFragmentVariantProps
+    }
+    upsert: {
+      params: GetExperienceFragmentVariantParams
+      payload: UpsertExperienceFragmentVariantProps
+      return: ExperienceFragmentVariantProps
+    }
+    delete: {
+      params: GetExperienceFragmentVariantParams
+      return: void
+    }
+    publish: {
+      params: GetExperienceFragmentVariantParams & { version: number }
+      return: ExperienceFragmentVariantProps
+    }
+    unpublish: {
+      params: GetExperienceFragmentVariantParams & { version: number }
+      return: ExperienceFragmentVariantProps
+    }
+    archive: {
+      params: GetExperienceFragmentVariantParams & { version: number }
+      return: ExperienceFragmentVariantProps
+    }
+    unarchive: {
+      params: GetExperienceFragmentVariantParams & { version: number }
+      return: ExperienceFragmentVariantProps
+    }
+  }
   Webhook: {
     get: { params: GetWebhookParams; return: WebhookProps }
     getMany: { params: GetSpaceParams & QueryParams; return: CollectionProp<WebhookProps> }
@@ -3457,6 +3506,14 @@ export type GetDataAssemblyParams = GetSpaceEnvironmentParams & { dataAssemblyId
 export type GetDesignTokenParams = GetSpaceEnvironmentParams & { designTokenId: string }
 /** @internal */
 export type GetFragmentParams = GetSpaceEnvironmentParams & { fragmentId: string }
+/** @internal */
+export type GetManyExperienceFragmentVariantParams = GetSpaceEnvironmentParams & {
+  experienceFragmentId: string
+}
+/** @internal */
+export type GetExperienceFragmentVariantParams = GetManyExperienceFragmentVariantParams & {
+  variantId: string
+}
 /** @internal */
 export type GetTemplateParams = GetSpaceEnvironmentParams & { templateId: string }
 /** @internal */

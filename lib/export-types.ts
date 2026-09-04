@@ -461,6 +461,13 @@ export type {
   UpsertExperienceFragmentProps,
 } from './entities/experience-fragment'
 export type {
+  CreateExperienceFragmentVariantProps,
+  ExperienceFragmentVariantCollection,
+  ExperienceFragmentVariantProps,
+  ExperienceFragmentVariantQueryOptions,
+  UpsertExperienceFragmentVariantProps,
+} from './entities/experience-fragment-variant'
+export type {
   DataAssemblyCollection,
   DataAssemblyProps,
   DataAssemblyResourceLinkParameter,

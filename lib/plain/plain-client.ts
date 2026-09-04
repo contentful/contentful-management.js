@@ -709,6 +709,17 @@ export const createPlainClient = (
       publish: wrap(wrapParams, 'ExperienceTemplate', 'publish'),
       unpublish: wrap(wrapParams, 'ExperienceTemplate', 'unpublish'),
     },
+    experienceFragmentVariant: {
+      getMany: wrap(wrapParams, 'ExperienceFragmentVariant', 'getMany'),
+      get: wrap(wrapParams, 'ExperienceFragmentVariant', 'get'),
+      create: wrap(wrapParams, 'ExperienceFragmentVariant', 'create'),
+      upsert: wrap(wrapParams, 'ExperienceFragmentVariant', 'upsert'),
+      delete: wrap(wrapParams, 'ExperienceFragmentVariant', 'delete'),
+      publish: wrap(wrapParams, 'ExperienceFragmentVariant', 'publish'),
+      unpublish: wrap(wrapParams, 'ExperienceFragmentVariant', 'unpublish'),
+      archive: wrap(wrapParams, 'ExperienceFragmentVariant', 'archive'),
+      unarchive: wrap(wrapParams, 'ExperienceFragmentVariant', 'unarchive'),
+    },
     workflowDefinition: {
       get: wrap(wrapParams, 'WorkflowDefinition', 'get'),
       getMany: wrap(wrapParams, 'WorkflowDefinition', 'getMany'),

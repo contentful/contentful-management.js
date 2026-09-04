@@ -81,6 +81,7 @@ import * as Experience from './experience'
 import * as ExperienceVariant from './experience-variant'
 import * as ExperienceFragment from './experience-fragment'
 import * as ExperienceTemplate from './experience-template'
+import * as ExperienceFragmentVariant from './experience-fragment-variant'
 import * as UploadCredential from './upload-credentials'
 import * as Usage from './usage'
 import * as User from './user'
@@ -175,6 +176,7 @@ export default {
   ExperienceVariant,
   ExperienceFragment,
   ExperienceTemplate,
+  ExperienceFragmentVariant,
   Usage,
   User,
   UserUIConfig,

@@ -160,6 +160,7 @@ import type { ExperiencePlainClientAPI } from './entities/experience'
 import type { ExperienceVariantPlainClientAPI } from './entities/experience-variant'
 import type { ExperienceFragmentPlainClientAPI } from './entities/experience-fragment'
 import type { ExperienceTemplatePlainClientAPI } from './entities/experience-template'
+import type { ExperienceFragmentVariantPlainClientAPI } from './entities/experience-fragment-variant'
 
 export type PlainClientAPI = {
   raw: {
@@ -753,6 +754,7 @@ export type PlainClientAPI = {
   experienceVariant: ExperienceVariantPlainClientAPI
   experienceFragment: ExperienceFragmentPlainClientAPI
   experienceTemplate: ExperienceTemplatePlainClientAPI
+  experienceFragmentVariant: ExperienceFragmentVariantPlainClientAPI
   semanticSearch: SemanticSearchPlainClientAPI
   semanticDuplicates: SemanticDuplicatesPlainClientAPI
   semanticRecommendations: SemanticRecommendationsPlainClientAPI

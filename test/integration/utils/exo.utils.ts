@@ -314,8 +314,67 @@ export async function sweepStaleExoEntities(
     }
   }
 
+  const sweepExperienceFragmentVariants = async () => {
+    try {
+      const { items: experienceFragments } = await client.experienceFragment.getMany({
+        query: { limit: 100 },
+      })
+      for (const experienceFragment of experienceFragments) {
+        if (!experienceFragment.name.startsWith(TEST_PREFIX)) continue
+
+        try {
+          const { items: variants } = await client.experienceFragmentVariant.getMany({
+            experienceFragmentId: experienceFragment.sys.id,
+            query: {},
+          })
+          for (const variant of variants) {
+            if (
+              !variant.sys.variant ||
+              !variant.name.startsWith(TEST_PREFIX) ||
+              new Date(variant.sys.createdAt) >= cutoff
+            ) {
+              continue
+            }
+
+            try {
+              let latest = await client.experienceFragmentVariant.get({
+                experienceFragmentId: experienceFragment.sys.id,
+                variantId: variant.sys.variant,
+              })
+              if (latest.sys.archivedVersion) {
+                latest = await client.experienceFragmentVariant.unarchive({
+                  experienceFragmentId: experienceFragment.sys.id,
+                  variantId: variant.sys.variant,
+                  version: latest.sys.version,
+                })
+              }
+              if (latest.sys.publishedVersion) {
+                latest = await client.experienceFragmentVariant.unpublish({
+                  experienceFragmentId: experienceFragment.sys.id,
+                  variantId: variant.sys.variant,
+                  version: latest.sys.version,
+                })
+              }
+              await client.experienceFragmentVariant.delete({
+                experienceFragmentId: experienceFragment.sys.id,
+                variantId: variant.sys.variant,
+              })
+            } catch {
+              // best-effort cleanup
+            }
+          }
+        } catch {
+          // ignore if listing experience fragment variants fails
+        }
+      }
+    } catch {
+      // ignore if listing experience fragments fails
+    }
+  }
+
   // Sweep dependents first, then parents
   await sweepExperienceVariants()
+  await sweepExperienceFragmentVariants()
   await Promise.all([
     sweepExperiences(),
     sweepFragments(),
