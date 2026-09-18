@@ -69,9 +69,9 @@ describe('Usage API', async function () {
         for (const item of result.items) {
           expect(item.sys.key).toBe('monthly_active_profiles')
           expect(item.sys.organization.sys.id).toBe(orgId)
-          expect(item.dataLastUpdatedAt === null || typeof item.dataLastUpdatedAt === 'string').toBe(
-            true,
-          )
+          expect(
+            item.dataLastUpdatedAt === null || typeof item.dataLastUpdatedAt === 'string',
+          ).toBe(true)
         }
       })
     })
@@ -159,9 +159,9 @@ describe('Usage API', async function () {
         expect(result.sys.type).toBe('Array')
         for (const item of result.items) {
           expect(item.sys.key).toBe('monthly_active_profiles')
-          expect(item.dataLastUpdatedAt === null || typeof item.dataLastUpdatedAt === 'string').toBe(
-            true,
-          )
+          expect(
+            item.dataLastUpdatedAt === null || typeof item.dataLastUpdatedAt === 'string',
+          ).toBe(true)
         }
       })
     })
