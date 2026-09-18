@@ -91,6 +91,7 @@ export type AggregatedUsageMetricKey =
   | 'ai_action_invocation'
   | 'ai_action_word_count'
   | 'ai_consumption_unit'
+  | 'monthly_active_profiles'
 
 export interface AggregatedUsageQuery {
   /** Start date (inclusive) in YYYY-MM-DD format. Required. */
@@ -152,6 +153,7 @@ export type AggregatedUsageItemProps = {
   dateRange: { start: string; end: string }
   granularity?: string
   data: number[]
+  dataLastUpdatedAt: string | null
 }
 
 export type AggregatedUsageCollectionProps = CollectionProp<AggregatedUsageItemProps>

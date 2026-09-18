@@ -57,6 +57,23 @@ describe('Usage API', async function () {
         })
         expect(result.items.length).toBeLessThanOrEqual(1)
       })
+
+      test('supports the monthly_active_profiles metric', async () => {
+        const result = await defaultClient.getUsageAggregated(orgId, 'monthly_active_profiles', {
+          'date[gte]': gte,
+          'date[lte]': lte,
+          granularity: 'P1M',
+        })
+        expect(result.sys.type).toBe('Array')
+        expect(Array.isArray(result.items)).toBe(true)
+        for (const item of result.items) {
+          expect(item.sys.key).toBe('monthly_active_profiles')
+          expect(item.sys.organization.sys.id).toBe(orgId)
+          expect(item.dataLastUpdatedAt === null || typeof item.dataLastUpdatedAt === 'string').toBe(
+            true,
+          )
+        }
+      })
     })
 
     describe('getUsageAssetBandwidthDetailed', () => {
@@ -126,6 +143,25 @@ describe('Usage API', async function () {
         })
         for (const item of result.items) {
           expect(item.sys.key).toBe('api_call_cma')
+        }
+      })
+
+      test('supports the monthly_active_profiles metric with dataLastUpdatedAt', async () => {
+        const result = await plainClient.usage.getAggregated({
+          organizationId: orgId,
+          metricKey: 'monthly_active_profiles',
+          query: {
+            'date[gte]': '2026-01-01',
+            'date[lte]': '2026-06-30',
+            granularity: 'P1M',
+          },
+        })
+        expect(result.sys.type).toBe('Array')
+        for (const item of result.items) {
+          expect(item.sys.key).toBe('monthly_active_profiles')
+          expect(item.dataLastUpdatedAt === null || typeof item.dataLastUpdatedAt === 'string').toBe(
+            true,
+          )
         }
       })
     })
