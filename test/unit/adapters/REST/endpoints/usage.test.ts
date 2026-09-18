@@ -20,6 +20,7 @@ const collectionMockResponse = {
       dateRange: { start: '2026-06-01', end: '2026-06-30' },
       granularity: 'P1D',
       data: [1, 2, 3],
+      dataLastUpdatedAt: '2026-06-30T00:00:00Z',
     },
   ],
 }
@@ -118,6 +119,31 @@ describe('Rest Usage', { concurrent: true }, () => {
       expect(httpMock.get.mock.calls[0][1].params).to.include({
         'filter[sys.dimensions.function.sys.id]': 'fn-id-1',
       })
+    })
+
+    test('fetches correct URL for monthly_active_profiles', async () => {
+      const { httpMock, adapterMock } = setupRestAdapter(
+        Promise.resolve({ data: collectionMockResponse }),
+      )
+
+      await adapterMock.makeRequest({
+        entityType: 'Usage',
+        action: 'getAggregated',
+        userAgent: 'mocked',
+        params: {
+          organizationId: 'org-id',
+          metricKey: 'monthly_active_profiles',
+          query: {
+            'date[gte]': '2026-01-01',
+            'date[lte]': '2026-06-30',
+            granularity: 'P1M',
+          },
+        },
+      })
+
+      expect(httpMock.get.mock.calls[0][0]).to.eql(
+        '/organizations/org-id/usages/monthly_active_profiles',
+      )
     })
   })
 

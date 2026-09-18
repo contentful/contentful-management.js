@@ -1126,6 +1126,23 @@ const aggregatedUsageMock: AggregatedUsageItemProps = {
   dateRange: { start: '2025-01-01', end: '2025-01-31' },
   granularity: 'P1D',
   data: [10, 20, 30],
+  dataLastUpdatedAt: '2025-01-31T00:00:00Z',
+}
+
+const aggregatedUsageMonthlyActiveProfilesMock: AggregatedUsageItemProps = {
+  sys: {
+    id: 'mock-map-metric-id',
+    type: 'MonthlyActiveProfiles',
+    key: 'monthly_active_profiles',
+    organization: { sys: { type: 'Link', linkType: 'Organization', id: 'mock-org-id' } },
+    unitOfMeasurement: 'Profile',
+    dimensions: {},
+    accumulation: 'integrate',
+  },
+  dateRange: { start: '2025-01-01', end: '2025-01-31' },
+  granularity: 'P1M',
+  data: [100],
+  dataLastUpdatedAt: '2025-01-31T00:00:00Z',
 }
 
 const assetBandwidthUsageDetailedMock: AssetBandwidthUsageItemProps = {
@@ -1756,6 +1773,7 @@ const mocks = {
   uploadCredential: uploadCredentialMock,
   usage: usageMock,
   aggregatedUsage: aggregatedUsageMock,
+  aggregatedUsageMonthlyActiveProfiles: aggregatedUsageMonthlyActiveProfilesMock,
   assetBandwidthUsageDetailed: assetBandwidthUsageDetailedMock,
   uiConfig: uiConfigMock,
   user: userMock,
@@ -2132,6 +2150,7 @@ export {
   environmentMock,
   usageMock,
   aggregatedUsageMock,
+  aggregatedUsageMonthlyActiveProfilesMock,
   environmentAliasMock,
   environmentTemplateMock,
   environmentTemplateInstallationMock,
