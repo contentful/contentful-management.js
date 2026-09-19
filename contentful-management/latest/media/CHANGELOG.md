@@ -1,10 +1,3 @@
-# [12.17.0](https://github.com/contentful/contentful-management.js/compare/v12.16.0...v12.17.0) (2026-09-08)
-
-
-### Features
-
-* add fragment optimization variant methods [AIS-139] ([#3127](https://github.com/contentful/contentful-management.js/issues/3127)) ([883e2b9](https://github.com/contentful/contentful-management.js/commit/883e2b9dc1c76413d5c24e45f74243da699071e4))
-
 <!-- shared header  START -->
 
 <p align="center">
