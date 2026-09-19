@@ -88,7 +88,7 @@
     "@semantic-release/changelog": "^7.0.0",
     "@size-limit/file": "^11.1.6",
     "@types/lodash": "^4.14.168",
-    "@types/node": "^20.12.13",
+    "@types/node": "^24.0.0",
     "@vitest/browser": "^2.1.5",
     "@vitest/coverage-v8": "^2.1.5",
     "contentful-sdk-jsdoc": "^3.1.5",
