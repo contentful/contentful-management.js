@@ -712,7 +712,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * Get aggregated usage for an organization metric.
      *
      * @param organizationId - Id of the organization
-     * @param metricKey - Key of the metric, e.g. `"functions_invocations"`, `"asset_bandwidth"`, `"api_call_cma"`, `"api_call_cpa"`, `"api_call_cda"`, `"api_call_graphql"`, `"ai_action_invocation"`, `"ai_action_word_count"`, `"ai_consumption_unit"`
+     * @param metricKey - Key of the metric, e.g. `"functions_invocations"`, `"asset_bandwidth"`, `"api_call_cma"`, `"api_call_cpa"`, `"api_call_cda"`, `"api_call_graphql"`, `"ai_action_invocation"`, `"ai_action_word_count"`, `"ai_consumption_unit"`, `"monthly_active_profiles"`
      * @param query - Query parameters (date range, granularity, grouping, pagination)
      * @returns Promise of an aggregated usage collection
      * @example ```javascript
