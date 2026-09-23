@@ -1,5 +1,5 @@
 import { toPlainObject } from 'contentful-sdk-core'
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import type {
   BasicCursorPaginationOptions,
   Collection,

@@ -1,5 +1,5 @@
 import { toPlainObject, freezeSys } from 'contentful-sdk-core'
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
 import type { DefaultElements, BasicMetaSysProps, SysLink, MakeRequest } from '../common-types'

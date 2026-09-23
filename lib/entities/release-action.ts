@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import type { DefaultElements, ISO8601Timestamp, Link, MakeRequest } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import type { AsyncActionProcessingOptions } from '../methods/action'

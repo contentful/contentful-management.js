@@ -1,5 +1,5 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import type { BasicMetaSysProps, Link, MakeRequest, DefaultElements } from '../common-types'
 import { wrapCursorPaginatedCollection } from '../common-utils'
 import type { ContentfulEnvironmentTemplateAPI } from '../create-environment-template-api'

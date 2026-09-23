@@ -1,4 +1,4 @@
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import { toPlainObject } from 'contentful-sdk-core'
 import type { DefaultElements, MakeRequest } from '../common-types'
 

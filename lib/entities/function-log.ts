@@ -1,6 +1,6 @@
 import type { Link, DefaultElements } from '../common-types'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import { wrapCollection } from '../common-utils'
 import type { MakeRequest } from '../common-types'
 import enhanceWithMethods from '../enhance-with-methods'

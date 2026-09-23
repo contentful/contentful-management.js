@@ -1,7 +1,7 @@
 import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
 import * as raw from './raw'
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import type {
   BasicCursorPaginationOptions,
   CursorPaginatedCollectionProp,

@@ -1,7 +1,7 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import type { BasicMetaSysProps, DefaultElements, MakeRequest } from '../common-types'
 import enhanceWithMethods from '../enhance-with-methods'
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import { wrapCursorPaginatedCollection } from '../common-utils'
 
 type OAuthApplicationSysProps = BasicMetaSysProps & {

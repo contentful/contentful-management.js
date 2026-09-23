@@ -7,7 +7,7 @@ import type {
   SysLink,
 } from '../common-types'
 import { toPlainObject, freezeSys } from 'contentful-sdk-core'
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCursorPaginatedCollection } from '../common-utils'
 

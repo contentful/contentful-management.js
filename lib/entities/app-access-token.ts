@@ -1,4 +1,4 @@
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import type { Except } from 'type-fest'
 import type { BasicMetaSysProps, DefaultElements, MakeRequest, SysLink } from '../common-types'
