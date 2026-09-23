@@ -1,10 +1,3 @@
-# [12.18.0](https://github.com/contentful/contentful-management.js/compare/v12.17.0...v12.18.0) (2026-09-22)
-
-
-### Features
-
-* add MAPs and dataLastUpdatedAt to usage [MOI-7438] ([#3139](https://github.com/contentful/contentful-management.js/issues/3139)) ([7d99d6e](https://github.com/contentful/contentful-management.js/commit/7d99d6e79ac33940c85fa3e5d838a3ddc0632753))
-
 <!-- shared header  START -->
 
 <p align="center">
