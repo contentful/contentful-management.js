@@ -26,6 +26,7 @@ export type WorkflowSysProps = Pick<
   deletedAt?: string
   entity: Link<'Entry'>
   workflowDefinition: Link<'WorkflowDefinition'>
+  variableValuePreset?: Link<'WorkflowVariableValuePreset'>
 }
 
 export type WorkflowProps = {
@@ -36,6 +37,7 @@ export type WorkflowProps = {
 export type CreateWorkflowProps = Omit<WorkflowProps, 'sys'> & {
   entity: Link<'Entry'>
   workflowDefinition: Link<'WorkflowDefinition'>
+  variableValuePreset?: Link<'WorkflowVariableValuePreset'>
 }
 export type UpdateWorkflowProps = Omit<WorkflowProps, 'sys'> & {
   sys: Pick<WorkflowSysProps, 'version'>
