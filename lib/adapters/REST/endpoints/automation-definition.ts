@@ -1,5 +1,5 @@
 import type { AxiosInstance, RawAxiosRequestHeaders } from 'axios'
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import type { SetOptional } from 'type-fest'
 import type {
   CursorPaginatedCollectionProp,

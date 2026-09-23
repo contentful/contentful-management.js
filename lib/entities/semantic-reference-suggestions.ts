@@ -1,5 +1,5 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import type { DefaultElements, Link, MakeRequest } from '../common-types'
 
 export type GetSemanticReferenceSuggestionsProps = {

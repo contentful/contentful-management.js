@@ -4,7 +4,7 @@ import type { GetUIConfigParams } from '../../../common-types'
 import type { UIConfigProps } from '../../../entities/ui-config'
 import type { RestEndpoint } from '../types'
 import * as raw from './raw'
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 
 const getUrl = (params: GetUIConfigParams) =>
   `/spaces/${params.spaceId}/environments/${params.environmentId}/ui_config`

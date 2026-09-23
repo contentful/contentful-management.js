@@ -1,5 +1,5 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import type { DefaultElements, MakeRequest, SysLink } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import type { Document as RichTextDocument } from '@contentful/rich-text-types'

@@ -1,6 +1,6 @@
 import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import type { GetExperienceTemplateParams, GetSpaceEnvironmentParams } from '../../../common-types'
 import type {
   CreateExperienceTemplateProps,

@@ -1,4 +1,4 @@
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import type { Except, SetOptional } from 'type-fest'
 import enhanceWithMethods from '../enhance-with-methods'

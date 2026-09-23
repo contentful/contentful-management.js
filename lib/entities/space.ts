@@ -1,5 +1,5 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import type { BasicMetaSysProps, DefaultElements, MakeRequest } from '../common-types'
 import { wrapCollection, wrapCursorPaginatedCollection } from '../common-utils'
 import type { ContentfulSpaceAPI } from '../create-space-api'

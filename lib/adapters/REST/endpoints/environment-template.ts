@@ -1,4 +1,4 @@
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import type { SetOptional } from 'type-fest'
 import type { EnvironmentTemplateProps } from '../../../entities/environment-template'
 import type { RestEndpoint } from '../types'

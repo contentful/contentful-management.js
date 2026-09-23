@@ -1,4 +1,4 @@
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import type { CollectionProp, QueryParams } from '../common-types'
 
 type IterableFn<P = any, T = any> = (params: P) => Promise<CollectionProp<T>>
