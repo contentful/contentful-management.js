@@ -1,6 +1,9 @@
 import { describe, test, expect } from 'vitest'
 import setupRestAdapter from '../helpers/setupRestAdapter'
-import type { CreateDataAssemblyProps } from '../../../../../lib/entities/data-assembly'
+import type {
+  CreateDataAssemblyProps,
+  OrderedDataAssemblyParameterConfig,
+} from '../../../../../lib/entities/data-assembly'
 
 describe('Rest DataAssembly', { concurrent: true }, () => {
   test('getMany calls correct URL', async () => {
@@ -525,6 +528,59 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
     expect(httpMock.post.mock.calls[0][1].parameters.primary.allowedResources[0].source).to.eql(
       'crn:contentful:::content:spaces/$self/environments/$self',
     )
+  })
+
+  test('create forwards ordered parameter definitions without changing metadata or order', async () => {
+    const mockResponse = {
+      sys: { id: 'da123', type: 'DataAssembly', version: 1 },
+    }
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
+    const parameters: OrderedDataAssemblyParameterConfig = [
+      {
+        id: 'optional-title',
+        type: 'String',
+        required: false,
+        fallbackValue: 'Untitled',
+        locked: true,
+      },
+      {
+        id: 'entry',
+        type: 'ResourceLink',
+        required: true,
+        allowedResources: [
+          {
+            type: 'Contentful:Entry',
+            source: 'crn:contentful:::content:spaces/$self/environments/$self',
+            allowedTypes: ['article'],
+          },
+        ],
+      },
+      {
+        id: 'limit',
+        type: 'Number',
+        required: true,
+        validation: { min: 1 },
+      },
+    ]
+    const payload: CreateDataAssemblyProps = {
+      sys: { type: 'DataAssembly', dataType: [] },
+      metadata: { tags: [] },
+      name: 'Ordered parameters',
+      description: '',
+      parameters,
+      resolvers: {},
+      return: {},
+    }
+
+    await adapterMock.makeRequest({
+      entityType: 'DataAssembly',
+      action: 'create',
+      userAgent: 'mocked',
+      params: { spaceId: 'space123', environmentId: 'master' },
+      payload,
+    })
+
+    expect(httpMock.post.mock.calls[0][1].parameters).to.eql(parameters)
   })
 
   test('unpublish calls correct URL with DELETE method and version header', async () => {
