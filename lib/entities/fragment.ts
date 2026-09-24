@@ -65,7 +65,7 @@ export type FragmentProps = {
   sys: FragmentSys
   name: string
   description: string
-  viewports: ComponentTypeViewport[]
+  viewports?: ComponentTypeViewport[]
   designProperties: Record<string, DimensionedDesignPropertyValue>
   contentBindings?: ExperienceContentBindings
   metadata?: ExperienceMetadataProps

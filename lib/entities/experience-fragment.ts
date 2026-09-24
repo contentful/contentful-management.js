@@ -42,7 +42,7 @@ export type ExperienceFragmentProps = {
   sys: ExperienceFragmentSys
   name: string
   description: string
-  viewports: ComponentTypeViewport[]
+  viewports?: ComponentTypeViewport[]
   designProperties: Record<string, DimensionedDesignPropertyValue>
   contentBindings?: ExperienceContentBindings
   metadata?: ExperienceMetadataProps

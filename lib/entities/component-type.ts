@@ -256,7 +256,7 @@ export type ComponentTypeProps = {
   sys: ComponentTypeSys
   name: string
   description: string
-  viewports: ComponentTypeViewport[]
+  viewports?: ComponentTypeViewport[]
   contentProperties: ComponentTypeContentProperty[]
   designProperties: ComponentTypeDesignProperty[]
   componentTree?: TreeNode[]
