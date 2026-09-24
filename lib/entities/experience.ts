@@ -45,7 +45,7 @@ export type ExperienceSys = {
 type ExperienceCommonProps = {
   name: string
   description: string
-  viewports: ComponentTypeViewport[]
+  viewports?: ComponentTypeViewport[]
   designProperties: Record<string, DimensionedDesignPropertyValue>
   contentBindings?: ExperienceContentBindings
   metadata?: ExperienceMetadataProps
