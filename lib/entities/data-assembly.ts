@@ -31,19 +31,118 @@ export type DataAssemblyDataTypeField =
   | CanonicalDataAssemblyDataTypeField
   | LegacyDataAssemblyDataTypeField
 
-export type DataAssemblyResourceLinkParameter = {
+type DataAssemblyParameterMetadata = {
   name?: string
   description?: string
-  type: 'ResourceLink'
-  linkType: 'Contentful:Entry'
-  allowedResources: Array<{
-    type: 'Contentful:Entry'
-    source: typeof SAME_SPACE_CONTENT_SOURCE
-    allowedTypes: string[]
-  }>
+  required?: boolean
 }
 
-export type DataAssemblyParameterConfig = Record<string, DataAssemblyResourceLinkParameter>
+export type DataAssemblyAllowedEntryResource = {
+  type: 'Contentful:Entry'
+  source: typeof SAME_SPACE_CONTENT_SOURCE
+  allowedTypes: string[]
+}
+
+export type DataAssemblyAllowedAssetResource = {
+  type: 'Contentful:Asset'
+  source: typeof SAME_SPACE_CONTENT_SOURCE
+}
+
+export type DataAssemblyAllowedResource =
+  | DataAssemblyAllowedEntryResource
+  | DataAssemblyAllowedAssetResource
+
+/**
+ * A ResourceLink definition may target entries, assets, or a mixed collection. `linkType` is
+ * retained only for compatibility; `allowedResources` is the authoritative discriminator.
+ */
+export type DataAssemblyResourceLinkParameter = DataAssemblyParameterMetadata & {
+  type: 'ResourceLink'
+  linkType?: 'Contentful:Entry' | 'Contentful:Asset'
+  allowedResources: DataAssemblyAllowedResource[]
+}
+
+export type DataAssemblyStringParameter = DataAssemblyParameterMetadata & {
+  type: 'String'
+  fallbackValue?: string
+  locked?: boolean
+  validation?: {
+    allowedValues?: string[]
+  }
+}
+
+export type DataAssemblyNumberParameter = DataAssemblyParameterMetadata & {
+  type: 'Number'
+  fallbackValue?: number
+  locked?: boolean
+  validation?: {
+    min?: number
+    max?: number
+  }
+}
+
+export type DataAssemblyOrderDirection = 'asc' | 'desc'
+
+export type DataAssemblyOrderTerm = {
+  path: string
+  direction: DataAssemblyOrderDirection
+}
+
+export type DataAssemblyOrderExpressionParameter = DataAssemblyParameterMetadata & {
+  type: 'OrderExpression'
+  fallbackValue?: DataAssemblyOrderTerm[]
+  locked?: boolean
+  target: {
+    resourceLink: string
+  }
+}
+
+export type DataAssemblyStringRecordField = DataAssemblyStringParameter & {
+  id: string
+}
+
+export type DataAssemblyNumberRecordField = DataAssemblyNumberParameter & {
+  id: string
+}
+
+export type DataAssemblyOrderExpressionRecordField = DataAssemblyOrderExpressionParameter & {
+  id: string
+}
+
+export type DataAssemblyRecordField =
+  | DataAssemblyStringRecordField
+  | DataAssemblyNumberRecordField
+  | DataAssemblyOrderExpressionRecordField
+
+export type DataAssemblyRecordParameter = DataAssemblyParameterMetadata & {
+  type: 'Record'
+  fields: DataAssemblyRecordField[]
+  locked?: boolean
+}
+
+/** A definition from either the legacy record or ordered-array representation. */
+export type DataAssemblyParameterDefinition =
+  | DataAssemblyResourceLinkParameter
+  | DataAssemblyStringParameter
+  | DataAssemblyNumberParameter
+  | DataAssemblyRecordParameter
+  | DataAssemblyOrderExpressionParameter
+
+/** Legacy Data Assemblies key parameter definitions by id. */
+export type LegacyDataAssemblyParameterConfig = Record<string, DataAssemblyParameterDefinition>
+
+/** An ordered definition carries its stable id alongside the definition. */
+export type DataAssemblyParameterDefinitionWithId = DataAssemblyParameterDefinition & {
+  id: string
+  required: boolean
+}
+
+/** Ordered Data Assemblies retain the exact caller-supplied item order. */
+export type OrderedDataAssemblyParameterConfig = DataAssemblyParameterDefinitionWithId[]
+
+export type DataAssemblyParameterConfig =
+  | LegacyDataAssemblyParameterConfig
+  | OrderedDataAssemblyParameterConfig
 
 export type DataAssemblyGraphQLResolver = {
   source: 'Contentful:GraphQL'
