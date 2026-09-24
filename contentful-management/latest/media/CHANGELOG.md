@@ -1,12 +1,3 @@
-## [12.18.2](https://github.com/contentful/contentful-management.js/compare/v12.18.1...v12.18.2) (2026-09-23)
-
-
-### Bug Fixes
-
-* **deps:** update dependency fast-copy to v4 ([#3144](https://github.com/contentful/contentful-management.js/issues/3144)) ([af10ae2](https://github.com/contentful/contentful-management.js/commit/af10ae2f10710bbe2b664dd596dae21fbc1ed76a))
-* **deps:** update dependency globals to v17 ([#3145](https://github.com/contentful/contentful-management.js/issues/3145)) ([7801565](https://github.com/contentful/contentful-management.js/commit/7801565bc6880ff4c256ab2cdd96e1edda9289a9))
-* use named fast-copy imports for v4 ([#3146](https://github.com/contentful/contentful-management.js/issues/3146)) ([e8f8610](https://github.com/contentful/contentful-management.js/commit/e8f86109432d49299c7a1069aa034a58bd8c7ef0))
-
 <!-- shared header  START -->
 
 <p align="center">
