@@ -9,6 +9,7 @@ import type {
 } from '../common-types'
 import type {
   ComponentTypeViewport,
+  DesignPropertyValue,
   DimensionedDesignPropertyValue,
   ExperienceFragmentNode,
 } from './component-type'
@@ -43,7 +44,7 @@ export type ExperienceFragmentProps = {
   name: string
   description: string
   viewports?: ComponentTypeViewport[]
-  designProperties: Record<string, DimensionedDesignPropertyValue>
+  designProperties: Record<string, DesignPropertyValue | DimensionedDesignPropertyValue>
   contentBindings?: ExperienceContentBindings
   metadata?: ExperienceMetadataProps
   slots?: Record<string, Array<ExperienceFragmentNode | InlineExperienceFragmentNode>>
