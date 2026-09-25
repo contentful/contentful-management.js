@@ -53,8 +53,20 @@ If you are affected by any of the items below, follow the upgrade guides in the 
 - Code using the `ClientParams` type ([ClientParams type removed](#clientparams-type-removed))
 - Code using `ContentfulEntryApi` or other `*Api` types ([API type naming standardized](#api-type-naming-standardized))
 - Code using the `alphaFeatures` option in `createClient` ([alphaFeatures option removed](#alphafeatures-option-removed))
+- TypeScript code that reads Experience Framework `viewports` or assumes all design property values are dimensioned ([Experience Framework response types](#experience-framework-response-types))
 
 ### Breaking Changes
+
+#### Experience Framework response types
+
+Experience Framework API responses can omit the deprecated `viewports` field. The SDK now models `viewports` as optional on `ComponentProps`, `ComponentTypeProps`, `ExperienceProps`, `ExperienceFragmentProps`, `ExperienceTemplateProps`, `FragmentProps`, and `TemplateProps`.
+
+When `viewports` is absent, Experience and Experience Fragment design-property values can be flattened instead of keyed by viewport. Their `designProperties` fields, including inline and legacy Fragment variants, now accept either flattened or viewport-keyed values.
+
+**Migration:**
+
+- Guard accesses to `viewports`, for example with `experience.viewports ?? []`.
+- Narrow each design-property value before treating it as a viewport-keyed map. Existing viewport-keyed values remain supported when `viewports` is present.
 
 #### Node.js v20+ support
 
