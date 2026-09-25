@@ -18,9 +18,7 @@ export interface Snapshot<T> extends SnapshotProps<T>, DefaultElements<SnapshotP
  * @internal
  */
 function createSnapshotApi() {
-  return {
-    /* In case the snapshot object evolve later */
-  }
+  return {/* In case the snapshot object evolve later */}
 }
 /**
  * @internal

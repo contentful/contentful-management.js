@@ -10,8 +10,7 @@ export type ContentSemanticsSettingsProps = {
 }
 
 export interface ContentSemanticsSettings
-  extends ContentSemanticsSettingsProps,
-    DefaultElements<ContentSemanticsSettingsProps> {}
+  extends ContentSemanticsSettingsProps, DefaultElements<ContentSemanticsSettingsProps> {}
 
 export function wrapContentSemanticsSettings(
   _makeRequest: MakeRequest,

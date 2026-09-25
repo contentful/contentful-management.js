@@ -88,9 +88,7 @@ function createReleaseActionApi(makeRequest: MakeRequest) {
 }
 
 export interface ReleaseAction<T extends ReleaseActionTypes = any>
-  extends ReleaseActionProps<T>,
-    ReleaseActionApiMethods,
-    DefaultElements<ReleaseActionProps<T>> {}
+  extends ReleaseActionProps<T>, ReleaseActionApiMethods, DefaultElements<ReleaseActionProps<T>> {}
 
 /**
  * @internal

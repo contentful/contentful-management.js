@@ -22,8 +22,7 @@ export type AppInstallationProps = {
 export type CreateAppInstallationProps = Except<AppInstallationProps, 'sys'>
 
 export interface AppInstallation
-  extends AppInstallationProps,
-    DefaultElements<AppInstallationProps> {
+  extends AppInstallationProps, DefaultElements<AppInstallationProps> {
   /**
    * Sends an update to the server with any changes made to the object's properties
    * @returns Object returned from the server with updated changes.

@@ -93,9 +93,7 @@ export interface AppActionCallRawResponseProps {
 }
 
 export interface AppActionCallResponseData
-  extends AppActionCallResponse,
-    DefaultElements<AppActionCallResponse>,
-    AppActionCallApi {}
+  extends AppActionCallResponse, DefaultElements<AppActionCallResponse>, AppActionCallApi {}
 
 export type AppActionCall = AppActionCallProps & DefaultElements<AppActionCallProps>
 

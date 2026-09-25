@@ -36,8 +36,7 @@ export type WorkflowsChangelogEntryProps = {
 }
 
 export interface WorkflowsChangelogEntry
-  extends WorkflowsChangelogEntryProps,
-    DefaultElements<WorkflowsChangelogEntryProps> {}
+  extends WorkflowsChangelogEntryProps, DefaultElements<WorkflowsChangelogEntryProps> {}
 
 /**
  * @internal

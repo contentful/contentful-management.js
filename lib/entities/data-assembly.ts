@@ -28,8 +28,7 @@ export type LegacyDataAssemblyDataTypeField = {
 }
 
 export type DataAssemblyDataTypeField =
-  | CanonicalDataAssemblyDataTypeField
-  | LegacyDataAssemblyDataTypeField
+  CanonicalDataAssemblyDataTypeField | LegacyDataAssemblyDataTypeField
 
 export type DataAssemblyResourceLinkParameter = {
   name?: string
@@ -58,8 +57,7 @@ export type DataAssemblyNestedResolver = {
 }
 
 export type DataAssemblyResolverDefinition =
-  | DataAssemblyGraphQLResolver
-  | DataAssemblyNestedResolver
+  DataAssemblyGraphQLResolver | DataAssemblyNestedResolver
 
 export type DataAssemblyResolverConfig = Record<string, DataAssemblyResolverDefinition>
 

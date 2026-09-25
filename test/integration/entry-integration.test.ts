@@ -1127,7 +1127,6 @@ describe('Entry Api', () => {
       let xSpaceDisabledSpace
       let xSpaceDisabledEnvironment
       let xSpaceDisabledContentType
-      let xSpaceDisabledEntryId
 
       beforeAll(async () => {
         // Creating a new space that has the x-space feature disabled
@@ -1144,11 +1143,8 @@ describe('Entry Api', () => {
       })
 
       afterEach(async () => {
-        if (xSpaceDisabledEntryId) {
-          await xSpaceDisabledEnvironment.deleteEntry(xSpaceDisabledEntryId)
-          await xSpaceDisabledContentType.unpublish()
-          await xSpaceDisabledContentType.delete()
-        }
+        await xSpaceDisabledContentType.unpublish()
+        await xSpaceDisabledContentType.delete()
       })
 
       afterAll(async () => {
