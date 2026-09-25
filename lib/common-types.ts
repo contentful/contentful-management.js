@@ -369,12 +369,7 @@ export type TypeRefDataTypeDefinition = BaseDataTypeDefinition & {
 }
 
 export type JsonValue =
-  | string
-  | number
-  | boolean
-  | null
-  | JsonValue[]
-  | { [key: string]: JsonValue }
+  string | number | boolean | null | JsonValue[] | { [key: string]: JsonValue }
 
 export type LiteralDataTypeDefinition = BaseDataTypeDefinition & {
   type: 'Literal'
@@ -587,16 +582,19 @@ export interface CollectionProp<TObj> {
   items: TObj[]
 }
 
-export interface CursorPaginatedCollectionProp<TObj>
-  extends Omit<CollectionProp<TObj>, 'total' | 'skip'> {
+export interface CursorPaginatedCollectionProp<TObj> extends Omit<
+  CollectionProp<TObj>,
+  'total' | 'skip'
+> {
   pages?: {
     next?: string
     prev?: string
   }
 }
 
-export interface ExoCursorPaginatedCollectionProp<TObj>
-  extends CursorPaginatedCollectionProp<TObj> {
+export interface ExoCursorPaginatedCollectionProp<
+  TObj,
+> extends CursorPaginatedCollectionProp<TObj> {
   total?: number
   pages: {
     next?: string
@@ -605,11 +603,11 @@ export interface ExoCursorPaginatedCollectionProp<TObj>
 }
 
 export interface Collection<T, TPlain>
-  extends CollectionProp<T>,
-    DefaultElements<CollectionProp<TPlain>> {}
+  extends CollectionProp<T>, DefaultElements<CollectionProp<TPlain>> {}
 
 export interface CursorPaginatedCollection<T, TPlain>
-  extends CursorPaginatedCollectionProp<T>,
+  extends
+    CursorPaginatedCollectionProp<T>,
     DefaultElements<CursorPaginatedCollectionProp<TPlain>> {}
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -654,9 +652,7 @@ interface CursorPaginationNone extends CursorPaginationBase {
 }
 
 export type CursorPaginationParams =
-  | CursorPaginationPageNext
-  | CursorPaginationPagePrev
-  | CursorPaginationNone
+  CursorPaginationPageNext | CursorPaginationPagePrev | CursorPaginationNone
 
 type StartOperator = 'gt' | 'gte'
 type EndOperator = 'lt' | 'lte'
@@ -673,11 +669,9 @@ type WithOneOperator<P extends string, C extends ComparisonOperator, O extends C
   [K in WithComparisonOperator<P, Exclude<C, O>>]?: never
 }
 type WithStartOperator<P extends string> =
-  | WithOneOperator<P, StartOperator, 'gt'>
-  | WithOneOperator<P, StartOperator, 'gte'>
+  WithOneOperator<P, StartOperator, 'gt'> | WithOneOperator<P, StartOperator, 'gte'>
 type WithEndOperator<P extends string> =
-  | WithOneOperator<P, EndOperator, 'lt'>
-  | WithOneOperator<P, EndOperator, 'lte'>
+  WithOneOperator<P, EndOperator, 'lt'> | WithOneOperator<P, EndOperator, 'lte'>
 
 // Type for valid date range combinations - only start, only end, or both
 type IntervalQuery<P extends string> =

@@ -16,8 +16,7 @@ export type CreateSpaceMembershipProps = Omit<SpaceMembershipProps, 'sys' | 'use
 }
 
 export interface SpaceMembership
-  extends SpaceMembershipProps,
-    DefaultElements<SpaceMembershipProps> {
+  extends SpaceMembershipProps, DefaultElements<SpaceMembershipProps> {
   /**
    * Deletes this object on the server.
    * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.

@@ -117,8 +117,7 @@ export type EditorInterfaceProps = {
 }
 
 export interface EditorInterface
-  extends EditorInterfaceProps,
-    DefaultElements<EditorInterfaceProps> {
+  extends EditorInterfaceProps, DefaultElements<EditorInterfaceProps> {
   /**
    * Gets a control for a specific field
    * @returns control object for specific field

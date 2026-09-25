@@ -25,8 +25,7 @@ export type SemanticReferenceSuggestionsProps = {
 }
 
 export interface SemanticReferenceSuggestions
-  extends SemanticReferenceSuggestionsProps,
-    DefaultElements<SemanticReferenceSuggestionsProps> {}
+  extends SemanticReferenceSuggestionsProps, DefaultElements<SemanticReferenceSuggestionsProps> {}
 
 export function wrapSemanticReferenceSuggestions(
   _makeRequest: MakeRequest,

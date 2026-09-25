@@ -77,9 +77,7 @@ export interface AutomationDefinitionLoopStep extends AutomationDefinitionBaseSt
 }
 
 export type AutomationDefinitionStep =
-  | AutomationDefinitionActionStep
-  | AutomationDefinitionConditionStep
-  | AutomationDefinitionLoopStep
+  AutomationDefinitionActionStep | AutomationDefinitionConditionStep | AutomationDefinitionLoopStep
 
 export type AutomationDefinitionSysProps = Pick<
   BasicMetaSysProps,

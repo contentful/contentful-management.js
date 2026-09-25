@@ -35,8 +35,7 @@ export type UpsertResourceProviderProps = Omit<ResourceProviderProps, 'sys'> & {
 }
 
 export interface ResourceProvider
-  extends ResourceProviderProps,
-    DefaultElements<ResourceProviderProps> {
+  extends ResourceProviderProps, DefaultElements<ResourceProviderProps> {
   upsert(): Promise<ResourceProvider>
   delete(): Promise<void>
   upsertResourceType(id: string, data: UpsertResourceTypeProps): Promise<ResourceType>

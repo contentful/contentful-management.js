@@ -227,9 +227,7 @@ type ContentTypeApi = {
 }
 
 export interface ContentType
-  extends ContentTypeProps,
-    DefaultElements<ContentTypeProps>,
-    ContentTypeApi {}
+  extends ContentTypeProps, DefaultElements<ContentTypeProps>, ContentTypeApi {}
 
 /**
  * @internal

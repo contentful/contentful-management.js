@@ -49,9 +49,7 @@ export enum WorkflowStepActionType {
   Task = 'task',
 }
 export type WorkflowStepAction =
-  | WorkflowStepEmailAction
-  | WorkflowStepTaskAction
-  | WorkflowStepAppAction
+  WorkflowStepEmailAction | WorkflowStepTaskAction | WorkflowStepAppAction
 
 export type WorkflowStepEmailActionRecipient = string | Link<'User'> | Link<'Team'>
 
@@ -142,7 +140,8 @@ type WorkflowDefinitionApi = {
 }
 
 export interface WorkflowDefinition
-  extends WorkflowDefinitionProps,
+  extends
+    WorkflowDefinitionProps,
     DefaultElements<WorkflowDefinitionProps>,
     WorkflowDefinitionApi {}
 

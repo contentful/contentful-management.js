@@ -11,8 +11,7 @@ export type UploadCredentialProps = {
 }
 
 export interface UploadCredential
-  extends UploadCredentialProps,
-    DefaultElements<UploadCredentialProps> {
+  extends UploadCredentialProps, DefaultElements<UploadCredentialProps> {
   /**
    * creates the upload credentials.
    * @returns upload credentials for file uploads

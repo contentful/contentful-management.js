@@ -45,12 +45,7 @@ export type ResourceTypeProps = {
 const publicResourceTypeFields = ['name'] as const
 
 type OptionalSysFields =
-  | 'createdAt'
-  | 'createdBy'
-  | 'updatedAt'
-  | 'updatedBy'
-  | 'appDefinition'
-  | 'organization'
+  'createdAt' | 'createdBy' | 'updatedAt' | 'updatedBy' | 'appDefinition' | 'organization'
 
 export type SpaceEnvResourceTypeProps = Pick<
   ResourceTypeProps,

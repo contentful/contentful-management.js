@@ -16,18 +16,10 @@ import enhanceWithMethods from '../enhance-with-methods'
 export type TaskStatus = 'active' | 'resolved'
 
 export type TaskParentEntityType =
-  | 'Entry'
-  | 'Experience'
-  | 'ExperienceFragment'
-  | 'ExperienceTemplate'
-  | 'Component'
+  'Entry' | 'Experience' | 'ExperienceFragment' | 'ExperienceTemplate' | 'Component'
 
 export type TaskParentEntityPath =
-  | 'entries'
-  | 'experiences'
-  | 'experience_fragments'
-  | 'experience_templates'
-  | 'components'
+  'entries' | 'experiences' | 'experience_fragments' | 'experience_templates' | 'components'
 
 export type TaskSysProps = Pick<
   BasicMetaSysProps,

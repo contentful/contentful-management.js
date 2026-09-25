@@ -22,8 +22,7 @@ export type CreatePersonalAccessTokenProps = Pick<PersonalAccessToken, 'name' | 
 }
 
 export interface PersonalAccessToken
-  extends PersonalAccessTokenProps,
-    DefaultElements<PersonalAccessTokenProps> {
+  extends PersonalAccessTokenProps, DefaultElements<PersonalAccessTokenProps> {
   /**
    * Revokes a personal access token
    * @returns Object the revoked personal access token

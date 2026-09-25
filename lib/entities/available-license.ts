@@ -41,8 +41,7 @@ export type AvailableLicenseProps = {
  * Available License entity with enhanced methods
  */
 export interface AvailableLicense
-  extends AvailableLicenseProps,
-    DefaultElements<AvailableLicenseProps> {}
+  extends AvailableLicenseProps, DefaultElements<AvailableLicenseProps> {}
 
 /**
  * @internal

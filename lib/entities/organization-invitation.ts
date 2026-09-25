@@ -18,8 +18,7 @@ export type OrganizationInvitationProps = {
 export type CreateOrganizationInvitationProps = Omit<OrganizationInvitationProps, 'sys'>
 
 export interface OrganizationInvitation
-  extends OrganizationInvitationProps,
-    DefaultElements<OrganizationInvitationProps> {}
+  extends OrganizationInvitationProps, DefaultElements<OrganizationInvitationProps> {}
 
 /**
  * @internal
