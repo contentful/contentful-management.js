@@ -8,8 +8,7 @@ import type {
 } from '../common-types'
 import type {
   ComponentTypeViewport,
-  DesignPropertyValue,
-  DimensionedDesignPropertyValue,
+  EntityDesignProperties,
   ExperienceFragmentNode,
 } from './component-type'
 
@@ -47,7 +46,7 @@ type ExperienceCommonProps = {
   name: string
   description: string
   viewports?: ComponentTypeViewport[]
-  designProperties: Record<string, DesignPropertyValue | DimensionedDesignPropertyValue>
+  designProperties: EntityDesignProperties
   contentBindings?: ExperienceContentBindings
   metadata?: ExperienceMetadataProps
   slots?: Record<string, Array<ExperienceFragmentNode | InlineExperienceFragmentNode>>
@@ -84,7 +83,7 @@ export type InlineExperienceFragmentNode = {
   id: string
   nodeType: 'InlineExperienceFragment'
   component: ResourceLink<'Contentful:Component'>
-  designProperties: Record<string, DesignPropertyValue | DimensionedDesignPropertyValue>
+  designProperties: EntityDesignProperties
   contentBindings?: ExperienceContentBindings
   slots?: Record<string, Array<ExperienceFragmentNode | InlineExperienceFragmentNode>>
 }

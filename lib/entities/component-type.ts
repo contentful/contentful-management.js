@@ -117,6 +117,11 @@ export type DesignPropertyValue = ManualDesignValue | DesignTokenValue
 
 export type DimensionedDesignPropertyValue = Record<string, DesignPropertyValue>
 
+export type EntityDesignProperties = Record<
+  string,
+  DesignPropertyValue | DimensionedDesignPropertyValue
+>
+
 export type ComponentTreeDesignPropertyValue =
   DesignPropertyValue | DesignPropertyPointerValue | DimensionedDesignPropertyValue
 

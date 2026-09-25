@@ -7,12 +7,7 @@ import type {
   Link,
   ResourceLink,
 } from '../common-types'
-import type {
-  ComponentTypeViewport,
-  DesignPropertyValue,
-  DimensionedDesignPropertyValue,
-  FragmentNode,
-} from './component-type'
+import type { ComponentTypeViewport, EntityDesignProperties, FragmentNode } from './component-type'
 import type { ExperienceContentBindings } from './experience'
 
 // Legacy inline node for Fragment slot trees. The Experience entity has migrated to
@@ -25,7 +20,7 @@ export type InlineFragmentNode = {
   id: string
   nodeType: 'InlineFragment'
   componentType: ResourceLink<'Contentful:ComponentType'>
-  designProperties: Record<string, DesignPropertyValue | DimensionedDesignPropertyValue>
+  designProperties: EntityDesignProperties
   contentBindings?: ExperienceContentBindings
   slots?: Record<string, Array<FragmentNode | InlineFragmentNode>>
 }
@@ -67,7 +62,7 @@ export type FragmentProps = {
   name: string
   description: string
   viewports?: ComponentTypeViewport[]
-  designProperties: Record<string, DesignPropertyValue | DimensionedDesignPropertyValue>
+  designProperties: EntityDesignProperties
   contentBindings?: ExperienceContentBindings
   metadata?: ExperienceMetadataProps
   slots?: Record<string, Array<FragmentNode | InlineFragmentNode>>
