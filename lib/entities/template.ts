@@ -50,7 +50,7 @@ export type TemplateProps = {
   sys: TemplateSys
   name: string
   description: string
-  viewports: ComponentTypeViewport[]
+  viewports?: ComponentTypeViewport[]
   contentProperties: ComponentTypeContentProperty[]
   designProperties: ComponentTypeDesignProperty[]
   componentTree?: TreeNode[]
