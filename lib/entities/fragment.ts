@@ -9,6 +9,7 @@ import type {
 } from '../common-types'
 import type {
   ComponentTypeViewport,
+  DesignPropertyValue,
   DimensionedDesignPropertyValue,
   FragmentNode,
 } from './component-type'
@@ -24,7 +25,7 @@ export type InlineFragmentNode = {
   id: string
   nodeType: 'InlineFragment'
   componentType: ResourceLink<'Contentful:ComponentType'>
-  designProperties: Record<string, DimensionedDesignPropertyValue>
+  designProperties: Record<string, DesignPropertyValue | DimensionedDesignPropertyValue>
   contentBindings?: ExperienceContentBindings
   slots?: Record<string, Array<FragmentNode | InlineFragmentNode>>
 }
@@ -66,7 +67,7 @@ export type FragmentProps = {
   name: string
   description: string
   viewports?: ComponentTypeViewport[]
-  designProperties: Record<string, DimensionedDesignPropertyValue>
+  designProperties: Record<string, DesignPropertyValue | DimensionedDesignPropertyValue>
   contentBindings?: ExperienceContentBindings
   metadata?: ExperienceMetadataProps
   slots?: Record<string, Array<FragmentNode | InlineFragmentNode>>
