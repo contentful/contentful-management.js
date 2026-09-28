@@ -5,14 +5,7 @@ import { wrapCollection } from '../common-utils'
 import type { DefaultElements, BasicMetaSysProps, SysLink, MakeRequest } from '../common-types'
 
 export type ActionType =
-  | 'read'
-  | 'create'
-  | 'update'
-  | 'delete'
-  | 'publish'
-  | 'unpublish'
-  | 'archive'
-  | 'unarchive'
+  'read' | 'create' | 'update' | 'delete' | 'publish' | 'unpublish' | 'archive' | 'unarchive'
 
 type ConditionType = 'and' | 'or' | 'not' | 'equals'
 export type ConstraintType = {

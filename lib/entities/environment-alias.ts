@@ -21,8 +21,7 @@ export type EnvironmentAliasProps = {
 export type CreateEnvironmentAliasProps = Omit<EnvironmentAliasProps, 'sys'>
 
 export interface EnvironmentAlias
-  extends EnvironmentAliasProps,
-    DefaultElements<EnvironmentAliasProps> {
+  extends EnvironmentAliasProps, DefaultElements<EnvironmentAliasProps> {
   /**
    * Sends an update to the server with any changes made to the object's properties. Currently, you can only change the id of the alias's underlying environment. See the example below.
    * @memberof EnvironmentAlias

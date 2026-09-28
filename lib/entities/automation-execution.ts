@@ -6,11 +6,7 @@ import type {
 } from '../common-types'
 
 export type AutomationExecutionStatus =
-  | 'SCHEDULED'
-  | 'IN_PROGRESS'
-  | 'FAILED'
-  | 'COMPLETED'
-  | 'CANCELED'
+  'SCHEDULED' | 'IN_PROGRESS' | 'FAILED' | 'COMPLETED' | 'CANCELED'
 
 export interface AutomationExecutionError {
   stepName: string
@@ -37,7 +33,6 @@ export interface AutomationExecutionQueryOptions extends BasicCursorPaginationOp
   uniqueBy?: string
 }
 
-export interface AutomationExecutionByDefinitionQueryOptions
-  extends AutomationExecutionQueryOptions {
+export interface AutomationExecutionByDefinitionQueryOptions extends AutomationExecutionQueryOptions {
   order?: 'sys.createdAt' | '-sys.createdAt' | 'sys.updatedAt' | '-sys.updatedAt'
 }

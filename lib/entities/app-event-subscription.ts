@@ -35,8 +35,7 @@ export type AppEventSubscriptionProps = {
 export type CreateAppEventSubscriptionProps = Except<AppEventSubscriptionProps, 'sys'>
 
 export interface AppEventSubscription
-  extends AppEventSubscriptionProps,
-    DefaultElements<AppEventSubscriptionProps> {
+  extends AppEventSubscriptionProps, DefaultElements<AppEventSubscriptionProps> {
   /**
    * Deletes this object on the server.
    * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.

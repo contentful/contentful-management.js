@@ -33,11 +33,11 @@ export type CreateContentSemanticsIndexProps = {
 }
 
 export interface ContentSemanticsIndex
-  extends ContentSemanticsIndexProps,
-    DefaultElements<ContentSemanticsIndexProps> {}
+  extends ContentSemanticsIndexProps, DefaultElements<ContentSemanticsIndexProps> {}
 
 export interface ContentSemanticsIndexCollection
-  extends ContentSemanticsIndexCollectionProps,
+  extends
+    ContentSemanticsIndexCollectionProps,
     DefaultElements<ContentSemanticsIndexCollectionProps> {}
 
 export function wrapContentSemanticsIndex(

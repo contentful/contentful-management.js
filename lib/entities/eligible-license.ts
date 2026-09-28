@@ -55,8 +55,7 @@ export type EligibleLicenseProps = {
  * Eligible License entity with enhanced methods
  */
 export interface EligibleLicense
-  extends EligibleLicenseProps,
-    DefaultElements<EligibleLicenseProps> {}
+  extends EligibleLicenseProps, DefaultElements<EligibleLicenseProps> {}
 
 /**
  * @internal

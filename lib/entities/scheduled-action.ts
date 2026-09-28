@@ -43,8 +43,10 @@ interface ScheduledActionFailedError {
   details?: { errors: ErrorDetail[] }
 }
 
-export interface CursorPaginatedCollectionProp<TObj>
-  extends Omit<CollectionProp<TObj>, 'total' | 'skip'> {
+export interface CursorPaginatedCollectionProp<TObj> extends Omit<
+  CollectionProp<TObj>,
+  'total' | 'skip'
+> {
   pages?: BasicCursorPaginationOptions
 }
 
@@ -124,9 +126,7 @@ export type ScheduledActionApi = {
 }
 
 export interface ScheduledAction
-  extends ScheduledActionProps,
-    DefaultElements<ScheduledActionProps>,
-    ScheduledActionApi {}
+  extends ScheduledActionProps, DefaultElements<ScheduledActionProps>, ScheduledActionApi {}
 
 export default function getInstanceMethods(makeRequest: MakeRequest): ScheduledActionApi {
   const getParams = (self: ScheduledAction) => {

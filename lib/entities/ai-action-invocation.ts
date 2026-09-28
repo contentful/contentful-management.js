@@ -104,8 +104,7 @@ export type AiActionInvocationType = {
  * This entity is read-only and primarily used to inspect the result of an AI action invocation.
  */
 export interface AiActionInvocation
-  extends AiActionInvocationProps,
-    DefaultElements<AiActionInvocationProps> {}
+  extends AiActionInvocationProps, DefaultElements<AiActionInvocationProps> {}
 
 /**
  * Wraps raw AI Action Invocation data with SDK helper methods.

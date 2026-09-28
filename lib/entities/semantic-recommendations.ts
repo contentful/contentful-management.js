@@ -25,8 +25,7 @@ export type SemanticRecommendationsProps = {
 }
 
 export interface SemanticRecommendations
-  extends SemanticRecommendationsProps,
-    DefaultElements<SemanticRecommendationsProps> {}
+  extends SemanticRecommendationsProps, DefaultElements<SemanticRecommendationsProps> {}
 
 export function wrapSemanticRecommendations(
   _makeRequest: MakeRequest,

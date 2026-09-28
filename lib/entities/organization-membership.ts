@@ -22,8 +22,7 @@ export type OrganizationMembershipProps = {
 }
 
 export interface OrganizationMembership
-  extends OrganizationMembershipProps,
-    DefaultElements<OrganizationMembershipProps> {
+  extends OrganizationMembershipProps, DefaultElements<OrganizationMembershipProps> {
   /**
    * Sends an update to the server with any changes made to the object's properties
    * @returns Object returned from the server with updated changes.

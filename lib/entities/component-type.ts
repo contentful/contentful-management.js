@@ -93,9 +93,7 @@ export type TokenBackedDesignProperty = DesignPropertyCommonFields & {
 
 // Discriminated union covering all upstream design property arms
 export type ComponentTypeDesignProperty =
-  | StringDesignProperty
-  | BooleanDesignProperty
-  | TokenBackedDesignProperty
+  StringDesignProperty | BooleanDesignProperty | TokenBackedDesignProperty
 
 // Content property pointer value types
 export type ContentPropertyPointerValue = `$contentProperties/${string}`
@@ -120,9 +118,7 @@ export type DesignPropertyValue = ManualDesignValue | DesignTokenValue
 export type DimensionedDesignPropertyValue = Record<string, DesignPropertyValue>
 
 export type ComponentTreeDesignPropertyValue =
-  | DesignPropertyValue
-  | DesignPropertyPointerValue
-  | DimensionedDesignPropertyValue
+  DesignPropertyValue | DesignPropertyPointerValue | DimensionedDesignPropertyValue
 
 // Tree node types for component tree
 /**

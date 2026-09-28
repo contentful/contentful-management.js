@@ -24,8 +24,7 @@ export type CreateAppSigningSecretProps = {
 }
 
 export interface AppSigningSecret
-  extends AppSigningSecretProps,
-    DefaultElements<AppSigningSecretProps> {
+  extends AppSigningSecretProps, DefaultElements<AppSigningSecretProps> {
   /**
    * Deletes this object on the server.
    * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.

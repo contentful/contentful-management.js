@@ -41,8 +41,7 @@ export type UpdateOAuthApplicationProps = {
 }
 
 export interface OAuthApplication
-  extends OAuthApplicationProps,
-    DefaultElements<OAuthApplicationProps> {
+  extends OAuthApplicationProps, DefaultElements<OAuthApplicationProps> {
   /**
    * Deletes an OAuth application
    * @returns Promise for the deleted OAuth application

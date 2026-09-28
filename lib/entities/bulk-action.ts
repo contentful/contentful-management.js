@@ -44,9 +44,7 @@ interface BulkActionFailedError {
 }
 
 export type BulkActionPayload =
-  | BulkActionPublishPayload
-  | BulkActionUnpublishPayload
-  | BulkActionValidatePayload
+  BulkActionPublishPayload | BulkActionUnpublishPayload | BulkActionValidatePayload
 
 export interface BulkActionValidatePayload extends MakeRequestPayload {
   action?: 'publish'
@@ -172,9 +170,7 @@ function createBulkActionApi(makeRequest: MakeRequest) {
 }
 
 export interface BulkAction<T extends BulkActionPayload | BulkActionV2Payload = any>
-  extends BulkActionProps<T>,
-    BulkActionApiMethods,
-    DefaultElements<BulkActionProps<T>> {}
+  extends BulkActionProps<T>, BulkActionApiMethods, DefaultElements<BulkActionProps<T>> {}
 
 /**
  * @internal

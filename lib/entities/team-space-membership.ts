@@ -35,8 +35,7 @@ export type TeamSpaceMembershipProps = {
 export type CreateTeamSpaceMembershipProps = Omit<TeamSpaceMembershipProps, 'sys'>
 
 export interface TeamSpaceMembership
-  extends TeamSpaceMembershipProps,
-    DefaultElements<TeamSpaceMembershipProps> {
+  extends TeamSpaceMembershipProps, DefaultElements<TeamSpaceMembershipProps> {
   /**
    * Deletes this object on the server.
    * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.

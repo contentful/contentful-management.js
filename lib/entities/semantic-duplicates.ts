@@ -28,8 +28,7 @@ export type SemanticDuplicatesProps = {
 }
 
 export interface SemanticDuplicates
-  extends SemanticDuplicatesProps,
-    DefaultElements<SemanticDuplicatesProps> {}
+  extends SemanticDuplicatesProps, DefaultElements<SemanticDuplicatesProps> {}
 
 export function wrapSemanticDuplicates(
   _makeRequest: MakeRequest,

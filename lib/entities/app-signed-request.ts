@@ -37,8 +37,7 @@ export type CreateAppSignedRequestProps = {
 }
 
 export interface AppSignedRequest
-  extends AppSignedRequestProps,
-    DefaultElements<AppSignedRequestProps> {}
+  extends AppSignedRequestProps, DefaultElements<AppSignedRequestProps> {}
 
 /**
  * @internal

@@ -159,8 +159,7 @@ export type AggregatedUsageItemProps = {
 export type AggregatedUsageCollectionProps = CollectionProp<AggregatedUsageItemProps>
 
 export interface AggregatedUsage
-  extends AggregatedUsageItemProps,
-    DefaultElements<AggregatedUsageItemProps> {}
+  extends AggregatedUsageItemProps, DefaultElements<AggregatedUsageItemProps> {}
 
 /** @internal */
 export function wrapAggregatedUsage(
@@ -200,11 +199,9 @@ export type AssetBandwidthUsageDetailedCollectionProps = {
 }
 
 export interface AssetBandwidthUsage
-  extends AssetBandwidthUsageItemProps,
-    DefaultElements<AssetBandwidthUsageItemProps> {}
+  extends AssetBandwidthUsageItemProps, DefaultElements<AssetBandwidthUsageItemProps> {}
 
-export interface AssetBandwidthUsageDetailedCollection
-  extends DefaultElements<AssetBandwidthUsageDetailedCollectionProps> {
+export interface AssetBandwidthUsageDetailedCollection extends DefaultElements<AssetBandwidthUsageDetailedCollectionProps> {
   sys: { type: 'Array' }
   limit: number
   items: AssetBandwidthUsage[]

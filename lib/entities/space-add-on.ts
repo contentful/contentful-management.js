@@ -33,8 +33,7 @@ export type UpdateSpaceAddOnAllocationProps = {
 export interface SpaceAddOn extends SpaceAddOnProps, DefaultElements<SpaceAddOnProps> {}
 
 export interface SpaceAddOnOrganization
-  extends SpaceAddOnOrganizationProps,
-    DefaultElements<SpaceAddOnOrganizationProps> {}
+  extends SpaceAddOnOrganizationProps, DefaultElements<SpaceAddOnOrganizationProps> {}
 
 /**
  * @internal
