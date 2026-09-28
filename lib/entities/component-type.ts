@@ -117,6 +117,11 @@ export type DesignPropertyValue = ManualDesignValue | DesignTokenValue
 
 export type DimensionedDesignPropertyValue = Record<string, DesignPropertyValue>
 
+export type EntityDesignProperties = Record<
+  string,
+  DesignPropertyValue | DimensionedDesignPropertyValue
+>
+
 export type ComponentTreeDesignPropertyValue =
   DesignPropertyValue | DesignPropertyPointerValue | DimensionedDesignPropertyValue
 
@@ -256,7 +261,7 @@ export type ComponentTypeProps = {
   sys: ComponentTypeSys
   name: string
   description: string
-  viewports: ComponentTypeViewport[]
+  viewports?: ComponentTypeViewport[]
   contentProperties: ComponentTypeContentProperty[]
   designProperties: ComponentTypeDesignProperty[]
   componentTree?: TreeNode[]
