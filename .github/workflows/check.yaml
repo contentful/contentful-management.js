@@ -28,7 +28,7 @@ jobs:
         with:
           path: |
             dist 
-          key: build-cache-${{ github.run_id }}-${{ github.run_attempt }}
+          key: build-cache-${{ github.run_id }}
           fail-on-cache-miss: true
 
       - name: Run linter
