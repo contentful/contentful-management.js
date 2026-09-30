@@ -48,8 +48,7 @@ export type DataAssemblyAllowedAssetResource = {
 }
 
 export type DataAssemblyAllowedResource =
-  | DataAssemblyAllowedEntryResource
-  | DataAssemblyAllowedAssetResource
+  DataAssemblyAllowedEntryResource | DataAssemblyAllowedAssetResource
 
 /**
  * A ResourceLink definition may target entries, assets, or a mixed collection. `linkType` is
@@ -140,8 +139,7 @@ export type DataAssemblyParameterDefinitionWithId = DataAssemblyParameterDefinit
 export type OrderedDataAssemblyParameterConfig = DataAssemblyParameterDefinitionWithId[]
 
 export type DataAssemblyParameterConfig =
-  | LegacyDataAssemblyParameterConfig
-  | OrderedDataAssemblyParameterConfig
+  LegacyDataAssemblyParameterConfig | OrderedDataAssemblyParameterConfig
 
 export type DataAssemblyGraphQLResolver = {
   source: 'Contentful:GraphQL'
