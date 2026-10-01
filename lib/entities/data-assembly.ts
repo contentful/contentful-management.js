@@ -127,7 +127,7 @@ export type DataAssemblyParameterDefinition =
   | DataAssemblyOrderExpressionParameter
 
 /** Legacy Data Assemblies key parameter definitions by id. */
-export type LegacyDataAssemblyParameterConfig = Record<string, DataAssemblyParameterDefinition>
+type LegacyDataAssemblyParameterConfig = Record<string, DataAssemblyParameterDefinition>
 
 /** An ordered definition carries its stable id alongside the definition. */
 export type DataAssemblyParameterDefinitionWithId = DataAssemblyParameterDefinition & {
@@ -136,7 +136,7 @@ export type DataAssemblyParameterDefinitionWithId = DataAssemblyParameterDefinit
 }
 
 /** Ordered Data Assemblies retain the exact caller-supplied item order. */
-export type OrderedDataAssemblyParameterConfig = DataAssemblyParameterDefinitionWithId[]
+type OrderedDataAssemblyParameterConfig = DataAssemblyParameterDefinitionWithId[]
 
 export type DataAssemblyParameterConfig =
   LegacyDataAssemblyParameterConfig | OrderedDataAssemblyParameterConfig

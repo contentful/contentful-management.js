@@ -1,12 +1,13 @@
 import { describe, expectTypeOf, it } from 'vitest'
+import type { DataAssemblyParameterConfig } from '../index'
 import type {
   CreateDataAssemblyProps,
-  DataAssemblyParameterConfig,
   DataAssemblyProps,
-  LegacyDataAssemblyParameterConfig,
-  OrderedDataAssemblyParameterConfig,
   UpdateDataAssemblyProps,
 } from './data-assembly'
+
+type LegacyParameters = Exclude<DataAssemblyParameterConfig, unknown[]>
+type OrderedParameters = Extract<DataAssemblyParameterConfig, unknown[]>
 
 const legacyParameters = {
   entry: {
@@ -53,7 +54,7 @@ const legacyParameters = {
     type: 'OrderExpression',
     target: { resourceLink: 'entry' },
   },
-} satisfies LegacyDataAssemblyParameterConfig
+} satisfies LegacyParameters
 
 const orderedParameters = [
   {
@@ -85,9 +86,9 @@ const orderedParameters = [
     required: false,
     target: { resourceLink: 'entry' },
   },
-] satisfies OrderedDataAssemblyParameterConfig
+] satisfies OrderedParameters
 
-const missingOrderedRequiredness: OrderedDataAssemblyParameterConfig = [
+const missingOrderedRequiredness: OrderedParameters = [
   // @ts-expect-error Ordered parameter definitions require top-level requiredness.
   { id: 'missing-required', type: 'String' },
 ]

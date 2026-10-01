@@ -2,8 +2,10 @@ import { describe, test, expect } from 'vitest'
 import setupRestAdapter from '../helpers/setupRestAdapter'
 import type {
   CreateDataAssemblyProps,
-  OrderedDataAssemblyParameterConfig,
+  DataAssemblyParameterConfig,
 } from '../../../../../lib/entities/data-assembly'
+
+type OrderedParameters = Extract<DataAssemblyParameterConfig, unknown[]>
 
 describe('Rest DataAssembly', { concurrent: true }, () => {
   test('getMany calls correct URL', async () => {
@@ -535,7 +537,7 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
       sys: { id: 'da123', type: 'DataAssembly', version: 1 },
     }
     const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
-    const parameters: OrderedDataAssemblyParameterConfig = [
+    const parameters: OrderedParameters = [
       {
         id: 'optional-title',
         type: 'String',

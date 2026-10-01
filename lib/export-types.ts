@@ -488,8 +488,6 @@ export type {
   DataAssemblyStringParameter,
   DataAssemblyStringRecordField,
   CreateDataAssemblyProps,
-  LegacyDataAssemblyParameterConfig,
-  OrderedDataAssemblyParameterConfig,
   UpdateDataAssemblyProps,
 } from './entities/data-assembly'
 export type {
