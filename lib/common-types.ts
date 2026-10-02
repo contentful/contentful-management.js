@@ -155,7 +155,13 @@ import type {
 import type { CreateRoleProps, RoleProps } from './entities/role'
 import type { ScheduledActionProps } from './entities/scheduled-action'
 import type { SnapshotProps } from './entities/snapshot'
-import type { SpaceProps, SpaceIncludes, SpaceIncludeParam, UnarchiveProps } from './entities/space'
+import type {
+  DeleteSpaceParams,
+  SpaceProps,
+  SpaceIncludes,
+  SpaceIncludeParam,
+  UnarchiveProps,
+} from './entities/space'
 import type {
   SpaceAddOnProps,
   SpaceAddOnOrganizationProps,
@@ -2806,7 +2812,7 @@ export type MRActions = {
       headers?: RawAxiosRequestHeaders
       return: SpaceProps
     }
-    delete: { params: GetSpaceParams; return: void }
+    delete: { params: DeleteSpaceParams; return: void }
   }
   SpaceMember: {
     get: { params: GetSpaceParams & { spaceMemberId: string }; return: SpaceMemberProps }

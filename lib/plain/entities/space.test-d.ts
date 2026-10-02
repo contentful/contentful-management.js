@@ -4,6 +4,7 @@ import type { SpaceIncludes, SpaceProps } from '../../entities/space'
 import type { SpacePlainClientAPI } from './space'
 
 type GetMany = SpacePlainClientAPI['getMany']
+type Delete = SpacePlainClientAPI['delete']
 type OffsetReturn = CollectionProp<SpaceProps> & { includes?: SpaceIncludes }
 type CursorReturn = CursorPaginatedCollectionProp<SpaceProps> & {
   includes?: SpaceIncludes
@@ -73,6 +74,14 @@ describe('SpacePlainClientAPI.getMany overloads', () => {
     void ((getMany: GetMany) => {
       // @ts-expect-error — cursor overload is XOR: pageNext and pagePrev are mutually exclusive
       getMany({ query: { pageNext: 'a', pagePrev: 'b' } })
+    })
+  })
+})
+
+describe('SpacePlainClientAPI.delete', () => {
+  it('accepts the current space version', () => {
+    void ((deleteSpace: Delete) => {
+      expectTypeOf(deleteSpace({ spaceId: 'space-id', version: 7 })).resolves.toBeAny()
     })
   })
 })
