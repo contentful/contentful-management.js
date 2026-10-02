@@ -96,4 +96,20 @@ describe('Rest Space', { concurrent: true }, () => {
       expect(httpMock.get.mock.calls[0][1].headers?.['X-Contentful-Organization']).to.eql('org-id')
     })
   })
+
+  describe('delete', () => {
+    test('sends the current version', async () => {
+      const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: {} }))
+
+      await adapterMock.makeRequest({
+        entityType: 'Space',
+        action: 'delete',
+        userAgent: 'mocked',
+        params: { spaceId: 'space-id', version: 7 },
+      })
+
+      expect(httpMock.delete.mock.calls[0][0]).to.eql('/spaces/space-id')
+      expect(httpMock.delete.mock.calls[0][1].headers['X-Contentful-Version']).to.eql(7)
+    })
+  })
 })

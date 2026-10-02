@@ -8,7 +8,12 @@ import type {
   GetOrganizationParams,
 } from '../../common-types'
 import type { OptionalDefaults } from '../wrappers/wrap'
-import type { SpaceIncludeParam, SpaceIncludes, SpaceProps } from '../../entities/space'
+import type {
+  DeleteSpaceParams,
+  SpaceIncludeParam,
+  SpaceIncludes,
+  SpaceProps,
+} from '../../entities/space'
 
 export type SpacePlainClientAPI = {
   /**
@@ -138,14 +143,16 @@ export type SpacePlainClientAPI = {
   ): Promise<SpaceProps>
   /**
    * Deletes a space
-   * @param params the space ID
+   * @param params the space ID and, when available, its current version
    * @returns void
    * @throws if the request fails, or the space is not found
    * @example ```javascript
+   * const space = await client.space.get({ spaceId: '<space_id>' });
    * await client.space.delete({
-   *   spaceId: '<space_id>',
+   *   spaceId: space.sys.id,
+   *   version: space.sys.version,
    * });
    * ```
    */
-  delete(params: OptionalDefaults<GetSpaceParams>): Promise<any>
+  delete(params: OptionalDefaults<DeleteSpaceParams>): Promise<any>
 }

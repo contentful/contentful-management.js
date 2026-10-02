@@ -1,6 +1,11 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import { copy } from 'fast-copy'
-import type { BasicMetaSysProps, DefaultElements, MakeRequest } from '../common-types'
+import type {
+  BasicMetaSysProps,
+  DefaultElements,
+  GetSpaceParams,
+  MakeRequest,
+} from '../common-types'
 import { wrapCollection, wrapCursorPaginatedCollection } from '../common-utils'
 import type { ContentfulSpaceAPI } from '../create-space-api'
 import createSpaceApi from '../create-space-api'
@@ -35,6 +40,8 @@ export type SpaceIncludeParam = { include?: 'sys.license' }
 export type UnarchiveProps = {
   productId: string
 }
+
+export type DeleteSpaceParams = GetSpaceParams & { version?: number }
 
 export type Space = SpaceProps & DefaultElements<SpaceProps> & ContentfulSpaceAPI
 

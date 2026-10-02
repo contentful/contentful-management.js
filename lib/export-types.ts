@@ -235,7 +235,7 @@ export type {
   ScheduledActionSysProps,
 } from './entities/scheduled-action'
 export type { Snapshot, SnapshotProps } from './entities/snapshot'
-export type { Space, SpaceProps } from './entities/space'
+export type { DeleteSpaceParams, Space, SpaceProps } from './entities/space'
 export type {
   SpaceAddOn,
   SpaceAddOnOrganization,
@@ -470,7 +470,23 @@ export type {
 export type {
   DataAssemblyCollection,
   DataAssemblyProps,
+  DataAssemblyAllowedAssetResource,
+  DataAssemblyAllowedEntryResource,
+  DataAssemblyAllowedResource,
+  DataAssemblyNumberParameter,
+  DataAssemblyNumberRecordField,
+  DataAssemblyOrderDirection,
+  DataAssemblyOrderExpressionParameter,
+  DataAssemblyOrderExpressionRecordField,
+  DataAssemblyOrderTerm,
+  DataAssemblyParameterConfig,
+  DataAssemblyParameterDefinition,
+  DataAssemblyParameterDefinitionWithId,
+  DataAssemblyRecordField,
+  DataAssemblyRecordParameter,
   DataAssemblyResourceLinkParameter,
+  DataAssemblyStringParameter,
+  DataAssemblyStringRecordField,
   CreateDataAssemblyProps,
   UpdateDataAssemblyProps,
 } from './entities/data-assembly'

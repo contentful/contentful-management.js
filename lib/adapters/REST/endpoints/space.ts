@@ -8,7 +8,7 @@ import type {
   GetSpaceParams,
   QueryParams,
 } from '../../../common-types'
-import type { SpaceProps, UnarchiveProps } from '../../../entities/space'
+import type { DeleteSpaceParams, SpaceProps, UnarchiveProps } from '../../../entities/space'
 import type { RestEndpoint } from '../types'
 import * as raw from './raw'
 
@@ -83,5 +83,10 @@ export const unarchive: RestEndpoint<'Space', 'unarchive'> = (
   })
 }
 
-export const del: RestEndpoint<'Space', 'delete'> = (http: AxiosInstance, params: GetSpaceParams) =>
-  raw.del(http, `/spaces/${params.spaceId}`)
+export const del: RestEndpoint<'Space', 'delete'> = (
+  http: AxiosInstance,
+  { version, ...params }: DeleteSpaceParams,
+) =>
+  raw.del(http, `/spaces/${params.spaceId}`, {
+    headers: { 'X-Contentful-Version': version ?? 0 },
+  })

@@ -50,8 +50,12 @@ describe('A createSpaceApi', () => {
   })
 
   test('API call space delete', async () => {
-    const { api } = setup(Promise.resolve({}))
+    const { api, makeRequest } = setup(Promise.resolve({}))
     await expect(api.delete()).resolves.not.toThrow()
+    expect(makeRequest.mock.calls[0][0].params).toEqual({
+      spaceId: spaceMock.sys.id,
+      version: spaceMock.sys.version,
+    })
   })
 
   test('API call space delete fails', async () => {
