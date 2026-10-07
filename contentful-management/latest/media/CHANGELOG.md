@@ -1,10 +1,3 @@
-# [12.19.0](https://github.com/contentful/contentful-management.js/compare/v12.18.2...v12.19.0) (2026-09-28)
-
-
-### Features
-
-* **exo:** support viewport-free exo responses [SPA-5371] ([#3149](https://github.com/contentful/contentful-management.js/issues/3149)) ([5ed6469](https://github.com/contentful/contentful-management.js/commit/5ed646919c0663e2da7676979afae0fd15c11587))
-
 <!-- shared header  START -->
 
 <p align="center">
