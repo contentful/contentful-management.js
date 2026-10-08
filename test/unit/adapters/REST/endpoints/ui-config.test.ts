@@ -32,4 +32,25 @@ describe('Rest UIConfig', () => {
       }
     })
   })
+
+  test('UIConfig update fails with custom error message', async () => {
+    const errorMessage = 'Network error'
+    const { adapterMock } = setup(Promise.reject(new Error(errorMessage)))
+    const entityMock = cloneMock('uiConfig')
+    const entity = wrapUIConfig((...args) => adapterMock.makeRequest(...args), entityMock)
+
+    try {
+      await entity.update()
+    } catch (error) {
+      expect(error).toEqual({
+        sys: {
+          type: 'Error',
+          id: 'Failed',
+        },
+        message: 'Update has failed',
+        details: 'Saved view could not be updated',
+        message_code: 'savedViews.update.Failed',
+      })
+    }
+  })
 })
