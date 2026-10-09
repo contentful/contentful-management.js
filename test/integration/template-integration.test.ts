@@ -1,7 +1,7 @@
 import { describe, it, beforeAll, afterAll, expect } from 'vitest'
 import { initPlainClient, timeoutToCalmRateLimiting } from '../helpers'
 import { TestDefaults } from '../defaults'
-import { testName, testViewport, sweepStaleExoEntities } from './utils/exo.utils'
+import { testName, sweepStaleExoEntities } from './utils/exo.utils'
 
 describe('Template Integration', { sequential: true }, () => {
   const client = initPlainClient({
@@ -20,7 +20,6 @@ describe('Template Integration', { sequential: true }, () => {
       {
         name: testName('Template'),
         description: 'Created by integration test',
-        viewports: [testViewport],
         contentProperties: [{ id: 'heading', name: 'Heading', type: 'String', required: false }],
         designProperties: [{ id: 'bgColor', name: 'Background Color', type: 'String' }],
       },

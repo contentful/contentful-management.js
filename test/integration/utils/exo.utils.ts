@@ -7,13 +7,6 @@ const testRunId = generateRandomId('exo')
 
 export const testName = (entity: string) => `${TEST_PREFIX} ${entity} ${testRunId}`
 
-export const testViewport = {
-  id: 'desktop',
-  query: '(min-width: 1024px)',
-  displayName: 'Desktop',
-  previewSize: '100%',
-} as const
-
 const EXO_CRN_PREFIX = 'crn:contentful:::experience:spaces/$self/environments/$self'
 
 const entityPaths: Record<string, string> = {

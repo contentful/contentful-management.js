@@ -72,7 +72,6 @@ export type ComponentTypePlainClientAPI = {
    * }, {
    *   name: 'My Component',
    *   description: 'A new component type',
-   *   viewports: [],
    *   contentProperties: [],
    *   designProperties: [],
    * });

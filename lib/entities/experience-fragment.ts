@@ -7,11 +7,7 @@ import type {
   Link,
   ResourceLink,
 } from '../common-types'
-import type {
-  ComponentTypeViewport,
-  EntityDesignProperties,
-  ExperienceFragmentNode,
-} from './component-type'
+import type { EntityDesignProperties, ExperienceFragmentNode } from './component-type'
 import type { ExperienceContentBindings, InlineExperienceFragmentNode } from './experience'
 
 export type ExperienceFragmentSys = {
@@ -42,7 +38,6 @@ export type ExperienceFragmentProps = {
   sys: ExperienceFragmentSys
   name: string
   description: string
-  viewports?: ComponentTypeViewport[]
   designProperties: EntityDesignProperties
   contentBindings?: ExperienceContentBindings
   metadata?: ExperienceMetadataProps

@@ -23,7 +23,6 @@ const variantResponse = {
   },
   name: 'Optimization Variant',
   description: 'An optimization variant',
-  viewports: [],
   designProperties: {},
 }
 
@@ -74,7 +73,6 @@ describe('Rest ExperienceFragmentVariant', { concurrent: true }, () => {
     const payload = {
       name: 'Optimization Variant',
       description: 'An optimization variant',
-      viewports: [],
       designProperties: {},
       component: {
         sys: {
@@ -108,7 +106,6 @@ describe('Rest ExperienceFragmentVariant', { concurrent: true }, () => {
       sys: { id: 'variant123', type: 'ExperienceFragment', version: 2 },
       name: 'Updated Optimization Variant',
       description: 'An updated optimization variant',
-      viewports: [],
       designProperties: {},
     }
 
