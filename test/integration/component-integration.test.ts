@@ -1,7 +1,7 @@
 import { describe, it, beforeAll, afterAll, expect } from 'vitest'
 import { initPlainClient, timeoutToCalmRateLimiting } from '../helpers'
 import { TestDefaults } from '../defaults'
-import { testName, testViewport, sweepStaleExoEntities } from './utils/exo.utils'
+import { testName, sweepStaleExoEntities } from './utils/exo.utils'
 
 describe('Component Integration', { sequential: true }, () => {
   const client = initPlainClient({
@@ -20,7 +20,6 @@ describe('Component Integration', { sequential: true }, () => {
       {
         name: testName('Component'),
         description: 'Created by integration test',
-        viewports: [testViewport],
         contentProperties: [{ id: 'title', name: 'Title', type: 'String', required: false }],
         designProperties: [{ id: 'color', name: 'Color', type: 'String' }],
       },
@@ -123,7 +122,7 @@ describe('Component Integration', { sequential: true }, () => {
   it('rejects creation with missing required fields', async () => {
     await expect(
       client.component.create({}, {
-        description: 'Should fail — missing name and viewports',
+        description: 'Should fail — missing name',
         contentProperties: [],
         designProperties: [],
       } as any),

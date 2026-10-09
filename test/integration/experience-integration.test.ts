@@ -1,7 +1,7 @@
 import { describe, it, beforeAll, afterAll, expect } from 'vitest'
 import { initPlainClient, timeoutToCalmRateLimiting } from '../helpers'
 import { TestDefaults } from '../defaults'
-import { testName, testViewport, sweepStaleExoEntities, makeResourceLink } from './utils/exo.utils'
+import { testName, sweepStaleExoEntities, makeResourceLink } from './utils/exo.utils'
 
 describe('Experience Integration', { sequential: true }, () => {
   const client = initPlainClient({
@@ -23,7 +23,6 @@ describe('Experience Integration', { sequential: true }, () => {
       {
         name: testName('Template for Experience'),
         description: 'Backing template for experience integration test',
-        viewports: [testViewport],
         contentProperties: [],
         designProperties: [],
       },
@@ -42,7 +41,6 @@ describe('Experience Integration', { sequential: true }, () => {
         name: testName('Experience'),
         description: 'Created by integration test',
         experienceTemplate: makeResourceLink('Contentful:ExperienceTemplate', templateId),
-        viewports: [testViewport],
         designProperties: {},
       },
     )
