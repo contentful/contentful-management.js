@@ -386,7 +386,6 @@ export type {
   CreateComponentTypeProps,
   /** @deprecated Use `UpsertComponentProps` instead */
   UpsertComponentTypeProps,
-  ComponentTypeViewport,
   ComponentTypeContentProperty,
   ComponentTypeDesignProperty,
   /** @deprecated Use `ComponentSlotDefinition` instead */

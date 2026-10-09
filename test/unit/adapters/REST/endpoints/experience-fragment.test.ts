@@ -122,7 +122,6 @@ describe('Rest ExperienceFragment', { concurrent: true }, () => {
           name: 'New Experience Fragment',
           description: 'A new experience fragment',
           component: componentLink,
-          viewports: [],
           designProperties: {},
         },
       })

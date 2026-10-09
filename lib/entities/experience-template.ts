@@ -10,7 +10,6 @@ import type {
   ComponentSlotDefinition,
   ComponentTypeContentProperty,
   ComponentTypeDesignProperty,
-  ComponentTypeViewport,
   DataAssemblyLink,
   TreeNodeV2,
 } from './component-type'
@@ -43,7 +42,6 @@ export type ExperienceTemplateProps = {
   sys: ExperienceTemplateSys
   name: string
   description: string
-  viewports?: ComponentTypeViewport[]
   contentProperties: ComponentTypeContentProperty[]
   designProperties: ComponentTypeDesignProperty[]
   componentTree?: TreeNodeV2[]

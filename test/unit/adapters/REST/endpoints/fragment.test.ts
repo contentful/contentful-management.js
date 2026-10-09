@@ -146,7 +146,6 @@ describe('Rest Fragment', { concurrent: true }, () => {
         payload: {
           name: 'New Fragment',
           componentType: { sys: { type: 'Link', linkType: 'ComponentType', id: 'ct-abc' } },
-          viewports: [],
           designProperties: {},
         },
       })

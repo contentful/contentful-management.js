@@ -141,7 +141,6 @@ describe('Rest ComponentType', { concurrent: true }, () => {
       },
       name: 'Test Component',
       description: 'A test component type',
-      viewports: [],
       contentProperties: [],
       designProperties: [],
     }
@@ -180,7 +179,6 @@ describe('Rest ComponentType', { concurrent: true }, () => {
       },
       name: 'Test Component',
       description: 'A test component type',
-      viewports: [],
       contentProperties: [],
       designProperties: [],
     }
@@ -232,7 +230,6 @@ describe('Rest ComponentType', { concurrent: true }, () => {
       sys: { id: 'comp123', type: 'ComponentType', version: 2 },
       name: 'Updated Component',
       description: 'An updated component type',
-      viewports: [],
       contentProperties: [],
       designProperties: [],
     }
@@ -253,7 +250,6 @@ describe('Rest ComponentType', { concurrent: true }, () => {
           sys: { id: 'comp123', type: 'ComponentType', version: 1 },
           name: 'Updated Component',
           description: 'An updated component type',
-          viewports: [],
           contentProperties: [],
           designProperties: [],
         },
@@ -274,7 +270,6 @@ describe('Rest ComponentType', { concurrent: true }, () => {
       sys: { id: 'newcomp123', type: 'ComponentType', version: 1 },
       name: 'New Component via Upsert',
       description: 'A component type created via upsert',
-      viewports: [],
       contentProperties: [],
       designProperties: [],
     }
@@ -295,7 +290,6 @@ describe('Rest ComponentType', { concurrent: true }, () => {
           sys: { id: 'newcomp123', type: 'ComponentType' },
           name: 'New Component via Upsert',
           description: 'A component type created via upsert',
-          viewports: [],
           contentProperties: [],
           designProperties: [],
         },
@@ -316,7 +310,6 @@ describe('Rest ComponentType', { concurrent: true }, () => {
       sys: { id: 'new123', type: 'ComponentType', version: 1 },
       name: 'New Component',
       description: 'A new component type',
-      viewports: [],
       contentProperties: [],
       designProperties: [],
     }
@@ -335,7 +328,6 @@ describe('Rest ComponentType', { concurrent: true }, () => {
         payload: {
           name: 'New Component',
           description: 'A new component type',
-          viewports: [],
           contentProperties: [],
           designProperties: [],
         },
@@ -348,7 +340,6 @@ describe('Rest ComponentType', { concurrent: true }, () => {
         expect(httpMock.post.mock.calls[0][1]).to.eql({
           name: 'New Component',
           description: 'A new component type',
-          viewports: [],
           contentProperties: [],
           designProperties: [],
         })

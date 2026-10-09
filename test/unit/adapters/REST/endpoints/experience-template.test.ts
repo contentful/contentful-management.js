@@ -113,7 +113,6 @@ describe('Rest ExperienceTemplate', { concurrent: true }, () => {
         payload: {
           name: 'New Experience Template',
           description: 'A new experience template',
-          viewports: [],
           contentProperties: [],
           designProperties: [],
         },
