@@ -1,7 +1,7 @@
 import { describe, it, beforeAll, afterAll, expect } from 'vitest'
 import { initPlainClient, timeoutToCalmRateLimiting } from '../helpers'
 import { TestDefaults } from '../defaults'
-import { testName, testViewport, sweepStaleExoEntities, makeResourceLink } from './utils/exo.utils'
+import { testName, sweepStaleExoEntities, makeResourceLink } from './utils/exo.utils'
 
 describe('ExperienceFragment Integration', { sequential: true }, () => {
   const client = initPlainClient({
@@ -22,7 +22,6 @@ describe('ExperienceFragment Integration', { sequential: true }, () => {
       {
         name: testName('CT for ExperienceFragment'),
         description: 'Backing component type for experience fragment integration test',
-        viewports: [testViewport],
         contentProperties: [],
         designProperties: [],
       },
@@ -41,7 +40,6 @@ describe('ExperienceFragment Integration', { sequential: true }, () => {
         name: testName('ExperienceFragment'),
         description: 'Created by integration test',
         component: makeResourceLink('Contentful:Component', componentTypeId),
-        viewports: [testViewport],
         designProperties: {},
       },
     )
