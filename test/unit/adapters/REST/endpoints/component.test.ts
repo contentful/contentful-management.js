@@ -113,7 +113,6 @@ describe('Rest Component', { concurrent: true }, () => {
         payload: {
           name: 'New Component',
           description: 'A new component',
-          viewports: [],
           contentProperties: [],
           designProperties: [],
         },

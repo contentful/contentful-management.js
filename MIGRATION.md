@@ -1,6 +1,8 @@
 # Migration information
 
 - [How to upgrade](#how-to-upgrade)
+- [Migration to version 13.x](#migration-to-version-13x)
+  - [ExO viewport types removed](#exo-viewport-types-removed)
 - [Migration to version 12.x](#migration-to-version-12x)
   - [Quick Summary](#quick-summary)
   - [Breaking Changes](#breaking-changes)
@@ -27,6 +29,41 @@ yarn upgrade contentful-management@latest
 
 ```bash
 pnpm update contentful-management@latest
+```
+
+## Migration to version 13.x
+
+### ExO viewport types removed
+
+Experience Orchestration no longer accepts or returns viewport definitions. The
+`ComponentTypeViewport` type and the `viewports` property have been removed
+from component, template, experience, and fragment entity payloads.
+
+Remove `viewports` from create and upsert payloads:
+
+```typescript
+// Before
+await client.component.create(
+  { spaceId, environmentId },
+  {
+    name: 'Hero',
+    description: 'Hero component',
+    viewports: [],
+    contentProperties: [],
+    designProperties: [],
+  },
+)
+
+// After
+await client.component.create(
+  { spaceId, environmentId },
+  {
+    name: 'Hero',
+    description: 'Hero component',
+    contentProperties: [],
+    designProperties: [],
+  },
+)
 ```
 
 ## Migration to version 12.x

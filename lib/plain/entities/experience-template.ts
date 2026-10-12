@@ -65,7 +65,6 @@ export type ExperienceTemplatePlainClientAPI = {
    * }, {
    *   name: 'My Experience Template',
    *   description: 'A new experience template',
-   *   viewports: [],
    *   contentProperties: [],
    *   designProperties: [],
    * });

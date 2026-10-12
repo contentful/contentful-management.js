@@ -70,7 +70,6 @@ export type FragmentPlainClientAPI = {
    *   name: 'My Fragment',
    *   description: 'A new fragment',
    *   componentType: { sys: { type: 'Link', linkType: 'ComponentType', id: '<component_type_id>' } },
-   *   viewports: [],
    *   designProperties: {},
    * });
    * ```

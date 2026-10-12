@@ -104,7 +104,6 @@ describe('Rest Experience', { concurrent: true }, () => {
       },
       name: 'Test Experience',
       description: 'A test experience',
-      viewports: [],
       designProperties: {},
     }
 
@@ -205,7 +204,6 @@ describe('Rest Experience', { concurrent: true }, () => {
       sys: { id: 'new-experience-123', type: 'Experience', version: 1 },
       name: 'New Experience',
       description: 'A new experience',
-      viewports: [],
       designProperties: {},
     }
 
@@ -232,7 +230,6 @@ describe('Rest Experience', { concurrent: true }, () => {
           name: 'New Experience',
           description: 'A new experience',
           experienceTemplate: experienceTemplateLink,
-          viewports: [],
           designProperties: {},
         },
       })
@@ -254,7 +251,6 @@ describe('Rest Experience', { concurrent: true }, () => {
       sys: { id: 'experience123', type: 'Experience', version: 2 },
       name: 'Updated Experience',
       description: 'An updated experience',
-      viewports: [],
       designProperties: {},
     }
 
@@ -274,7 +270,6 @@ describe('Rest Experience', { concurrent: true }, () => {
           sys: { id: 'experience123', type: 'Experience', version: 1 },
           name: 'Updated Experience',
           description: 'An updated experience',
-          viewports: [],
           designProperties: {},
         },
       })
@@ -294,7 +289,6 @@ describe('Rest Experience', { concurrent: true }, () => {
       sys: { id: 'experience123', type: 'Experience', version: 1 },
       name: 'New Experience via Upsert',
       description: 'Created via upsert',
-      viewports: [],
       designProperties: {},
     }
 
@@ -314,7 +308,6 @@ describe('Rest Experience', { concurrent: true }, () => {
           sys: { id: 'experience123', type: 'Experience' },
           name: 'New Experience via Upsert',
           description: 'Created via upsert',
-          viewports: [],
           designProperties: {},
         },
       })
@@ -361,7 +354,6 @@ describe('Rest Experience', { concurrent: true }, () => {
       },
       name: 'Test Experience',
       description: 'A test experience',
-      viewports: [],
       designProperties: {},
     }
 

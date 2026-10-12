@@ -10,7 +10,6 @@ import type {
   ComponentTypeContentProperty,
   ComponentTypeDesignProperty,
   ComponentTypeSlotDefinition,
-  ComponentTypeViewport,
   DataAssemblyLink,
   TreeNode,
 } from './component-type'
@@ -50,7 +49,6 @@ export type TemplateProps = {
   sys: TemplateSys
   name: string
   description: string
-  viewports?: ComponentTypeViewport[]
   contentProperties: ComponentTypeContentProperty[]
   designProperties: ComponentTypeDesignProperty[]
   componentTree?: TreeNode[]

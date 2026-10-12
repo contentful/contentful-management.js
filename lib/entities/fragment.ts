@@ -7,7 +7,7 @@ import type {
   Link,
   ResourceLink,
 } from '../common-types'
-import type { ComponentTypeViewport, EntityDesignProperties, FragmentNode } from './component-type'
+import type { EntityDesignProperties, FragmentNode } from './component-type'
 import type { ExperienceContentBindings } from './experience'
 
 // Legacy inline node for Fragment slot trees. The Experience entity has migrated to
@@ -61,7 +61,6 @@ export type FragmentProps = {
   sys: FragmentSys
   name: string
   description: string
-  viewports?: ComponentTypeViewport[]
   designProperties: EntityDesignProperties
   contentBindings?: ExperienceContentBindings
   metadata?: ExperienceMetadataProps
