@@ -433,6 +433,7 @@ export type {
   ReleaseExperienceCollection,
   ReleaseExperienceSys,
   ExperienceContentBindings,
+  ExperienceContentBindingParameter,
   InlineExperienceFragmentNode,
 } from './entities/experience'
 export type {

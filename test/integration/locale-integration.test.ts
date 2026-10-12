@@ -20,7 +20,20 @@ describe('Locale API', () => {
 
   afterAll(async () => {
     if (space) {
-      await space.delete()
+      // Gatekeeper can answer 409 (StaleObjectError) when the space row changes while it is
+      // being trashed, so retry with a freshly fetched space.
+      const spaceId = space.sys.id
+      for (let attempt = 1; attempt <= 3; attempt++) {
+        try {
+          await (await defaultClient.getSpace(spaceId)).delete()
+          break
+        } catch (error) {
+          if (attempt === 3 || (error as { name?: string }).name !== 'Conflict') {
+            throw error
+          }
+          await new Promise((resolve) => setTimeout(resolve, 2000 * attempt))
+        }
+      }
     }
     await timeoutToCalmRateLimiting()
   })
