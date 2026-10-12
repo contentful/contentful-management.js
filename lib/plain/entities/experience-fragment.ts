@@ -66,7 +66,6 @@ export type ExperienceFragmentPlainClientAPI = {
    *   name: 'My Experience Fragment',
    *   description: 'A new experience fragment',
    *   component: { sys: { type: 'ResourceLink', linkType: 'Contentful:Component', urn: '<component_urn>' } },
-   *   viewports: [],
    *   designProperties: {},
    * });
    * ```

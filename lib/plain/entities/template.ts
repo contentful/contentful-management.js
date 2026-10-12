@@ -69,7 +69,6 @@ export type TemplatePlainClientAPI = {
    * }, {
    *   name: 'My Template',
    *   description: 'A new template',
-   *   viewports: [],
    *   contentProperties: [],
    *   designProperties: [],
    * });

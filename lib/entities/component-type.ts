@@ -19,14 +19,6 @@ export type ComponentTypeQueryOptions = CursorPaginationParams &
     order?: string
   }
 
-// Viewport definition
-export type ComponentTypeViewport = {
-  id: string
-  query: string
-  displayName: string
-  previewSize: string
-}
-
 // Content property — DataTypeDefinition extended with id, name, required, defaultValue
 export type ComponentTypeContentProperty = DataTypeDefinition & {
   id: string
@@ -261,7 +253,6 @@ export type ComponentTypeProps = {
   sys: ComponentTypeSys
   name: string
   description: string
-  viewports?: ComponentTypeViewport[]
   contentProperties: ComponentTypeContentProperty[]
   designProperties: ComponentTypeDesignProperty[]
   componentTree?: TreeNode[]

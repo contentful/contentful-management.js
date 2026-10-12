@@ -10,7 +10,6 @@ import type {
   ComponentSlotDefinition,
   ComponentTypeContentProperty,
   ComponentTypeDesignProperty,
-  ComponentTypeViewport,
   DataAssemblyLink,
   TreeNodeV2,
 } from './component-type'
@@ -46,7 +45,6 @@ export type ComponentProps = {
   sys: ComponentSys
   name: string
   description: string
-  viewports?: ComponentTypeViewport[]
   contentProperties: ComponentTypeContentProperty[]
   designProperties: ComponentTypeDesignProperty[]
   componentTree?: TreeNodeV2[]
