@@ -1,10 +1,3 @@
-## [12.19.2](https://github.com/contentful/contentful-management.js/compare/v12.19.1...v12.19.2) (2026-10-12)
-
-
-### Bug Fixes
-
-* **exo:** accept $literal content binding parameters [ARC-1928] ([#3157](https://github.com/contentful/contentful-management.js/issues/3157)) ([6f584ae](https://github.com/contentful/contentful-management.js/commit/6f584ae8173de6d90b0712561a9bc39f52a66062))
-
 <!-- shared header  START -->
 
 <p align="center">
