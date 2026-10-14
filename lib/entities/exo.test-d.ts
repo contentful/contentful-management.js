@@ -1,6 +1,10 @@
 import { describe, expectTypeOf, it } from 'vitest'
 import type { EntityDesignProperties } from './component-type'
-import type { ExperienceProps, InlineExperienceFragmentNode } from './experience'
+import type {
+  ExperienceContentBindingParameter,
+  ExperienceProps,
+  InlineExperienceFragmentNode,
+} from './experience'
 import type { ExperienceFragmentProps } from './experience-fragment'
 import type { FragmentProps, InlineFragmentNode } from './fragment'
 
@@ -15,5 +19,17 @@ describe('ExO entity props', () => {
       InlineExperienceFragmentNode['designProperties']
     >().toEqualTypeOf<EntityDesignProperties>()
     expectTypeOf<InlineFragmentNode['designProperties']>().toEqualTypeOf<EntityDesignProperties>()
+  })
+  it('only accepts $literal-wrapped content binding parameters', () => {
+    const link = {
+      sys: {
+        type: 'ResourceLink',
+        linkType: 'Contentful:Entry',
+        urn: 'crn:contentful:::content:spaces/s/entries/e',
+      },
+    } as const
+
+    expectTypeOf({ $literal: link }).toMatchTypeOf<ExperienceContentBindingParameter>()
+    expectTypeOf(link).not.toMatchTypeOf<ExperienceContentBindingParameter>()
   })
 })
