@@ -58,7 +58,7 @@ export const update: RestEndpoint<'DataAssembly', 'update'> = (
   const data = copy(rawData)
   return raw.put<DataAssemblyProps>(http, getBaseUrl(params) + `/${params.dataAssemblyId}`, data, {
     headers: {
-      'X-Contentful-Version': params.version ?? rawData.sys?.version ?? 0,
+      'X-Contentful-Version': params.version ?? 0,
       ...headers,
     },
   })

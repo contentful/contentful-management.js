@@ -115,7 +115,6 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
           environmentId: 'master',
         },
         payload: {
-          sys: { type: 'DataAssembly', dataType: [] },
           metadata: { tags: [] },
           name: 'New Assembly',
           description: 'A data assembly',
@@ -150,7 +149,6 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
           environmentId: 'master',
         },
         payload: {
-          sys: { type: 'DataAssembly', dataType: [] },
           metadata: { tags: [] },
           name: 'New Assembly',
           description: 'A data assembly',
@@ -168,7 +166,7 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
       })
   })
 
-  test('update calls correct URL with version header', async () => {
+  test('update without a version sends version 0', async () => {
     const mockResponse = {
       sys: { id: 'da123', type: 'DataAssembly', version: 2 },
       name: 'Updated Assembly',
@@ -192,7 +190,6 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
           dataAssemblyId: 'da123',
         },
         payload: {
-          sys: { id: 'da123', type: 'DataAssembly', version: 1, dataType: [] },
           name: 'Updated Assembly',
           description: 'An updated data assembly',
           metadata: { tags: [] },
@@ -206,7 +203,7 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
         expect(httpMock.put.mock.calls[0][0]).to.eql(
           '/spaces/space123/environments/master/data_assemblies/da123',
         )
-        expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(1)
+        expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(0)
       })
   })
 
@@ -274,33 +271,6 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
     expect(httpMock.put.mock.calls[0][1]).to.eql(payload)
     expect(httpMock.put.mock.calls[0][1]).not.toHaveProperty('sys')
     expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(3)
-  })
-
-  test('update prefers the version from params over sys.version', async () => {
-    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: {} }))
-
-    await adapterMock.makeRequest({
-      entityType: 'DataAssembly',
-      action: 'update',
-      userAgent: 'mocked',
-      params: {
-        spaceId: 'space123',
-        environmentId: 'master',
-        dataAssemblyId: 'da123',
-        version: 5,
-      },
-      payload: {
-        sys: { id: 'da123', type: 'DataAssembly', version: 1, dataType: [] },
-        metadata: { tags: [] },
-        name: 'Legacy Assembly',
-        description: '',
-        parameters: {},
-        resolvers: {},
-        return: {},
-      },
-    })
-
-    expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(5)
   })
 
   test('delete calls correct URL', async () => {
@@ -451,7 +421,6 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
     const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
 
     const payload: CreateDataAssemblyProps = {
-      sys: { type: 'DataAssembly', dataType: [] },
       metadata: { tags: [] },
       name: 'Bare-string return',
       description: '',
@@ -478,7 +447,6 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
     const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
 
     const payload: CreateDataAssemblyProps = {
-      sys: { type: 'DataAssembly', dataType: [] },
       metadata: { tags: [] },
       name: '$from return',
       description: '',
@@ -507,7 +475,6 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
     const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
 
     const payload: CreateDataAssemblyProps = {
-      sys: { type: 'DataAssembly', dataType: [] },
       metadata: { tags: [] },
       name: '$object return',
       description: '',
@@ -544,7 +511,6 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
     const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
 
     const payload: CreateDataAssemblyProps = {
-      sys: { type: 'DataAssembly', dataType: [] },
       metadata: { tags: [] },
       name: '$on return',
       description: '',
@@ -587,7 +553,6 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
     const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
 
     const payload: CreateDataAssemblyProps = {
-      sys: { type: 'DataAssembly', dataType: [] },
       metadata: { tags: [] },
       name: 'ResourceLink param',
       description: '',
