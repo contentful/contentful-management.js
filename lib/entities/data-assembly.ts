@@ -95,8 +95,13 @@ export type DataAssemblyProps = DataAssemblyCommonProps & {
   sys: DataAssemblySys
 }
 
-// Create payload
-export type CreateDataAssemblyProps = DataAssemblyCommonProps & {
+// Sys-free write payload. The API infers sys.dataType from the return mapping.
+export type DataAssemblyWriteProps = DataAssemblyCommonProps & {
+  sys?: never
+}
+
+// Legacy create payload with top-level sys. The API rejects it after 26 October 2026.
+export type LegacyCreateDataAssemblyProps = DataAssemblyCommonProps & {
   sys: {
     type: 'DataAssembly'
     variant?: string
@@ -104,8 +109,8 @@ export type CreateDataAssemblyProps = DataAssemblyCommonProps & {
   }
 }
 
-// Update payload
-export type UpdateDataAssemblyProps = DataAssemblyCommonProps & {
+// Legacy update payload with top-level sys. The API rejects it after 26 October 2026.
+export type LegacyUpdateDataAssemblyProps = DataAssemblyCommonProps & {
   sys: {
     id: string
     type: 'DataAssembly'
@@ -114,6 +119,12 @@ export type UpdateDataAssemblyProps = DataAssemblyCommonProps & {
     dataType: DataAssemblyDataTypeField[]
   }
 }
+
+// Create payload
+export type CreateDataAssemblyProps = DataAssemblyWriteProps | LegacyCreateDataAssemblyProps
+
+// Update payload
+export type UpdateDataAssemblyProps = DataAssemblyWriteProps | LegacyUpdateDataAssemblyProps
 
 // Query options for getMany - cursor-based pagination with mutual exclusivity
 export type DataAssemblyQueryOptions = CursorPaginationParams & {

@@ -1,6 +1,9 @@
 import { describe, test, expect } from 'vitest'
 import setupRestAdapter from '../helpers/setupRestAdapter'
-import type { CreateDataAssemblyProps } from '../../../../../lib/entities/data-assembly'
+import type {
+  CreateDataAssemblyProps,
+  UpdateDataAssemblyProps,
+} from '../../../../../lib/entities/data-assembly'
 
 describe('Rest DataAssembly', { concurrent: true }, () => {
   test('getMany calls correct URL', async () => {
@@ -205,6 +208,99 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
         )
         expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(1)
       })
+  })
+
+  test('create without sys sends a sys-free body', async () => {
+    const mockResponse = {
+      sys: { id: 'new123', type: 'DataAssembly', version: 1 },
+    }
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
+
+    const payload: CreateDataAssemblyProps = {
+      metadata: { tags: [] },
+      name: 'Sys-free Assembly',
+      description: '',
+      parameters: {},
+      resolvers: {},
+      return: {},
+    }
+
+    await adapterMock.makeRequest({
+      entityType: 'DataAssembly',
+      action: 'create',
+      userAgent: 'mocked',
+      params: { spaceId: 'space123', environmentId: 'master' },
+      payload,
+    })
+
+    expect(httpMock.post.mock.calls[0][0]).to.eql(
+      '/spaces/space123/environments/master/data_assemblies',
+    )
+    expect(httpMock.post.mock.calls[0][1]).to.eql(payload)
+    expect(httpMock.post.mock.calls[0][1]).not.toHaveProperty('sys')
+  })
+
+  test('update without sys sends the version from params', async () => {
+    const mockResponse = {
+      sys: { id: 'da123', type: 'DataAssembly', version: 4 },
+    }
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: mockResponse }))
+
+    const payload: UpdateDataAssemblyProps = {
+      metadata: { tags: [] },
+      name: 'Sys-free Assembly',
+      description: '',
+      parameters: {},
+      resolvers: {},
+      return: {},
+    }
+
+    await adapterMock.makeRequest({
+      entityType: 'DataAssembly',
+      action: 'update',
+      userAgent: 'mocked',
+      params: {
+        spaceId: 'space123',
+        environmentId: 'master',
+        dataAssemblyId: 'da123',
+        version: 3,
+      },
+      payload,
+    })
+
+    expect(httpMock.put.mock.calls[0][0]).to.eql(
+      '/spaces/space123/environments/master/data_assemblies/da123',
+    )
+    expect(httpMock.put.mock.calls[0][1]).to.eql(payload)
+    expect(httpMock.put.mock.calls[0][1]).not.toHaveProperty('sys')
+    expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(3)
+  })
+
+  test('update prefers the version from params over sys.version', async () => {
+    const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: {} }))
+
+    await adapterMock.makeRequest({
+      entityType: 'DataAssembly',
+      action: 'update',
+      userAgent: 'mocked',
+      params: {
+        spaceId: 'space123',
+        environmentId: 'master',
+        dataAssemblyId: 'da123',
+        version: 5,
+      },
+      payload: {
+        sys: { id: 'da123', type: 'DataAssembly', version: 1, dataType: [] },
+        metadata: { tags: [] },
+        name: 'Legacy Assembly',
+        description: '',
+        parameters: {},
+        resolvers: {},
+        return: {},
+      },
+    })
+
+    expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(5)
   })
 
   test('delete calls correct URL', async () => {

@@ -473,6 +473,9 @@ export type {
   DataAssemblyResourceLinkParameter,
   CreateDataAssemblyProps,
   UpdateDataAssemblyProps,
+  DataAssemblyWriteProps,
+  LegacyCreateDataAssemblyProps,
+  LegacyUpdateDataAssemblyProps,
 } from './entities/data-assembly'
 export type {
   DesignTokenCollection,
