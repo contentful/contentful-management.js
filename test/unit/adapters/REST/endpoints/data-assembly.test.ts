@@ -207,7 +207,7 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
       })
   })
 
-  test('create without sys sends a sys-free body', async () => {
+  test('create sends the payload as the body', async () => {
     const mockResponse = {
       sys: { id: 'new123', type: 'DataAssembly', version: 1 },
     }
@@ -215,7 +215,7 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
 
     const payload: CreateDataAssemblyProps = {
       metadata: { tags: [] },
-      name: 'Sys-free Assembly',
+      name: 'Assembly',
       description: '',
       parameters: {},
       resolvers: {},
@@ -234,10 +234,9 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
       '/spaces/space123/environments/master/data_assemblies',
     )
     expect(httpMock.post.mock.calls[0][1]).to.eql(payload)
-    expect(httpMock.post.mock.calls[0][1]).not.toHaveProperty('sys')
   })
 
-  test('update without sys sends the version from params', async () => {
+  test('update sends the version from params', async () => {
     const mockResponse = {
       sys: { id: 'da123', type: 'DataAssembly', version: 4 },
     }
@@ -245,7 +244,7 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
 
     const payload: UpdateDataAssemblyProps = {
       metadata: { tags: [] },
-      name: 'Sys-free Assembly',
+      name: 'Assembly',
       description: '',
       parameters: {},
       resolvers: {},
@@ -269,7 +268,6 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
       '/spaces/space123/environments/master/data_assemblies/da123',
     )
     expect(httpMock.put.mock.calls[0][1]).to.eql(payload)
-    expect(httpMock.put.mock.calls[0][1]).not.toHaveProperty('sys')
     expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(3)
   })
 
