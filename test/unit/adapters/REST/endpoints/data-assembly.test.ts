@@ -166,7 +166,7 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
       })
   })
 
-  test('update without a version sends version 0', async () => {
+  test('update without a version omits the version header', async () => {
     const mockResponse = {
       sys: { id: 'da123', type: 'DataAssembly', version: 2 },
       name: 'Updated Assembly',
@@ -203,7 +203,7 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
         expect(httpMock.put.mock.calls[0][0]).to.eql(
           '/spaces/space123/environments/master/data_assemblies/da123',
         )
-        expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(0)
+        expect(httpMock.put.mock.calls[0][2].headers).not.toHaveProperty('X-Contentful-Version')
       })
   })
 

@@ -79,7 +79,8 @@ export type DataAssemblyPlainClientAPI = {
 
   /**
    * Updates a data assembly with PUT
-   * @param params the space, environment, and data assembly IDs, and the current version (sent as X-Contentful-Version)
+   * @param params the space, environment, and data assembly IDs, and the current version (sent as X-Contentful-Version).
+   * The version is required to update an existing data assembly; omit it only when the PUT creates one with the given ID.
    * @param rawData the data assembly data to update, without top-level sys
    * @param headers optional custom headers
    * @returns the updated data assembly
