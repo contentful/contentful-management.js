@@ -6,7 +6,7 @@ import type {
   Link,
   ResourceLink,
 } from '../common-types'
-import type { EntityDesignProperties, ExperienceFragmentNode } from './component-type'
+import type { EntityDesignProperties, ExperienceFragmentNode } from './exo-common'
 
 export type ExperienceContentBindingParameter =
   /** @deprecated Bare ResourceLink. Use the `$literal`-wrapped form instead. */

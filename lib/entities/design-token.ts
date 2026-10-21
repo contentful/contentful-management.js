@@ -7,7 +7,7 @@ import type {
   Link,
   ResourceLink,
 } from '../common-types'
-import type { DTCGDesignPropertyType } from './component-type'
+import type { DTCGDesignPropertyType } from './exo-common'
 
 export type DesignTokenType = DTCGDesignPropertyType
 

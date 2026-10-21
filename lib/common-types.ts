@@ -62,29 +62,11 @@ import type {
   UpdateCommentProps,
 } from './entities/comment'
 import type {
-  ComponentTypeProps,
-  ComponentTypeQueryOptions,
-  CreateComponentTypeProps,
-  UpsertComponentTypeProps,
-} from './entities/component-type'
-import type {
   ComponentProps,
   ComponentQueryOptions,
   CreateComponentProps,
   UpsertComponentProps,
 } from './entities/component'
-import type {
-  CreateFragmentProps,
-  FragmentProps,
-  FragmentQueryOptions,
-  UpsertFragmentProps,
-} from './entities/fragment'
-import type {
-  CreateTemplateProps,
-  TemplateProps,
-  TemplateQueryOptions,
-  UpsertTemplateProps,
-} from './entities/template'
 import type {
   CreateExperienceProps,
   UpsertExperienceProps,
@@ -498,7 +480,7 @@ export interface MetadataProps {
 }
 
 /**
- * Base metadata shape for ExO entities (ComponentType, Template).
+ * Base metadata shape for ExO entities (Component, ExperienceTemplate).
  * Mirrors upstream MetadataSchema: tags and concepts only.
  * - tags: optional (upstream MetadataSchema.tags is z.optional as of SPA-3821)
  * - concepts: optional taxonomy concept links
@@ -517,7 +499,7 @@ export interface ExperienceMetadataProps extends ExoMetadataProps {
 }
 
 /**
- * Shared query filter fields for ExO list endpoints (ComponentType, Experience, Fragment, Template).
+ * Shared query filter fields for ExO list endpoints (Component, Experience, ExperienceFragment, ExperienceTemplate).
  * Mirrors the four shared filter schemas in experiences-management-api-contract:
  * SysFiltersSchema + TagFiltersSchema + TaxonomyConceptsFiltersSchema + TextFiltersSchema
  */
@@ -826,13 +808,6 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Comment', 'update', UA>): MRReturn<'Comment', 'update'>
   (opts: MROpts<'Comment', 'delete', UA>): MRReturn<'Comment', 'delete'>
 
-  (opts: MROpts<'ComponentType', 'getMany', UA>): MRReturn<'ComponentType', 'getMany'>
-  (opts: MROpts<'ComponentType', 'get', UA>): MRReturn<'ComponentType', 'get'>
-  (opts: MROpts<'ComponentType', 'create', UA>): MRReturn<'ComponentType', 'create'>
-  (opts: MROpts<'ComponentType', 'upsert', UA>): MRReturn<'ComponentType', 'upsert'>
-  (opts: MROpts<'ComponentType', 'delete', UA>): MRReturn<'ComponentType', 'delete'>
-  (opts: MROpts<'ComponentType', 'publish', UA>): MRReturn<'ComponentType', 'publish'>
-  (opts: MROpts<'ComponentType', 'unpublish', UA>): MRReturn<'ComponentType', 'unpublish'>
   (opts: MROpts<'Component', 'getMany', UA>): MRReturn<'Component', 'getMany'>
   (opts: MROpts<'Component', 'get', UA>): MRReturn<'Component', 'get'>
   (opts: MROpts<'Component', 'create', UA>): MRReturn<'Component', 'create'>
@@ -1158,22 +1133,6 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'TeamSpaceMembership', 'create', UA>): MRReturn<'TeamSpaceMembership', 'create'>
   (opts: MROpts<'TeamSpaceMembership', 'update', UA>): MRReturn<'TeamSpaceMembership', 'update'>
   (opts: MROpts<'TeamSpaceMembership', 'delete', UA>): MRReturn<'TeamSpaceMembership', 'delete'>
-
-  (opts: MROpts<'Fragment', 'getMany', UA>): MRReturn<'Fragment', 'getMany'>
-  (opts: MROpts<'Fragment', 'get', UA>): MRReturn<'Fragment', 'get'>
-  (opts: MROpts<'Fragment', 'create', UA>): MRReturn<'Fragment', 'create'>
-  (opts: MROpts<'Fragment', 'upsert', UA>): MRReturn<'Fragment', 'upsert'>
-  (opts: MROpts<'Fragment', 'delete', UA>): MRReturn<'Fragment', 'delete'>
-  (opts: MROpts<'Fragment', 'publish', UA>): MRReturn<'Fragment', 'publish'>
-  (opts: MROpts<'Fragment', 'unpublish', UA>): MRReturn<'Fragment', 'unpublish'>
-
-  (opts: MROpts<'Template', 'getMany', UA>): MRReturn<'Template', 'getMany'>
-  (opts: MROpts<'Template', 'get', UA>): MRReturn<'Template', 'get'>
-  (opts: MROpts<'Template', 'create', UA>): MRReturn<'Template', 'create'>
-  (opts: MROpts<'Template', 'upsert', UA>): MRReturn<'Template', 'upsert'>
-  (opts: MROpts<'Template', 'delete', UA>): MRReturn<'Template', 'delete'>
-  (opts: MROpts<'Template', 'publish', UA>): MRReturn<'Template', 'publish'>
-  (opts: MROpts<'Template', 'unpublish', UA>): MRReturn<'Template', 'unpublish'>
 
   (opts: MROpts<'UIConfig', 'get', UA>): MRReturn<'UIConfig', 'get'>
   (opts: MROpts<'UIConfig', 'update', UA>): MRReturn<'UIConfig', 'update'>
@@ -1898,38 +1857,6 @@ export type MRActions = {
           return: RichTextCommentProps
         }
     delete: { params: DeleteCommentParams; return: void }
-  }
-  ComponentType: {
-    getMany: {
-      params: GetSpaceEnvironmentParams & { query: ComponentTypeQueryOptions }
-      return: ExoCursorPaginatedCollectionProp<ComponentTypeProps>
-    }
-    get: {
-      params: GetComponentTypeParams
-      return: ComponentTypeProps
-    }
-    create: {
-      params: GetSpaceEnvironmentParams
-      payload: CreateComponentTypeProps
-      return: ComponentTypeProps
-    }
-    upsert: {
-      params: GetComponentTypeParams
-      payload: UpsertComponentTypeProps
-      return: ComponentTypeProps
-    }
-    delete: {
-      params: GetComponentTypeParams
-      return: void
-    }
-    publish: {
-      params: GetComponentTypeParams & { version: number }
-      return: ComponentTypeProps
-    }
-    unpublish: {
-      params: GetComponentTypeParams & { version: number }
-      return: ComponentTypeProps
-    }
   }
   Component: {
     getMany: {
@@ -2964,70 +2891,6 @@ export type MRActions = {
     }
     delete: { params: GetTeamSpaceMembershipParams; return: any }
   }
-  Fragment: {
-    getMany: {
-      params: GetSpaceEnvironmentParams & { query: FragmentQueryOptions }
-      return: ExoCursorPaginatedCollectionProp<FragmentProps>
-    }
-    get: {
-      params: GetFragmentParams
-      return: FragmentProps
-    }
-    create: {
-      params: GetSpaceEnvironmentParams
-      payload: CreateFragmentProps
-      return: FragmentProps
-    }
-    upsert: {
-      params: GetFragmentParams
-      payload: UpsertFragmentProps
-      return: FragmentProps
-    }
-    delete: {
-      params: GetFragmentParams
-      return: void
-    }
-    publish: {
-      params: GetFragmentParams & { version: number }
-      return: FragmentProps
-    }
-    unpublish: {
-      params: GetFragmentParams & { version: number }
-      return: FragmentProps
-    }
-  }
-  Template: {
-    getMany: {
-      params: GetSpaceEnvironmentParams & { query: TemplateQueryOptions }
-      return: ExoCursorPaginatedCollectionProp<TemplateProps>
-    }
-    get: {
-      params: GetTemplateParams
-      return: TemplateProps
-    }
-    create: {
-      params: GetSpaceEnvironmentParams
-      payload: CreateTemplateProps
-      return: TemplateProps
-    }
-    upsert: {
-      params: GetTemplateParams
-      payload: UpsertTemplateProps
-      return: TemplateProps
-    }
-    delete: {
-      params: GetTemplateParams
-      return: void
-    }
-    publish: {
-      params: GetTemplateParams & { version: number }
-      return: TemplateProps
-    }
-    unpublish: {
-      params: GetTemplateParams & { version: number }
-      return: TemplateProps
-    }
-  }
   UIConfig: {
     get: { params: GetUIConfigParams; return: UIConfigProps }
     update: { params: GetUIConfigParams; payload: UIConfigProps; return: UIConfigProps }
@@ -3477,8 +3340,6 @@ export type GetCommentParams = (GetEntryParams | GetCommentParentEntityParams) &
   commentId: string
 }
 /** @internal */
-export type GetComponentTypeParams = GetSpaceEnvironmentParams & { componentTypeId: string }
-/** @internal */
 export type GetComponentParams = GetSpaceEnvironmentParams & { componentId: string }
 /** @internal */
 export type GetExperienceParams = GetSpaceEnvironmentParams & { experienceId: string }
@@ -3499,8 +3360,6 @@ export type GetDataAssemblyParams = GetSpaceEnvironmentParams & { dataAssemblyId
 /** @internal */
 export type GetDesignTokenParams = GetSpaceEnvironmentParams & { designTokenId: string }
 /** @internal */
-export type GetFragmentParams = GetSpaceEnvironmentParams & { fragmentId: string }
-/** @internal */
 export type GetManyExperienceFragmentVariantParams = GetSpaceEnvironmentParams & {
   experienceFragmentId: string
 }
@@ -3508,8 +3367,6 @@ export type GetManyExperienceFragmentVariantParams = GetSpaceEnvironmentParams &
 export type GetExperienceFragmentVariantParams = GetManyExperienceFragmentVariantParams & {
   variantId: string
 }
-/** @internal */
-export type GetTemplateParams = GetSpaceEnvironmentParams & { templateId: string }
 /** @internal */
 export type GetExperienceTemplateParams = GetSpaceEnvironmentParams & {
   experienceTemplateId: string

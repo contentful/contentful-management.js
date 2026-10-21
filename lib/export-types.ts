@@ -378,46 +378,37 @@ export type {
   WorkflowsChangelogQueryOptions,
 } from './entities/workflows-changelog-entry'
 export type {
-  /** @deprecated Use `ComponentCollection` instead */
-  ComponentTypeCollection,
-  /** @deprecated Use `ComponentProps` instead */
-  ComponentTypeProps,
-  /** @deprecated Use `CreateComponentProps` instead */
-  CreateComponentTypeProps,
-  /** @deprecated Use `UpsertComponentProps` instead */
-  UpsertComponentTypeProps,
-  ComponentTypeContentProperty,
-  ComponentTypeDesignProperty,
-  /** @deprecated Use `ComponentSlotDefinition` instead */
-  ComponentTypeSlotDefinition,
-  ComponentSlotDefinition,
-  /** @deprecated Use `TreeNodeV2` instead */
-  TreeNode,
-  /** @deprecated Use `ComponentNodeV2` instead */
-  ComponentNode,
-  /** @deprecated Use `ExperienceFragmentNode` instead */
-  FragmentNode,
-  ExperienceFragmentNode,
-  ComponentNodeV2,
-  TreeNodeV2,
-  SlotNode,
-} from './entities/component-type'
-export type {
   ComponentCollection,
   ComponentProps,
+  ComponentQueryOptions,
+  ComponentSys,
   CreateComponentProps,
   UpsertComponentProps,
+  ComponentContentProperty,
+  ComponentDesignProperty,
+  ComponentSlotDefinition,
+  ComponentNode,
+  TreeNode,
+  StringDesignProperty,
+  StringDesignPropertyRegexpValidation,
+  BooleanDesignProperty,
+  TokenBackedDesignProperty,
+  DesignTokenAllowedResource,
 } from './entities/component'
 export type {
-  /** @deprecated Use `ExperienceTemplateCollection` instead */
-  TemplateCollection,
-  /** @deprecated Use `ExperienceTemplateProps` instead */
-  TemplateProps,
-  /** @deprecated Use `CreateExperienceTemplateProps` instead */
-  CreateTemplateProps,
-  /** @deprecated Use `UpsertExperienceTemplateProps` instead */
-  UpsertTemplateProps,
-} from './entities/template'
+  ComponentTreeDesignPropertyValue,
+  ContentPropertyPointerValue,
+  DataAssemblyLink,
+  DesignPropertyPointerValue,
+  DesignPropertyValue,
+  DesignTokenValue,
+  DimensionedDesignPropertyValue,
+  DTCGDesignPropertyType,
+  EntityDesignProperties,
+  ExperienceFragmentNode,
+  ManualDesignValue,
+  SlotNode,
+} from './entities/exo-common'
 export type {
   ExperienceTemplateCollection,
   ExperienceTemplateProps,
@@ -443,17 +434,6 @@ export type {
   ExperienceVariantQueryOptions,
   UpsertExperienceVariantProps,
 } from './entities/experience-variant'
-export type {
-  /** @deprecated Use `ExperienceFragmentCollection` instead */
-  FragmentCollection,
-  /** @deprecated Use `ExperienceFragmentProps` instead */
-  FragmentProps,
-  /** @deprecated Use `CreateExperienceFragmentProps` instead */
-  CreateFragmentProps,
-  /** @deprecated Use `UpsertExperienceFragmentProps` instead */
-  UpsertFragmentProps,
-  InlineFragmentNode,
-} from './entities/fragment'
 export type {
   ExperienceFragmentCollection,
   ExperienceFragmentProps,
