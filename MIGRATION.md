@@ -3,6 +3,9 @@
 - [How to upgrade](#how-to-upgrade)
 - [Migration to version 13.x](#migration-to-version-13x)
   - [ExO viewport types removed](#exo-viewport-types-removed)
+  - [Deprecated ExO entities removed](#deprecated-exo-entities-removed)
+  - [`componentTree` is required on Component and ExperienceTemplate](#componenttree-is-required-on-component-and-experiencetemplate)
+  - [ExO type renames](#exo-type-renames)
 - [Migration to version 12.x](#migration-to-version-12x)
   - [Quick Summary](#quick-summary)
   - [Breaking Changes](#breaking-changes)
@@ -65,6 +68,87 @@ await client.component.create(
   },
 )
 ```
+
+### Deprecated ExO entities removed
+
+The `ComponentType`, `Template` and `Fragment` entities were superseded by `Component`,
+`ExperienceTemplate` and `ExperienceFragment`. The old plain client namespaces, their
+`/component_types`, `/templates` and `/fragments` endpoints and their types are removed.
+
+| Removed                                                                                                   | Use instead                                                                                                                                                 |
+| --------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `client.componentType.*`                                                                                  | `client.component.*`                                                                                                                                        |
+| `client.template.*`                                                                                       | `client.experienceTemplate.*`                                                                                                                               |
+| `client.fragment.*`                                                                                       | `client.experienceFragment.*`                                                                                                                               |
+| `{ componentTypeId }`, `{ templateId }`, `{ fragmentId }`                                                 | `{ componentId }`, `{ experienceTemplateId }`, `{ experienceFragmentId }`                                                                                   |
+| `ComponentTypeProps`, `CreateComponentTypeProps`, `UpsertComponentTypeProps`, `ComponentTypeCollection`   | `ComponentProps`, `CreateComponentProps`, `UpsertComponentProps`, `ComponentCollection`                                                                     |
+| `TemplateProps`, `CreateTemplateProps`, `UpsertTemplateProps`, `TemplateCollection`                       | `ExperienceTemplateProps`, `CreateExperienceTemplateProps`, `UpsertExperienceTemplateProps`, `ExperienceTemplateCollection`                                 |
+| `FragmentProps`, `CreateFragmentProps`, `UpsertFragmentProps`, `FragmentCollection`, `InlineFragmentNode` | `ExperienceFragmentProps`, `CreateExperienceFragmentProps`, `UpsertExperienceFragmentProps`, `ExperienceFragmentCollection`, `InlineExperienceFragmentNode` |
+
+```typescript
+// Before
+await client.template.publish({ templateId, version })
+
+// After
+await client.experienceTemplate.publish({ experienceTemplateId: templateId, version })
+```
+
+The entity data also changed shape where the renamed entities differ. A `Fragment` linked to its
+`componentType`; an `ExperienceFragment` links to its `component` (`Contentful:Component`).
+
+### `componentTree` is required on Component and ExperienceTemplate
+
+The Content Management API now rejects creates and updates of `Component` and
+`ExperienceTemplate` entities that omit `componentTree`, on every route. `componentTree` is
+typed `TreeNode[] | null` and is no longer optional:
+
+- `null` marks a coded entity, which has no tree.
+- `[]` is a composed entity with an empty tree.
+
+An update that omits `componentTree` no longer keeps the stored tree. The earlier behavior,
+where `undefined` kept the stored tree, is gone, so partial `upsert` payloads fail with a `422`
+and `path: ['componentTree']`. Send the field on every `create` and `upsert`:
+
+```typescript
+// Before
+await client.component.create(
+  { spaceId, environmentId },
+  { name: 'Hero', description: 'Hero component', contentProperties: [], designProperties: [] },
+)
+
+// After
+await client.component.create(
+  { spaceId, environmentId },
+  {
+    name: 'Hero',
+    description: 'Hero component',
+    contentProperties: [],
+    designProperties: [],
+    componentTree: null,
+  },
+)
+```
+
+When you read an entity and send it back, spread the fetched props; `componentTree` is always
+present on responses (`null` when the entity has no tree). Delivery behavior is unchanged.
+
+### ExO type renames
+
+The `V2` suffix and the `ComponentType` prefix are gone from the types that the renamed entities
+share. These types now live with the `Component` entity.
+
+| Before                                                                   | After                               |
+| ------------------------------------------------------------------------ | ----------------------------------- |
+| `TreeNodeV2`                                                             | `TreeNode`                          |
+| `ComponentNodeV2`                                                        | `ComponentNode`                     |
+| `ComponentTypeContentProperty`                                           | `ComponentContentProperty`          |
+| `ComponentTypeDesignProperty`                                            | `ComponentDesignProperty`           |
+| `ComponentTypeSlotDefinition` (deprecated) and `ComponentSlotDefinition` | `ComponentSlotDefinition`           |
+| `COMPONENT_TYPE_ALLOWED_RESOURCE_SOURCE` (internal)                      | `COMPONENT_ALLOWED_RESOURCE_SOURCE` |
+
+The old `TreeNode`, `ComponentNode` and `FragmentNode` types, which pointed at `componentType` and
+`fragment` links, are removed. The new `TreeNode` and `ComponentNode` use the `component` and
+`experienceFragment` links.
 
 ## Migration to version 12.x
 
