@@ -25,7 +25,7 @@ describe('DataAssembly Integration', { sequential: true }, () => {
         metadata: { tags: [] },
         name: testName('DataAssembly'),
         description: 'Created by integration test',
-        parameters: {},
+        parameters: [],
         resolvers: {},
         return: {},
       },

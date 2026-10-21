@@ -1,6 +1,8 @@
 # Migration information
 
 - [How to upgrade](#how-to-upgrade)
+- [ExO alpha updates](#exo-alpha-updates)
+  - [Data Assembly parameters use arrays](#data-assembly-parameters-use-arrays)
 - [Migration to version 13.x](#migration-to-version-13x)
   - [ExO viewport types removed](#exo-viewport-types-removed)
 - [Migration to version 12.x](#migration-to-version-12x)
@@ -30,6 +32,54 @@ yarn upgrade contentful-management@latest
 ```bash
 pnpm update contentful-management@latest
 ```
+
+## ExO alpha updates
+
+### Data Assembly parameters use arrays
+
+Data Assembly is part of ExO alpha. Its contract changes ship in minor SDK releases.
+
+`DataAssemblyProps`, `CreateDataAssemblyProps`, and `UpdateDataAssemblyProps`
+now share the array-only `DataAssemblyParameterConfig`. Each declaration puts
+its identifier in `id` and supplies an explicit boolean `required`. All
+supported configuration kinds are available: `ResourceLink`, `String`,
+`Number`, `Record`, and `OrderExpression`.
+
+```typescript
+// Before
+parameters: {
+  primary: {
+    type: 'ResourceLink',
+    allowedResources: [],
+  },
+}
+
+// After
+parameters: [
+  {
+    id: 'primary',
+    required: true,
+    type: 'ResourceLink',
+    allowedResources: [],
+  },
+]
+```
+
+Use array iteration or `parameters.find((parameter) => parameter.id === id)`
+in place of record lookup. Preserve declaration order, names, descriptions,
+fallbacks, and explicit `required: false` when updating existing definitions.
+Existing `Record.fields` arrays and resolver/binding value maps keep their
+current shapes.
+
+This SDK does not convert API responses or opt into a parameter format. Before
+merging and releasing this update, coordinate the API flag switch so every
+caller space and reachable Data Assembly read returns canonical arrays,
+including collection, published, and cross-space reads. A flag-off API can
+still return records, which this contract does not support. Coordinate rollback
+of the SDK consumer versions and API flag together; do not turn the flag off
+while array-only SDK consumers remain active. The App SDK adopts these exported
+types only after the Management SDK package is published and its version is
+pinned.
 
 ## Migration to version 13.x
 
