@@ -22,6 +22,7 @@ describe('ExperienceTemplate Integration', { sequential: true }, () => {
         description: 'Created by integration test',
         contentProperties: [{ id: 'heading', name: 'Heading', type: 'String', required: false }],
         designProperties: [{ id: 'bgColor', name: 'Background Color', type: 'String' }],
+        componentTree: null,
       },
     )
     experienceTemplateId = created.sys.id

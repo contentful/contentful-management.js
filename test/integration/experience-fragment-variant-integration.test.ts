@@ -27,6 +27,7 @@ describe('ExperienceFragmentVariant Integration', { sequential: true }, () => {
           'Backing component for experience fragment optimization variant integration test',
         contentProperties: [],
         designProperties: [],
+        componentTree: null,
       },
     )
     componentId = component.sys.id

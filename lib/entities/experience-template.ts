@@ -44,7 +44,11 @@ export type ExperienceTemplateProps = {
   description: string
   contentProperties: ComponentTypeContentProperty[]
   designProperties: ComponentTypeDesignProperty[]
-  componentTree?: TreeNodeV2[]
+  /**
+   * `null` marks a coded template (no tree); `[]` is a composed template with an empty tree.
+   * The Content Management API requires this field on create and update, so always send it.
+   */
+  componentTree?: TreeNodeV2[] | null
   slots?: ComponentSlotDefinition[]
   metadata?: ExoMetadataProps
   dataAssemblies?: DataAssemblyLink[]

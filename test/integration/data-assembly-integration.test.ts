@@ -18,16 +18,13 @@ describe('DataAssembly Integration', { sequential: true }, () => {
     const created = await client.dataAssembly.create(
       {},
       {
-        sys: {
-          type: 'DataAssembly',
-          dataType: [{ id: 'title', name: 'Title', type: 'String', required: false }],
-        },
         metadata: { tags: [] },
         name: testName('DataAssembly'),
         description: 'Created by integration test',
         parameters: {},
         resolvers: {},
-        return: {},
+        // The CMA rejects an empty return mapping; a literal-only $object needs no resolver.
+        return: { $object: { title: { $literal: 'static value' } } },
       },
     )
     dataAssemblyId = created.sys.id
@@ -76,25 +73,18 @@ describe('DataAssembly Integration', { sequential: true }, () => {
   })
 
   it('updates a data assembly', async () => {
-    const current = await client.dataAssembly.get({ dataAssemblyId: dataAssemblyId })
+    const { sys, ...current } = await client.dataAssembly.get({ dataAssemblyId: dataAssemblyId })
 
-    // Update types require minimal sys — full entity sys is not assignable
     const updated = await client.dataAssembly.update(
-      { dataAssemblyId: dataAssemblyId },
+      { dataAssemblyId: dataAssemblyId, version: sys.version },
       {
         ...current,
-        sys: {
-          id: current.sys.id,
-          type: 'DataAssembly' as const,
-          version: current.sys.version,
-          dataType: current.sys.dataType,
-        },
         name: testName('DataAssembly Updated'),
       },
     )
 
     expect(updated.name).toBe(testName('DataAssembly Updated'))
-    expect(updated.sys.version).toBeGreaterThan(current.sys.version)
+    expect(updated.sys.version).toBeGreaterThan(sys.version)
   })
 
   it('lists data assemblies with cursor pagination', async () => {

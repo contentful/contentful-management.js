@@ -95,25 +95,16 @@ export type DataAssemblyProps = DataAssemblyCommonProps & {
   sys: DataAssemblySys
 }
 
-// Create payload
-export type CreateDataAssemblyProps = DataAssemblyCommonProps & {
-  sys: {
-    type: 'DataAssembly'
-    variant?: string
-    dataType: DataAssemblyDataTypeField[]
-  }
+// Write payloads carry no top-level sys. The API infers sys.dataType from the return mapping.
+type DataAssemblyWriteProps = DataAssemblyCommonProps & {
+  sys?: never
 }
 
+// Create payload
+export type CreateDataAssemblyProps = DataAssemblyWriteProps
+
 // Update payload
-export type UpdateDataAssemblyProps = DataAssemblyCommonProps & {
-  sys: {
-    id: string
-    type: 'DataAssembly'
-    variant?: string
-    version: number
-    dataType: DataAssemblyDataTypeField[]
-  }
-}
+export type UpdateDataAssemblyProps = DataAssemblyWriteProps
 
 // Query options for getMany - cursor-based pagination with mutual exclusivity
 export type DataAssemblyQueryOptions = CursorPaginationParams & {
