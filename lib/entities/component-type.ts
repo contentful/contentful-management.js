@@ -255,7 +255,7 @@ export type ComponentTypeProps = {
   description: string
   contentProperties: ComponentTypeContentProperty[]
   designProperties: ComponentTypeDesignProperty[]
-  componentTree?: TreeNode[]
+  componentTree?: TreeNode[] | null
   slots?: ComponentTypeSlotDefinition[]
   metadata?: ExoMetadataProps
   dataAssemblies?: DataAssemblyLink[]

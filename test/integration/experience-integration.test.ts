@@ -25,6 +25,7 @@ describe('Experience Integration', { sequential: true }, () => {
         description: 'Backing template for experience integration test',
         contentProperties: [],
         designProperties: [],
+        componentTree: null,
       },
     )
     templateId = tmpl.sys.id
