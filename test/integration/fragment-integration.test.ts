@@ -24,6 +24,7 @@ describe('Fragment Integration', { sequential: true }, () => {
         description: 'Backing component type for fragment integration test',
         contentProperties: [],
         designProperties: [],
+        componentTree: null,
       },
     )
     componentTypeId = ct.sys.id

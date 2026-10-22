@@ -23,7 +23,8 @@ describe('DataAssembly Integration', { sequential: true }, () => {
         description: 'Created by integration test',
         parameters: {},
         resolvers: {},
-        return: {},
+        // The CMA rejects an empty return mapping; a literal-only $object needs no resolver.
+        return: { $object: { title: { $literal: 'static value' } } },
       },
     )
     dataAssemblyId = created.sys.id

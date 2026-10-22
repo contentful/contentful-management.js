@@ -26,6 +26,7 @@ describe('ExperienceVariant Integration', { sequential: true }, () => {
         description: 'Backing template for experience optimization variant integration test',
         contentProperties: [],
         designProperties: [],
+        componentTree: null,
       },
     )
     experienceTemplateId = experienceTemplate.sys.id

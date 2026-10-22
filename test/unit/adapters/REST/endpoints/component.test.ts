@@ -115,6 +115,7 @@ describe('Rest Component', { concurrent: true }, () => {
           description: 'A new component',
           contentProperties: [],
           designProperties: [],
+          componentTree: null,
         },
       })
       .then((r) => {
@@ -124,6 +125,7 @@ describe('Rest Component', { concurrent: true }, () => {
         )
         const body = httpMock.post.mock.calls[0][1]
         expect(body.name).to.eql('New Component')
+        expect(body.componentTree).to.eql(null)
       })
   })
 
