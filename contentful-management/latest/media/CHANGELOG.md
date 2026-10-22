@@ -1,10 +1,3 @@
-## [12.19.3](https://github.com/contentful/contentful-management.js/compare/v12.19.2...v12.19.3) (2026-10-22)
-
-
-### Bug Fixes
-
-* require sys-free Data Assembly writes [ARC-2697] ([#3161](https://github.com/contentful/contentful-management.js/issues/3161)) ([a6fe6f5](https://github.com/contentful/contentful-management.js/commit/a6fe6f516c2da2ccdc07461872c78c0448d704ba)), closes [#3163](https://github.com/contentful/contentful-management.js/issues/3163)
-
 <!-- shared header  START -->
 
 <p align="center">
