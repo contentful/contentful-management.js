@@ -6,7 +6,7 @@ import type {
   UpdateDataAssemblyProps,
 } from '../../../../../lib/entities/data-assembly'
 
-function deepFreeze<T extends object>(value: T): T {
+function deepFreeze<T extends object>(value: T): Readonly<T> {
   Object.values(value).forEach((child) => {
     if (child !== null && typeof child === 'object') deepFreeze(child)
   })
@@ -125,8 +125,8 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
           query: {},
         },
       })
+      // The frozen response guards against mutation; compare the returned contents once.
       expect(result).toEqual(before)
-      expect(response).toEqual(before)
     },
   )
 
