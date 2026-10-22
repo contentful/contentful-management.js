@@ -1,8 +1,135 @@
 import { describe, test, expect } from 'vitest'
 import setupRestAdapter from '../helpers/setupRestAdapter'
-import type { CreateDataAssemblyProps } from '../../../../../lib/entities/data-assembly'
+import type {
+  CreateDataAssemblyProps,
+  DataAssemblyParameterConfig,
+  UpdateDataAssemblyProps,
+} from '../../../../../lib/entities/data-assembly'
+
+function deepFreeze<T extends object>(value: T): Readonly<T> {
+  Object.values(value).forEach((child) => {
+    if (child !== null && typeof child === 'object') deepFreeze(child)
+  })
+  return Object.freeze(value)
+}
+
+const canonicalParameters: DataAssemblyParameterConfig = [
+  {
+    id: 'second',
+    name: 'Resource',
+    description: 'Preserve authored order',
+    type: 'ResourceLink',
+    required: false,
+    allowedResources: [
+      {
+        type: 'Contentful:Asset',
+        source: 'crn:contentful:::content:spaces/$self/environments/$self',
+      },
+    ],
+  },
+  { id: 'first', type: 'String', required: true, fallbackValue: '', locked: false },
+  { id: 'limit', type: 'Number', required: false, fallbackValue: 0, validation: { min: 0 } },
+  {
+    id: 'query',
+    type: 'Record',
+    required: true,
+    fields: [
+      { id: 'limit', type: 'Number', required: false, fallbackValue: 0 },
+      {
+        id: 'order',
+        type: 'OrderExpression',
+        target: { resourceLink: 'second' },
+        fallbackValue: [{ path: 'sys.createdAt', direction: 'desc' }],
+      },
+    ],
+  },
+  {
+    id: 'order',
+    type: 'OrderExpression',
+    required: false,
+    target: { resourceLink: 'second' },
+    fallbackValue: [],
+  },
+]
 
 describe('Rest DataAssembly', { concurrent: true }, () => {
+  test.each(['create', 'update'] as const)(
+    '%s preserves canonical declarations without mutating the input',
+    async (action) => {
+      const createPayload: CreateDataAssemblyProps = {
+        sys: { type: 'DataAssembly', dataType: [] },
+        metadata: { tags: [] },
+        name: 'Canonical assembly',
+        description: '',
+        parameters: structuredClone(canonicalParameters),
+        resolvers: {
+          query: {
+            source: 'Contentful:GraphQL',
+            query: 'query { articleCollection(limit: $limit) { items { title } } }',
+            parameters: { limit: { $literal: 0 } },
+          },
+        },
+        return: { $from: { source: 'query', select: 'articleCollection.items' } },
+      }
+      const updatePayload: UpdateDataAssemblyProps = {
+        ...createPayload,
+        sys: { ...createPayload.sys, id: 'assembly', version: 3 },
+      }
+      const payload = deepFreeze(action === 'create' ? createPayload : updatePayload)
+      const before = structuredClone(payload)
+      const { httpMock, adapterMock } = setupRestAdapter(Promise.resolve({ data: payload }))
+      const result = await adapterMock.makeRequest({
+        entityType: 'DataAssembly',
+        action,
+        userAgent: 'mocked',
+        params: { spaceId: 'space123', environmentId: 'master', dataAssemblyId: 'assembly' },
+        payload,
+      })
+      const requestBody = httpMock[action === 'create' ? 'post' : 'put'].mock.calls[0][1]
+      expect(requestBody).toEqual(before)
+      expect(requestBody.parameters.map((parameter) => parameter.id)).toEqual([
+        'second',
+        'first',
+        'limit',
+        'query',
+        'order',
+      ])
+      expect(requestBody).not.toBe(payload)
+      expect(requestBody.parameters).not.toBe(payload.parameters)
+      expect(payload).toEqual(before)
+      expect(result).toEqual(before)
+    },
+  )
+
+  test.each(['get', 'getPublished', 'getMany', 'getManyPublished'] as const)(
+    '%s preserves canonical API response arrays',
+    async (action) => {
+      const assembly = deepFreeze({
+        sys: { id: 'assembly', type: 'DataAssembly' },
+        parameters: structuredClone(canonicalParameters),
+      })
+      const response =
+        action === 'getMany' || action === 'getManyPublished'
+          ? deepFreeze({ sys: { type: 'Array' }, items: [assembly] })
+          : assembly
+      const before = structuredClone(response)
+      const { adapterMock } = setupRestAdapter(Promise.resolve({ data: response }))
+      const result = await adapterMock.makeRequest({
+        entityType: 'DataAssembly',
+        action,
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+          dataAssemblyId: 'assembly',
+          query: {},
+        },
+      })
+      // The frozen response guards against mutation; compare the returned contents once.
+      expect(result).toEqual(before)
+    },
+  )
+
   test('getMany calls correct URL', async () => {
     const mockResponse = {
       sys: { type: 'Array' },
@@ -116,7 +243,7 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
           metadata: { tags: [] },
           name: 'New Assembly',
           description: 'A data assembly',
-          parameters: {},
+          parameters: [],
           resolvers: {},
           return: {},
         },
@@ -151,7 +278,7 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
           metadata: { tags: [] },
           name: 'New Assembly',
           description: 'A data assembly',
-          parameters: {},
+          parameters: [],
           resolvers: {},
           return: {},
         },
@@ -171,7 +298,7 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
       name: 'Updated Assembly',
       description: 'An updated data assembly',
       metadata: { tags: [] },
-      parameters: {},
+      parameters: [],
       resolvers: {},
       return: {},
     }
@@ -193,7 +320,7 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
           name: 'Updated Assembly',
           description: 'An updated data assembly',
           metadata: { tags: [] },
-          parameters: {},
+          parameters: [],
           resolvers: {},
           return: {},
         },
@@ -359,7 +486,7 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
       metadata: { tags: [] },
       name: 'Bare-string return',
       description: '',
-      parameters: {},
+      parameters: [],
       resolvers: {},
       return: 'graphql.entry.fields.title',
     }
@@ -386,7 +513,7 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
       metadata: { tags: [] },
       name: '$from return',
       description: '',
-      parameters: {},
+      parameters: [],
       resolvers: {},
       return: { $from: { source: 'graphql.entry', select: 'fields.title' } },
     }
@@ -415,7 +542,7 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
       metadata: { tags: [] },
       name: '$object return',
       description: '',
-      parameters: {},
+      parameters: [],
       resolvers: {},
       return: {
         $object: {
@@ -452,7 +579,7 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
       metadata: { tags: [] },
       name: '$on return',
       description: '',
-      parameters: {},
+      parameters: [],
       resolvers: {},
       return: {
         $on: {
@@ -495,8 +622,10 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
       metadata: { tags: [] },
       name: 'ResourceLink param',
       description: '',
-      parameters: {
-        primary: {
+      parameters: [
+        {
+          id: 'primary',
+          required: true,
           name: 'Primary',
           type: 'ResourceLink',
           linkType: 'Contentful:Entry',
@@ -508,7 +637,7 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
             },
           ],
         },
-      },
+      ],
       resolvers: {},
       return: {},
     }
@@ -521,8 +650,8 @@ describe('Rest DataAssembly', { concurrent: true }, () => {
       payload,
     })
 
-    expect(httpMock.post.mock.calls[0][1].parameters.primary.type).to.eql('ResourceLink')
-    expect(httpMock.post.mock.calls[0][1].parameters.primary.allowedResources[0].source).to.eql(
+    expect(httpMock.post.mock.calls[0][1].parameters[0].type).to.eql('ResourceLink')
+    expect(httpMock.post.mock.calls[0][1].parameters[0].allowedResources[0].source).to.eql(
       'crn:contentful:::content:spaces/$self/environments/$self',
     )
   })

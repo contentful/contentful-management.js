@@ -30,19 +30,82 @@ export type LegacyDataAssemblyDataTypeField = {
 export type DataAssemblyDataTypeField =
   CanonicalDataAssemblyDataTypeField | LegacyDataAssemblyDataTypeField
 
-export type DataAssemblyResourceLinkParameter = {
+type DataAssemblyParameterMetadata = {
   name?: string
   description?: string
-  type: 'ResourceLink'
-  linkType: 'Contentful:Entry'
-  allowedResources: Array<{
-    type: 'Contentful:Entry'
-    source: typeof SAME_SPACE_CONTENT_SOURCE
-    allowedTypes: string[]
-  }>
+  required?: boolean
 }
 
-export type DataAssemblyParameterConfig = Record<string, DataAssemblyResourceLinkParameter>
+export type DataAssemblyResourceLinkParameter = DataAssemblyParameterMetadata & {
+  type: 'ResourceLink'
+  linkType?: 'Contentful:Entry' | 'Contentful:Asset'
+  allowedResources: Array<
+    | {
+        type: 'Contentful:Entry'
+        source: typeof SAME_SPACE_CONTENT_SOURCE
+        allowedTypes: string[]
+      }
+    | {
+        type: 'Contentful:Asset'
+        source: typeof SAME_SPACE_CONTENT_SOURCE
+      }
+  >
+}
+
+export type DataAssemblyStringParameter = DataAssemblyParameterMetadata & {
+  type: 'String'
+  fallbackValue?: string
+  locked?: boolean
+  validation?: { allowedValues?: string[] }
+}
+
+export type DataAssemblyNumberParameter = DataAssemblyParameterMetadata & {
+  type: 'Number'
+  fallbackValue?: number
+  locked?: boolean
+  validation?: { min?: number; max?: number }
+}
+
+export type DataAssemblyOrderTerm = {
+  path: string
+  direction: 'asc' | 'desc'
+}
+
+export type DataAssemblyOrderExpressionBinding = DataAssemblyOrderTerm[]
+
+export type DataAssemblyOrderExpressionParameter = DataAssemblyParameterMetadata & {
+  type: 'OrderExpression'
+  fallbackValue?: DataAssemblyOrderExpressionBinding
+  locked?: boolean
+  target: { resourceLink: string }
+}
+
+/** Nested Record fields retain their own IDs and optional requiredness. */
+export type DataAssemblyRecordField = (
+  DataAssemblyStringParameter | DataAssemblyNumberParameter | DataAssemblyOrderExpressionParameter
+) & { id: string }
+
+export type DataAssemblyRecordParameter = DataAssemblyParameterMetadata & {
+  type: 'Record'
+  fields: DataAssemblyRecordField[]
+  locked?: boolean
+}
+
+export type DataAssemblyParameterDefinition =
+  | DataAssemblyResourceLinkParameter
+  | DataAssemblyStringParameter
+  | DataAssemblyNumberParameter
+  | DataAssemblyRecordParameter
+  | DataAssemblyOrderExpressionParameter
+
+/** A top-level parameter declares its identifier and explicit requiredness. */
+export type DataAssemblyParameterDefinitionWithId = DataAssemblyParameterDefinition & {
+  readonly id: string
+  readonly required: boolean
+}
+
+/** Ordered top-level declarations used by DataAssembly responses, creates and updates. */
+export type DataAssemblyParameterConfig = DataAssemblyParameterDefinitionWithId[]
 
 export type DataAssemblyGraphQLResolver = {
   source: 'Contentful:GraphQL'
