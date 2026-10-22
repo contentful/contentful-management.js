@@ -38,6 +38,9 @@ pnpm update contentful-management@latest
 ### Data Assembly parameters use arrays
 
 Data Assembly is part of ExO alpha. Its contract changes ship in minor SDK releases.
+Although this changes an exported type, Data Assembly is covered by the
+[experimental Experiences API policy](README.md#current-experimental-features),
+which allows breaking changes without a major SDK release.
 
 `DataAssemblyProps`, `CreateDataAssemblyProps`, and `UpdateDataAssemblyProps`
 now share the array-only `DataAssemblyParameterConfig`. Each declaration puts
