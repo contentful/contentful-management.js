@@ -125,6 +125,8 @@ import type { TaskPlainClientAPI } from './entities/task'
 import type { TeamPlainClientAPI } from './entities/team'
 import type { TeamMembershipPlainClientAPI } from './entities/team-membership'
 import type { TeamSpaceMembershipPlainClientAPI } from './entities/team-space-membership'
+import type { FragmentPlainClientAPI } from './entities/fragment'
+import type { TemplatePlainClientAPI } from './entities/template'
 import type { UIConfigPlainClientAPI } from './entities/ui-config'
 import type { UploadPlainClientAPI } from './entities/upload'
 import type { UploadCredentialAPI } from './entities/upload-credential'
@@ -150,6 +152,7 @@ import type { SemanticReferenceSuggestionsPlainClientAPI } from './entities/sema
 import type { SemanticSearchPlainClientAPI } from './entities/semantic-search'
 import type { SemanticSettingsPlainClientAPI } from './entities/semantic-settings'
 import type { ContentSemanticsIndexPlainClientAPI } from './entities/content-semantics-index'
+import type { ComponentTypePlainClientAPI } from './entities/component-type'
 import type { ComponentPlainClientAPI } from './entities/component'
 import type { DataAssemblyPlainClientAPI } from './entities/data-assembly'
 import type { DesignTokenPlainClientAPI } from './entities/design-token'
@@ -294,6 +297,8 @@ export type PlainClientAPI = {
     >
   }
   comment: CommentPlainClientAPI
+  /** @deprecated Use `component` instead. The `componentType` endpoint is superseded by `component`. */
+  componentType: ComponentTypePlainClientAPI
   component: ComponentPlainClientAPI
   dataAssembly: DataAssemblyPlainClientAPI
   designToken: DesignTokenPlainClientAPI
@@ -739,6 +744,10 @@ export type PlainClientAPI = {
   team: TeamPlainClientAPI
   teamMembership: TeamMembershipPlainClientAPI
   teamSpaceMembership: TeamSpaceMembershipPlainClientAPI
+  /** @deprecated Use `experienceFragment` instead. The `fragment` endpoint is superseded by `experienceFragment`. */
+  fragment: FragmentPlainClientAPI
+  /** @deprecated Use `experienceTemplate` instead. The `template` endpoint is superseded by `experienceTemplate`. */
+  template: TemplatePlainClientAPI
   uiConfig: UIConfigPlainClientAPI
   userUIConfig: UserUIConfigPlainClientAPI
   workflowDefinition: WorkflowDefinitionPlainClientAPI

@@ -17,22 +17,21 @@ describe('Experience Integration', { sequential: true }, () => {
   beforeAll(async () => {
     await sweepStaleExoEntities(client)
 
-    // Experiences require a published ExperienceTemplate
-    const tmpl = await client.experienceTemplate.create(
+    // Experiences require a published Template
+    const tmpl = await client.template.create(
       {},
       {
         name: testName('Template for Experience'),
         description: 'Backing template for experience integration test',
         contentProperties: [],
         designProperties: [],
-        componentTree: null,
       },
     )
     templateId = tmpl.sys.id
     createdTemplateIds.push(templateId)
 
-    await client.experienceTemplate.publish({
-      experienceTemplateId: templateId,
+    await client.template.publish({
+      templateId: templateId,
       version: tmpl.sys.version,
     })
 
@@ -67,14 +66,14 @@ describe('Experience Integration', { sequential: true }, () => {
 
     for (const id of createdTemplateIds) {
       try {
-        const latest = await client.experienceTemplate.get({ experienceTemplateId: id })
+        const latest = await client.template.get({ templateId: id })
         if (latest.sys.publishedVersion) {
-          await client.experienceTemplate.unpublish({
-            experienceTemplateId: id,
+          await client.template.unpublish({
+            templateId: id,
             version: latest.sys.version,
           })
         }
-        await client.experienceTemplate.delete({ experienceTemplateId: id })
+        await client.template.delete({ templateId: id })
       } catch {
         // entity already deleted or not found
       }

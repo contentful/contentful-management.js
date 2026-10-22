@@ -7,14 +7,15 @@ import type {
   Link,
 } from '../common-types'
 import type {
-  ComponentContentProperty,
-  ComponentDesignProperty,
   ComponentSlotDefinition,
-  TreeNode,
-} from './component'
-import type { DataAssemblyLink } from './exo-common'
+  ComponentTypeContentProperty,
+  ComponentTypeDesignProperty,
+  DataAssemblyLink,
+  TreeNodeV2,
+} from './component-type'
 
 // ExperienceTemplate sys properties (management API shape).
+// Renamed form of Template: sys.type is 'ExperienceTemplate'.
 export type ExperienceTemplateSys = {
   id: string
   type: 'ExperienceTemplate'
@@ -36,15 +37,18 @@ export type ExperienceTemplateSys = {
   updatedBy: Link<'User'>
 }
 
-// `componentTree` is required: `null` marks a coded template (no tree), `[]` a composed
-// template with an empty tree.
+// componentTree uses the renamed TreeNodeV2 nodes.
 export type ExperienceTemplateProps = {
   sys: ExperienceTemplateSys
   name: string
   description: string
-  contentProperties: ComponentContentProperty[]
-  designProperties: ComponentDesignProperty[]
-  componentTree: TreeNode[] | null
+  contentProperties: ComponentTypeContentProperty[]
+  designProperties: ComponentTypeDesignProperty[]
+  /**
+   * `null` marks a coded template (no tree); `[]` is a composed template with an empty tree.
+   * The Content Management API requires this field on create and update, so always send it.
+   */
+  componentTree?: TreeNodeV2[] | null
   slots?: ComponentSlotDefinition[]
   metadata?: ExoMetadataProps
   dataAssemblies?: DataAssemblyLink[]

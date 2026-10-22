@@ -7,7 +7,7 @@ import type {
   Link,
   ResourceLink,
 } from '../common-types'
-import type { EntityDesignProperties, ExperienceFragmentNode } from './exo-common'
+import type { EntityDesignProperties, ExperienceFragmentNode } from './component-type'
 import type { ExperienceContentBindings, InlineExperienceFragmentNode } from './experience'
 
 export type ExperienceFragmentSys = {

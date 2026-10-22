@@ -10,29 +10,28 @@ describe('ExperienceFragment Integration', { sequential: true }, () => {
   })
 
   const createdExperienceFragmentIds: string[] = []
-  const createdComponentIds: string[] = []
+  const createdComponentTypeIds: string[] = []
   let experienceFragmentId: string
-  let componentId: string
+  let componentTypeId: string
 
   beforeAll(async () => {
     await sweepStaleExoEntities(client)
 
-    const component = await client.component.create(
+    const ct = await client.componentType.create(
       {},
       {
-        name: testName('Component for ExperienceFragment'),
-        description: 'Backing component for experience fragment integration test',
+        name: testName('CT for ExperienceFragment'),
+        description: 'Backing component type for experience fragment integration test',
         contentProperties: [],
         designProperties: [],
-        componentTree: null,
       },
     )
-    componentId = component.sys.id
-    createdComponentIds.push(componentId)
+    componentTypeId = ct.sys.id
+    createdComponentTypeIds.push(componentTypeId)
 
-    await client.component.publish({
-      componentId: componentId,
-      version: component.sys.version,
+    await client.componentType.publish({
+      componentTypeId: componentTypeId,
+      version: ct.sys.version,
     })
 
     const ef = await client.experienceFragment.create(
@@ -40,7 +39,7 @@ describe('ExperienceFragment Integration', { sequential: true }, () => {
       {
         name: testName('ExperienceFragment'),
         description: 'Created by integration test',
-        component: makeResourceLink('Contentful:Component', componentId),
+        component: makeResourceLink('Contentful:Component', componentTypeId),
         designProperties: {},
       },
     )
@@ -64,7 +63,7 @@ describe('ExperienceFragment Integration', { sequential: true }, () => {
       }
     }
 
-    for (const id of createdComponentIds) {
+    for (const id of createdComponentTypeIds) {
       try {
         const latest = await client.component.get({ componentId: id })
         if (latest.sys.publishedVersion) {
@@ -94,7 +93,7 @@ describe('ExperienceFragment Integration', { sequential: true }, () => {
     expect(ef.sys.component).toBeDefined()
     expect(ef.sys.component.sys.type).toBe('ResourceLink')
     expect(ef.sys.component.sys.linkType).toBe('Contentful:Component')
-    expect(ef.sys.component.sys.urn).toContain(componentId)
+    expect(ef.sys.component.sys.urn).toContain(componentTypeId)
     expect(ef.name).toBe(testName('ExperienceFragment'))
   })
 

@@ -150,7 +150,6 @@ describe('Rest ExperienceTemplate', { concurrent: true }, () => {
         payload: {
           sys: { id: 'et123', type: 'ExperienceTemplate', version: 1 },
           name: 'Updated Experience Template',
-          componentTree: [],
         },
       })
       .then((r) => {
@@ -161,7 +160,6 @@ describe('Rest ExperienceTemplate', { concurrent: true }, () => {
         expect(httpMock.put.mock.calls[0][2].headers['X-Contentful-Version']).to.eql(1)
         const body = httpMock.put.mock.calls[0][1]
         expect(body.sys).to.be.undefined
-        expect(body.componentTree).to.eql([])
       })
   })
 

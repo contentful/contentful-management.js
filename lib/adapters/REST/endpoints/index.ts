@@ -24,6 +24,7 @@ import * as AvailableLicense from './available-license'
 import * as BulkAction from './bulk-action'
 import * as Comment from './comment'
 import * as Component from './component'
+import * as ComponentType from './component-type'
 import * as Concept from './concept'
 import * as ConceptScheme from './concept-scheme'
 import * as ContentType from './content-type'
@@ -37,6 +38,7 @@ import * as EnvironmentAlias from './environment-alias'
 import * as EnvironmentTemplate from './environment-template'
 import * as EnvironmentTemplateInstallation from './environment-template-installation'
 import * as Extension from './extension'
+import * as Fragment from './fragment'
 import * as Function from './function'
 import * as FunctionLog from './function-log'
 import * as Http from './http'
@@ -72,6 +74,7 @@ import * as Task from './task'
 import * as Team from './team'
 import * as TeamMembership from './team-membership'
 import * as TeamSpaceMembership from './team-space-membership'
+import * as Template from './template'
 import * as UIConfig from './ui-config'
 import * as Upload from './upload'
 import * as Experience from './experience'
@@ -114,6 +117,7 @@ export default {
   BulkAction,
   Comment,
   Component,
+  ComponentType,
   Concept,
   ConceptScheme,
   ContentType,
@@ -127,6 +131,7 @@ export default {
   EnvironmentTemplate,
   EnvironmentTemplateInstallation,
   Extension,
+  Fragment,
   Function,
   FunctionLog,
   Http,
@@ -163,6 +168,7 @@ export default {
   Team,
   TeamMembership,
   TeamSpaceMembership,
+  Template,
   UIConfig,
   Upload,
   UploadCredential,
