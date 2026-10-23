@@ -1,3 +1,10 @@
+## [12.19.4](https://github.com/contentful/contentful-management.js/compare/v12.19.3...v12.19.4) (2026-10-23)
+
+
+### Bug Fixes
+
+* **exo:** remove deprecated bare content binding parameter type [ARC-1910] ([#3160](https://github.com/contentful/contentful-management.js/issues/3160)) ([826dd82](https://github.com/contentful/contentful-management.js/commit/826dd82e4daf98ae3d51c5e6d7cf2056022c1b00))
+
 <!-- shared header  START -->
 
 <p align="center">
