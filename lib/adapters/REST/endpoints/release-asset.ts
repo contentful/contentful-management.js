@@ -208,7 +208,7 @@ async function checkIfAssetHasUrl(
         processingCheckWait,
       )
     }
-  })
+  }, reject)
 }
 
 export const processForLocale: RestEndpoint<'ReleaseAsset', 'processForLocale'> = async (
