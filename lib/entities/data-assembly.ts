@@ -1,4 +1,5 @@
 import type {
+  AllowedResource,
   CursorPaginationParams,
   DataTypeDefinition,
   ExoCursorPaginatedCollectionProp,
@@ -25,17 +26,7 @@ type DataAssemblyParameterMetadata = {
 export type DataAssemblyResourceLinkParameter = DataAssemblyParameterMetadata & {
   type: 'ResourceLink'
   linkType?: 'Contentful:Entry' | 'Contentful:Asset'
-  allowedResources: Array<
-    | {
-        type: 'Contentful:Entry'
-        source: typeof SAME_SPACE_CONTENT_SOURCE
-        allowedTypes: string[]
-      }
-    | {
-        type: 'Contentful:Asset'
-        source: typeof SAME_SPACE_CONTENT_SOURCE
-      }
-  >
+  allowedResources: Array<AllowedResource & { source: typeof SAME_SPACE_CONTENT_SOURCE }>
 }
 
 export type DataAssemblyStringParameter = DataAssemblyParameterMetadata & {

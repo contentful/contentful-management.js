@@ -5,6 +5,7 @@ import type {
   DataAssemblyParameterConfig,
   DataAssemblyParameterDefinitionWithId,
   DataAssemblyRecordField,
+  DataAssemblyResourceLinkParameter,
   DataAssemblyProps,
   UpdateDataAssemblyProps,
   PlainClientAPI,
@@ -114,6 +115,28 @@ describe('DataAssembly public array contract', () => {
       type: 'OrderExpression' as const,
       target: { resourceLink: 'primary' },
     }).not.toExtend<DataAssemblyRecordField>()
+  })
+
+  it('keeps resource parameters scoped to the same space and Entry content types', () => {
+    type Resource = DataAssemblyResourceLinkParameter['allowedResources'][number]
+    const source = 'crn:contentful:::content:spaces/$self/environments/$self' as const
+
+    expectTypeOf({
+      type: 'Contentful:Entry' as const,
+      source,
+      allowedTypes: ['article'],
+    }).toExtend<Resource>()
+    expectTypeOf({ type: 'Contentful:Asset' as const, source }).toExtend<Resource>()
+    expectTypeOf({ type: 'Contentful:Entry' as const, source }).not.toExtend<Resource>()
+    expectTypeOf({
+      type: 'Contentful:Entry' as const,
+      source: 'crn:contentful:::content:spaces/other/environments/master' as const,
+      allowedTypes: ['article'],
+    }).not.toExtend<Resource>()
+    expectTypeOf({
+      type: 'Contentful:Asset' as const,
+      source: 'crn:contentful:::content:spaces/other/environments/master' as const,
+    }).not.toExtend<Resource>()
   })
 
   it('keeps declaration properties mutable like other entity props', () => {
