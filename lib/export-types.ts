@@ -470,7 +470,17 @@ export type {
 export type {
   DataAssemblyCollection,
   DataAssemblyProps,
+  DataAssemblyParameterConfig,
+  DataAssemblyParameterDefinition,
+  DataAssemblyParameterDefinitionWithId,
   DataAssemblyResourceLinkParameter,
+  DataAssemblyStringParameter,
+  DataAssemblyNumberParameter,
+  DataAssemblyRecordParameter,
+  DataAssemblyRecordField,
+  DataAssemblyOrderExpressionParameter,
+  DataAssemblyOrderTerm,
+  DataAssemblyOrderExpressionBinding,
   CreateDataAssemblyProps,
   UpdateDataAssemblyProps,
 } from './entities/data-assembly'

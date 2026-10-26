@@ -1,4 +1,5 @@
 import type {
+  AllowedResource,
   CursorPaginationParams,
   DataTypeDefinition,
   ExoCursorPaginatedCollectionProp,
@@ -11,38 +12,76 @@ import type {
 export const SAME_SPACE_CONTENT_SOURCE =
   'crn:contentful:::content:spaces/$self/environments/$self' as const
 
-export type CanonicalDataAssemblyDataTypeField = DataTypeDefinition & {
+export type DataAssemblyDataTypeField = DataTypeDefinition & {
   id: string
   name: string
 }
 
-// Permissive shape for pre-cutover stored records. Will be removed after the
-// assemblies API completes its backfill to the canonical DataTypeDefinition.
-export type LegacyDataAssemblyDataTypeField = {
-  id: string
-  name: string
-  type: string
-  required?: boolean
-  source?: string
-  ref?: unknown
-}
-
-export type DataAssemblyDataTypeField =
-  CanonicalDataAssemblyDataTypeField | LegacyDataAssemblyDataTypeField
-
-export type DataAssemblyResourceLinkParameter = {
+type DataAssemblyParameterMetadata = {
   name?: string
   description?: string
-  type: 'ResourceLink'
-  linkType: 'Contentful:Entry'
-  allowedResources: Array<{
-    type: 'Contentful:Entry'
-    source: typeof SAME_SPACE_CONTENT_SOURCE
-    allowedTypes: string[]
-  }>
+  required: boolean
 }
 
-export type DataAssemblyParameterConfig = Record<string, DataAssemblyResourceLinkParameter>
+export type DataAssemblyResourceLinkParameter = DataAssemblyParameterMetadata & {
+  type: 'ResourceLink'
+  linkType?: 'Contentful:Entry' | 'Contentful:Asset'
+  allowedResources: Array<AllowedResource & { source: typeof SAME_SPACE_CONTENT_SOURCE }>
+}
+
+export type DataAssemblyStringParameter = DataAssemblyParameterMetadata & {
+  type: 'String'
+  fallbackValue?: string
+  locked?: boolean
+  validation?: { allowedValues?: string[] }
+}
+
+export type DataAssemblyNumberParameter = DataAssemblyParameterMetadata & {
+  type: 'Number'
+  fallbackValue?: number
+  locked?: boolean
+  validation?: { min?: number; max?: number }
+}
+
+export type DataAssemblyOrderTerm = {
+  path: string
+  direction: 'asc' | 'desc'
+}
+
+export type DataAssemblyOrderExpressionBinding = DataAssemblyOrderTerm[]
+
+export type DataAssemblyOrderExpressionParameter = DataAssemblyParameterMetadata & {
+  type: 'OrderExpression'
+  fallbackValue?: DataAssemblyOrderExpressionBinding
+  locked?: boolean
+  target: { resourceLink: string }
+}
+
+/** Nested Record fields declare their own IDs and explicit requiredness. */
+export type DataAssemblyRecordField = (
+  DataAssemblyStringParameter | DataAssemblyNumberParameter | DataAssemblyOrderExpressionParameter
+) & { id: string }
+
+export type DataAssemblyRecordParameter = DataAssemblyParameterMetadata & {
+  type: 'Record'
+  fields: DataAssemblyRecordField[]
+  locked?: boolean
+}
+
+export type DataAssemblyParameterDefinition =
+  | DataAssemblyResourceLinkParameter
+  | DataAssemblyStringParameter
+  | DataAssemblyNumberParameter
+  | DataAssemblyRecordParameter
+  | DataAssemblyOrderExpressionParameter
+
+/** A top-level parameter declares its identifier and explicit requiredness. */
+export type DataAssemblyParameterDefinitionWithId = DataAssemblyParameterDefinition & {
+  id: string
+}
+
+/** Ordered top-level declarations used by DataAssembly responses, creates and updates. */
+export type DataAssemblyParameterConfig = DataAssemblyParameterDefinitionWithId[]
 
 export type DataAssemblyGraphQLResolver = {
   source: 'Contentful:GraphQL'

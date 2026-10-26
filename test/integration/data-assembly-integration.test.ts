@@ -21,7 +21,7 @@ describe('DataAssembly Integration', { sequential: true }, () => {
         metadata: { tags: [] },
         name: testName('DataAssembly'),
         description: 'Created by integration test',
-        parameters: {},
+        parameters: [],
         resolvers: {},
         // The CMA rejects an empty return mapping; a literal-only $object needs no resolver.
         return: { $object: { title: { $literal: 'static value' } } },

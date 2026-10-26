@@ -9,7 +9,7 @@ const writeBody = {
   metadata: { tags: [] },
   name: 'Assembly',
   description: '',
-  parameters: {},
+  parameters: [],
   resolvers: {},
   return: {},
 }

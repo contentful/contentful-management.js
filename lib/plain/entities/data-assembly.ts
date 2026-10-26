@@ -65,7 +65,7 @@ export type DataAssemblyPlainClientAPI = {
    *   metadata: { tags: [] },
    *   name: 'My Assembly',
    *   description: 'A data assembly',
-   *   parameters: {},
+   *   parameters: [],
    *   resolvers: {},
    *   return: {},
    * });
