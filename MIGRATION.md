@@ -79,9 +79,12 @@ current shapes.
 Every `DataTypeDefinition` also requires an explicit boolean `required`, at
 every level: record fields, array items, literal value types, and discriminated
 union members. This applies to Data Assembly response `sys.dataType` fields and
-ExO content properties. Legacy Data Assembly leaf fields still support their
-existing `source` and `ref` shapes, but require `required` too; recursive fields
-must use the canonical DataType shape.
+ExO content properties. Data Assembly response fields now use the canonical
+`DataTypeDefinition` with `id` and `name`; the legacy permissive field type is
+removed. The Management API normalizes old stored type names on reads. Type
+references require a ResourceLink in `ref`, and Record definitions use ordered
+field arrays with an `id` on each item. The shared DataType union also includes
+`JSON`, `DateTime`, and `ResourceLink`, matching the current API definition.
 
 ```typescript
 // Before
@@ -98,7 +101,7 @@ const dataType = {
   items: {
     type: 'Record',
     required: true,
-    fields: { title: { type: 'String', required: false } },
+    fields: [{ id: 'title', type: 'String', required: false }],
   },
 }
 ```

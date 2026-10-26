@@ -11,30 +11,10 @@ import type {
 export const SAME_SPACE_CONTENT_SOURCE =
   'crn:contentful:::content:spaces/$self/environments/$self' as const
 
-export type CanonicalDataAssemblyDataTypeField = DataTypeDefinition & {
+export type DataAssemblyDataTypeField = DataTypeDefinition & {
   id: string
   name: string
 }
-
-// Permissive shape for pre-cutover stored records. Will be removed after the
-// assemblies API completes its backfill to the canonical DataTypeDefinition.
-export type LegacyDataAssemblyDataTypeField = {
-  id: string
-  name: string
-  type: string
-  required: boolean
-  source?: string
-  ref?: unknown
-  // Recursive canonical definitions must use DataTypeDefinition, so the legacy
-  // leaf shape cannot bypass explicit requiredness on their nested definitions.
-  items?: never
-  fields?: never
-  valueType?: never
-  members?: never
-}
-
-export type DataAssemblyDataTypeField =
-  CanonicalDataAssemblyDataTypeField | LegacyDataAssemblyDataTypeField
 
 type DataAssemblyParameterMetadata = {
   name?: string

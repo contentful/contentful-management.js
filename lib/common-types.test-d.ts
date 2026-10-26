@@ -26,15 +26,16 @@ describe('DataType requiredness', () => {
         items: {
           type: 'Record',
           required: true,
-          fields: {
-            title: { type: 'String', required: false },
-            category: {
+          fields: [
+            { id: 'title', type: 'String', required: false },
+            {
+              id: 'category',
               type: 'Literal',
               required: true,
               value: 'article',
               valueType: { type: 'String', required: true },
             },
-          },
+          ],
         },
       },
       {
@@ -45,14 +46,32 @@ describe('DataType requiredness', () => {
           {
             type: 'Record',
             required: false,
-            fields: {
-              kind: {
+            fields: [
+              {
+                id: 'kind',
                 type: 'Literal',
                 required: true,
                 value: 'article',
                 valueType: { type: 'String', required: true },
               },
-            },
+            ],
+          },
+        ],
+      },
+      { type: 'JSON', required: false },
+      { type: 'DateTime', required: true },
+      {
+        type: 'ResourceLink',
+        required: true,
+        allowedResources: [
+          {
+            type: 'Contentful:Entry',
+            source: 'crn:contentful:::content:spaces/$self/environments/$self',
+            allowedTypes: ['article'],
+          },
+          {
+            type: 'Contentful:Asset',
+            source: 'crn:contentful:::content:spaces/$self/environments/$self',
           },
         ],
       },
@@ -74,7 +93,7 @@ describe('DataType requiredness', () => {
     const record = {
       type: 'Record' as const,
       required: false,
-      fields: { title: missingRequired },
+      fields: [{ id: 'title', ...missingRequired }],
     }
     const literal = {
       type: 'Literal' as const,
@@ -86,12 +105,16 @@ describe('DataType requiredness', () => {
       type: 'DiscriminatedUnion' as const,
       required: true,
       discriminator: 'kind',
-      members: [{ type: 'Record' as const, fields: {} }],
+      members: [{ type: 'Record' as const, fields: [] }],
     }
     const deep = {
       type: 'Array' as const,
       required: true,
-      items: { type: 'Record' as const, required: true, fields: { title: missingRequired } },
+      items: {
+        type: 'Record' as const,
+        required: true,
+        fields: [{ id: 'title', ...missingRequired }],
+      },
     }
 
     expectTypeOf(missingRequired).not.toExtend<DataTypeDefinition>()
@@ -101,7 +124,7 @@ describe('DataType requiredness', () => {
     expectTypeOf(union).not.toExtend<DataTypeDefinition>()
     expectTypeOf(deep).not.toExtend<DataTypeDefinition>()
 
-    // Legacy leaf fields must not let recursive definitions bypass requiredness.
+    // Public entity props enforce the same recursive canonical contract.
     expectTypeOf({ id: 'result', name: 'Result', ...missingRequired }).not.toExtend<
       DataAssemblyProps['sys']['dataType'][number]
     >()
@@ -123,5 +146,51 @@ describe('DataType requiredness', () => {
     expectTypeOf({ id: 'content', name: 'Content', ...deep }).not.toExtend<
       ComponentProps['contentProperties'][number]
     >()
+  })
+
+  it('rejects legacy type names, invalid references and keyed Record fields', () => {
+    type Field = DataAssemblyProps['sys']['dataType'][number]
+
+    expectTypeOf({
+      id: 'title',
+      name: 'Title',
+      type: 'Symbol' as const,
+      required: false,
+    }).not.toExtend<Field>()
+    expectTypeOf({
+      id: 'body',
+      name: 'Body',
+      type: 'Text' as const,
+      required: false,
+    }).not.toExtend<Field>()
+    expectTypeOf({
+      id: 'image',
+      name: 'Image',
+      type: 'Asset' as const,
+      required: false,
+    }).not.toExtend<Field>()
+    expectTypeOf({
+      id: 'media',
+      name: 'Media',
+      type: 'Media' as const,
+      required: false,
+    }).not.toExtend<Field>()
+    expectTypeOf({
+      id: 'reference',
+      name: 'Reference',
+      type: 'TypeRef' as const,
+      required: true,
+      ref: 'component',
+    }).not.toExtend<Field>()
+    expectTypeOf({
+      type: 'Record' as const,
+      required: true,
+      fields: { title: { type: 'String' as const, required: false } },
+    }).not.toExtend<DataTypeDefinition>()
+    expectTypeOf({
+      type: 'Record' as const,
+      required: true,
+      fields: [{ type: 'String' as const, required: false }],
+    }).not.toExtend<DataTypeDefinition>()
   })
 })

@@ -337,8 +337,21 @@ export interface ResourceLink<T extends string> {
   }
 }
 
-// Canonical DataTypeDefinition — mirrors @contentful/data-type
+// Mirrors @contentful/data-type wire shapes with explicit SDK requiredness.
 export type PrimitiveDataTypeName = 'String' | 'Number' | 'Integer' | 'Boolean'
+
+export type AllowedEntryResource = {
+  type: 'Contentful:Entry'
+  source: string
+  allowedTypes: string[]
+}
+
+export type AllowedAssetResource = {
+  type: 'Contentful:Asset'
+  source: string
+}
+
+export type AllowedResource = AllowedEntryResource | AllowedAssetResource
 
 export type BaseDataTypeDefinition = {
   name?: string
@@ -353,14 +366,24 @@ export type RichTextDataTypeDefinition = BaseDataTypeDefinition & {
   type: 'RichText'
 }
 
+export type JsonDataTypeDefinition = BaseDataTypeDefinition & {
+  type: 'JSON'
+}
+
+export type DateTimeDataTypeDefinition = BaseDataTypeDefinition & {
+  type: 'DateTime'
+}
+
 export type ArrayDataTypeDefinition = BaseDataTypeDefinition & {
   type: 'Array'
   items: DataTypeDefinition
 }
 
+export type RecordField = DataTypeDefinition & { id: string }
+
 export type RecordDataTypeDefinition = BaseDataTypeDefinition & {
   type: 'Record'
-  fields: Record<string, DataTypeDefinition>
+  fields: RecordField[]
 }
 
 export type TypeRefDataTypeDefinition = BaseDataTypeDefinition & {
@@ -383,14 +406,22 @@ export type DiscriminatedUnionDataTypeDefinition = BaseDataTypeDefinition & {
   members: DataTypeDefinition[]
 }
 
+export type ResourceLinkDataTypeDefinition = BaseDataTypeDefinition & {
+  type: 'ResourceLink'
+  allowedResources: AllowedResource[]
+}
+
 export type DataTypeDefinition =
   | PrimitiveDataTypeDefinition
   | RichTextDataTypeDefinition
+  | JsonDataTypeDefinition
+  | DateTimeDataTypeDefinition
   | ArrayDataTypeDefinition
   | RecordDataTypeDefinition
   | TypeRefDataTypeDefinition
   | LiteralDataTypeDefinition
   | DiscriminatedUnionDataTypeDefinition
+  | ResourceLinkDataTypeDefinition
 
 export type PointerExpressionValue =
   | string
