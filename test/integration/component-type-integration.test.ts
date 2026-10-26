@@ -22,6 +22,7 @@ describe('ComponentType Integration', { sequential: true }, () => {
         description: 'Created by integration test',
         contentProperties: [{ id: 'title', name: 'Title', type: 'String', required: false }],
         designProperties: [{ id: 'color', name: 'Color', type: 'String' }],
+        componentTree: null,
       },
     )
     componentTypeId = created.sys.id

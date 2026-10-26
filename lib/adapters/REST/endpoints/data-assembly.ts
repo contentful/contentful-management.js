@@ -51,14 +51,16 @@ export const create: RestEndpoint<'DataAssembly', 'create'> = (
 
 export const update: RestEndpoint<'DataAssembly', 'update'> = (
   http: AxiosInstance,
-  params: GetDataAssemblyParams,
+  params: GetDataAssemblyParams & { version?: number },
   rawData: UpdateDataAssemblyProps,
   headers?: RawAxiosRequestHeaders,
 ) => {
   const data = copy(rawData)
   return raw.put<DataAssemblyProps>(http, getBaseUrl(params) + `/${params.dataAssemblyId}`, data, {
     headers: {
-      'X-Contentful-Version': rawData.sys.version ?? 0,
+      // Omit the version only when this PUT creates the data assembly. Updating an existing one
+      // without its current version fails with a version mismatch.
+      ...(params.version !== undefined && { 'X-Contentful-Version': params.version }),
       ...headers,
     },
   })

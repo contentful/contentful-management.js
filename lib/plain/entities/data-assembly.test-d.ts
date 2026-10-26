@@ -70,7 +70,6 @@ const parameters: DataAssemblyParameterConfig = [
 ]
 
 const createPayload: CreateDataAssemblyProps = {
-  sys: { type: 'DataAssembly', dataType: [] },
   metadata: { tags: [] },
   name: 'Canonical assembly',
   description: '',
@@ -81,7 +80,6 @@ const createPayload: CreateDataAssemblyProps = {
 
 const updatePayload: UpdateDataAssemblyProps = {
   ...createPayload,
-  sys: { id: 'assembly', type: 'DataAssembly', version: 1, dataType: [] },
 }
 
 describe('DataAssembly public array contract', () => {
@@ -123,7 +121,7 @@ describe('DataAssembly public array contract', () => {
         client.dataAssembly.create(params, createPayload),
       ).resolves.toEqualTypeOf<DataAssemblyProps>()
       expectTypeOf(
-        client.dataAssembly.update(params, updatePayload),
+        client.dataAssembly.update({ ...params, version: 1 }, updatePayload),
       ).resolves.toEqualTypeOf<DataAssemblyProps>()
       client.dataAssembly.create(params, {
         ...createPayload,

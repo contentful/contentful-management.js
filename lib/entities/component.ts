@@ -47,7 +47,11 @@ export type ComponentProps = {
   description: string
   contentProperties: ComponentTypeContentProperty[]
   designProperties: ComponentTypeDesignProperty[]
-  componentTree?: TreeNodeV2[]
+  /**
+   * `null` marks a coded component (no tree); `[]` is a composed component with an empty tree.
+   * The Content Management API requires this field on create and update, so always send it.
+   */
+  componentTree?: TreeNodeV2[] | null
   slots?: ComponentSlotDefinition[]
   metadata?: ExoMetadataProps
   dataAssemblies?: DataAssemblyLink[]

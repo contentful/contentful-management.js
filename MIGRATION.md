@@ -5,6 +5,7 @@
   - [Data Assembly parameters use arrays](#data-assembly-parameters-use-arrays)
 - [Migration to version 13.x](#migration-to-version-13x)
   - [ExO viewport types removed](#exo-viewport-types-removed)
+  - [ExO content binding parameters must be `$literal`-wrapped](#exo-content-binding-parameters-must-be-literal-wrapped)
 - [Migration to version 12.x](#migration-to-version-12x)
   - [Quick Summary](#quick-summary)
   - [Breaking Changes](#breaking-changes)
@@ -117,6 +118,33 @@ await client.component.create(
     designProperties: [],
   },
 )
+```
+
+### ExO content binding parameters must be `$literal`-wrapped
+
+`ExperienceContentBindingParameter` no longer accepts a bare `ResourceLink`. The
+Experience Management API rejects the bare `{ sys }` form in
+`contentBindings.parameters`, so the type now only allows the `$literal`-wrapped
+form. TypeScript code that still passes a bare link stops compiling.
+
+Wrap each link in `$literal`:
+
+```typescript
+// Before
+const parameters = {
+  hero: {
+    sys: { type: 'ResourceLink', linkType: 'Contentful:Entry', urn },
+  },
+}
+
+// After
+const parameters = {
+  hero: {
+    $literal: {
+      sys: { type: 'ResourceLink', linkType: 'Contentful:Entry', urn },
+    },
+  },
+}
 ```
 
 ## Migration to version 12.x

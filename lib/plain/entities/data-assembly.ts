@@ -62,7 +62,6 @@ export type DataAssemblyPlainClientAPI = {
    *   spaceId: '<space_id>',
    *   environmentId: '<environment_id>',
    * }, {
-   *   sys: { type: 'DataAssembly', dataType: [] },
    *   metadata: { tags: [] },
    *   name: 'My Assembly',
    *   description: 'A data assembly',
@@ -80,26 +79,29 @@ export type DataAssemblyPlainClientAPI = {
 
   /**
    * Updates a data assembly with PUT
-   * @param params the space, environment, and data assembly IDs
-   * @param rawData the data assembly data to update (must include sys.version)
+   * @param params the space, environment, and data assembly IDs, and the current version (sent as X-Contentful-Version).
+   * The version is required to update an existing data assembly; omit it only when the PUT creates one with the given ID.
+   * @param rawData the data assembly data to update, without top-level sys
    * @param headers optional custom headers
    * @returns the updated data assembly
    * @throws if the request fails, or the data assembly is not found
    * @internal - Experimental endpoint, subject to breaking changes without notice
    * @example
    * ```javascript
+   * const { sys, ...body } = dataAssembly;
    * const updated = await client.dataAssembly.update(
    *   {
    *     spaceId: '<space_id>',
    *     environmentId: '<environment_id>',
-   *     dataAssemblyId: '<data_assembly_id>',
+   *     dataAssemblyId: sys.id,
+   *     version: sys.version,
    *   },
-   *   { ...dataAssembly, name: 'Updated Name' },
+   *   { ...body, name: 'Updated Name' },
    * );
    * ```
    */
   update(
-    params: OptionalDefaults<GetDataAssemblyParams>,
+    params: OptionalDefaults<GetDataAssemblyParams & { version?: number }>,
     rawData: UpdateDataAssemblyProps,
     headers?: RawAxiosRequestHeaders,
   ): Promise<DataAssemblyProps>

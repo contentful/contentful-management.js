@@ -8,9 +8,7 @@ import type {
 } from '../common-types'
 import type { EntityDesignProperties, ExperienceFragmentNode } from './component-type'
 
-export type ExperienceContentBindingParameter =
-  /** @deprecated Bare ResourceLink. Use the `$literal`-wrapped form instead. */
-  ResourceLink<string> | { $literal: ResourceLink<string> }
+export type ExperienceContentBindingParameter = { $literal: ResourceLink<string> }
 
 export type ExperienceContentBindings = {
   sys: ResourceLink<'Contentful:DataAssembly'>['sys']

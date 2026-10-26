@@ -115,6 +115,7 @@ describe('Rest ExperienceTemplate', { concurrent: true }, () => {
           description: 'A new experience template',
           contentProperties: [],
           designProperties: [],
+          componentTree: null,
         },
       })
       .then((r) => {
@@ -124,6 +125,7 @@ describe('Rest ExperienceTemplate', { concurrent: true }, () => {
         )
         const body = httpMock.post.mock.calls[0][1]
         expect(body.name).to.eql('New Experience Template')
+        expect(body.componentTree).to.eql(null)
       })
   })
 
