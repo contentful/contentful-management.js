@@ -1,9 +1,9 @@
-## [12.19.4](https://github.com/contentful/contentful-management.js/compare/v12.19.3...v12.19.4) (2026-10-23)
+# [12.20.0](https://github.com/contentful/contentful-management.js/compare/v12.19.4...v12.20.0) (2026-10-26)
 
 
-### Bug Fixes
+### Features
 
-* **exo:** remove deprecated bare content binding parameter type [ARC-1910] ([#3160](https://github.com/contentful/contentful-management.js/issues/3160)) ([826dd82](https://github.com/contentful/contentful-management.js/commit/826dd82e4daf98ae3d51c5e6d7cf2056022c1b00))
+* **data-assembly:** use array parameters [ARC-2630] ([#3162](https://github.com/contentful/contentful-management.js/issues/3162)) ([dfe576c](https://github.com/contentful/contentful-management.js/commit/dfe576c9f320da5bf4732b6e8891f250c59d68b7))
 
 <!-- shared header  START -->
 
