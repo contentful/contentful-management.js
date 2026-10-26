@@ -342,7 +342,7 @@ export type PrimitiveDataTypeName = 'String' | 'Number' | 'Integer' | 'Boolean'
 
 export type BaseDataTypeDefinition = {
   name?: string
-  required?: boolean
+  required: boolean
 }
 
 export type PrimitiveDataTypeDefinition = BaseDataTypeDefinition & {

@@ -6,6 +6,8 @@ import type {
   UpdateDataAssemblyProps,
 } from '../../../../../lib/entities/data-assembly'
 
+// Freeze these nested JSON fixtures so accidental mutation fails in the
+// canonical read/write pass-through tests. Only this suite needs the helper.
 function deepFreeze<T extends object>(value: T): Readonly<T> {
   Object.values(value).forEach((child) => {
     if (child !== null && typeof child === 'object') deepFreeze(child)
@@ -38,6 +40,7 @@ const canonicalParameters: DataAssemblyParameterConfig = [
       {
         id: 'order',
         type: 'OrderExpression',
+        required: false,
         target: { resourceLink: 'second' },
         fallbackValue: [{ path: 'sys.createdAt', direction: 'desc' }],
       },

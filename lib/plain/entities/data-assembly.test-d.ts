@@ -4,6 +4,7 @@ import type {
   DataAssemblyCollection,
   DataAssemblyParameterConfig,
   DataAssemblyParameterDefinitionWithId,
+  DataAssemblyRecordField,
   DataAssemblyProps,
   UpdateDataAssemblyProps,
   PlainClientAPI,
@@ -50,10 +51,11 @@ const parameters: DataAssemblyParameterConfig = [
     required: true,
     fields: [
       { id: 'term', type: 'String', required: false, fallbackValue: '' },
-      { id: 'limit', type: 'Number', fallbackValue: 0 },
+      { id: 'limit', type: 'Number', required: false, fallbackValue: 0 },
       {
         id: 'order',
         type: 'OrderExpression',
+        required: false,
         target: { resourceLink: 'primary' },
         fallbackValue: [{ path: 'sys.createdAt', direction: 'desc' }],
       },
@@ -102,6 +104,23 @@ describe('DataAssembly public array contract', () => {
     // @ts-expect-error — omitted requiredness cannot enter the canonical contract
     const missingRequired: DataAssemblyParameterConfig = [{ id: 'title', type: 'String' }]
     void [record, missingId, missingRequired]
+  })
+
+  it('requires an explicit boolean on every nested Record field', () => {
+    expectTypeOf({ id: 'term', type: 'String' as const }).not.toExtend<DataAssemblyRecordField>()
+    expectTypeOf({ id: 'limit', type: 'Number' as const }).not.toExtend<DataAssemblyRecordField>()
+    expectTypeOf({
+      id: 'order',
+      type: 'OrderExpression' as const,
+      target: { resourceLink: 'primary' },
+    }).not.toExtend<DataAssemblyRecordField>()
+  })
+
+  it('keeps declaration properties mutable like other entity props', () => {
+    void ((parameter: DataAssemblyParameterDefinitionWithId) => {
+      parameter.id = 'renamed'
+      parameter.required = false
+    })
   })
 
   it('uses array declarations at client read, create and update boundaries', () => {

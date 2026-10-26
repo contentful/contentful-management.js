@@ -45,7 +45,8 @@ which allows breaking changes without a major SDK release.
 
 `DataAssemblyProps`, `CreateDataAssemblyProps`, and `UpdateDataAssemblyProps`
 now share the array-only `DataAssemblyParameterConfig`. Each declaration puts
-its identifier in `id` and supplies an explicit boolean `required`. All
+its identifier in `id` and supplies an explicit boolean `required`, including
+every nested `Record.fields` declaration. All
 supported configuration kinds are available: `ResourceLink`, `String`,
 `Number`, `Record`, and `OrderExpression`.
 
@@ -74,6 +75,33 @@ in place of record lookup. Preserve declaration order, names, descriptions,
 fallbacks, and explicit `required: false` when updating existing definitions.
 Existing `Record.fields` arrays and resolver/binding value maps keep their
 current shapes.
+
+Every `DataTypeDefinition` also requires an explicit boolean `required`, at
+every level: record fields, array items, literal value types, and discriminated
+union members. This applies to Data Assembly response `sys.dataType` fields and
+ExO content properties. Legacy Data Assembly leaf fields still support their
+existing `source` and `ref` shapes, but require `required` too; recursive fields
+must use the canonical DataType shape.
+
+```typescript
+// Before
+const dataType = {
+  type: 'Array',
+  required: true,
+  items: { type: 'Record', fields: { title: { type: 'String' } } },
+}
+
+// After
+const dataType = {
+  type: 'Array',
+  required: true,
+  items: {
+    type: 'Record',
+    required: true,
+    fields: { title: { type: 'String', required: false } },
+  },
+}
+```
 
 This SDK does not convert API responses or opt into a parameter format. Before
 merging and releasing this update, coordinate the API flag switch so every

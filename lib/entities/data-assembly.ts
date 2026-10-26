@@ -22,9 +22,15 @@ export type LegacyDataAssemblyDataTypeField = {
   id: string
   name: string
   type: string
-  required?: boolean
+  required: boolean
   source?: string
   ref?: unknown
+  // Recursive canonical definitions must use DataTypeDefinition, so the legacy
+  // leaf shape cannot bypass explicit requiredness on their nested definitions.
+  items?: never
+  fields?: never
+  valueType?: never
+  members?: never
 }
 
 export type DataAssemblyDataTypeField =
@@ -33,7 +39,7 @@ export type DataAssemblyDataTypeField =
 type DataAssemblyParameterMetadata = {
   name?: string
   description?: string
-  required?: boolean
+  required: boolean
 }
 
 export type DataAssemblyResourceLinkParameter = DataAssemblyParameterMetadata & {
@@ -80,7 +86,7 @@ export type DataAssemblyOrderExpressionParameter = DataAssemblyParameterMetadata
   target: { resourceLink: string }
 }
 
-/** Nested Record fields retain their own IDs and optional requiredness. */
+/** Nested Record fields declare their own IDs and explicit requiredness. */
 export type DataAssemblyRecordField = (
   DataAssemblyStringParameter | DataAssemblyNumberParameter | DataAssemblyOrderExpressionParameter
 ) & { id: string }
@@ -100,8 +106,7 @@ export type DataAssemblyParameterDefinition =
 
 /** A top-level parameter declares its identifier and explicit requiredness. */
 export type DataAssemblyParameterDefinitionWithId = DataAssemblyParameterDefinition & {
-  readonly id: string
-  readonly required: boolean
+  id: string
 }
 
 /** Ordered top-level declarations used by DataAssembly responses, creates and updates. */
