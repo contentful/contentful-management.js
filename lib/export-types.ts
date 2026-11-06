@@ -14,6 +14,7 @@ export type {
 } from './entities/app-access-token'
 export type {
   AiAction,
+  AiActionCondition,
   AiActionConfiguration,
   AiActionInstruction,
   AiActionOutputTypeValue,

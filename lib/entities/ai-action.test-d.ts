@@ -1,5 +1,6 @@
 import { describe, expectTypeOf, it } from 'vitest'
 import type {
+  AiActionCondition,
   AiActionConfiguration,
   AiActionInstruction,
   AiActionInvocationProps,
@@ -48,6 +49,52 @@ describe('AI Action public types', () => {
     >()
     expectTypeOf<AiActionConfiguration>().toEqualTypeOf<CreateAiActionProps['configuration']>()
     expectTypeOf<AiActionInstruction>().toEqualTypeOf<CreateAiActionProps['instruction']>()
+  })
+
+  it('accepts the condition operators supported by AI Proxy in instruction payloads', () => {
+    const conditions: AiActionCondition[] = [
+      { id: 'isGerman', variable: 'locale', operator: 'eq', value: 'de-DE' },
+      { id: 'hasGlossary', variable: 'glossary', operator: 'neq', value: '' },
+      { id: 'isSupported', variable: 'locale', operator: 'in', value: ['de-DE', 'en-US'] },
+      { id: 'isExcluded', variable: 'locale', operator: 'nin', value: ['fr-FR'] },
+    ]
+    const instruction: CreateAiActionProps['instruction'] = {
+      template: '{{#if condition.hasGlossary}}Use {{var.glossary}}{{/if}}',
+      variables: [{ id: 'glossary', type: 'Text' }],
+      conditions,
+    }
+
+    expectTypeOf(instruction.conditions).toEqualTypeOf<AiActionCondition[] | undefined>()
+    expectTypeOf({ template: 'Translate', variables: [] }).toExtend<AiActionInstruction>()
+  })
+
+  it('rejects condition values that do not match the operator', () => {
+    const condition = { id: 'isGerman', variable: 'locale' }
+    expectTypeOf({
+      ...condition,
+      operator: 'eq' as const,
+      value: ['de-DE'],
+    }).not.toExtend<AiActionCondition>()
+    expectTypeOf({
+      ...condition,
+      operator: 'neq' as const,
+      value: ['de-DE'],
+    }).not.toExtend<AiActionCondition>()
+    expectTypeOf({
+      ...condition,
+      operator: 'in' as const,
+      value: 'de-DE',
+    }).not.toExtend<AiActionCondition>()
+    expectTypeOf({
+      ...condition,
+      operator: 'nin' as const,
+      value: 'de-DE',
+    }).not.toExtend<AiActionCondition>()
+    expectTypeOf({
+      ...condition,
+      operator: 'contains' as const,
+      value: 'de-DE',
+    }).not.toExtend<AiActionCondition>()
   })
 
   it('allows consumers to describe and narrow suggestion content blocks', () => {

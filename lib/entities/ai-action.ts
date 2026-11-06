@@ -57,9 +57,24 @@ export type AiActionOutputTypeValue = (typeof AiActionOutputType)[keyof typeof A
 /** @deprecated Use `AiActionOutputTypeValue` instead. */
 export type AiActionOutputTypeType = AiActionOutputTypeValue
 
+export type AiActionCondition = {
+  id: string
+  variable: string
+} & (
+  | {
+      operator: 'eq' | 'neq'
+      value: string
+    }
+  | {
+      operator: 'in' | 'nin'
+      value: string[]
+    }
+)
+
 export type AiActionInstruction = {
   variables: Array<AiActionVariable>
   template: string
+  conditions?: Array<AiActionCondition>
 }
 
 export type AiActionConfiguration = {
