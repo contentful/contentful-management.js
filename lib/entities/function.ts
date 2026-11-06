@@ -1,6 +1,6 @@
 import type { Link, DefaultElements } from '../common-types'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import { wrapCollection } from '../common-utils'
 import type { MakeRequest } from '../common-types'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -26,7 +26,7 @@ export type FunctionProps = {
 export interface Function extends FunctionProps, DefaultElements<FunctionProps> {}
 
 /**
- * @private
+ * @internal
  */
 function createFunctionApi(makeRequest: MakeRequest) {
   return {
@@ -56,7 +56,7 @@ function createFunctionApi(makeRequest: MakeRequest) {
     getManyFunctionsForEnvironment(
       spaceId: string,
       environmentId: string,
-      appInstallationId: string
+      appInstallationId: string,
     ) {
       return makeRequest({
         entityType: 'Function',
@@ -72,10 +72,10 @@ function createFunctionApi(makeRequest: MakeRequest) {
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - (real) function to make requests via an adapter
  * @param data - raw contentful-Function data
- * @return Wrapped Function data
+ * @returns Wrapped Function data
  */
 export function wrapFunction(makeRequest: MakeRequest, data: FunctionProps): FunctionProps {
   const func = toPlainObject(copy(data))
@@ -83,6 +83,6 @@ export function wrapFunction(makeRequest: MakeRequest, data: FunctionProps): Fun
   return freezeSys(funcWithMethods)
 }
 /**
- * @private
+ * @internal
  */
 export const wrapFunctionCollection = wrapCollection(wrapFunction)

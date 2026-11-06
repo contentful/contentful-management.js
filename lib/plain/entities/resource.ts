@@ -36,6 +36,6 @@ export type ResourcePlainAPI = {
    * ```
    */
   getMany(
-    params: OptionalDefaults<GetResourceParams> & { query?: ResourceQueryOptions }
+    params: OptionalDefaults<GetResourceParams> & { query?: ResourceQueryOptions },
   ): Promise<CursorPaginatedCollectionProp<ResourceProps>>
 }

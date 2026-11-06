@@ -29,7 +29,7 @@ describe('Function', () => {
       .then((r) => {
         expect(r).to.eql(entityMock)
         expect(httpMock.get.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/app_definitions/app-definition-id/functions/function-id'
+          '/organizations/organization-id/app_definitions/app-definition-id/functions/function-id',
         )
       })
   })
@@ -52,7 +52,7 @@ describe('Function', () => {
       .then((r) => {
         expect(r).to.eql(entityMock)
         expect(httpMock.get.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/app_definitions/app-definition-id/functions'
+          '/organizations/organization-id/app_definitions/app-definition-id/functions',
         )
       })
   })
@@ -76,7 +76,7 @@ describe('Function', () => {
       .then((r) => {
         expect(r).to.eql(entityMock)
         expect(httpMock.get.mock.calls[0][0]).to.eql(
-          '/spaces/space-id/environments/environment-id/app_installations/app-installation-id/functions'
+          '/spaces/space-id/environments/environment-id/app_installations/app-installation-id/functions',
         )
       })
   })

@@ -8,8 +8,11 @@ import type {
   GetResourceTypeParams,
   GetSpaceEnvironmentParams,
 } from '../../common-types'
-import type { ResourceTypeProps, UpsertResourceTypeProps } from '../../export-types'
-import type { SpaceEnvResourceTypeProps } from '../../entities/resource-type'
+import type {
+  SpaceEnvResourceTypeProps,
+  ResourceTypeProps,
+  UpsertResourceTypeProps,
+} from '../../entities/resource-type'
 
 export type ResourceTypePlainClientAPI = {
   /*
@@ -62,7 +65,7 @@ export type ResourceTypePlainClientAPI = {
   upsert(
     params: OptionalDefaults<GetResourceTypeParams>,
     rawData: UpsertResourceTypeProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<ResourceTypeProps>
 
   /*
@@ -95,7 +98,7 @@ export type ResourceTypePlainClientAPI = {
    * ```
    */
   getForEnvironment(
-    params: OptionalDefaults<GetSpaceEnvironmentParams> & { query?: BasicCursorPaginationOptions }
+    params: OptionalDefaults<GetSpaceEnvironmentParams> & { query?: BasicCursorPaginationOptions },
   ): Promise<CursorPaginatedCollectionProp<SpaceEnvResourceTypeProps>>
 
   /*
@@ -112,6 +115,6 @@ export type ResourceTypePlainClientAPI = {
    * ```
    */
   getMany(
-    params: OptionalDefaults<Omit<GetResourceTypeParams, 'resourceTypeId'>>
+    params: OptionalDefaults<Omit<GetResourceTypeParams, 'resourceTypeId'>>,
   ): Promise<CollectionProp<ResourceTypeProps>>
 }

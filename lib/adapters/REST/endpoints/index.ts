@@ -1,6 +1,10 @@
 import * as AiAction from './ai-action'
 import * as AiActionInvocation from './ai-action-invocation'
+import * as Agent from './agent'
+import * as AgentRun from './agent-run'
 import * as AccessToken from './access-token'
+import * as AutomationDefinition from './automation-definition'
+import * as AutomationExecution from './automation-execution'
 import * as ApiKey from './api-key'
 import * as AppAccessToken from './app-access-token'
 import * as AppAction from './app-action'
@@ -16,18 +20,25 @@ import * as AppSigningSecret from './app-signing-secret'
 import * as AppUpload from './app-upload'
 import * as Asset from './asset'
 import * as AssetKey from './asset-key'
+import * as AvailableLicense from './available-license'
 import * as BulkAction from './bulk-action'
 import * as Comment from './comment'
+import * as Component from './component'
+import * as ComponentType from './component-type'
 import * as Concept from './concept'
 import * as ConceptScheme from './concept-scheme'
 import * as ContentType from './content-type'
+import * as DataAssembly from './data-assembly'
+import * as DesignToken from './design-token'
 import * as EditorInterface from './editor-interface'
+import * as EligibleLicense from './eligible-license'
 import * as Entry from './entry'
 import * as Environment from './environment'
 import * as EnvironmentAlias from './environment-alias'
 import * as EnvironmentTemplate from './environment-template'
 import * as EnvironmentTemplateInstallation from './environment-template-installation'
 import * as Extension from './extension'
+import * as Fragment from './fragment'
 import * as Function from './function'
 import * as FunctionLog from './function-log'
 import * as Http from './http'
@@ -39,14 +50,23 @@ import * as OAuthApplication from './oauth-application'
 import * as PersonalAccessToken from './personal-access-token'
 import * as PreviewApiKey from './preview-api-key'
 import * as Release from './release'
+import * as ReleaseAsset from './release-asset'
+import * as ReleaseEntry from './release-entry'
 import * as ReleaseAction from './release-action'
 import * as Resource from './resource'
 import * as ResourceProvider from './resource-provider'
 import * as ResourceType from './resource-type'
 import * as Role from './role'
 import * as ScheduledAction from './scheduled-action'
+import * as ContentSemanticsIndex from './content-semantics-index'
+import * as SemanticDuplicates from './semantic-duplicates'
+import * as SemanticRecommendations from './semantic-recommendations'
+import * as SemanticReferenceSuggestions from './semantic-reference-suggestions'
+import * as SemanticSearch from './semantic-search'
+import * as SemanticSettings from './semantic-settings'
 import * as Snapshot from './snapshot'
 import * as Space from './space'
+import * as SpaceAddOn from './space-add-on'
 import * as SpaceMember from './space-member'
 import * as SpaceMembership from './space-membership'
 import * as Tag from './tag'
@@ -54,8 +74,14 @@ import * as Task from './task'
 import * as Team from './team'
 import * as TeamMembership from './team-membership'
 import * as TeamSpaceMembership from './team-space-membership'
+import * as Template from './template'
 import * as UIConfig from './ui-config'
 import * as Upload from './upload'
+import * as Experience from './experience'
+import * as ExperienceVariant from './experience-variant'
+import * as ExperienceFragment from './experience-fragment'
+import * as ExperienceTemplate from './experience-template'
+import * as ExperienceFragmentVariant from './experience-fragment-variant'
 import * as UploadCredential from './upload-credentials'
 import * as Usage from './usage'
 import * as User from './user'
@@ -68,7 +94,11 @@ import * as WorkflowsChangelog from './workflows-changelog'
 export default {
   AiAction,
   AiActionInvocation,
+  Agent,
+  AgentRun,
   ApiKey,
+  AutomationDefinition,
+  AutomationExecution,
   AppAction,
   AppActionCall,
   AppBundle,
@@ -83,18 +113,25 @@ export default {
   AppDetails,
   Asset,
   AssetKey,
+  AvailableLicense,
   BulkAction,
   Comment,
+  Component,
+  ComponentType,
   Concept,
   ConceptScheme,
   ContentType,
+  DataAssembly,
+  DesignToken,
   EditorInterface,
+  EligibleLicense,
   Entry,
   Environment,
   EnvironmentAlias,
   EnvironmentTemplate,
   EnvironmentTemplateInstallation,
   Extension,
+  Fragment,
   Function,
   FunctionLog,
   Http,
@@ -107,14 +144,23 @@ export default {
   AccessToken,
   PreviewApiKey,
   Release,
+  ReleaseAsset,
+  ReleaseEntry,
   ReleaseAction,
   Resource,
   ResourceProvider,
   ResourceType,
   Role,
   ScheduledAction,
+  ContentSemanticsIndex,
+  SemanticDuplicates,
+  SemanticRecommendations,
+  SemanticReferenceSuggestions,
+  SemanticSearch,
+  SemanticSettings,
   Snapshot,
   Space,
+  SpaceAddOn,
   SpaceMember,
   SpaceMembership,
   Tag,
@@ -122,9 +168,15 @@ export default {
   Team,
   TeamMembership,
   TeamSpaceMembership,
+  Template,
   UIConfig,
   Upload,
   UploadCredential,
+  Experience,
+  ExperienceVariant,
+  ExperienceFragment,
+  ExperienceTemplate,
+  ExperienceFragmentVariant,
   Usage,
   User,
   UserUIConfig,

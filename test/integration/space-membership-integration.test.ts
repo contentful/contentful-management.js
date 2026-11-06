@@ -55,6 +55,7 @@ describe('SpaceMembership API', () => {
     expect(spaceMembership.sys.type).toBe('SpaceMembership')
 
     await spaceMembership.delete()
+    await timeoutToCalmRateLimiting()
   })
 
   it('Creates space membership with explicit id', async () => {
@@ -81,5 +82,6 @@ describe('SpaceMembership API', () => {
     expect(spaceMembership.sys.id).toBe(id)
 
     await spaceMembership.delete()
+    await timeoutToCalmRateLimiting()
   })
 })

@@ -1,5 +1,5 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import type {
   DefaultElements,
   Link,
@@ -36,32 +36,31 @@ export type WorkflowsChangelogEntryProps = {
 }
 
 export interface WorkflowsChangelogEntry
-  extends WorkflowsChangelogEntryProps,
-    DefaultElements<WorkflowsChangelogEntryProps> {}
+  extends WorkflowsChangelogEntryProps, DefaultElements<WorkflowsChangelogEntryProps> {}
 
 /**
- * @private
+ * @internal
  */
 function createWorkflowsChangelogEntryApi() {
   return {}
 }
 
 /**
- * @private
+ * @internal
  */
 export function wrapWorkflowsChangelogEntry(
   _makeRequest: MakeRequest,
-  data: WorkflowsChangelogEntryProps
+  data: WorkflowsChangelogEntryProps,
 ): WorkflowsChangelogEntry {
   const workflowsChangelogEntry = toPlainObject(copy(data))
   const workflowsChangelogEntryWithMethods = enhanceWithMethods(
     workflowsChangelogEntry,
-    createWorkflowsChangelogEntryApi()
+    createWorkflowsChangelogEntryApi(),
   )
   return freezeSys(workflowsChangelogEntryWithMethods)
 }
 
 /**
- * @private
+ * @internal
  */
 export const wrapWorkflowsChangelogEntryCollection = wrapCollection(wrapWorkflowsChangelogEntry)

@@ -1,5 +1,5 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import type {
   BasicMetaSysProps,
   DefaultElements,
@@ -49,9 +49,7 @@ export enum WorkflowStepActionType {
   Task = 'task',
 }
 export type WorkflowStepAction =
-  | WorkflowStepEmailAction
-  | WorkflowStepTaskAction
-  | WorkflowStepAppAction
+  WorkflowStepEmailAction | WorkflowStepTaskAction | WorkflowStepAppAction
 
 export type WorkflowStepEmailActionRecipient = string | Link<'User'> | Link<'Team'>
 
@@ -142,17 +140,18 @@ type WorkflowDefinitionApi = {
 }
 
 export interface WorkflowDefinition
-  extends WorkflowDefinitionProps,
+  extends
+    WorkflowDefinitionProps,
     DefaultElements<WorkflowDefinitionProps>,
     WorkflowDefinitionApi {}
 
 export type WorkflowDefinitionQueryOptions = Omit<PaginationQueryOptions, 'order'>
 
 /**
- * @private
+ * @internal
  */
 export default function createWorkflowDefinitionApi(
-  makeRequest: MakeRequest
+  makeRequest: MakeRequest,
 ): WorkflowDefinitionApi {
   const getParams = (workflowDefinition: WorkflowDefinitionProps): GetWorkflowDefinitionParams => ({
     spaceId: workflowDefinition.sys.space.sys.id,
@@ -190,21 +189,21 @@ export default function createWorkflowDefinitionApi(
 }
 
 /**
- * @private
+ * @internal
  */
 export function wrapWorkflowDefinition(
   makeRequest: MakeRequest,
-  data: WorkflowDefinitionProps
+  data: WorkflowDefinitionProps,
 ): WorkflowDefinition {
   const workflowDefinition = toPlainObject(copy(data))
   const workflowDefinitionWithMethods = enhanceWithMethods(
     workflowDefinition,
-    createWorkflowDefinitionApi(makeRequest)
+    createWorkflowDefinitionApi(makeRequest),
   )
   return freezeSys(workflowDefinitionWithMethods)
 }
 
 /**
- * @private
+ * @internal
  */
 export const wrapWorkflowDefinitionCollection = wrapCollection(wrapWorkflowDefinition)

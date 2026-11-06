@@ -1,6 +1,6 @@
 import type { RawAxiosRequestHeaders } from 'axios'
 import type { AxiosInstance } from 'contentful-sdk-core'
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import type { SetOptional } from 'type-fest'
 import type {
   CollectionProp,
@@ -8,24 +8,35 @@ import type {
   GetSpaceParams,
   QueryParams,
 } from '../../../common-types'
-import type { SpaceProps } from '../../../entities/space'
+import type { SpaceProps, UnarchiveProps } from '../../../entities/space'
 import type { RestEndpoint } from '../types'
 import * as raw from './raw'
 
-export const get: RestEndpoint<'Space', 'get'> = (http: AxiosInstance, params: GetSpaceParams) =>
-  raw.get<SpaceProps>(http, `/spaces/${params.spaceId}`)
+export const get: RestEndpoint<'Space', 'get'> = (
+  http: AxiosInstance,
+  params: GetSpaceParams & { include?: 'sys.license' },
+) =>
+  raw.get<SpaceProps>(http, `/spaces/${params.spaceId}`, {
+    params: params.include ? { include: params.include } : undefined,
+  })
 
 export const getMany: RestEndpoint<'Space', 'getMany'> = (
   http: AxiosInstance,
-  params: QueryParams
+  params: QueryParams & {
+    organizationId?: string
+    include?: 'sys.license'
+  },
 ) =>
   raw.get<CollectionProp<SpaceProps>>(http, `/spaces`, {
-    params: params.query,
+    params: { ...params.query, ...(params.include ? { include: params.include } : {}) },
+    headers: params.organizationId
+      ? { 'X-Contentful-Organization': params.organizationId }
+      : undefined,
   })
 
 export const getManyForOrganization: RestEndpoint<'Space', 'getManyForOrganization'> = (
   http: AxiosInstance,
-  params: GetOrganizationParams & QueryParams
+  params: GetOrganizationParams & QueryParams,
 ) =>
   raw.get<CollectionProp<SpaceProps>>(http, `/organizations/${params.organizationId}/spaces`, {
     params: params.query,
@@ -35,7 +46,7 @@ export const create: RestEndpoint<'Space', 'create'> = (
   http: AxiosInstance,
   params: { organizationId?: string },
   payload: Omit<SpaceProps, 'sys'>,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.post(http, `/spaces`, payload, {
     headers: params.organizationId
@@ -48,7 +59,7 @@ export const update: RestEndpoint<'Space', 'update'> = (
   http: AxiosInstance,
   params: GetSpaceParams,
   rawData: SpaceProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys
@@ -58,6 +69,17 @@ export const update: RestEndpoint<'Space', 'update'> = (
       'X-Contentful-Version': rawData.sys.version ?? 0,
       ...headers,
     },
+  })
+}
+
+export const unarchive: RestEndpoint<'Space', 'unarchive'> = (
+  http: AxiosInstance,
+  params: GetSpaceParams,
+  data: UnarchiveProps,
+  headers?: RawAxiosRequestHeaders,
+) => {
+  return raw.post<SpaceProps>(http, `/spaces/${params.spaceId}/unarchive`, data, {
+    headers,
   })
 }
 

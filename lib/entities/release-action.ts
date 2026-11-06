@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import type { DefaultElements, ISO8601Timestamp, Link, MakeRequest } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import type { AsyncActionProcessingOptions } from '../methods/action'
@@ -56,7 +56,7 @@ export interface ReleaseActionApiMethods {
 }
 
 /**
- * @private
+ * @internal
  */
 function createReleaseActionApi(makeRequest: MakeRequest) {
   const getParams = (self: ReleaseAction) => {
@@ -88,29 +88,27 @@ function createReleaseActionApi(makeRequest: MakeRequest) {
 }
 
 export interface ReleaseAction<T extends ReleaseActionTypes = any>
-  extends ReleaseActionProps<T>,
-    ReleaseActionApiMethods,
-    DefaultElements<ReleaseActionProps<T>> {}
+  extends ReleaseActionProps<T>, ReleaseActionApiMethods, DefaultElements<ReleaseActionProps<T>> {}
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw Release data
- * @return Wrapped Release data
+ * @returns Wrapped Release data
  */
 export function wrapReleaseAction(
   makeRequest: MakeRequest,
-  data: ReleaseActionProps
+  data: ReleaseActionProps,
 ): ReleaseAction {
   const releaseAction = toPlainObject(copy(data))
   const releaseActionWithApiMethods = enhanceWithMethods(
     releaseAction as any,
-    createReleaseActionApi(makeRequest)
+    createReleaseActionApi(makeRequest),
   )
   return freezeSys(releaseActionWithApiMethods)
 }
 
 /**
- * @private
+ * @internal
  */
 export const wrapReleaseActionCollection = wrapCollection(wrapReleaseAction)

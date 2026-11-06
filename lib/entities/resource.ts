@@ -12,11 +12,13 @@ export type ResourceQueryOptions = LookupQueryOptions | SearchQueryOptions
 type LookupQueryOptions = {
   'sys.urn[in]': string
   locale?: string
+  referencingEntryId?: string
 } & BasicCursorPaginationOptions
 
 type SearchQueryOptions = {
   query: string
   locale?: string
+  referencingEntryId?: string
 } & BasicCursorPaginationOptions
 
 export type ResourceProps = {
@@ -48,5 +50,5 @@ export function wrapResource(makeRequest: MakeRequest, data: ResourceProps) {
 }
 export const wrapResourceCollection: (
   makeRequest: MakeRequest,
-  data: CursorPaginatedCollectionProp<ResourceProps>
+  data: CursorPaginatedCollectionProp<ResourceProps>,
 ) => CursorPaginatedCollectionProp<ResourceProps> = wrapCursorPaginatedCollection(wrapResource)

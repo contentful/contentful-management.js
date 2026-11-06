@@ -38,7 +38,7 @@ export type EditorInterfacePlainClientAPI = {
    * ```
    */
   getMany(
-    params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>
+    params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
   ): Promise<CollectionProp<EditorInterfaceProps>>
   /**
    * Update an Editor Interface
@@ -74,6 +74,6 @@ export type EditorInterfacePlainClientAPI = {
   update(
     params: OptionalDefaults<GetEditorInterfaceParams>,
     rawData: EditorInterfaceProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<EditorInterfaceProps>
 }

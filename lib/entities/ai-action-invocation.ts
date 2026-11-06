@@ -1,5 +1,5 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import type { DefaultElements, MakeRequest, SysLink } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import type { Document as RichTextDocument } from '@contentful/rich-text-types'
@@ -67,30 +67,54 @@ export type AiActionInvocationProps = {
   result?: InvocationResult
 }
 
+export type AiActionTextVariable = {
+  id: string
+  value: string
+}
+
+export type AiActionEntityLinkVariable = {
+  id: string
+  value: {
+    sys: {
+      type: 'Link'
+      linkType: 'Entry' | 'Asset' | 'ResourceLink'
+      id: string
+      release?: SysLink
+      /** JSON Pointers to entity fields, e.g. `"/fields/title/en-US"` */
+      entityPaths?: Array<string>
+    }
+  }
+}
+
+/** @deprecated Use `AiActionEntityLinkVariable` with the sys-nested format instead. */
+export type AiActionLegacyEntityPathVariable = {
+  id: string
+  value: {
+    entityPath: string
+    entityType: 'Entry' | 'Asset' | 'ResourceLink'
+    entityId: string
+  }
+}
+
+/** @deprecated Use `AiActionEntityLinkVariable` with the sys-nested format instead. */
+export type AiActionLegacyEntityPathsVariable = {
+  id: string
+  value: {
+    entityPaths: Array<string>
+    entityType: 'Entry'
+    entityId: string
+  }
+}
+
+export type AiActionInvocationVariable =
+  | AiActionTextVariable
+  | AiActionEntityLinkVariable
+  | AiActionLegacyEntityPathVariable
+  | AiActionLegacyEntityPathsVariable
+
 export type AiActionInvocationType = {
-  outputFormat: AiActionOutputFormatType
-  variables?: Array<
-    | {
-        value: string
-        id: string
-      }
-    | {
-        value: {
-          entityPath: string
-          entityType: 'Entry' | 'Asset' | 'ResourceLink'
-          entityId: string
-        }
-        id: string
-      }
-    | {
-        value: {
-          entityPaths: Array<string>
-          entityType: 'Entry'
-          entityId: string
-        }
-        id: string
-      }
-  >
+  outputFormat?: AiActionOutputFormatType
+  variables?: Array<AiActionInvocationVariable>
 }
 
 /**
@@ -98,8 +122,7 @@ export type AiActionInvocationType = {
  * This entity is read-only and primarily used to inspect the result of an AI action invocation.
  */
 export interface AiActionInvocation
-  extends AiActionInvocationProps,
-    DefaultElements<AiActionInvocationProps> {}
+  extends AiActionInvocationProps, DefaultElements<AiActionInvocationProps> {}
 
 /**
  * Wraps raw AI Action Invocation data with SDK helper methods.
@@ -110,7 +133,7 @@ export interface AiActionInvocation
  */
 export function wrapAiActionInvocation(
   makeRequest: MakeRequest,
-  data: AiActionInvocationProps
+  data: AiActionInvocationProps,
 ): AiActionInvocation {
   const invocation = toPlainObject(copy(data))
   return freezeSys(invocation)

@@ -1,5 +1,5 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import type { BasicMetaSysProps, DefaultElements, MakeRequest, SysLink } from '../common-types'
 import createUserUIConfigApi from '../create-user-ui-config-api'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -41,10 +41,10 @@ interface View {
 export interface UserUIConfig extends UserUIConfigProps, DefaultElements<UserUIConfigProps> {}
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw data
- * @return Wrapped UserUIConfig
+ * @returns Wrapped UserUIConfig
  */
 export function wrapUserUIConfig(makeRequest: MakeRequest, data: UserUIConfigProps) {
   const user = toPlainObject(copy(data))

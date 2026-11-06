@@ -36,6 +36,6 @@ export type AppSignedRequestPlainClientAPI = {
    */
   create(
     params: OptionalDefaults<GetAppInstallationParams>,
-    payload: CreateAppSignedRequestProps
+    payload: CreateAppSignedRequestProps,
   ): Promise<AppSignedRequestProps>
 }

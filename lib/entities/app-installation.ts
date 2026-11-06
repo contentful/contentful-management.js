@@ -1,5 +1,5 @@
 import { toPlainObject, freezeSys } from 'contentful-sdk-core'
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
 import type { DefaultElements, BasicMetaSysProps, SysLink, MakeRequest } from '../common-types'
@@ -22,11 +22,10 @@ export type AppInstallationProps = {
 export type CreateAppInstallationProps = Except<AppInstallationProps, 'sys'>
 
 export interface AppInstallation
-  extends AppInstallationProps,
-    DefaultElements<AppInstallationProps> {
+  extends AppInstallationProps, DefaultElements<AppInstallationProps> {
   /**
    * Sends an update to the server with any changes made to the object's properties
-   * @return Object returned from the server with updated changes.
+   * @returns Object returned from the server with updated changes.
    * @example ```javascript
    * const contentful = require('contentful-management')
    *
@@ -48,7 +47,7 @@ export interface AppInstallation
   update(): Promise<AppInstallation>
   /**
    * Deletes this object on the server.
-   * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
+   * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
    * @example ```javascript
    * const contentful = require('contentful-management')
    *
@@ -68,7 +67,7 @@ export interface AppInstallation
 }
 
 /**
- * @private
+ * @internal
  */
 function createAppInstallationApi(makeRequest: MakeRequest) {
   const getParams = (data: AppInstallationProps) => ({
@@ -101,24 +100,24 @@ function createAppInstallationApi(makeRequest: MakeRequest) {
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw App Installation data
- * @return Wrapped App installation data
+ * @returns Wrapped App installation data
  */
 export function wrapAppInstallation(
   makeRequest: MakeRequest,
-  data: AppInstallationProps
+  data: AppInstallationProps,
 ): AppInstallation {
   const appInstallation = toPlainObject(copy(data))
   const appInstallationWithMethods = enhanceWithMethods(
     appInstallation,
-    createAppInstallationApi(makeRequest)
+    createAppInstallationApi(makeRequest),
   )
   return freezeSys(appInstallationWithMethods)
 }
 
 /**
- * @private
+ * @internal
  */
 export const wrapAppInstallationCollection = wrapCollection(wrapAppInstallation)

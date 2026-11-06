@@ -50,7 +50,7 @@ export type AppEventSubscriptionPlainClientAPI = {
    */
   upsert(
     params: OptionalDefaults<GetAppDefinitionParams>,
-    payload: CreateAppEventSubscriptionProps
+    payload: CreateAppEventSubscriptionProps,
   ): Promise<AppEventSubscriptionProps>
   /**
    * Fetches the current App Event Subscription for the given App

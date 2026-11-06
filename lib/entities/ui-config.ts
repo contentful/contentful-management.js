@@ -1,5 +1,5 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import type { BasicMetaSysProps, DefaultElements, MakeRequest, SysLink } from '../common-types'
 import createUIConfigApi from '../create-ui-config-api'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -13,7 +13,7 @@ export type UIConfigProps = {
   assetListViews: ViewFolder[]
   entryListViews: ViewFolder[]
   homeViews: HomeView[]
-  previewMode?: { previewMode: 'livePreview' | 'legacyPreview' }
+  livePreview?: { previewMode: 'livePreview' | 'legacyPreview' }
   publish?: { publishMode: 'entryPublishing' | 'localePublishing' }
 }
 
@@ -51,10 +51,10 @@ interface View {
 export interface UIConfig extends UIConfigProps, DefaultElements<UIConfigProps> {}
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw data
- * @return Wrapped UIConfig
+ * @returns Wrapped UIConfig
  */
 export function wrapUIConfig(makeRequest: MakeRequest, data: UIConfigProps) {
   const user = toPlainObject(copy(data))

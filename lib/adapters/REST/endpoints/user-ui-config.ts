@@ -1,5 +1,5 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import type { SetOptional } from 'type-fest'
 import type { GetUserUIConfigParams } from '../../../common-types'
 import type { UserUIConfigProps } from '../../../entities/user-ui-config'
@@ -11,7 +11,7 @@ const getUrl = (params: GetUserUIConfigParams) =>
 
 export const get: RestEndpoint<'UserUIConfig', 'get'> = (
   http: AxiosInstance,
-  params: GetUserUIConfigParams
+  params: GetUserUIConfigParams,
 ) => {
   return raw.get<UserUIConfigProps>(http, getUrl(params))
 }
@@ -19,7 +19,7 @@ export const get: RestEndpoint<'UserUIConfig', 'get'> = (
 export const update: RestEndpoint<'UserUIConfig', 'update'> = (
   http: AxiosInstance,
   params: GetUserUIConfigParams,
-  rawData: UserUIConfigProps
+  rawData: UserUIConfigProps,
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys

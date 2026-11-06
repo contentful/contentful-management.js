@@ -10,12 +10,12 @@ import type { GetAppInstallationParams } from '../../../common-types'
 export const create: RestEndpoint<'AppAccessToken', 'create'> = (
   http: AxiosInstance,
   params: GetAppInstallationParams,
-  data: CreateAppAccessTokenProps
+  data: CreateAppAccessTokenProps,
 ) => {
   return raw.post<AppAccessTokenProps>(
     http,
     `/spaces/${params.spaceId}/environments/${params.environmentId}/app_installations/${params.appDefinitionId}/access_tokens`,
     undefined,
-    { headers: { Authorization: `Bearer ${data.jwt}` } }
+    { headers: { Authorization: `Bearer ${data.jwt}` } },
   )
 }

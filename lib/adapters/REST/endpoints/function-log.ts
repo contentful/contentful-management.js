@@ -20,7 +20,7 @@ const getURL = (params: GetFunctionLogParams) =>
 
 export const get: RestEndpoint<'FunctionLog', 'get'> = (
   http: AxiosInstance,
-  params: GetFunctionLogParams
+  params: GetFunctionLogParams,
 ) => {
   return raw.get<FunctionLogProps>(http, getURL(params), {
     headers: {
@@ -31,7 +31,7 @@ export const get: RestEndpoint<'FunctionLog', 'get'> = (
 
 export const getMany: RestEndpoint<'FunctionLog', 'getMany'> = (
   http: AxiosInstance,
-  params: GetManyFunctionLogParams
+  params: GetManyFunctionLogParams,
 ) => {
   return raw.get<CollectionProp<FunctionLogProps>>(http, baseURL(params), {
     params: params.query,

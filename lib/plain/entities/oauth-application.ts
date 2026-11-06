@@ -29,7 +29,7 @@ export type OAuthApplicationPlainClientAPI = {
    * ```
    */
   getManyForUser(
-    params: OptionalDefaults<GetUserParams & QueryParams>
+    params: OptionalDefaults<GetUserParams & QueryParams>,
   ): Promise<CursorPaginatedCollectionProp<OAuthApplicationProps>>
 
   /**
@@ -70,7 +70,7 @@ export type OAuthApplicationPlainClientAPI = {
   create(
     params: OptionalDefaults<GetUserParams>,
     rawData: CreateOAuthApplicationProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<OAuthApplicationProps>
 
   /**
@@ -95,7 +95,7 @@ export type OAuthApplicationPlainClientAPI = {
   update(
     params: OptionalDefaults<GetOAuthApplicationParams>,
     rawData: UpdateOAuthApplicationProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<OAuthApplicationProps>
 
   /**

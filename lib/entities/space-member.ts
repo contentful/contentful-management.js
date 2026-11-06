@@ -1,10 +1,13 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import copy from 'fast-copy'
-import type { DefaultElements, MakeRequest, MetaLinkProps, MetaSysProps } from '../common-types'
+import { copy } from 'fast-copy'
+import type { DefaultElements, MakeRequest, SysLink, MetaSysProps } from '../common-types'
 import { wrapCollection } from '../common-utils'
 
 export type SpaceMemberProps = {
-  sys: MetaSysProps
+  sys: MetaSysProps & {
+    user: SysLink
+    relatedMemberships: SysLink[]
+  }
   /**
    * User is an admin
    */
@@ -12,16 +15,16 @@ export type SpaceMemberProps = {
   /**
    * Array of Role Links
    */
-  roles: { sys: MetaLinkProps }[]
+  roles: SysLink[]
 }
 
 export interface SpaceMember extends SpaceMemberProps, DefaultElements<SpaceMemberProps> {}
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw space member data
- * @return Wrapped space member data
+ * @returns Wrapped space member data
  */
 export function wrapSpaceMember(_makeRequest: MakeRequest, data: SpaceMemberProps) {
   const spaceMember = toPlainObject(copy(data))
@@ -29,6 +32,6 @@ export function wrapSpaceMember(_makeRequest: MakeRequest, data: SpaceMemberProp
 }
 
 /**
- * @private
+ * @internal
  */
 export const wrapSpaceMemberCollection = wrapCollection(wrapSpaceMember)

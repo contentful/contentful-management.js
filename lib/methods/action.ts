@@ -55,10 +55,9 @@ export type AsyncActionProcessingOptions = {
  */
 export async function pollAsyncActionStatus<T extends Action = any>(
   actionFunction: () => Promise<T>,
-  options?: AsyncActionProcessingOptions
+  options?: AsyncActionProcessingOptions,
 ): Promise<T> {
   let retryCount = 0
-  let done = false
   let action: T | undefined
 
   const maxRetries = options?.retryCount ?? DEFAULT_MAX_RETRIES
@@ -69,13 +68,11 @@ export async function pollAsyncActionStatus<T extends Action = any>(
   // Initial delay for short-running Actions
   await sleep(initialDelayMs)
 
-  while (retryCount < maxRetries && !done) {
+  while (retryCount < maxRetries) {
     action = await actionFunction()
 
     // Terminal states
     if (action && ['succeeded', 'failed'].includes(action.sys.status)) {
-      done = true
-
       if (action.sys.status === 'failed' && throwOnFailedExecution) {
         throw new AsyncActionFailedError(`${action.sys.type} failed to execute.`, action)
       }
@@ -89,6 +86,6 @@ export async function pollAsyncActionStatus<T extends Action = any>(
 
   throw new AsyncActionProcessingError(
     `${action?.sys.type} didn't finish processing within the expected timeframe.`,
-    action
+    action,
   )
 }

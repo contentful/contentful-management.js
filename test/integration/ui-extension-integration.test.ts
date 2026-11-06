@@ -4,6 +4,7 @@ import {
   createTestEnvironment,
   createTestSpace,
   timeoutToCalmRateLimiting,
+  waitForEnvironmentToBeReady,
 } from '../helpers'
 import type { Space, Environment } from '../../lib/export-types'
 
@@ -14,6 +15,7 @@ describe('Extension API', () => {
   beforeAll(async () => {
     space = await createTestSpace(defaultClient, 'TSM')
     environment = await createTestEnvironment(space, 'Test')
+    await waitForEnvironmentToBeReady(space, environment)
   })
 
   afterAll(async () => {
@@ -72,7 +74,7 @@ describe('Extension API', () => {
     expect(extension.sys.type).toBe('Extension')
     expect(extension.extension.name).toBe('My awesome extension hosted at Contentful')
     expect(extension.extension.srcdoc).toBe(
-      '<html><head><title>MyAwesomeUiExtension</title></head><body><h1>Awesome</h1></body></html>'
+      '<html><head><title>MyAwesomeUiExtension</title></head><body><h1>Awesome</h1></body></html>',
     )
 
     // Delete the UI Extension

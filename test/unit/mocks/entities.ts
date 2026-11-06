@@ -4,9 +4,19 @@ import cloneDeep from 'lodash/cloneDeep'
 import { makeLink, makeVersionedLink } from '../../utils'
 import type { ContentFields } from '../../../lib/entities/content-type-fields'
 import type { AppSigningSecretProps } from '../../../lib/entities/app-signing-secret'
-import type { CollectionProp, Link, MetaLinkProps, MetaSysProps } from '../../../lib/common-types'
+import type {
+  CollectionProp,
+  CursorPaginatedCollectionProp,
+  Link,
+  MetaLinkProps,
+  MetaSysProps,
+} from '../../../lib/common-types'
 import type { AppEventSubscriptionProps } from '../../../lib/entities/app-event-subscription'
 import type { SpaceProps } from '../../../lib/entities/space'
+import type {
+  SpaceAddOnOrganizationProps,
+  SpaceAddOnProps,
+} from '../../../lib/entities/space-add-on'
 import type { EnvironmentProps } from '../../../lib/entities/environment'
 import type { EnvironmentTemplateProps } from '../../../lib/entities/environment-template'
 import type {
@@ -54,7 +64,11 @@ import type { ReleaseProps } from '../../../lib/entities/release'
 import type { ReleaseActionProps } from '../../../lib/entities/release-action'
 import type { ApiKey, ApiKeyProps } from '../../../lib/entities/api-key'
 import type { OrganizationProps } from '../../../lib/entities/organization'
-import type { UsageProps } from '../../../lib/entities/usage'
+import type {
+  AggregatedUsageItemProps,
+  AssetBandwidthUsageItemProps,
+  UsageProps,
+} from '../../../lib/entities/usage'
 import type { ExtensionProps } from '../../../lib/entities/extension'
 import type { AppInstallationProps } from '../../../lib/entities/app-installation'
 import type { EnvironmentAliasProps } from '../../../lib/entities/environment-alias'
@@ -84,6 +98,19 @@ import {
   AiActionInvocationProps,
   AiActionInvocationType,
 } from '../../../lib/entities/ai-action-invocation'
+import { AgentProps } from '../../../lib/entities/agent'
+import { AgentGenerateResponse, AgentRunProps } from '../../../lib/entities/agent-run'
+import { SemanticDuplicatesProps } from '../../../lib/entities/semantic-duplicates'
+import { SemanticReferenceSuggestionsProps } from '../../../lib/entities/semantic-reference-suggestions'
+import { SemanticSearchProps } from '../../../lib/entities/semantic-search'
+import { SemanticRecommendationsProps } from '../../../lib/entities/semantic-recommendations'
+import { ContentSemanticsSettingsProps } from '../../../lib/entities/semantic-settings'
+import {
+  ContentSemanticsIndexProps,
+  ContentSemanticsIndexCollectionProps,
+} from '../../../lib/entities/content-semantics-index'
+import type { AvailableLicenseProps } from '../../../lib/entities/available-license'
+import type { EligibleLicenseProps } from '../../../lib/entities/eligible-license'
 
 const linkMock: MetaLinkProps = {
   id: 'linkid',
@@ -106,6 +133,29 @@ const spaceMock: SpaceProps = {
     organization: makeLink('Organization', 'mock-organization-id'),
   }),
   name: 'name',
+}
+
+const spaceAddOnMock: SpaceAddOnProps = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'SpaceAddOn',
+    id: 'contentTypes',
+    organization: makeLink('Organization', 'mock-organization-id'),
+    space: makeLink('Space', 'mock-space-id'),
+  }),
+  name: 'ContentTypes',
+  used: 2,
+  allocated: 5,
+}
+
+const spaceAddOnOrganizationMock: SpaceAddOnOrganizationProps = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'SpaceAddOn',
+    id: 'contentTypes',
+    organization: makeLink('Organization', 'mock-organization-id'),
+  }),
+  name: 'ContentTypes',
+  used: 2,
+  allocated: 5,
 }
 
 const environmentMock: EnvironmentProps = {
@@ -192,6 +242,7 @@ const userMock: UserProps = {
   confirmed: true,
   '2faEnabled': true,
   cookieConsentData: 'mocked',
+  preferredLanguage: null,
 }
 
 const personalAccessTokenMock: PersonalAccessTokenProps = {
@@ -306,6 +357,9 @@ const appDefinitionMock: AppDefinitionProps = {
     shared: true,
   }),
   name: 'AI Image Tagging',
+  agent: {
+    id: 'mocked-agent-id',
+  },
   src: 'https://ai-image-tagging.app-host.com/frontend/',
   locations: [
     {
@@ -729,7 +783,7 @@ const teamMembershipMock: TeamMembershipProps = {
     organization: makeLink('Organization', 'mock-organization-id'),
     organizationMembership: makeLink(
       'OrganizationMembership',
-      'mock-organization-membership-team-id'
+      'mock-organization-membership-team-id',
     ),
   }),
   admin: false,
@@ -743,7 +797,7 @@ const organizationInvitationMock: OrganizationInvitationProps = {
     type: 'organizationInvitation',
     organizationMembership: makeLink(
       'OrganizationMembership',
-      'mock-organization-membership-team-id'
+      'mock-organization-membership-team-id',
     ),
     user: makeLink('User', 'mock-user-id'),
     invitationUrl: 'https://example.com/mocked/invitation/url',
@@ -812,6 +866,34 @@ const releaseActionValidateMock: ReleaseActionProps = {
 const releaseActionUnpublishMock: ReleaseActionProps = {
   ...releaseActionMock,
   action: 'unpublish',
+}
+
+const releaseAssetMock: AssetProps<{ release: Link<'Release'> }> = {
+  ...assetMock,
+  sys: {
+    ...assetMock.sys,
+    release: {
+      sys: {
+        type: 'Link' as const,
+        linkType: 'Release' as const,
+        id: 'mock-release-id',
+      },
+    },
+  },
+}
+
+const releaseEntryMock: EntryProps<any, { release: Link<'Release'> }> = {
+  ...entryMock,
+  sys: {
+    ...entryMock.sys,
+    release: {
+      sys: {
+        type: 'Link' as const,
+        linkType: 'Release' as const,
+        id: 'mock-release-id',
+      },
+    },
+  },
 }
 
 const aiActionMock: AiActionProps = {
@@ -901,6 +983,91 @@ const aiActionInvocationMock: AiActionInvocationProps = {
   },
 }
 
+const agentMock: AgentProps = {
+  sys: Object.assign(cloneDeep(sysMock), {
+    type: 'Agent' as const,
+    id: 'mocked-agent-id',
+    space: { sys: { id: 'mocked-space-id' } },
+    environment: { sys: { id: 'mocked-environment-id' } },
+    createdAt: '2025-12-15T10:00:00.000Z',
+  }),
+  name: 'Mocked AI Agent',
+  description: 'This is a mocked AI Agent for testing purposes.',
+  provider: 'openai',
+  modelId: 'gpt-4',
+  tools: [
+    {
+      sys: {
+        type: 'Link' as const,
+        linkType: 'AgentTool' as const,
+        id: 'tool-1',
+      },
+    },
+  ],
+}
+
+const agentRunMock: AgentRunProps = {
+  sys: {
+    ...cloneDeep(sysMock),
+    type: 'AgentRun' as const,
+    id: 'mocked-agent-run-id',
+    createdAt: '2025-12-15T10:00:00.000Z',
+    updatedAt: '2025-12-15T10:05:00.000Z',
+    status: 'COMPLETED' as const,
+  },
+  agent: {
+    sys: {
+      type: 'Link' as const,
+      linkType: 'Agent' as const,
+      id: 'mocked-agent-id',
+    },
+  },
+  space: {
+    sys: {
+      type: 'Link' as const,
+      linkType: 'Space' as const,
+      id: 'mocked-space-id',
+    },
+  },
+  title: 'Mocked Agent Run',
+  messages: [
+    {
+      id: 'msg-1',
+      createdAt: '2025-12-15T10:00:00.000Z',
+      role: 'user' as const,
+      content: {
+        parts: [
+          {
+            type: 'text' as const,
+            text: 'Hello, agent!',
+          },
+        ],
+      },
+    },
+    {
+      id: 'msg-2',
+      createdAt: '2025-12-15T10:00:05.000Z',
+      role: 'assistant' as const,
+      content: {
+        parts: [
+          {
+            type: 'text' as const,
+            text: 'Hello! How can I help you?',
+          },
+        ],
+      },
+    },
+  ],
+}
+
+const agentGenerateResponseMock: AgentGenerateResponse = {
+  sys: {
+    id: 'mocked-agent-run-id',
+    type: 'AgentRun' as const,
+    status: 'IN_PROGRESS' as const,
+  },
+}
+
 const apiKeyMock: ApiKeyProps = {
   sys: Object.assign(cloneDeep(sysMock), {
     type: 'ApiKey',
@@ -926,6 +1093,7 @@ const organizationMock: OrganizationProps = {
     type: 'Organization',
   }),
   name: 'name',
+  defaultUserLanguage: 'en-US',
 }
 
 const usageMock: UsageProps = {
@@ -940,6 +1108,51 @@ const usageMock: UsageProps = {
   metric: 'cda',
   unitOfMeasure: 'kb',
   usagePerDay: {},
+}
+
+const aggregatedUsageMock: AggregatedUsageItemProps = {
+  sys: {
+    id: 'mock-metric-id',
+    type: 'FunctionInvocation',
+    key: 'functions_invocations',
+    organization: { sys: { type: 'Link', linkType: 'Organization', id: 'mock-org-id' } },
+    unitOfMeasurement: 'Invocation',
+    dimensions: {
+      space: { sys: { type: 'Link', linkType: 'Space', id: 'mock-space-id' } },
+      model: { sys: { type: 'Model', id: 'gpt-4', provider: 'openai' } },
+    },
+    accumulation: 'integrate',
+  },
+  dateRange: { start: '2025-01-01', end: '2025-01-31' },
+  granularity: 'P1D',
+  data: [10, 20, 30],
+  dataLastUpdatedAt: '2025-01-31T00:00:00Z',
+}
+
+const aggregatedUsageMonthlyActiveProfilesMock: AggregatedUsageItemProps = {
+  sys: {
+    id: 'mock-map-metric-id',
+    type: 'MonthlyActiveProfiles',
+    key: 'monthly_active_profiles',
+    organization: { sys: { type: 'Link', linkType: 'Organization', id: 'mock-org-id' } },
+    unitOfMeasurement: 'Profile',
+    dimensions: {},
+    accumulation: 'integrate',
+  },
+  dateRange: { start: '2025-01-01', end: '2025-01-31' },
+  granularity: 'P1M',
+  data: [100],
+  dataLastUpdatedAt: '2025-01-31T00:00:00Z',
+}
+
+const assetBandwidthUsageDetailedMock: AssetBandwidthUsageItemProps = {
+  sys: {
+    id: 'mock-asset-bandwidth-id',
+    type: 'AssetBandwidthUsage',
+    asset: { sys: { type: 'Link', linkType: 'Asset', id: 'mock-asset-id' } },
+    space: { sys: { type: 'Link', linkType: 'Space', id: 'mock-space-id' } },
+  },
+  usedBandwidth: 1024,
 }
 
 const extensionMock: ExtensionProps = {
@@ -1354,10 +1567,133 @@ const functionLogCollectionMock = {
   skip: 0,
 }
 
+const semanticSettingsMock: ContentSemanticsSettingsProps = {
+  sys: {
+    type: 'ContentSemanticsSettings',
+  },
+  supportedLocalePrefixes: ['en', 'de'],
+}
+
+const contentSemanticsIndexMock: ContentSemanticsIndexProps = {
+  sys: {
+    id: 'mock-index-id',
+    type: 'ContentSemanticsIndex',
+    status: 'ACTIVE',
+    localeCode: 'en-US',
+    createdAt: '2025-01-01T10:00:00Z',
+    updatedAt: '2025-01-01T10:00:00Z',
+    createdBy: makeLink('User', 'mock-user-id'),
+    locale: makeLink('Locale', 'en-US'),
+    environment: makeLink('Environment', 'mock-environment-id'),
+    space: makeLink('Space', 'mock-space-id'),
+    organization: makeLink('Organization', 'mock-org-id'),
+  },
+}
+
+const contentSemanticsIndexCollectionMock: ContentSemanticsIndexCollectionProps = {
+  sys: { type: 'Array' },
+  items: [contentSemanticsIndexMock],
+}
+
+const availableLicenseMock: AvailableLicenseProps = {
+  id: 'mock-license-offer-id',
+  name: 'Community',
+  count: 5,
+  quotas: {
+    contentTypes: 10,
+    records: 10000,
+    environments: 3,
+  },
+}
+
+const eligibleLicenseMock: EligibleLicenseProps = {
+  id: 'mock-eligible-license-offer-id',
+  name: 'Professional',
+  count: 2,
+  requiredAddOnAllocation: {
+    contentTypes: 5,
+    records: 5000,
+    environments: 1,
+  },
+  quotas: {
+    contentTypes: 25,
+    records: 50000,
+    environments: 'unlimited',
+  },
+}
+
+const semanticDuplicatesMock: SemanticDuplicatesProps = {
+  sys: {
+    type: 'Array',
+  },
+  items: [
+    {
+      sys: {
+        entity: makeLink('Entry', 'mock-entry-id'),
+        space: makeLink('Space', 'mock-space-id'),
+        environment: makeLink('Environment', 'mock-environment-id'),
+        type: 'SemanticDuplicatesResult',
+      },
+      label: 'high',
+    },
+  ],
+}
+
+const semanticRecommendationsMock: SemanticRecommendationsProps = {
+  sys: {
+    type: 'Array',
+  },
+  items: [
+    {
+      sys: {
+        entity: makeLink('Entry', 'mock-entry-id'),
+        space: makeLink('Space', 'mock-space-id'),
+        environment: makeLink('Environment', 'mock-environment-id'),
+        type: 'SemanticRecommendationsResult',
+      },
+    },
+  ],
+}
+
+const semanticReferenceSuggestionsMock: SemanticReferenceSuggestionsProps = {
+  sys: {
+    type: 'Array',
+  },
+  items: [
+    {
+      sys: {
+        entity: makeLink('Entry', 'mock-entry-id'),
+        space: makeLink('Space', 'mock-space-id'),
+        environment: makeLink('Environment', 'mock-environment-id'),
+        type: 'SemanticReferenceSuggestionsResult',
+      },
+    },
+  ],
+}
+
+const semanticSearchMock: SemanticSearchProps = {
+  sys: {
+    type: 'Array',
+  },
+  items: [
+    {
+      sys: {
+        entity: makeLink('Entry', 'mock-entry-id'),
+        space: makeLink('Space', 'mock-space-id'),
+        environment: makeLink('Environment', 'mock-environment-id'),
+        type: 'SemanticSearchResult',
+      },
+    },
+  ],
+}
+
 const mocks = {
   aiAction: aiActionMock,
   aiActionInvocation: aiActionInvocationMock,
   aiActionInvocationPayload: aiActionInvocationPayloadMock,
+  agent: agentMock,
+  agentRun: agentRunMock,
+  agentGenerateResponse: agentGenerateResponseMock,
   apiKey: apiKeyMock,
   appAction: appActionMock,
   appActionCall: appActionCallMock,
@@ -1409,11 +1745,22 @@ const mocks = {
   releaseAction: releaseActionMock,
   releaseActionValidate: releaseActionValidateMock,
   releaseActionUnpublish: releaseActionUnpublishMock,
+  releaseAsset: releaseAssetMock,
+  releaseEntry: releaseEntryMock,
   resource: resourceMock,
   resourceProvider: resourceProviderMock,
   resourceType: resourceTypeMock,
   scheduledAction: scheduledActionMock,
+  semanticSettings: semanticSettingsMock,
+  contentSemanticsIndex: contentSemanticsIndexMock,
+  contentSemanticsIndexCollection: contentSemanticsIndexCollectionMock,
+  semanticDuplicates: semanticDuplicatesMock,
+  semanticRecommendations: semanticRecommendationsMock,
+  semanticReferenceSuggestions: semanticReferenceSuggestionsMock,
+  semanticSearch: semanticSearchMock,
   snapshot: snapShotMock,
+  spaceAddOn: spaceAddOnMock,
+  spaceAddOnOrganization: spaceAddOnOrganizationMock,
   spaceMember: spaceMemberMock,
   spaceMembership: spaceMembershipMock,
   sys: sysMock,
@@ -1425,6 +1772,9 @@ const mocks = {
   upload: uploadMock,
   uploadCredential: uploadCredentialMock,
   usage: usageMock,
+  aggregatedUsage: aggregatedUsageMock,
+  aggregatedUsageMonthlyActiveProfiles: aggregatedUsageMonthlyActiveProfilesMock,
+  assetBandwidthUsageDetailed: assetBandwidthUsageDetailedMock,
   uiConfig: uiConfigMock,
   user: userMock,
   userUIConfig: userUIConfigMock,
@@ -1451,6 +1801,20 @@ function mockCollection<T>(entityMock): CollectionProp<T> {
   }
 }
 
+function mockCursorPaginatedCollection<T>(entityMock): CursorPaginatedCollectionProp<T> {
+  return {
+    sys: {
+      type: 'Array',
+    },
+    limit: 100,
+    items: [entityMock as T],
+    pages: {
+      next: undefined,
+      prev: undefined,
+    },
+  }
+}
+
 function setupEntitiesMock() {
   const entitiesMock = {
     aiAction: {
@@ -1459,6 +1823,15 @@ function setupEntitiesMock() {
     },
     aiActionInvocation: {
       wrapAiActionInvocation: vi.fn(),
+    },
+    agent: {
+      wrapAgent: vi.fn(),
+      wrapAgentCollection: vi.fn(),
+    },
+    agentRun: {
+      wrapAgentRun: vi.fn(),
+      wrapAgentRunCollection: vi.fn(),
+      wrapAgentGenerateResponse: vi.fn(),
     },
     appAction: {
       wrapAppAction: vi.fn(),
@@ -1525,6 +1898,14 @@ function setupEntitiesMock() {
     assetKey: {
       wrapAssetKey: vi.fn(),
     },
+    availableLicense: {
+      wrapAvailableLicense: vi.fn(),
+      wrapAvailableLicenseCollection: vi.fn(),
+    },
+    eligibleLicense: {
+      wrapEligibleLicense: vi.fn(),
+      wrapEligibleLicenseCollection: vi.fn(),
+    },
     locale: {
       wrapLocale: vi.fn(),
       wrapLocaleCollection: vi.fn(),
@@ -1567,6 +1948,11 @@ function setupEntitiesMock() {
     role: {
       wrapRole: vi.fn(),
       wrapRoleCollection: vi.fn(),
+    },
+    spaceAddOn: {
+      wrapSpaceAddOn: vi.fn(),
+      wrapSpaceAddOnCollection: vi.fn(),
+      wrapSpaceAddOnOrganizationCollection: vi.fn(),
     },
     release: {
       wrapRelease: vi.fn(),
@@ -1678,6 +2064,25 @@ function setupEntitiesMock() {
       wrapFunctionLog: vi.fn(),
       wrapFunctionLogCollection: vi.fn(),
     },
+    SemanticDuplicates: {
+      wrapSemanticDuplicates: vi.fn(),
+    },
+    SemanticRecommendations: {
+      wrapSemanticRecommendations: vi.fn(),
+    },
+    SemanticReferenceSuggestions: {
+      wrapSemanticReferenceSuggestions: vi.fn(),
+    },
+    SemanticSearch: {
+      wrapSemanticSearch: vi.fn(),
+    },
+    SemanticSettings: {
+      wrapSemanticSettings: vi.fn(),
+    },
+    ContentSemanticsIndex: {
+      wrapContentSemanticsIndex: vi.fn(),
+      wrapContentSemanticsIndexCollection: vi.fn(),
+    },
   }
 
   return entitiesMock
@@ -1699,6 +2104,8 @@ export {
   linkMock,
   sysMock,
   spaceMock,
+  spaceAddOnMock,
+  spaceAddOnOrganizationMock,
   bulkActionMock,
   bulkActionPublishMock,
   commentMock,
@@ -1711,6 +2118,8 @@ export {
   assetMock,
   assetWithFilesMock,
   assetKeyMock,
+  availableLicenseMock,
+  eligibleLicenseMock,
   localeMock,
   webhookMock,
   spaceMemberMock,
@@ -1729,6 +2138,7 @@ export {
   errorMock,
   cloneMock,
   mockCollection,
+  mockCursorPaginatedCollection,
   setupEntitiesMock,
   uploadMock,
   uploadCredentialMock,
@@ -1739,6 +2149,8 @@ export {
   accessTokenMock,
   environmentMock,
   usageMock,
+  aggregatedUsageMock,
+  aggregatedUsageMonthlyActiveProfilesMock,
   environmentAliasMock,
   environmentTemplateMock,
   environmentTemplateInstallationMock,
@@ -1751,4 +2163,11 @@ export {
   functionCollectionMock,
   functionLogMock,
   functionLogCollectionMock,
+  semanticSettingsMock,
+  contentSemanticsIndexMock,
+  contentSemanticsIndexCollectionMock,
+  semanticDuplicatesMock,
+  semanticRecommendationsMock,
+  semanticReferenceSuggestionsMock,
+  semanticSearchMock,
 }

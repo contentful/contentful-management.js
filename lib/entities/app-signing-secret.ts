@@ -1,4 +1,4 @@
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import { toPlainObject } from 'contentful-sdk-core'
 import type { Except } from 'type-fest'
 import type { BasicMetaSysProps, DefaultElements, MakeRequest, SysLink } from '../common-types'
@@ -24,11 +24,10 @@ export type CreateAppSigningSecretProps = {
 }
 
 export interface AppSigningSecret
-  extends AppSigningSecretProps,
-    DefaultElements<AppSigningSecretProps> {
+  extends AppSigningSecretProps, DefaultElements<AppSigningSecretProps> {
   /**
    * Deletes this object on the server.
-   * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
+   * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
    * @example ```javascript
    * const contentful = require('contentful-management')
    *
@@ -64,14 +63,14 @@ function createSigningSecretApi(makeRequest: MakeRequest) {
 }
 
 /**
- * @private
+ * @internal
  * @param http - HTTP client instance
  * @param data - Raw AppSigningSecret data
- * @return Wrapped AppSigningSecret data
+ * @returns Wrapped AppSigningSecret data
  */
 export function wrapAppSigningSecret(
   makeRequest: MakeRequest,
-  data: AppSigningSecretProps
+  data: AppSigningSecretProps,
 ): AppSigningSecret {
   const signingSecret = toPlainObject(copy(data))
   return enhanceWithMethods(signingSecret, createSigningSecretApi(makeRequest))

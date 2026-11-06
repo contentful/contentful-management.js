@@ -41,7 +41,7 @@ describe('Resource API', () => {
   beforeAll(async () => {
     organization = await getTestOrganization()
     appDefinition = await organization.createAppDefinition({
-      name: 'Test',
+      name: 'Test Resource Integration in CMA (delete if stale)',
       src: 'http://localhost:2222',
       locations: [{ location: 'app-config' }],
       parameters: {
@@ -91,7 +91,7 @@ describe('Resource API', () => {
           tmdbAccessToken: 'test',
         },
       },
-      { acceptAllTerms: true }
+      { acceptAllTerms: true },
     )
   })
 

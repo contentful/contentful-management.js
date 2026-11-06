@@ -1,7 +1,7 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import type { BasicMetaSysProps, DefaultElements, MakeRequest } from '../common-types'
 import enhanceWithMethods from '../enhance-with-methods'
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import { wrapCursorPaginatedCollection } from '../common-utils'
 
 type OAuthApplicationSysProps = BasicMetaSysProps & {
@@ -41,22 +41,21 @@ export type UpdateOAuthApplicationProps = {
 }
 
 export interface OAuthApplication
-  extends OAuthApplicationProps,
-    DefaultElements<OAuthApplicationProps> {
+  extends OAuthApplicationProps, DefaultElements<OAuthApplicationProps> {
   /**
    * Deletes an OAuth application
-   * @return Promise for the deleted OAuth application
+   * @returns Promise for the deleted OAuth application
    */
   delete(): Promise<void>
   /**
    * Updates an OAuth application
-   * @return Promise for the updated OAuth application
+   * @returns Promise for the updated OAuth application
    */
   update(): Promise<OAuthApplicationProps>
 }
 
 /**
- * @private
+ * @internal
  */
 function createOAuthApplicationApi(makeRequest: MakeRequest, userId: string) {
   const getParams = (data: OAuthApplicationProps) => ({
@@ -67,7 +66,7 @@ function createOAuthApplicationApi(makeRequest: MakeRequest, userId: string) {
   return {
     /**
      * Updates an OAuth application
-     * @return Promise for the updated OAuth application
+     * @returns Promise for the updated OAuth application
      */
     async update(): Promise<OAuthApplicationProps> {
       const raw = this.toPlainObject() as OAuthApplicationProps
@@ -81,7 +80,7 @@ function createOAuthApplicationApi(makeRequest: MakeRequest, userId: string) {
 
     /**
      * Deletes an OAuth application
-     * @return Promise for the deleted OAuth application
+     * @returns Promise for the deleted OAuth application
      */
     async delete(): Promise<void> {
       const raw = this.toPlainObject() as OAuthApplicationProps
@@ -95,25 +94,25 @@ function createOAuthApplicationApi(makeRequest: MakeRequest, userId: string) {
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw OAuth application data
- * @return Wrapped OAuth application data
+ * @returns Wrapped OAuth application data
  */
 export function wrapOAuthApplication(
   makeRequest: MakeRequest,
   data: OAuthApplicationProps,
-  userId: string
+  userId: string,
 ): OAuthApplication {
   const oauthApplication = toPlainObject(copy(data))
   const oauthApplicationWithMethods = enhanceWithMethods(
     oauthApplication,
-    createOAuthApplicationApi(makeRequest, userId)
+    createOAuthApplicationApi(makeRequest, userId),
   )
   return freezeSys(oauthApplicationWithMethods)
 }
 
 /**
- * @private
+ * @internal
  */
 export const wrapOAuthApplicationCollection = wrapCursorPaginatedCollection(wrapOAuthApplication)

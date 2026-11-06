@@ -14,7 +14,7 @@ import type {
   Environment,
   PlainClientAPI,
   AppKeyProps,
-} from '../../lib/contentful-management'
+} from '../../lib/index'
 
 describe('AppAccessToken api', { sequential: true }, () => {
   let organization: Organization
@@ -32,7 +32,7 @@ describe('AppAccessToken api', { sequential: true }, () => {
     organization = await getTestOrganization()
 
     appDefinition = await organization.createAppDefinition({
-      name: 'Test AppAccessToken',
+      name: 'Test AppAccessToken in CMA (delete if stale)',
     })
 
     entityId = {
@@ -77,7 +77,7 @@ describe('AppAccessToken api', { sequential: true }, () => {
       },
       {
         jwt,
-      }
+      },
     )
 
     // Token length not deterministic, but should be within a certain range

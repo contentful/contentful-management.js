@@ -1,5 +1,5 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
 import type { DefaultElements, BasicMetaSysProps, MakeRequest } from '../common-types'
@@ -47,15 +47,20 @@ export type UserProps = {
 
   '2faEnabled': boolean
   cookieConsentData: string
+  /**
+   * Language used in the interface and email communications.
+   * Overrides the organization default language.
+   */
+  preferredLanguage: string | null
 }
 
 export interface User extends UserProps, DefaultElements<UserProps> {}
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw data
- * @return Normalized user
+ * @returns Normalized user
  */
 export function wrapUser<T = UserProps>(_makeRequest: MakeRequest, data: T) {
   const user = toPlainObject(copy(data))
@@ -64,9 +69,9 @@ export function wrapUser<T = UserProps>(_makeRequest: MakeRequest, data: T) {
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw data collection
- * @return Normalized user collection
+ * @returns Normalized user collection
  */
 export const wrapUserCollection = wrapCollection(wrapUser)

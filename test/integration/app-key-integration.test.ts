@@ -1,6 +1,6 @@
 import { expect, describe, test, beforeAll, afterAll } from 'vitest'
 import { initPlainClient, getTestOrganization, timeoutToCalmRateLimiting } from '../helpers'
-import type { PlainClientAPI, Organization, AppDefinition } from '../../lib/contentful-management'
+import type { PlainClientAPI, Organization, AppDefinition } from '../../lib/index'
 
 describe('AppKey api', { sequential: true }, () => {
   let appDefinition: AppDefinition
@@ -12,7 +12,7 @@ describe('AppKey api', { sequential: true }, () => {
     organization = await getTestOrganization()
 
     appDefinition = await organization.createAppDefinition({
-      name: 'Test AppKey',
+      name: 'Test AppKey in CMA (delete if stale)',
     })
 
     entityId = {

@@ -54,6 +54,6 @@ export type FunctionLogPlainClientAPI = {
    * ```
    */
   getMany(
-    params: OptionalDefaults<GetManyFunctionLogParams>
+    params: OptionalDefaults<GetManyFunctionLogParams>,
   ): Promise<CollectionProp<FunctionLogProps>>
 }

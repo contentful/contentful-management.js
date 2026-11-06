@@ -1,5 +1,5 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import type {
   DefaultElements,
   ISO8601Timestamp,
@@ -43,8 +43,10 @@ interface ScheduledActionFailedError {
   details?: { errors: ErrorDetail[] }
 }
 
-export interface CursorPaginatedCollectionProp<TObj>
-  extends Omit<CollectionProp<TObj>, 'total' | 'skip'> {
+export interface CursorPaginatedCollectionProp<TObj> extends Omit<
+  CollectionProp<TObj>,
+  'total' | 'skip'
+> {
   pages?: BasicCursorPaginationOptions
 }
 
@@ -124,9 +126,7 @@ export type ScheduledActionApi = {
 }
 
 export interface ScheduledAction
-  extends ScheduledActionProps,
-    DefaultElements<ScheduledActionProps>,
-    ScheduledActionApi {}
+  extends ScheduledActionProps, DefaultElements<ScheduledActionProps>, ScheduledActionApi {}
 
 export default function getInstanceMethods(makeRequest: MakeRequest): ScheduledActionApi {
   const getParams = (self: ScheduledAction) => {
@@ -245,21 +245,21 @@ export default function getInstanceMethods(makeRequest: MakeRequest): ScheduledA
 }
 
 /**
- * @private
+ * @internal
  */
 export function wrapScheduledAction(
   makeRequest: MakeRequest,
-  data: ScheduledActionProps
+  data: ScheduledActionProps,
 ): ScheduledAction {
   const scheduledAction = toPlainObject(copy(data))
   const scheduledActionWithMethods = enhanceWithMethods(
     scheduledAction,
-    getInstanceMethods(makeRequest)
+    getInstanceMethods(makeRequest),
   )
   return freezeSys(scheduledActionWithMethods)
 }
 
 /**
- * @private
+ * @internal
  */
 export const wrapScheduledActionCollection = wrapCollection(wrapScheduledAction)

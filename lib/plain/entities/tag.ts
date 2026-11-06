@@ -5,8 +5,7 @@ import type {
   QueryParams,
   CollectionProp,
 } from '../../common-types'
-import type { UpdateTagProps, DeleteTagParams } from '../../entities/tag'
-import type { TagProps, CreateTagProps } from '../../export-types'
+import type { TagProps, CreateTagProps, UpdateTagProps, DeleteTagParams } from '../../entities/tag'
 import type { OptionalDefaults } from '../wrappers/wrap'
 
 export type TagPlainClientAPI = {
@@ -42,7 +41,7 @@ export type TagPlainClientAPI = {
    * ```
    */
   getMany(
-    params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>
+    params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
   ): Promise<CollectionProp<TagProps>>
   /**
    * Create a new tag
@@ -95,7 +94,7 @@ export type TagPlainClientAPI = {
   update(
     params: OptionalDefaults<GetTagParams>,
     rawData: UpdateTagProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<TagProps>
   /**
    * Delete a single tag by ID and version

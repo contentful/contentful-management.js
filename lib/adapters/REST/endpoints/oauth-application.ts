@@ -38,11 +38,11 @@ import type {
  */
 export const get: RestEndpoint<'OAuthApplication', 'get'> = (
   http: AxiosInstance,
-  params: GetOAuthApplicationParams
+  params: GetOAuthApplicationParams,
 ) => {
   return raw.get<OAuthApplicationProps>(
     http,
-    `/users/${params.userId}/oauth_applications/${params.oauthApplicationId}`
+    `/users/${params.userId}/oauth_applications/${params.oauthApplicationId}`,
   )
 }
 
@@ -70,14 +70,14 @@ export const get: RestEndpoint<'OAuthApplication', 'get'> = (
  */
 export const getManyForUser: RestEndpoint<'OAuthApplication', 'getManyForUser'> = (
   http: AxiosInstance,
-  params: GetUserParams & QueryParams
+  params: GetUserParams & QueryParams,
 ) => {
   return raw.get<CursorPaginatedCollectionProp<OAuthApplicationProps>>(
     http,
     `/users/${params.userId}/oauth_applications`,
     {
       params: params.query,
-    }
+    },
   )
 }
 
@@ -110,7 +110,7 @@ export const create: RestEndpoint<'OAuthApplication', 'create'> = (
   http: AxiosInstance,
   params: GetUserParams,
   rawData: CreateOAuthApplicationProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.post<OAuthApplicationProps>(
     http,
@@ -118,7 +118,7 @@ export const create: RestEndpoint<'OAuthApplication', 'create'> = (
     rawData,
     {
       headers,
-    }
+    },
   )
 }
 
@@ -151,7 +151,7 @@ export const update: RestEndpoint<'OAuthApplication', 'update'> = (
   http: AxiosInstance,
   params: GetOAuthApplicationParams,
   rawData: UpdateOAuthApplicationProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   return raw.put<OAuthApplicationProps>(
     http,
@@ -159,7 +159,7 @@ export const update: RestEndpoint<'OAuthApplication', 'update'> = (
     rawData,
     {
       headers,
-    }
+    },
   )
 }
 
@@ -187,10 +187,10 @@ export const update: RestEndpoint<'OAuthApplication', 'update'> = (
  */
 export const del: RestEndpoint<'OAuthApplication', 'delete'> = (
   http: AxiosInstance,
-  params: GetOAuthApplicationParams
+  params: GetOAuthApplicationParams,
 ) => {
   return raw.del<void>(
     http,
-    `/users/${params.userId}/oauth_applications/${params.oauthApplicationId}`
+    `/users/${params.userId}/oauth_applications/${params.oauthApplicationId}`,
   )
 }

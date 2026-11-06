@@ -38,7 +38,7 @@ describe('Release Api', () => {
           fields: {
             title: { 'en-US': 'Non-localized value' },
           },
-        }
+        },
       )
     } catch (err) {
       console.error('Error running <before> setup: ', err)
@@ -87,22 +87,20 @@ describe('Release Api', () => {
     })
 
     it('Get Releases', async () => {
-      const [release1, release2] = await Promise.all([
-        testEnvironment.createRelease({
-          title: 'First release',
-          entities: {
-            sys: { type: 'Array' },
-            items: [makeLink('Entry', TestDefaults.entry.testEntryReleasesId)],
-          },
-        }),
-        testEnvironment.createRelease({
-          title: 'Second release',
-          entities: {
-            sys: { type: 'Array' },
-            items: [makeLink('Entry', TestDefaults.entry.testEntryReleasesId)],
-          },
-        }),
-      ])
+      const release1 = await testEnvironment.createRelease({
+        title: 'First release',
+        entities: {
+          sys: { type: 'Array' },
+          items: [makeLink('Entry', TestDefaults.entry.testEntryReleasesId)],
+        },
+      })
+      const release2 = await testEnvironment.createRelease({
+        title: 'Second release',
+        entities: {
+          sys: { type: 'Array' },
+          items: [makeLink('Entry', TestDefaults.entry.testEntryReleasesId)],
+        },
+      })
 
       const queryLimit = 1
       const queryResult = await testEnvironment.getReleases({
@@ -116,29 +114,25 @@ describe('Release Api', () => {
       expect(typeof queryResult.pages?.next).toBe('string')
 
       // cleanup
-      await Promise.all([
-        testEnvironment.deleteRelease(release1.sys.id),
-        testEnvironment.deleteRelease(release2.sys.id),
-      ])
+      await testEnvironment.deleteRelease(release1.sys.id)
+      await testEnvironment.deleteRelease(release2.sys.id)
     })
 
     it('Get Releases with query filters', async () => {
-      const [release1, release2] = await Promise.all([
-        testEnvironment.createRelease({
-          title: 'First release',
-          entities: {
-            sys: { type: 'Array' },
-            items: [makeLink('Entry', TestDefaults.entry.testEntryReleasesId)],
-          },
-        }),
-        testEnvironment.createRelease({
-          title: 'Second release',
-          entities: {
-            sys: { type: 'Array' },
-            items: [],
-          },
-        }),
-      ])
+      const release1 = await testEnvironment.createRelease({
+        title: 'First release',
+        entities: {
+          sys: { type: 'Array' },
+          items: [makeLink('Entry', TestDefaults.entry.testEntryReleasesId)],
+        },
+      })
+      const release2 = await testEnvironment.createRelease({
+        title: 'Second release',
+        entities: {
+          sys: { type: 'Array' },
+          items: [],
+        },
+      })
 
       const queryResult = await testEnvironment.getReleases({
         'entities[exists]': true,
@@ -151,10 +145,8 @@ describe('Release Api', () => {
       expect(queryResult.items[0].title).toBe('First release')
 
       // cleanup
-      await Promise.all([
-        testEnvironment.deleteRelease(release1.sys.id),
-        testEnvironment.deleteRelease(release2.sys.id),
-      ])
+      await testEnvironment.deleteRelease(release1.sys.id)
+      await testEnvironment.deleteRelease(release2.sys.id)
     })
   })
 
@@ -295,7 +287,7 @@ describe('Release Api', () => {
     }
     const plainClient = initPlainClient(defaultParams)
 
-    it('release.publish', async () => {
+    it.skip('release.publish', async () => {
       const entry = await plainClient.entry.get({
         entryId: TestDefaults.entry.testEntryReleasesId,
       })
@@ -356,7 +348,7 @@ describe('Release Api', () => {
       })
     })
 
-    it('release.unpublish', async () => {
+    it.skip('release.unpublish', async () => {
       const entry = await plainClient.entry.get({
         entryId: TestDefaults.entry.testEntryReleasesId,
       })

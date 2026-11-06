@@ -11,11 +11,12 @@
 <h3 align="center">JavaScript</h3>
 
 <p align="center">
-  <a href="README.md">Readme</a> · 
-  <a href="SETUP.md">Setup</a> · 
-  <a href="MIGRATION.md">Migration</a> · 
-  <a href="CHANGELOG.md">Changelog</a> · 
-  <a href="CONTRIBUTING.md">Contributing</a>
+  <a href="README.md">Readme</a> ·
+  <a href="SETUP.md">Setup</a> ·
+  <a href="MIGRATION.md">Migration</a> ·
+  <a href="CHANGELOG.md">Changelog</a> ·
+  <a href="CONTRIBUTING.md">Contributing</a> ·
+  <a href="SUPPORT.md">Support Policy</a>
 </p>
 
 <p align="center">
@@ -28,8 +29,7 @@
 
 ## Introduction
 
-[![Build Status](https://circleci.com/gh/contentful/contentful-management.js.svg?style=svg)](https://circleci.com/gh/contentful/contentful-management.js)
-[![npm](https://img.shields.io/npm/v/contentful-management.svg)](https://www.npmjs.com/package/contentful-management)
+[![CI](https://github.com/contentful/contentful-management.js/actions/workflows/main.yaml/badge.svg?branch=master)](https://github.com/contentful/contentful-management.js/actions/workflows/main.yaml)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 [![npm downloads](https://img.shields.io/npm/dm/contentful-management.svg)](http://npm-stat.com/charts.html?package=contentful-management)
 [![gzip bundle size](http://img.badgesize.io/https://unpkg.com/contentful-management/dist/contentful-management.browser.min.js?compression=gzip)](https://unpkg.com/contentful-management/dist/contentful-management.browser.min.js)
@@ -47,21 +47,23 @@
 - [Supported Environments](#supported-environments)
 - [Getting Started](#getting-started)
   - [Installation](#installation)
-    - [Node](#node-)
-    - [Browser](#browser-)
+    - [Node](#node)
+    - [Browser](#browser-bundle-in-script-tag)
     - [Typings](#typings)
   - [Authentication](#authentication)
   - [Using ES6 import](#using-es6-import)
   - [Your first Request](#your-first-request)
-  - [Alternative plain API](#alternative-plain-api)
+  - [Legacy Client Interface](#legacy-client-interface)
 - [App Framework](#app-framework)
 - [Troubleshooting](#troubleshooting)
 - [Documentation/References](#documentationreferences)
   - [Configuration](#configuration)
   - [Reference Documentation](#reference-documentation)
   - [Contentful Javascript resources](#contentful-javascript-resources)
+  - [Cursor Based Pagination](#cursor-based-pagination)
   - [REST API reference](#rest-api-reference)
 - [Versioning](#versioning)
+- [Support Policy](#support-policy)
 - [Reach out to us](#reach-out-to-us)
 - [Get involved](#get-involved)
 - [License](#license)
@@ -80,13 +82,13 @@
 
 Browsers and Node.js:
 
-- Chrome
-- Firefox
-- Edge
-- Safari
-- node.js (LTS)
+- Chrome v110+
+- Firefox v110+
+- Edge v110+
+- Safari v16.4+
+- Node.js (LTS)
 
-Other browsers should also work, but at the moment we're only running automated tests on the browsers and Node.js versions specified above.
+Other browsers might work (if they support ES2023), but at the moment we only support the browsers and Node.js versions specified above in 'contentful-management' v12+.
 
 # Getting started
 
@@ -95,6 +97,7 @@ To get started with the Contentful Management JS library you'll need to install 
 - [Installation](#installation)
 - [Authentication](#authentication)
 - [Using ES6 import](#using-es6-import)
+- [Using CommonJS require imports](#using-commonjs-require-imports)
 - [Your first request](#your-first-request)
 - [Troubleshooting](#troubleshooting)
 - [Documentation/References](#documentationreferences)
@@ -115,32 +118,32 @@ Using [yarn](https://yarnpkg.com/lang/en/):
 yarn add contentful-management
 ```
 
-### Browser:
+### Browser bundle in script tag:
 
-For browsers, we recommend to download the library via npm or yarn to ensure 100% availability.
+For most modern web applications, we recommend to download and install the library via npm or yarn as described above.
 
-If you'd like to use a standalone built file you can use the following script tag or download it from [jsDelivr](https://www.jsdelivr.com/package/npm/contentful-management), under the `dist` directory:
-
-```html
-<script src="https://cdn.jsdelivr.net/npm/contentful-management@latest/dist/contentful-management.browser.min.js"></script>
-```
-
-**It's not recommended to use the above URL for production.**
-
-Using `contentful@latest` will always get you the latest version, but you can also specify a specific version number:
+However, if you need to include contentful-management via a script tag, we recommend using [jsDelivr](https://www.jsdelivr.com/package/npm/contentful-management) like so:
 
 ```html
-<!-- Avoid using the following url for production. You can not rely on its availability. -->
-<script src="https://cdn.jsdelivr.net/npm/contentful-management@7.3.0/dist/contentful-management.browser.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/contentful-management@12"></script>
 ```
 
-The Contentful Management library will be accessible via the `contentfulManagement` global variable.
+> It is recommended to specify the version in the URL.
+> Using 'contentful@{major-version-number}'' will always get you the latest version in that release, but you can also specify a specific version number, ie: 'contentful@11.6.1'
+
+The Contentful Management library will be accessible via the `contentfulManagement` global variable:
+
+```js
+const client = contentfulManagement.createClient({
+  accessToken: 'YOUR_ACCESS_TOKEN',
+})
+```
 
 Check the [releases](https://github.com/contentful/contentful-management.js/releases) page to know which versions are available.
 
 ## Typings
 
-This library also comes with typings to use with typescript.
+This library is built in TypeScript and has fully typings available.
 
 ## Authentication
 
@@ -156,36 +159,44 @@ You can use the es6 import with the library as follows
 
 ```js
 // import createClient directly
-import contentful from 'contentful-management'
-const client = contentful.createClient(
-  {
-    // This is the access token for this space. Normally you get the token in the Contentful web app
-    accessToken: 'YOUR_ACCESS_TOKEN',
-  },
-  { type: 'plain' }
-)
+import { createClient } from 'contentful-management'
+const client = createClient({
+  // This is the access token for this space. Normally you get the token in the Contentful web app
+  accessToken: 'YOUR_ACCESS_TOKEN',
+})
+//....
+```
+
+## Using CommonJS require imports
+
+You can use the commonjs require with the library as follows
+
+```js
+// import createClient directly
+const contentful = require('contentful-management')
+const client = contentful.createClient({
+  // This is the access token for this space. Normally you get the token in the Contentful web app
+  accessToken: 'YOUR_ACCESS_TOKEN',
+})
 //....
 ```
 
 ## Your first request
 
-Beginning with `contentful-management@7` this library provides a client which exposes all CMA endpoints in a simple flat API surface, as opposed to the waterfall structure exposed by legacy versions of the SDK.
+This library provides a client which exposes all CMA endpoints in a simple flat API surface.
 
 ```javascript
-const contentful = require('contentful-management')
-const plainClient = contentful.createClient(
-  {
-    accessToken: 'YOUR_ACCESS_TOKEN',
-  },
-  { type: 'plain' }
-)
+import { createClient } from 'contentful-management'
+const client = createClient({
+  accessToken: 'YOUR_ACCESS_TOKEN',
+})
 
-const environment = await plainClient.environment.get({
+const environment = await client.environment.get({
   spaceId: '<space_id>',
   environmentId: '<environment_id>',
 })
 
-const entries = await plainClient.entry.getMany({
+const entries = await client.entry.getMany({
   spaceId: '123',
   environmentId: '',
   query: {
@@ -195,21 +206,20 @@ const entries = await plainClient.entry.getMany({
 })
 
 // With scoped space and environment
-const scopedPlainClient = contentful.createClient(
+const scopedClient = createClient(
   {
     accessToken: 'YOUR_ACCESS_TOKEN',
   },
   {
-    type: 'plain',
     defaults: {
       spaceId: '<space_id>',
       environmentId: '<environment_id>',
     },
-  }
+  },
 )
 
 // entries from '<space_id>' & '<environment_id>'
-const entries = await scopedPlainClient.entry.getMany({
+const entries = await scopedClient.entry.getMany({
   query: {
     skip: 10,
     limit: 100,
@@ -219,23 +229,48 @@ const entries = await scopedPlainClient.entry.getMany({
 
 You can try and change the above example on [Runkit](https://npm.runkit.com/contentful-management).
 
-The benefits of using the "plain" version of the client, over the legacy version, are:
+The benefits of the default client are:
 
 - The ability to reach any possible CMA endpoint without the necessity to call any async functions beforehand.
   - It's especially important if you're using this CMA client for non-linear scripts (for example, a complex Front-end application)
 - All returned objects are simple Javascript objects without any wrappers. They can be easily serialized without an additional `toPlainObject` function call.
 - The ability to scope CMA client instance to a specific `spaceId`, `environmentId`, and `organizationId` when initializing the client.
-  - You can pass a concrete values to `defaults` and omit specifying these params in actual CMA methods calls.
+  - You can pass a concrete value to `defaults` and omit specifying these params in actual CMA methods calls.
+
+## Cursor Based Pagination
+
+Cursor-based pagination is supported on collection endpoints for content types, entries, and assets. To use cursor-based pagination, use the related entity methods `getAssetsWithCursor`, `getContentTypesWithCursor`, and `getEntriesWithCursor`
+
+```js
+const response = await environment.getEntriesWithCursor({ limit: 10 })
+console.log(response.items) // Array of items
+console.log(response.pages?.next) // Cursor for next page
+```
+
+Use the value from `response.pages.next` to fetch the next page.
+
+```js
+const secondPage = await environment.getEntriesWithCursor({
+  limit: 2,
+  pageNext: response.pages?.next,
+})
+console.log(secondPage.items) // Array of items
+```
 
 ## Legacy Client Interface
 
 The following code snippet is an example of the legacy client interface, which reads and writes data as a sequence of nested requests:
 
+> **⚠️ Deprecated:** The nested (legacy) client is deprecated and will be removed in the next major release. Please migrate to the default client. See the [Your first request](#your-first-request) section above for examples.
+
 ```js
-const contentful = require('contentful-management')
-const client = contentful.createClient({
-  accessToken: 'YOUR_ACCESS_TOKEN',
-})
+import { createClient } from 'contentful-management'
+const client = createClient(
+  {
+    accessToken: 'YOUR_ACCESS_TOKEN',
+  },
+  { type: 'legacy' },
+)
 
 // Get a space with the specified ID
 client.getSpace('spaceId').then((space) => {
@@ -274,12 +309,11 @@ contentfulApp.init((sdk) => {
   const cma = contentful.createClient(
     { apiAdapter: sdk.cmaAdapter },
     {
-      type: 'plain',
       defaults: {
         environmentId: sdk.ids.environmentAlias ?? sdk.ids.environment,
         spaceId: sdk.ids.space,
       },
-    }
+    },
   )
 
   // ...rest of initialization code
@@ -309,7 +343,7 @@ To help you get the most out of this library, we've prepared reference documenta
 The `createClient` method supports several options you may set to achieve the expected behavior:
 
 ```js
-contentful.createClient({
+createClient({
   ... your config here ...
 })
 ```
@@ -320,11 +354,11 @@ Your CMA access token.
 
 #### host (default: `'api.contentful.com'`)
 
-Set the host used to build the request URI's.
+Set the host used to build the request URIs.
 
 #### hostUpload (default: `'upload.contentful.com'`)
 
-Set the host used to build the upload related request uri's.
+Set the host used to build the upload related request URIs. Learn more about the Upload API [here](https://www.contentful.com/developers/docs/references/content-management-api/#/reference/uploads).
 
 #### basePath (default: ``)
 
@@ -416,6 +450,27 @@ This project strictly follows [Semantic Versioning](http://semver.org/) by use o
 This means that new versions are released automatically as fixes, features or breaking changes are released.
 
 You can check the changelog on the [releases](https://github.com/contentful/contentful-management.js/releases) page.
+
+## Experimental features
+
+To download a build that has features that are not yet released, you can use the `canary` channel. This is a pre-release version of the library that contains features that are still in development and may not be stable. To install a canary version, you can use the following command:
+
+```bash
+npm install contentful-management@canary
+```
+
+In addition, there may be some experimental features in the main build of this SDK that are subject to breaking changes without notice, which are listed below:
+
+### Current experimental features
+
+- **AI Agents**: The Agent and Agent Run APIs (`getAgent`, `getAgents`, `getAgentRun`, `getAgentRuns`, `generateWithAgent`, `resumeAgentRun`) are experimental and subject to breaking changes without notice.
+- **Experiences**: The Experiences APIs (`componentType`, `template`, `fragment`, `experience`, `dataAssembly`, `designToken`) are experimental and subject to breaking changes without notice.
+
+## Support Policy
+
+When a new major version is released, the previous major version enters a **6-month maintenance period** during which only critical bug fixes and security patches are provided. After this period, previous versions reach end-of-life and no longer receive updates.
+
+For full details, see our [Support and Maintenance Policy](SUPPORT.md).
 
 ## Reach out to us
 

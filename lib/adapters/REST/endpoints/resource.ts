@@ -9,7 +9,7 @@ const getBaseUrl = (params: GetResourceParams) =>
 
 export const getMany: RestEndpoint<'Resource', 'getMany'> = (
   http: AxiosInstance,
-  params: GetResourceParams & { query?: ResourceQueryOptions }
+  params: GetResourceParams & { query?: ResourceQueryOptions },
 ) =>
   raw.get<CursorPaginatedCollectionProp<ResourceProps>>(http, getBaseUrl(params), {
     params: params.query,

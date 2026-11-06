@@ -1,5 +1,5 @@
 import type { AxiosInstance, RawAxiosRequestHeaders } from 'axios'
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import type { SetOptional } from 'type-fest'
 import type {
   CollectionProp,
@@ -18,6 +18,7 @@ import type {
   PlainTextBodyFormat,
   RichTextBodyFormat,
   RichTextCommentBodyPayload,
+  CommentParentEntityType,
 } from '../../../entities/comment'
 import type { RestEndpoint } from '../types'
 import * as raw from './raw'
@@ -33,7 +34,7 @@ const getSpaceEnvBaseUrl = (params: GetSpaceEnvironmentParams) =>
 const getEntityCommentUrl = (params: GetCommentParams) =>
   `${getEntityBaseUrl(params)}/${params.commentId}`
 
-function getParentPlural(parentEntityType: 'ContentType' | 'Entry' | 'Workflow') {
+function getParentPlural(parentEntityType: CommentParentEntityType) {
   switch (parentEntityType) {
     case 'ContentType':
       return 'content_types'
@@ -41,12 +42,20 @@ function getParentPlural(parentEntityType: 'ContentType' | 'Entry' | 'Workflow')
       return 'entries'
     case 'Workflow':
       return 'workflows'
+    case 'Experience':
+      return 'experiences'
+    case 'ExperienceFragment':
+      return 'experience_fragments'
+    case 'Component':
+      return 'components'
+    case 'ExperienceTemplate':
+      return 'experience_templates'
   }
 }
 
 /**
- * Comments can be added to a content type, an entry, and a workflow. Workflow comments requires a version
- * to be set as part of the URL path. Workflow comments only support `create` (with
+ * Comments can be added to a content type, an entry, a workflow, or ExO entities. Workflow comments requires a version
+ * to be set as part of the URL path for versioned operations. Workflow comments only support `create` (with
  * versionized URL) and `getMany` (without version). The API might support more methods
  * in the future with new use cases being discovered.
  */
@@ -70,7 +79,7 @@ const getEntityBaseUrl = (paramsOrg: GetEntryParams | GetManyCommentsParams) => 
 
 export const get: RestEndpoint<'Comment', 'get'> = (
   http: AxiosInstance,
-  params: GetCommentParams & (PlainTextBodyFormat | RichTextBodyFormat)
+  params: GetCommentParams & (PlainTextBodyFormat | RichTextBodyFormat),
 ) =>
   raw.get<CommentProps>(http, getEntityCommentUrl(params), {
     headers:
@@ -83,7 +92,7 @@ export const get: RestEndpoint<'Comment', 'get'> = (
 
 export const getMany: RestEndpoint<'Comment', 'getMany'> = (
   http: AxiosInstance,
-  params: GetManyCommentsParams & QueryParams & (PlainTextBodyFormat | RichTextBodyFormat)
+  params: GetManyCommentsParams & QueryParams & (PlainTextBodyFormat | RichTextBodyFormat),
 ) =>
   raw.get<CollectionProp<CommentProps>>(http, getEntityBaseUrl(params), {
     params: normalizeSelect(params.query),
@@ -98,7 +107,7 @@ export const getMany: RestEndpoint<'Comment', 'getMany'> = (
 export const create: RestEndpoint<'Comment', 'create'> = (
   http: AxiosInstance,
   params: CreateCommentParams,
-  rawData: CreateCommentProps | RichTextCommentBodyPayload
+  rawData: CreateCommentProps | RichTextCommentBodyPayload,
 ) => {
   const data = copy(rawData)
   return raw.post<CommentProps>(http, getEntityBaseUrl(params), data, {
@@ -116,7 +125,7 @@ export const update: RestEndpoint<'Comment', 'update'> = (
   http: AxiosInstance,
   params: GetCommentParams,
   rawData: UpdateCommentProps | (Omit<UpdateCommentProps, 'body'> & RichTextCommentBodyPayload),
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys
@@ -132,7 +141,7 @@ export const update: RestEndpoint<'Comment', 'update'> = (
 
 export const del: RestEndpoint<'Comment', 'delete'> = (
   http: AxiosInstance,
-  { version, ...params }: DeleteCommentParams
+  { version, ...params }: DeleteCommentParams,
 ) => {
   return raw.del(http, getEntityCommentUrl(params), {
     headers: { [VERSION_HEADER]: version },

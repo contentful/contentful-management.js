@@ -1,5 +1,5 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import type {
   BasicMetaSysProps,
   DefaultElements,
@@ -49,6 +49,7 @@ export type CreateEnvironmentTemplateInstallationProps = {
     items: Link<'ContentType'>[]
   }
   changeSet?: Link<'ChangeSet'>
+  deleteDeletedFields?: boolean
 }
 
 export type ValidateEnvironmentTemplateInstallationProps = Omit<
@@ -76,12 +77,12 @@ export type EnvironmentTemplateInstallation = EnvironmentTemplateInstallationPro
 
 export function wrapEnvironmentTemplateInstallation(
   makeRequest: MakeRequest,
-  data: EnvironmentTemplateInstallationProps
+  data: EnvironmentTemplateInstallationProps,
 ): EnvironmentTemplateInstallation {
   const environmentTemplate = toPlainObject(copy(data))
   return freezeSys(environmentTemplate)
 }
 
 export const wrapEnvironmentTemplateInstallationCollection = wrapCursorPaginatedCollection(
-  wrapEnvironmentTemplateInstallation
+  wrapEnvironmentTemplateInstallation,
 )

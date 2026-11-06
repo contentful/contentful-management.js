@@ -1,4 +1,4 @@
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import type { CollectionProp, QueryParams } from '../common-types'
 
 type IterableFn<P = any, T = any> = (params: P) => Promise<CollectionProp<T>>
@@ -6,7 +6,7 @@ type ParamsType<T extends IterableFn> = T extends (params: infer P) => any ? P :
 
 export const asIterator = <P extends QueryParams, T, F extends IterableFn<P, T>>(
   fn: F,
-  params: ParamsType<F>
+  params: ParamsType<F>,
 ): AsyncIterable<T> => {
   return {
     [Symbol.asyncIterator]() {

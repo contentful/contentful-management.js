@@ -5,6 +5,7 @@ import {
   createTestSpace,
   initPlainClient,
   timeoutToCalmRateLimiting,
+  waitForEnvironmentToBeReady,
 } from '../helpers'
 import type {
   ContentType,
@@ -28,8 +29,9 @@ describe('Workflow Api', () => {
 
   beforeAll(async () => {
     plainClient = initPlainClient()
-    space = (await createTestSpace(defaultClient, 'Comment')) as Space
-    environment = (await createTestEnvironment(space, 'test')) as unknown as Environment
+    space = await createTestSpace(defaultClient, 'Comment')
+    environment = await createTestEnvironment(space, 'test')
+    await waitForEnvironmentToBeReady(space, environment)
     environmentId = environment.sys.id
     spaceId = space.sys.id
     contentType = await environment.createContentType({
@@ -61,7 +63,7 @@ describe('Workflow Api', () => {
             validations: [{ linkContentType: [contentType.sys.id] }],
           },
         ],
-      }
+      },
     )
   })
 
@@ -78,7 +80,7 @@ describe('Workflow Api', () => {
       {
         entity: makeLink(entry.sys.type as 'Entry', entry.sys.id),
         workflowDefinition: makeLink('WorkflowDefinition', workflowDefinition.sys.id),
-      }
+      },
     )
     expect(workflow.sys).toBeDefined()
     const fetchedWorkflow = await plainClient.workflow.get({
@@ -91,7 +93,7 @@ describe('Workflow Api', () => {
 
     const updatedWorkflow = await plainClient.workflow.update(
       { environmentId, spaceId, workflowId: workflow.sys.id },
-      { stepId: workflowDefinition.steps[1].id, sys: { version: workflow.sys.version } }
+      { stepId: workflowDefinition.steps[1].id, sys: { version: workflow.sys.version } },
     )
 
     expect(updatedWorkflow.stepId).toBe(workflowDefinition.steps[1].id)
@@ -108,7 +110,7 @@ describe('Workflow Api', () => {
         environmentId,
         spaceId,
         workflowId: updatedWorkflow.sys.id,
-      })
+      }),
     ).rejects.toThrow()
   })
 })

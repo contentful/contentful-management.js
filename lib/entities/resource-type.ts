@@ -7,7 +7,7 @@ import type {
   SysLink,
 } from '../common-types'
 import { toPlainObject, freezeSys } from 'contentful-sdk-core'
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCursorPaginatedCollection } from '../common-utils'
 
@@ -45,12 +45,7 @@ export type ResourceTypeProps = {
 const publicResourceTypeFields = ['name'] as const
 
 type OptionalSysFields =
-  | 'createdAt'
-  | 'createdBy'
-  | 'updatedAt'
-  | 'updatedBy'
-  | 'appDefinition'
-  | 'organization'
+  'createdAt' | 'createdBy' | 'updatedAt' | 'updatedBy' | 'appDefinition' | 'organization'
 
 export type SpaceEnvResourceTypeProps = Pick<
   ResourceTypeProps,
@@ -69,13 +64,13 @@ export interface ResourceType extends ResourceTypeProps, DefaultElements<Resourc
 }
 
 /**
- * @private
+ * @internal
  */
 function createResourceTypeApi(makeRequest: MakeRequest) {
   return {
     /**
      * Sends an update to the server with any changes made to the object's properties
-     * @return Object returned from the server with updated changes.
+     * @returns Object returned from the server with updated changes.
      * @example ```javascript
      * const contentful = require('contentful-management')
      *
@@ -106,7 +101,7 @@ function createResourceTypeApi(makeRequest: MakeRequest) {
     },
     /**
      * Deletes this object on the server.
-     * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
+     * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
      * @example ```javascript
      * const contentful = require('contentful-management')
      *
@@ -145,23 +140,23 @@ const getUpsertParams = (data: ResourceTypeProps): UpsertResourceTypeProps => ({
 })
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw Resource Type data
- * @return Wrapped Resource Type data
+ * @returns Wrapped Resource Type data
  */
 export function wrapResourceType(makeRequest: MakeRequest, data: ResourceTypeProps): ResourceType {
   const resourceType = toPlainObject(copy(data))
   const ResourceTypeWithMethods = enhanceWithMethods(
     resourceType,
-    createResourceTypeApi(makeRequest)
+    createResourceTypeApi(makeRequest),
   )
   return freezeSys(ResourceTypeWithMethods)
 }
 
 export function wrapResourceTypeforEnvironment(
   makeRequest: MakeRequest,
-  data: SpaceEnvResourceTypeProps
+  data: SpaceEnvResourceTypeProps,
 ): SpaceEnvResourceTypeProps {
   const resourceType = toPlainObject(data)
   return freezeSys(resourceType)
@@ -169,7 +164,7 @@ export function wrapResourceTypeforEnvironment(
 
 export const wrapResourceTypesForEnvironmentCollection: (
   makeRequest: MakeRequest,
-  data: CursorPaginatedCollectionProp<SpaceEnvResourceTypeProps>
+  data: CursorPaginatedCollectionProp<SpaceEnvResourceTypeProps>,
 ) => CursorPaginatedCollectionProp<SpaceEnvResourceTypeProps> = wrapCursorPaginatedCollection(
-  wrapResourceTypeforEnvironment
+  wrapResourceTypeforEnvironment,
 )

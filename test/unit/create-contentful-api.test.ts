@@ -19,14 +19,18 @@ import {
   isUpdatedTest,
 } from './test-creators/instance-entity-methods'
 import { makeEntityMethodFailingTest } from './test-creators/static-entity-methods'
+import createClientApi from '../../lib/create-contentful-api'
 
 function setup(promise: Promise<unknown>) {
   const makeRequest = setupMakeRequest(promise)
-  const api = createEntryApi(makeRequest)
+  const api = createClientApi(makeRequest)
+
+  const entryApi = createEntryApi(makeRequest)
   const entryMock = cloneMock('entry')
 
   return {
     api: {
+      ...entryApi,
       ...api,
       toPlainObject: () => entryMock,
     },
@@ -34,6 +38,112 @@ function setup(promise: Promise<unknown>) {
     entityMock: entryMock,
   }
 }
+
+describe('createClientApi', () => {
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  describe('spaces', () => {
+    afterEach(() => {
+      vi.restoreAllMocks()
+    })
+
+    test('API call space create', async () => {
+      const { api } = setup(Promise.resolve({}))
+      await expect(
+        api.createSpace({ name: 'test space', productId: 'test-product' }, 'test-org'),
+      ).resolves.not.toThrow()
+    })
+
+    test('API call space create fails', async () => {
+      const error = cloneMock('error')
+      const { api } = setup(Promise.reject(error))
+
+      await expect(
+        api.createSpace({ name: 'test space', productId: 'test-product' }, 'test-org'),
+      ).rejects.toEqual(error)
+    })
+
+    const collectionResponse = { sys: { type: 'Array' }, total: 0, skip: 0, limit: 100, items: [] }
+    const cursorCollectionResponse = { sys: { type: 'Array' }, limit: 100, items: [], pages: {} }
+
+    test('getSpaces calls getMany', async () => {
+      const { api, makeRequest } = setup(Promise.resolve(collectionResponse))
+      await api.getSpaces({ limit: 10 })
+      expect(makeRequest).toHaveBeenCalledWith(
+        expect.objectContaining({ entityType: 'Space', action: 'getMany' }),
+      )
+    })
+
+    test('getSpaces with cursor:true normalizes query params (cursor flag not forwarded)', async () => {
+      const { api, makeRequest } = setup(Promise.resolve(cursorCollectionResponse))
+      await api.getSpaces({ cursor: true, limit: 10 })
+      const [call] = makeRequest.mock.calls
+      expect(call[0].action).toBe('getMany')
+      expect(call[0].params.query).toMatchObject({ cursor: true, limit: 10 })
+    })
+
+    test('getSpaces with cursor:true and pageNext passes pageNext in query', async () => {
+      const { api, makeRequest } = setup(Promise.resolve(cursorCollectionResponse))
+      await api.getSpaces({ cursor: true, pageNext: 'next-token' })
+      const [call] = makeRequest.mock.calls
+      expect(call[0].params.query).toMatchObject({ cursor: true, pageNext: 'next-token' })
+    })
+
+    test('getSpaces with cursor:true returns cursor paginated collection', async () => {
+      const { api } = setup(
+        Promise.resolve({ ...cursorCollectionResponse, pages: { next: 'pageNext=abc' } }),
+      )
+      const result = await api.getSpaces({ cursor: true })
+      expect(result).toHaveProperty('pages')
+      expect(result).not.toHaveProperty('total')
+    })
+
+    test('getSpaces without cursor returns regular collection', async () => {
+      const { api } = setup(Promise.resolve(collectionResponse))
+      const result = await api.getSpaces()
+      expect(result).toHaveProperty('total')
+      expect(result).not.toHaveProperty('pages')
+    })
+
+    test('getSpaces with organizationId passes it in params', async () => {
+      const { api, makeRequest } = setup(Promise.resolve(collectionResponse))
+      await api.getSpaces({}, 'test-org')
+      const [call] = makeRequest.mock.calls
+      expect(call[0].params.organizationId).toBe('test-org')
+    })
+
+    test('getSpaces without organizationId omits it from params', async () => {
+      const { api, makeRequest } = setup(Promise.resolve(collectionResponse))
+      await api.getSpaces()
+      const [call] = makeRequest.mock.calls
+      expect(call[0].params.organizationId).toBeUndefined()
+    })
+
+    test('getSpaces with include passes it as a top-level param', async () => {
+      const { api, makeRequest } = setup(Promise.resolve(collectionResponse))
+      await api.getSpaces({ include: 'sys.license' })
+      const [call] = makeRequest.mock.calls
+      expect(call[0].params.include).toBe('sys.license')
+      expect(call[0].params.query?.include).toBeUndefined()
+    })
+
+    test('getSpace with include passes it in params', async () => {
+      const { api, makeRequest } = setup(Promise.resolve({}))
+      await api.getSpace('test-space', { include: 'sys.license' })
+      const [call] = makeRequest.mock.calls
+      expect(call[0].params.include).toBe('sys.license')
+    })
+
+    test('getSpace without include omits it from params', async () => {
+      const { api, makeRequest } = setup(Promise.resolve({}))
+      await api.getSpace('test-space')
+      const [call] = makeRequest.mock.calls
+      expect(call[0].params.include).toBeUndefined()
+    })
+  })
+})
 
 describe('createEntryApi', () => {
   afterEach(() => {
@@ -177,7 +287,7 @@ describe('createEntryApi', () => {
         makeRequest: setupMakeRequest(promise),
         entityMock: cloneMock('entryReferencesCollection'),
       }),
-      { wrapperMethod: wrapEntryCollection }
+      { wrapperMethod: wrapEntryCollection },
     )
   })
 

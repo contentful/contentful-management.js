@@ -16,7 +16,7 @@ export type SpaceMemberPlainClientAPI = {
    * ```
    */
   get(
-    params: OptionalDefaults<GetSpaceParams & { spaceMemberId: string }>
+    params: OptionalDefaults<GetSpaceParams & { spaceMemberId: string }>,
   ): Promise<SpaceMemberProps>
   /**
    * Fetches all the space members for a given space
@@ -30,6 +30,6 @@ export type SpaceMemberPlainClientAPI = {
    * ```
    */
   getMany(
-    params: OptionalDefaults<GetSpaceParams & QueryParams>
+    params: OptionalDefaults<GetSpaceParams & QueryParams>,
   ): Promise<CollectionProp<SpaceMemberProps>>
 }

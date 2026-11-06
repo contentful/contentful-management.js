@@ -1,5 +1,5 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import type { DefaultElements, MakeRequest, MetaLinkProps, MetaSysProps } from '../common-types'
 
 export type OrganizationInvitationProps = {
@@ -18,18 +18,17 @@ export type OrganizationInvitationProps = {
 export type CreateOrganizationInvitationProps = Omit<OrganizationInvitationProps, 'sys'>
 
 export interface OrganizationInvitation
-  extends OrganizationInvitationProps,
-    DefaultElements<OrganizationInvitationProps> {}
+  extends OrganizationInvitationProps, DefaultElements<OrganizationInvitationProps> {}
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw invitation data
- * @return {OrganizationInvitation} Wrapped Inviation data
+ * @returns {OrganizationInvitation} Wrapped Inviation data
  */
 export function wrapOrganizationInvitation(
   _makeRequest: MakeRequest,
-  data: OrganizationInvitationProps
+  data: OrganizationInvitationProps,
 ): OrganizationInvitation {
   const invitation = toPlainObject(copy(data))
   return freezeSys(invitation)

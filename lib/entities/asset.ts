@@ -1,4 +1,4 @@
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import type { Stream } from 'stream'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -8,12 +8,13 @@ import type {
   EntityMetaSysProps,
   MetadataProps,
   MakeRequest,
+  CursorPaginatedCollectionProp,
 } from '../common-types'
-import { wrapCollection } from '../common-utils'
+import { wrapCollection, wrapCursorPaginatedCollection } from '../common-utils'
 import * as checks from '../plain/checks'
 
-export type AssetProps = {
-  sys: EntityMetaSysProps
+export type AssetProps<S = {}> = {
+  sys: EntityMetaSysProps & S
   fields: {
     /** Title for this asset */
     title: { [key: string]: string }
@@ -67,7 +68,7 @@ type AssetApi = {
    * @param options - Additional options for processing
    * @prop options.processingCheckWait - Time in milliseconds to wait before checking again if the asset has been processed (default: 500ms)
    * @prop options.processingCheckRetries - Maximum amount of times to check if the asset has been processed (default: 5)
-   * @return Object returned from the server with updated metadata.
+   * @returns Object returned from the server with updated metadata.
    * @throws {AssetProcessingTimeout} If the asset takes too long to process. If this happens, retrieve the asset again, and if the url property is available, then processing has succeeded. If not, your file might be damaged.
    * @example ```javascript
    * const contentful = require('contentful-management')
@@ -107,7 +108,7 @@ type AssetApi = {
    * @param options - Additional options for processing
    * @prop options.processingCheckWait - Time in milliseconds to wait before checking again if the asset has been processed (default: 500ms)
    * @prop options.processingCheckRetries - Maximum amount of times to check if the asset has been processed (default: 5)
-   * @return Object returned from the server with updated metadata.
+   * @returns Object returned from the server with updated metadata.
    * @throws {AssetProcessingTimeout} If the asset takes too long to process. If this happens, retrieve the asset again, and if the url property is available, then processing has succeeded. If not, your file might be damaged.
    * @example ```javascript
    * const contentful = require('contentful-management')
@@ -137,7 +138,7 @@ type AssetApi = {
   processForLocale(locale: string, Options?: AssetProcessingForLocale): Promise<Asset>
   /**
    * Publishes the object
-   * @return Object returned from the server with updated metadata.
+   * @returns Object returned from the server with updated metadata.
    * @example ```javascript
    * const contentful = require('contentful-management')
    *
@@ -156,7 +157,7 @@ type AssetApi = {
   publish(): Promise<Asset>
   /**
    * Archives the object
-   * @return Object returned from the server with updated metadata.
+   * @returns Object returned from the server with updated metadata.
    * @example ```javascript
    * const contentful = require('contentful-management')
    *
@@ -175,7 +176,7 @@ type AssetApi = {
   archive(): Promise<Asset>
   /**
    * Deletes this object on the server.
-   * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
+   * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
    * @example ```javascript
    * const contentful = require('contentful-management')
    *
@@ -194,7 +195,7 @@ type AssetApi = {
   delete(): Promise<void>
   /**
    * Unarchives the object
-   * @return Object returned from the server with updated metadata.
+   * @returns Object returned from the server with updated metadata.
    * @example ```javascript
    * const contentful = require('contentful-management')
    *
@@ -213,7 +214,7 @@ type AssetApi = {
   unarchive(): Promise<Asset>
   /**
    * Unpublishes the object
-   * @return Object returned from the server with updated metadata.
+   * @returns Object returned from the server with updated metadata.
    * @example ```javascript
    * const contentful = require('contentful-management')
    *
@@ -232,7 +233,7 @@ type AssetApi = {
   unpublish(): Promise<Asset>
   /**
    * Sends an update to the server with any changes made to the object's properties
-   * @return Object returned from the server with updated changes.
+   * @returns Object returned from the server with updated changes.
    * @example ```javascript
    * const contentful = require('contentful-management')
    *
@@ -273,7 +274,7 @@ type AssetApi = {
 export interface Asset extends AssetProps, DefaultElements<AssetProps>, AssetApi {}
 
 /**
- * @private
+ * @internal
  */
 function createAssetApi(makeRequest: MakeRequest): AssetApi {
   const getParams = (raw: AssetProps) => {
@@ -287,7 +288,7 @@ function createAssetApi(makeRequest: MakeRequest): AssetApi {
   return {
     processForLocale: function processForLocale(
       locale: string,
-      options?: AssetProcessingForLocale
+      options?: AssetProcessingForLocale,
     ) {
       const raw = this.toPlainObject() as AssetProps
       return makeRequest({
@@ -395,10 +396,10 @@ function createAssetApi(makeRequest: MakeRequest): AssetApi {
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw asset data
- * @return Wrapped asset data
+ * @returns Wrapped asset data
  */
 export function wrapAsset(makeRequest: MakeRequest, data: AssetProps): Asset {
   const asset = toPlainObject(copy(data))
@@ -407,6 +408,11 @@ export function wrapAsset(makeRequest: MakeRequest, data: AssetProps): Asset {
 }
 
 /**
- * @private
+ * @internal
  */
 export const wrapAssetCollection = wrapCollection(wrapAsset)
+
+/**
+ * @internal
+ */
+export const wrapAssetTypeCursorPaginatedCollection = wrapCursorPaginatedCollection(wrapAsset)

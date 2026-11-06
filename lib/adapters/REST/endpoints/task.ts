@@ -1,9 +1,11 @@
 import type { AxiosInstance, RawAxiosRequestHeaders } from 'axios'
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import type { SetOptional } from 'type-fest'
 import type {
   CollectionProp,
   GetEntryParams,
+  GetSpaceEnvironmentParams,
+  GetTaskParentEntityParams,
   GetTaskParams,
   PaginationQueryOptions,
   QueryParams,
@@ -12,6 +14,8 @@ import type {
   CreateTaskParams,
   CreateTaskProps,
   DeleteTaskParams,
+  TaskParentEntityPath,
+  TaskParentEntityType,
   TaskProps,
   UpdateTaskProps,
 } from '../../../entities/task'
@@ -19,8 +23,42 @@ import type { RestEndpoint } from '../types'
 import * as raw from './raw'
 import { normalizeSelect } from './utils'
 
-const getBaseUrl = (params: GetEntryParams) =>
-  `/spaces/${params.spaceId}/environments/${params.environmentId}/entries/${params.entryId}/tasks`
+const getSpaceEnvBaseUrl = (params: GetSpaceEnvironmentParams) =>
+  `/spaces/${params.spaceId}/environments/${params.environmentId}`
+
+function getParentPlural(parentEntityType: TaskParentEntityType): TaskParentEntityPath {
+  switch (parentEntityType) {
+    case 'Entry':
+      return 'entries'
+    case 'Experience':
+      return 'experiences'
+    case 'ExperienceFragment':
+      return 'experience_fragments'
+    case 'ExperienceTemplate':
+      return 'experience_templates'
+    case 'Component':
+      return 'components'
+  }
+}
+
+const normalizeTaskParentParams = (
+  paramsOrg: GetEntryParams | GetTaskParentEntityParams,
+): GetTaskParentEntityParams =>
+  'entryId' in paramsOrg
+    ? {
+        spaceId: paramsOrg.spaceId,
+        environmentId: paramsOrg.environmentId,
+        parentEntityType: 'Entry' as const,
+        parentEntityId: paramsOrg.entryId,
+      }
+    : paramsOrg
+
+const getBaseUrl = (paramsOrg: GetEntryParams | GetTaskParentEntityParams) => {
+  const params = normalizeTaskParentParams(paramsOrg)
+  const parentPlural = getParentPlural(params.parentEntityType)
+
+  return `${getSpaceEnvBaseUrl(params)}/${parentPlural}/${params.parentEntityId}/tasks`
+}
 const getTaskUrl = (params: GetTaskParams) => `${getBaseUrl(params)}/${params.taskId}`
 
 export const get: RestEndpoint<'Task', 'get'> = (http: AxiosInstance, params: GetTaskParams) =>
@@ -28,7 +66,7 @@ export const get: RestEndpoint<'Task', 'get'> = (http: AxiosInstance, params: Ge
 
 export const getMany: RestEndpoint<'Task', 'getMany'> = (
   http: AxiosInstance,
-  params: GetEntryParams & QueryParams & PaginationQueryOptions
+  params: (GetEntryParams | GetTaskParentEntityParams) & QueryParams & PaginationQueryOptions,
 ) =>
   raw.get<CollectionProp<TaskProps>>(http, getBaseUrl(params), {
     params: normalizeSelect(params.query),
@@ -42,7 +80,7 @@ export const getAll: RestEndpoint<'Task', 'getAll'> = getMany
 export const create: RestEndpoint<'Task', 'create'> = (
   http: AxiosInstance,
   params: CreateTaskParams,
-  rawData: CreateTaskProps
+  rawData: CreateTaskProps,
 ) => {
   const data = copy(rawData)
   return raw.post<TaskProps>(http, getBaseUrl(params), data)
@@ -52,7 +90,7 @@ export const update: RestEndpoint<'Task', 'update'> = (
   http: AxiosInstance,
   params: GetTaskParams,
   rawData: UpdateTaskProps,
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys
@@ -67,7 +105,7 @@ export const update: RestEndpoint<'Task', 'update'> = (
 
 export const del: RestEndpoint<'Task', 'delete'> = (
   http: AxiosInstance,
-  { version, ...params }: DeleteTaskParams
+  { version, ...params }: DeleteTaskParams,
 ) => {
   return raw.del(http, getTaskUrl(params), { headers: { 'X-Contentful-Version': version } })
 }

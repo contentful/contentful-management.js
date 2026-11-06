@@ -4,14 +4,14 @@ import type { GetUIConfigParams } from '../../../common-types'
 import type { UIConfigProps } from '../../../entities/ui-config'
 import type { RestEndpoint } from '../types'
 import * as raw from './raw'
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 
 const getUrl = (params: GetUIConfigParams) =>
   `/spaces/${params.spaceId}/environments/${params.environmentId}/ui_config`
 
 export const get: RestEndpoint<'UIConfig', 'get'> = (
   http: AxiosInstance,
-  params: GetUIConfigParams
+  params: GetUIConfigParams,
 ) => {
   return raw.get<UIConfigProps>(http, getUrl(params))
 }
@@ -19,7 +19,7 @@ export const get: RestEndpoint<'UIConfig', 'get'> = (
 export const update: RestEndpoint<'UIConfig', 'update'> = (
   http: AxiosInstance,
   params: GetUIConfigParams,
-  rawData: UIConfigProps
+  rawData: UIConfigProps,
 ) => {
   const data: SetOptional<typeof rawData, 'sys'> = copy(rawData)
   delete data.sys

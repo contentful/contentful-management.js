@@ -38,7 +38,7 @@ describe('ResourceType API', () => {
   beforeAll(async () => {
     organization = await getTestOrganization()
     appDefinition = await organization.createAppDefinition({
-      name: 'Test',
+      name: 'Test Action Calls Integration in CMA (delete if stale)',
       src: 'http://localhost:2222',
       locations: [{ location: 'entry-sidebar' }],
     })
@@ -178,13 +178,13 @@ describe('ResourceType API', () => {
         defaultFieldMapping: {
           title: 'title',
         },
-      }
+      },
     )
 
     await resourceType.delete()
 
     await expect(
-      resourceProvider.getResourceType('resourceProvider:resourceTypeId')
+      resourceProvider.getResourceType('resourceProvider:resourceTypeId'),
     ).rejects.toThrow('The resource could not be found')
   })
 
@@ -201,7 +201,7 @@ describe('ResourceType API', () => {
           defaultFieldMapping: {
             title: 'title',
           },
-        }
+        },
       )
 
       expect(resourceTypePlain?.sys.id).toBe('resourceProvider:resourceTypeId')
@@ -221,8 +221,8 @@ describe('ResourceType API', () => {
             defaultFieldMapping: {
               title: 'title',
             },
-          }
-        )
+          },
+        ),
       ).rejects.toThrow('The resource could not be found')
     })
 
@@ -238,7 +238,7 @@ describe('ResourceType API', () => {
           defaultFieldMapping: {
             title: 'title',
           },
-        }
+        },
       )
 
       const updatedResourceType = await plainClient.resourceType.upsert(
@@ -252,7 +252,7 @@ describe('ResourceType API', () => {
           defaultFieldMapping: {
             title: 'title',
           },
-        }
+        },
       )
 
       expect(updatedResourceType.sys.id).toBe('resourceProvider:resourceTypeId')
@@ -271,7 +271,7 @@ describe('ResourceType API', () => {
           defaultFieldMapping: {
             title: 'title',
           },
-        }
+        },
       )
 
       resourceTypePlain = await plainClient.resourceType.get({
@@ -296,7 +296,7 @@ describe('ResourceType API', () => {
           defaultFieldMapping: {
             title: 'title',
           },
-        }
+        },
       )
 
       const response = await plainClient.resourceType.getMany({
@@ -322,14 +322,14 @@ describe('ResourceType API', () => {
           defaultFieldMapping: {
             title: 'title',
           },
-        }
+        },
       )
 
       const { spaceId, environmentId } = TestDefaults
       appInstallationPlain = await plainClient.appInstallation.upsert(
         { spaceId, environmentId, appDefinitionId: appDefinition.sys.id },
         { parameters: { tmdbAccessToken: 'testing' } },
-        { acceptAllTerms: true }
+        { acceptAllTerms: true },
       )
 
       const resourceTypesPlain = await plainClient.resourceType.getForEnvironment({
@@ -364,7 +364,7 @@ describe('ResourceType API', () => {
           defaultFieldMapping: {
             title: 'title',
           },
-        }
+        },
       )
 
       await plainClient.resourceType.delete({
@@ -378,7 +378,7 @@ describe('ResourceType API', () => {
           organizationId: organization.sys.id,
           appDefinitionId: appDefinition.sys.id,
           resourceTypeId: 'resourceProvider:resourceTypeId',
-        })
+        }),
       ).rejects.toThrow('The resource could not be found')
     })
   })

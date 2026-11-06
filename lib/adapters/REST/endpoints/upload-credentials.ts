@@ -12,7 +12,7 @@ const getBaseUrl = (params: GetSpaceEnvironmentParams) => {
 
 export const create: RestEndpoint<'UploadCredential', 'create'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams
+  params: GetSpaceEnvironmentParams,
 ) => {
   const httpUpload = getUploadHttpClient(http)
 

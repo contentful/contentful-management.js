@@ -13,11 +13,19 @@ import {
 import type {
   ConceptProps,
   ContentType,
+  EntryProps,
   Environment,
   PlainClientAPI,
+  ReleaseProps,
   Space,
 } from '../../lib/export-types'
 import { TestDefaults } from '../defaults'
+import {
+  createEmptyRelease,
+  createTestEntry,
+  updateReleaseWithEntries,
+  updateReleaseEntryTitle,
+} from './utils/release-entry.utils'
 
 describe('Entry Api', () => {
   afterAll(async () => await timeoutToCalmRateLimiting())
@@ -37,6 +45,74 @@ describe('Entry Api', () => {
         expect(response.fields, 'fields').to.be.ok
       })
     })
+
+    describe('Gets entries with cursor pagination', () => {
+      test('gets entries with cursor pagination with items', async () => {
+        const response = await environment.getEntriesWithCursor()
+        expect(response.items).toBeTruthy()
+      })
+
+      test('returns a cursor paginated entry collection when no query is provided', async () => {
+        const response = await environment.getEntriesWithCursor()
+
+        expect(response.items).not.toHaveLength(0)
+        expect(response.pages).toBeDefined()
+        expect((response as { total?: number }).total).toBeUndefined()
+
+        response.items.forEach((item) => {
+          expect(item.sys.type).toEqual('Entry')
+          expect(item.fields).toBeDefined()
+        })
+      })
+
+      test('returns [limit] number of items', async () => {
+        const response = await environment.getEntriesWithCursor({ limit: 3 })
+
+        expect(response.items).toHaveLength(3)
+        expect(response.pages).toBeDefined()
+        expect((response as { total?: number }).total).toBeUndefined()
+
+        response.items.forEach((item) => {
+          expect(item.sys.type).toEqual('Entry')
+          expect(item.fields).toBeDefined()
+        })
+      })
+
+      test('supports forward pagination', async () => {
+        const firstPage = await environment.getEntriesWithCursor({ limit: 2 })
+        const secondPage = await environment.getEntriesWithCursor({
+          limit: 2,
+          pageNext: firstPage?.pages?.next,
+        })
+
+        expect(secondPage.items).toHaveLength(2)
+        expect(firstPage.items[0].sys.id).not.toEqual(secondPage.items[0].sys.id)
+      })
+
+      test('should support backward pagination', async () => {
+        const firstPage = await environment.getEntriesWithCursor({
+          limit: 2,
+          order: ['sys.createdAt'],
+        })
+        const secondPage = await environment.getEntriesWithCursor({
+          limit: 2,
+          pageNext: firstPage?.pages?.next,
+          order: ['sys.createdAt'],
+        })
+        const result = await environment.getEntriesWithCursor({
+          limit: 2,
+          pagePrev: secondPage?.pages?.prev,
+          order: ['sys.createdAt'],
+        })
+
+        expect(result.items).toHaveLength(2)
+
+        firstPage.items.forEach((item, index) => {
+          expect(item.sys.id).equal(result.items[index].sys.id)
+        })
+      })
+    })
+
     test('Gets published entries', async () => {
       return environment.getPublishedEntries().then((response) => {
         expect(response.items[0].sys.firstPublishedAt).to.not.be.undefined
@@ -44,6 +120,74 @@ describe('Entry Api', () => {
         expect(response.items[0].sys.publishedAt).to.not.be.undefined
       })
     })
+
+    describe('Gets published entries with cursor pagination', () => {
+      test('gets published entries with cursor pagination with items', async () => {
+        const response = await environment.getPublishedEntriesWithCursor()
+        expect(response.items).toBeTruthy()
+      })
+
+      test('returns a cursor paginated published entry collection when no query is provided', async () => {
+        const response = await environment.getPublishedEntriesWithCursor()
+
+        expect(response.items).not.toHaveLength(0)
+        expect(response.pages).toBeDefined()
+        expect((response as { total?: number }).total).toBeUndefined()
+
+        response.items.forEach((item) => {
+          expect(item.sys.type).toEqual('Entry')
+          expect(item.fields).toBeDefined()
+        })
+      })
+
+      test('returns [limit] number of items', async () => {
+        const response = await environment.getPublishedEntriesWithCursor({ limit: 3 })
+
+        expect(response.items).toHaveLength(3)
+        expect(response.pages).toBeDefined()
+        expect((response as { total?: number }).total).toBeUndefined()
+
+        response.items.forEach((item) => {
+          expect(item.sys.type).toEqual('Entry')
+          expect(item.fields).toBeDefined()
+        })
+      })
+
+      test('supports forward pagination', async () => {
+        const firstPage = await environment.getPublishedEntriesWithCursor({ limit: 2 })
+        const secondPage = await environment.getPublishedEntriesWithCursor({
+          limit: 2,
+          pageNext: firstPage?.pages?.next,
+        })
+
+        expect(secondPage.items).toHaveLength(2)
+        expect(firstPage.items[0].sys.id).not.toEqual(secondPage.items[0].sys.id)
+      })
+
+      test('should support backward pagination', async () => {
+        const firstPage = await environment.getPublishedEntriesWithCursor({
+          limit: 2,
+          order: ['sys.createdAt'],
+        })
+        const secondPage = await environment.getPublishedEntriesWithCursor({
+          limit: 2,
+          pageNext: firstPage?.pages?.next,
+          order: ['sys.createdAt'],
+        })
+        const result = await environment.getPublishedEntriesWithCursor({
+          limit: 2,
+          pagePrev: secondPage?.pages?.prev,
+          order: ['sys.createdAt'],
+        })
+
+        expect(result.items).toHaveLength(2)
+
+        firstPage.items.forEach((item, index) => {
+          expect(item.sys.id).equal(result.items[index].sys.id)
+        })
+      })
+    })
+
     test('Gets Entry snapshots', async () => {
       return environment.getEntry(TestDefaults.entry.testEntryId).then((entry) => {
         return entry.getSnapshots().then((response) => {
@@ -145,10 +289,10 @@ describe('Entry Api', () => {
         .then((response) => {
           expect(response.total > 0).ok
           expect(
-            response.items[0].fields.likes['en-US'].filter((i) => i === 'lasagna').length
+            response.items[0].fields.likes['en-US'].filter((i) => i === 'lasagna').length,
           ).equal(0)
           expect(
-            response.items[0].fields.likes['en-US'].filter((i) => i === 'rainbows').length
+            response.items[0].fields.likes['en-US'].filter((i) => i === 'rainbows').length,
           ).equal(0)
         })
     })
@@ -184,7 +328,7 @@ describe('Entry Api', () => {
         .then((response) => {
           expect(response.items[0].sys.id).equal(
             'nyancat',
-            'returned entry has link to specified linked entry'
+            'returned entry has link to specified linked entry',
           )
         })
     })
@@ -303,11 +447,11 @@ describe('Entry Api', () => {
               'test-content-type33324244',
               'testEntryReferences',
             ],
-            'orders'
+            'orders',
           )
           expect(
             response.items[0].sys.id < response.items[1].sys.id,
-            'id of entry with index 1 is higher than the one of index 0 since they share content type'
+            'id of entry with index 1 is higher than the one of index 0 since they share content type',
           ).ok
         })
     })
@@ -348,7 +492,7 @@ describe('Entry Api', () => {
               localized: false,
             },
           ],
-        }
+        },
       )
       await contentType.publish()
     })
@@ -372,7 +516,7 @@ describe('Entry Api', () => {
               expect(updatedEntry.isUpdated(), 'entry is updated').ok
               expect(updatedEntry.fields.title['en-US']).equals(
                 'title has changed',
-                'updated title'
+                'updated title',
               )
               const patchOp = {
                 op: 'replace',
@@ -382,7 +526,7 @@ describe('Entry Api', () => {
               return updatedEntry.patch([patchOp]).then((patchedEntry) => {
                 expect(patchedEntry.fields.title['en-US']).equals(
                   'title was patched',
-                  'updated title'
+                  'updated title',
                 )
                 return patchedEntry.unpublish().then((unpublishedEntry) => {
                   expect(unpublishedEntry.isDraft(), 'entry is back in draft').ok
@@ -441,7 +585,7 @@ describe('Entry Api', () => {
             prefLabel: {
               'en-US': 'Parent concept for validation',
             },
-          }
+          },
         )
         const childConcept = await client.concept.create(
           {},
@@ -458,7 +602,7 @@ describe('Entry Api', () => {
                 },
               },
             ],
-          }
+          },
         )
         conceptsToCleanUp.push(parentConcept, childConcept)
 
@@ -486,7 +630,7 @@ describe('Entry Api', () => {
                 },
               ],
             },
-          }
+          },
         )
         await contentTypeWithTaxonomyValidation.publish()
 
@@ -508,7 +652,7 @@ describe('Entry Api', () => {
               ],
               tags: [],
             },
-          }
+          },
         )
         if (!createdEntry.metadata?.concepts) {
           throw new Error('created entry is missing metadata concepts')
@@ -525,7 +669,7 @@ describe('Entry Api', () => {
             prefLabel: {
               'en-US': 'Parent concept for validation',
             },
-          }
+          },
         )
         const childConcept = await client.concept.create(
           {},
@@ -542,7 +686,7 @@ describe('Entry Api', () => {
                 },
               },
             ],
-          }
+          },
         )
         conceptsToCleanUp.push(parentConcept, childConcept)
 
@@ -570,7 +714,7 @@ describe('Entry Api', () => {
                 },
               ],
             },
-          }
+          },
         )
         await contentTypeWithTaxonomyValidation.publish()
 
@@ -581,7 +725,7 @@ describe('Entry Api', () => {
               title: { 'en-US': 'this is the title of an entry with a taxonomy assigned' },
             },
             // metadata intentionally omitted
-          }
+          },
         )
         if (!entryToUpdate.metadata?.concepts) {
           throw new Error('entry to update is missing metadata concepts')
@@ -616,7 +760,7 @@ describe('Entry Api', () => {
             prefLabel: {
               'en-US': 'Parent concept for validation',
             },
-          }
+          },
         )
         const childConcept = await client.concept.create(
           {},
@@ -633,7 +777,7 @@ describe('Entry Api', () => {
                 },
               },
             ],
-          }
+          },
         )
         conceptsToCleanUp.push(parentConcept, childConcept)
 
@@ -661,7 +805,7 @@ describe('Entry Api', () => {
                 },
               ],
             },
-          }
+          },
         )
         await contentTypeWithTaxonomyValidation.publish()
 
@@ -683,7 +827,7 @@ describe('Entry Api', () => {
               ],
               tags: [],
             },
-          }
+          },
         )
         if (!entryToDeleteConceptFrom.metadata?.concepts) {
           throw new Error('entry to delete concept from is missing metadata concepts')
@@ -711,6 +855,176 @@ describe('Entry Api', () => {
       expect(response.items[0].sys.firstPublishedAt).to.not.be.undefined
       expect(response.items[0].sys.publishedVersion).to.not.be.undefined
       expect(response.items[0].sys.publishedAt).to.not.be.undefined
+    })
+  })
+
+  //test releasev2 entry logic
+  describe('plainClientApi with releaseId', () => {
+    let entry: EntryProps
+    let entry2: EntryProps
+    let release: ReleaseProps
+    let createEntryClient: PlainClientAPI
+
+    beforeAll(async () => {
+      // create a v2 release w/ entry to reuse in tests
+      const defaultParams = {
+        environmentId: TestDefaults.environmentId,
+        spaceId: TestDefaults.spaceId,
+        releaseSchemaVersion: 'Release.v2' as const,
+      }
+      createEntryClient = initPlainClient(defaultParams)
+
+      // create release
+      release = await createEmptyRelease(createEntryClient, defaultParams)
+
+      // create entries to add to release
+      entry = await createTestEntry(
+        createEntryClient,
+        defaultParams,
+        TestDefaults.contentType.withCrossSpaceReferenceId,
+      )
+      entry2 = await createTestEntry(
+        createEntryClient,
+        defaultParams,
+        TestDefaults.contentType.withCrossSpaceReferenceId,
+      )
+      // add entries to release
+      release = await updateReleaseWithEntries(createEntryClient, release, [entry, entry2])
+
+      // update release entry with title
+      await updateReleaseEntryTitle(createEntryClient, release, entry)
+    })
+
+    afterAll(async () => {
+      // cleanup test release
+      await createEntryClient.release.delete({
+        releaseId: release.sys.id,
+      })
+      await createEntryClient.entry.delete({
+        entryId: entry.sys.id,
+      })
+      await createEntryClient.entry.delete({
+        entryId: entry2.sys.id,
+      })
+      await timeoutToCalmRateLimiting()
+    })
+
+    describe('releaseId is provided in params, but not in default params', () => {
+      test('entry.patch works', async () => {
+        const entryToPatch = await createEntryClient.entry.get({
+          entryId: entry.sys.id,
+          releaseId: release.sys.id,
+        })
+
+        const patchedEntry = await createEntryClient.entry.patch(
+          {
+            entryId: entryToPatch.sys.id,
+            releaseId: release.sys.id,
+            version: entryToPatch.sys.version,
+          },
+          [
+            {
+              op: 'replace' as const,
+              path: '/fields/title/en-US',
+              value: 'Entry patched via release',
+            },
+          ],
+        )
+
+        expect(patchedEntry.sys.id).toEqual(entryToPatch.sys.id)
+        expect(patchedEntry.fields.title['en-US']).toEqual('Entry patched via release')
+        expect(patchedEntry.sys.version).toBeGreaterThan(entryToPatch.sys.version)
+        expect((patchedEntry as any).sys.release.sys.id).toEqual(
+          (entryToPatch as any).sys.release.sys.id,
+        )
+      })
+
+      test('entry.update works', async () => {
+        const entryToUpdate = await createEntryClient.entry.get({
+          entryId: entry.sys.id,
+          releaseId: release.sys.id,
+        })
+
+        const updatedEntry = await createEntryClient.entry.update(
+          {
+            entryId: entryToUpdate.sys.id,
+            releaseId: release.sys.id,
+          },
+          {
+            ...entryToUpdate,
+            fields: {
+              ...entryToUpdate.fields,
+              title: { 'en-US': 'Entry updated via release' },
+            },
+          },
+        )
+
+        expect(updatedEntry.sys.id).toEqual(entryToUpdate.sys.id)
+        expect(updatedEntry.fields.title['en-US']).toEqual('Entry updated via release')
+        expect(updatedEntry.sys.version).toBeGreaterThan(entryToUpdate.sys.version)
+        expect((updatedEntry as any).sys.release.sys.id).toEqual(
+          (entryToUpdate as any).sys.release.sys.id,
+        )
+      })
+    })
+
+    describe('releaseId is provided in default params, but not in params', () => {
+      beforeEach(() => {
+        createEntryClient = initPlainClient({
+          environmentId: TestDefaults.environmentId,
+          spaceId: TestDefaults.spaceId,
+          releaseId: release.sys.id,
+        })
+      })
+
+      test('entry.patch works', async () => {
+        const entryToPatch = await createEntryClient.entry.get({
+          entryId: entry.sys.id,
+        })
+
+        const patchedEntry = await createEntryClient.entry.patch(
+          {
+            entryId: entryToPatch.sys.id,
+            version: entryToPatch.sys.version,
+          },
+          [
+            {
+              op: 'replace',
+              path: '/fields/title/en-US',
+              value: 'Entry patched via default release',
+            },
+          ],
+        )
+
+        expect(patchedEntry.sys.id).toEqual(entryToPatch.sys.id)
+        expect(patchedEntry.fields.title['en-US']).toEqual('Entry patched via default release')
+        expect(patchedEntry.sys.version).toBeGreaterThan(entryToPatch.sys.version)
+        expect((patchedEntry as any).sys.release.sys.id).toEqual(entryToPatch.sys.release.sys.id)
+      })
+
+      test('entry.update works', async () => {
+        const entryToUpdate = await createEntryClient.entry.get({
+          entryId: entry.sys.id,
+        })
+
+        const updatedEntry = await createEntryClient.entry.update(
+          {
+            entryId: entryToUpdate.sys.id,
+          },
+          {
+            ...entryToUpdate,
+            fields: {
+              ...entryToUpdate.fields,
+              title: { 'en-US': 'Entry updated via default release' },
+            },
+          },
+        )
+
+        expect(updatedEntry.sys.id).toEqual(entryToUpdate.sys.id)
+        expect(updatedEntry.fields.title['en-US']).toEqual('Entry updated via default release')
+        expect(updatedEntry.sys.version).toBeGreaterThan(entryToUpdate.sys.version)
+        expect((updatedEntry as any).sys.release.sys.id).toEqual(entryToUpdate.sys.release.sys.id)
+      })
     })
   })
 
@@ -778,11 +1092,11 @@ describe('Entry Api', () => {
         xSpaceEnabledSpace = await getDefaultSpace()
         xSpaceEnabledEnvironment = await createTestEnvironment(
           xSpaceEnabledSpace,
-          'Test Cross Space'
+          'Test Cross Space',
         )
         await waitForEnvironmentToBeReady(xSpaceEnabledSpace, xSpaceEnabledEnvironment)
         xSpaceEnabledContentType = await xSpaceEnabledEnvironment.getContentType(
-          TestDefaults.contentType.withCrossSpaceReferenceId
+          TestDefaults.contentType.withCrossSpaceReferenceId,
         )
       })
 
@@ -813,7 +1127,6 @@ describe('Entry Api', () => {
       let xSpaceDisabledSpace
       let xSpaceDisabledEnvironment
       let xSpaceDisabledContentType
-      let xSpaceDisabledEntryId
 
       beforeAll(async () => {
         // Creating a new space that has the x-space feature disabled
@@ -824,17 +1137,14 @@ describe('Entry Api', () => {
       beforeEach(async () => {
         xSpaceDisabledContentType = await xSpaceDisabledEnvironment.createContentTypeWithId(
           generateRandomId('test-content-type'),
-          contentTypeData
+          contentTypeData,
         )
         await xSpaceDisabledContentType.publish()
       })
 
       afterEach(async () => {
-        if (xSpaceDisabledEntryId) {
-          await xSpaceDisabledEnvironment.deleteEntry(xSpaceDisabledEntryId)
-          await xSpaceDisabledContentType.unpublish()
-          await xSpaceDisabledContentType.delete()
-        }
+        await xSpaceDisabledContentType.unpublish()
+        await xSpaceDisabledContentType.delete()
       })
 
       afterAll(async () => {
@@ -853,7 +1163,7 @@ describe('Entry Api', () => {
             expect(errorMessage.status).equals(403, '403 forbidden status')
             expect(errorMessage.details.reasons).equals(
               'Cross space links feature is not enabled for this space',
-              'reason explained'
+              'reason explained',
             )
           })
       })

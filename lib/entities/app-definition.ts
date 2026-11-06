@@ -1,4 +1,4 @@
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import type {
   DefaultElements,
@@ -22,7 +22,26 @@ export interface NavigationItem {
   path: string
 }
 
-type LocationType = 'app-config' | 'entry-sidebar' | 'entry-editor' | 'dialog' | 'page' | 'home'
+export interface AppDefinitionAgent {
+  id: string
+}
+
+/**
+ * These locations are currently restricted to internal Contentful apps only.
+ * If you are interested in using these locations for your app,
+ * please reach out to Contentful Support (https://www.contentful.com/support/).
+ */
+type InternalLocationType = 'agent'
+
+type LocationType =
+  | 'app-config'
+  | 'entry-sidebar'
+  | 'entry-editor'
+  | 'dialog'
+  | 'page'
+  | 'home'
+  | 'experience-toolbar'
+  | InternalLocationType
 
 export interface SimpleLocation {
   location: LocationType
@@ -52,6 +71,12 @@ export type AppDefinitionProps = {
    * App name
    */
   name: string
+  /**
+   * This property is currently restricted to internal Contentful apps only.
+   * If you are interested in building agents using the App Framework,
+   * please reach out to Contentful Support (https://www.contentful.com/support/).
+   */
+  agent?: AppDefinitionAgent
   /**
    * URL where the root HTML document of the app can be found
    */
@@ -93,27 +118,27 @@ export type AppInstallationsForOrganizationProps = {
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw App Definition data
- * @return Wrapped App Definition data
+ * @returns Wrapped App Definition data
  */
 export function wrapAppDefinition(
   makeRequest: MakeRequest,
-  data: AppDefinitionProps
+  data: AppDefinitionProps,
 ): AppDefinition {
   const appDefinition = toPlainObject(copy(data))
   const appDefinitionWithMethods = enhanceWithMethods(
     appDefinition,
-    createAppDefinitionApi(makeRequest)
+    createAppDefinitionApi(makeRequest),
   )
   return freezeSys(appDefinitionWithMethods)
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw App Definition collection data
- * @return Wrapped App Definition collection data
+ * @returns Wrapped App Definition collection data
  */
 export const wrapAppDefinitionCollection = wrapCollection(wrapAppDefinition)

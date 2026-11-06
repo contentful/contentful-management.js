@@ -3,10 +3,12 @@ import type {
   GetSpaceParams,
   QueryParams,
   CollectionProp,
+  CursorPaginatedCollectionProp,
+  BasicCursorPaginationOptions,
   GetOrganizationParams,
 } from '../../common-types'
 import type { OptionalDefaults } from '../wrappers/wrap'
-import type { SpaceProps } from '../../entities/space'
+import type { SpaceIncludeParam, SpaceIncludes, SpaceProps } from '../../entities/space'
 
 export type SpacePlainClientAPI = {
   /**
@@ -20,7 +22,33 @@ export type SpacePlainClientAPI = {
    * });
    * ```
    */
-  get(params: OptionalDefaults<GetSpaceParams>): Promise<SpaceProps>
+  get(
+    params: OptionalDefaults<GetSpaceParams & SpaceIncludeParam>,
+  ): Promise<SpaceProps & { includes?: SpaceIncludes }>
+  /**
+   * Fetches a cursor-paginated page of spaces the user has access to.
+   * Pass `pageNext` or `pagePrev` (typically `string | undefined` from a previous response) in `query`.
+   * @param params cursor pagination query parameters plus optional org filter and includes
+   * @returns a cursor-paginated collection of spaces
+   * @throws if the request fails, or the query parameters are malformed
+   * @example ```javascript
+   * const page = await client.space.getMany({
+   *   query: { pageNext: previousResponse.pages?.next, limit: 10 },
+   * });
+   * ```
+   */
+  getMany(
+    params: OptionalDefaults<
+      {
+        query: BasicCursorPaginationOptions &
+          (
+            | { pageNext: string | undefined; pagePrev?: never }
+            | { pageNext?: never; pagePrev: string | undefined }
+          )
+        organizationId?: string
+      } & SpaceIncludeParam
+    >,
+  ): Promise<CursorPaginatedCollectionProp<SpaceProps> & { includes?: SpaceIncludes }>
   /**
    * Fetches all the spaces that the logged in user has access to
    * @param params (optional) filter and pagination query parameters
@@ -34,7 +62,14 @@ export type SpacePlainClientAPI = {
    * });
    * ```
    */
-  getMany(params: OptionalDefaults<QueryParams>): Promise<CollectionProp<SpaceProps>>
+  getMany(
+    params?: OptionalDefaults<
+      {
+        query?: QueryParams['query'] & { pageNext?: never; pagePrev?: never }
+        organizationId?: string
+      } & SpaceIncludeParam
+    >,
+  ): Promise<CollectionProp<SpaceProps> & { includes?: SpaceIncludes }>
   /**
    * Fetches all the spaces in the given organization
    * @param params the organization ID and query parameters
@@ -50,7 +85,7 @@ export type SpacePlainClientAPI = {
    * ```
    */
   getManyForOrganization(
-    params: OptionalDefaults<GetOrganizationParams & QueryParams>
+    params: OptionalDefaults<GetOrganizationParams & QueryParams>,
   ): Promise<CollectionProp<SpaceProps>>
   /**
    * Creates a space
@@ -72,7 +107,7 @@ export type SpacePlainClientAPI = {
   create(
     params: OptionalDefaults<{ organizationId?: string }>,
     payload: Omit<SpaceProps, 'sys'>,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<any>
   /**
    * Updates a space
@@ -99,7 +134,7 @@ export type SpacePlainClientAPI = {
   update(
     params: OptionalDefaults<GetSpaceParams>,
     payload: SpaceProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<SpaceProps>
   /**
    * Deletes a space

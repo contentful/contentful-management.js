@@ -23,11 +23,9 @@ describe('ResourceProvider API', () => {
   let appBundle: AppBundle
 
   beforeEach(async () => {
-    await timeoutToCalmRateLimiting()
-
     organization = await getTestOrganization()
     appDefinition = await organization.createAppDefinition({
-      name: 'Test',
+      name: 'Test AppBundle Resource Provider Creation in CMA (delete if stale)',
       src: 'http://localhost:2222',
       locations: [{ location: 'entry-sidebar' }],
     })
@@ -46,13 +44,11 @@ describe('ResourceProvider API', () => {
   })
 
   afterEach(async () => {
-    const { items: appDefinitions } = await organization.getAppDefinitions()
-
     if (appUpload) {
       await appUpload.delete()
     }
 
-    for await (const appDefinition of appDefinitions) {
+    if (appDefinition) {
       await appDefinition.delete()
     }
 
@@ -122,7 +118,7 @@ describe('ResourceProvider API', () => {
     await resourceProvider.delete()
 
     await expect(appDefinition.getResourceProvider()).rejects.toThrow(
-      'The resource could not be found'
+      'The resource could not be found',
     )
   })
 
@@ -176,7 +172,7 @@ describe('ResourceProvider API', () => {
           sys: { id: 'test' },
           type: 'function',
           function: { sys: { id: functionManifest.id, type: 'Link', linkType: 'Function' } },
-        }
+        },
       )
 
       expect(resourceProvider.sys.id).toBe('test')
@@ -191,7 +187,7 @@ describe('ResourceProvider API', () => {
           sys: { id: 'test' },
           type: 'function',
           function: { sys: { id: functionManifest.id, type: 'Link', linkType: 'Function' } },
-        }
+        },
       )
 
       const updateFunctionManifest = { ...functionManifest, id: 'testMock' }
@@ -201,7 +197,7 @@ describe('ResourceProvider API', () => {
           appUploadId: appUpload.sys.id,
           comment: 'Testing ResourceProviderCreation',
           functions: [updateFunctionManifest],
-        }
+        },
       )
 
       await plainClient.appDefinition.update(
@@ -212,7 +208,7 @@ describe('ResourceProvider API', () => {
           locations: [{ location: 'entry-sidebar' }],
           src: undefined,
           bundle: { sys: { id: newAppBundle.sys.id, type: 'Link', linkType: 'AppBundle' } },
-        }
+        },
       )
       const updatedResourceProvider = await plainClient.resourceProvider.upsert(
         { organizationId: organization.sys.id, appDefinitionId: appDefinition.sys.id },
@@ -220,7 +216,7 @@ describe('ResourceProvider API', () => {
           sys: { id: 'test' },
           type: 'function',
           function: { sys: { id: updateFunctionManifest.id, type: 'Link', linkType: 'Function' } },
-        }
+        },
       )
 
       expect(updatedResourceProvider.sys.id).toBe('test')
@@ -235,7 +231,7 @@ describe('ResourceProvider API', () => {
           sys: { id: 'test' },
           type: 'function',
           function: { sys: { id: functionManifest.id, type: 'Link', linkType: 'Function' } },
-        }
+        },
       )
 
       const resourceProvider = await plainClient.resourceProvider.get({
@@ -255,7 +251,7 @@ describe('ResourceProvider API', () => {
           sys: { id: 'test' },
           type: 'function',
           function: { sys: { id: functionManifest.id, type: 'Link', linkType: 'Function' } },
-        }
+        },
       )
 
       await plainClient.resourceProvider.delete({
@@ -267,7 +263,7 @@ describe('ResourceProvider API', () => {
         plainClient.resourceProvider.get({
           organizationId: organization.sys.id,
           appDefinitionId: appDefinition.sys.id,
-        })
+        }),
       ).rejects.toThrow('The resource could not be found')
     })
   })

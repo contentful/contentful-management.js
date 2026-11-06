@@ -1,7 +1,7 @@
 import axios from 'axios'
 import type { AxiosInstance, CreateHttpClientParams } from 'contentful-sdk-core'
 import { createHttpClient } from 'contentful-sdk-core'
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import type { Adapter, MakeRequestOptions } from '../../common-types'
 import { makeRequest } from './make-request'
 
@@ -26,7 +26,7 @@ export type RestAdapterParams = CreateHttpClientParams & {
 }
 
 /**
- * @private
+ * @internal
  */
 const defaultHostParameters = {
   defaultHostname: 'api.contentful.com',

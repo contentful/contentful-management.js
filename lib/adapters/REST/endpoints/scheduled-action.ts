@@ -12,7 +12,7 @@ import { normalizeSelect } from './utils'
 
 export const get: RestEndpoint<'ScheduledAction', 'get'> = (
   http: AxiosInstance,
-  params: GetSpaceParams & { environmentId: string; scheduledActionId: string }
+  params: GetSpaceParams & { environmentId: string; scheduledActionId: string },
 ) => {
   return raw.get<ScheduledActionProps>(
     http,
@@ -21,34 +21,34 @@ export const get: RestEndpoint<'ScheduledAction', 'get'> = (
       params: {
         'environment.sys.id': params.environmentId,
       },
-    }
+    },
   )
 }
 
 export const getMany: RestEndpoint<'ScheduledAction', 'getMany'> = (
   http: AxiosInstance,
-  params: GetSpaceParams & QueryParams
+  params: GetSpaceParams & QueryParams,
 ) => {
   return raw.get<CollectionProp<ScheduledActionProps>>(
     http,
     `/spaces/${params.spaceId}/scheduled_actions`,
     {
       params: normalizeSelect(params.query),
-    }
+    },
   )
 }
 
 export const create: RestEndpoint<'ScheduledAction', 'create'> = (
   http: AxiosInstance,
   params: GetSpaceParams,
-  data: Omit<ScheduledActionProps, 'sys'>
+  data: Omit<ScheduledActionProps, 'sys'>,
 ) => {
   return raw.post<ScheduledActionProps>(http, `/spaces/${params.spaceId}/scheduled_actions`, data)
 }
 
 export const del: RestEndpoint<'ScheduledAction', 'delete'> = (
   http: AxiosInstance,
-  params: GetSpaceEnvironmentParams & { scheduledActionId: string }
+  params: GetSpaceEnvironmentParams & { scheduledActionId: string },
 ) => {
   return raw.del(http, `/spaces/${params.spaceId}/scheduled_actions/${params.scheduledActionId}`, {
     params: {
@@ -60,7 +60,7 @@ export const del: RestEndpoint<'ScheduledAction', 'delete'> = (
 export const update: RestEndpoint<'ScheduledAction', 'update'> = (
   http: AxiosInstance,
   params: GetSpaceParams & { scheduledActionId: string; version: number },
-  data: Omit<ScheduledActionProps, 'sys'>
+  data: Omit<ScheduledActionProps, 'sys'>,
 ) => {
   return raw.put(
     http,
@@ -73,6 +73,6 @@ export const update: RestEndpoint<'ScheduledAction', 'update'> = (
       headers: {
         'X-Contentful-Version': params.version,
       },
-    }
+    },
   )
 }

@@ -52,6 +52,6 @@ export type AppUploadPlainClientAPI = {
    */
   create(
     params: OptionalDefaults<GetOrganizationParams>,
-    payload: { file: string | ArrayBuffer | Stream }
+    payload: { file: string | ArrayBuffer | Stream },
   ): Promise<AppUploadProps>
 }

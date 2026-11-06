@@ -1,17 +1,17 @@
 import type { GetContentTypeParams, GetSpaceEnvironmentParams, MakeRequest } from '../common-types'
 import { omitAndDeleteField } from '../methods/content-type'
-import type { PlainClientAPI } from './common-types'
-import type { DefaultParams } from './wrappers/wrap'
+import type { PlainClientAPI } from './plain-client-types'
+import type { PlainClientDefaultParams } from './wrappers/wrap'
 import { wrap } from './wrappers/wrap'
 
-export type { DefaultParams } from './wrappers/wrap'
+export type { PlainClientDefaultParams } from './wrappers/wrap'
 
 /**
- * @private
+ * @internal
  */
 export const createPlainClient = (
   makeRequest: MakeRequest,
-  defaults: DefaultParams | undefined
+  defaults: PlainClientDefaultParams | undefined,
 ): PlainClientAPI => {
   const wrapParams = { makeRequest, defaults }
 
@@ -71,6 +71,32 @@ export const createPlainClient = (
     aiActionInvocation: {
       get: wrap(wrapParams, 'AiActionInvocation', 'get'),
     },
+    agent: {
+      get: wrap(wrapParams, 'Agent', 'get'),
+      getMany: wrap(wrapParams, 'Agent', 'getMany'),
+      generate: wrap(wrapParams, 'Agent', 'generate'),
+    },
+    agentRun: {
+      get: wrap(wrapParams, 'AgentRun', 'get'),
+      getMany: wrap(wrapParams, 'AgentRun', 'getMany'),
+      resumeRun: wrap(wrapParams, 'AgentRun', 'resumeRun'),
+    },
+    automationDefinition: {
+      get: wrap(wrapParams, 'AutomationDefinition', 'get'),
+      getMany: wrap(wrapParams, 'AutomationDefinition', 'getMany'),
+      create: wrap(wrapParams, 'AutomationDefinition', 'create'),
+      update: wrap(wrapParams, 'AutomationDefinition', 'update'),
+      delete: wrap(wrapParams, 'AutomationDefinition', 'delete'),
+    },
+    automationExecution: {
+      get: wrap(wrapParams, 'AutomationExecution', 'get'),
+      getMany: wrap(wrapParams, 'AutomationExecution', 'getMany'),
+      getForAutomationDefinition: wrap(
+        wrapParams,
+        'AutomationExecution',
+        'getForAutomationDefinition',
+      ),
+    },
     appAction: {
       get: wrap(wrapParams, 'AppAction', 'get'),
       getMany: wrap(wrapParams, 'AppAction', 'getMany'),
@@ -83,6 +109,9 @@ export const createPlainClient = (
       create: wrap(wrapParams, 'AppActionCall', 'create'),
       getCallDetails: wrap(wrapParams, 'AppActionCall', 'getCallDetails'),
       createWithResponse: wrap(wrapParams, 'AppActionCall', 'createWithResponse'),
+      get: wrap(wrapParams, 'AppActionCall', 'get'),
+      createWithResult: wrap(wrapParams, 'AppActionCall', 'createWithResult'),
+      getResponse: wrap(wrapParams, 'AppActionCall', 'getResponse'),
     },
     appBundle: {
       get: wrap(wrapParams, 'AppBundle', 'get'),
@@ -124,7 +153,6 @@ export const createPlainClient = (
       delete: wrap(wrapParams, 'Concept', 'delete'),
       patch: wrap(wrapParams, 'Concept', 'patch'),
       update: wrap(wrapParams, 'Concept', 'update'),
-      updatePut: wrap(wrapParams, 'Concept', 'updatePut'),
       getMany: wrap(wrapParams, 'Concept', 'getMany'),
       getDescendants: wrap(wrapParams, 'Concept', 'getDescendants'),
       getAncestors: wrap(wrapParams, 'Concept', 'getAncestors'),
@@ -139,7 +167,6 @@ export const createPlainClient = (
       createWithId: wrap(wrapParams, 'ConceptScheme', 'createWithId'),
       patch: wrap(wrapParams, 'ConceptScheme', 'patch'),
       update: wrap(wrapParams, 'ConceptScheme', 'update'),
-      updatePut: wrap(wrapParams, 'ConceptScheme', 'updatePut'),
     },
     function: {
       get: wrap(wrapParams, 'Function', 'get'),
@@ -157,7 +184,7 @@ export const createPlainClient = (
     },
     space: {
       get: wrap(wrapParams, 'Space', 'get'),
-      getMany: wrap(wrapParams, 'Space', 'getMany'),
+      getMany: wrap(wrapParams, 'Space', 'getMany') as PlainClientAPI['space']['getMany'],
       getManyForOrganization: wrap(wrapParams, 'Space', 'getManyForOrganization'),
       update: wrap(wrapParams, 'Space', 'update'),
       delete: wrap(wrapParams, 'Space', 'delete'),
@@ -199,6 +226,10 @@ export const createPlainClient = (
       publish: wrap(wrapParams, 'BulkAction', 'publish'),
       unpublish: wrap(wrapParams, 'BulkAction', 'unpublish'),
       validate: wrap(wrapParams, 'BulkAction', 'validate'),
+      getV2: wrap(wrapParams, 'BulkAction', 'getV2'),
+      publishV2: wrap(wrapParams, 'BulkAction', 'publishV2'),
+      unpublishV2: wrap(wrapParams, 'BulkAction', 'unpublishV2'),
+      validateV2: wrap(wrapParams, 'BulkAction', 'validateV2'),
     },
     comment: {
       get: wrap(wrapParams, 'Comment', 'get') as PlainClientAPI['comment']['get'],
@@ -207,9 +238,28 @@ export const createPlainClient = (
       update: wrap(wrapParams, 'Comment', 'update') as PlainClientAPI['comment']['update'],
       delete: wrap(wrapParams, 'Comment', 'delete'),
     },
+    componentType: {
+      getMany: wrap(wrapParams, 'ComponentType', 'getMany'),
+      get: wrap(wrapParams, 'ComponentType', 'get'),
+      create: wrap(wrapParams, 'ComponentType', 'create'),
+      upsert: wrap(wrapParams, 'ComponentType', 'upsert'),
+      delete: wrap(wrapParams, 'ComponentType', 'delete'),
+      publish: wrap(wrapParams, 'ComponentType', 'publish'),
+      unpublish: wrap(wrapParams, 'ComponentType', 'unpublish'),
+    },
+    component: {
+      getMany: wrap(wrapParams, 'Component', 'getMany'),
+      get: wrap(wrapParams, 'Component', 'get'),
+      create: wrap(wrapParams, 'Component', 'create'),
+      upsert: wrap(wrapParams, 'Component', 'upsert'),
+      delete: wrap(wrapParams, 'Component', 'delete'),
+      publish: wrap(wrapParams, 'Component', 'publish'),
+      unpublish: wrap(wrapParams, 'Component', 'unpublish'),
+    },
     contentType: {
       get: wrap(wrapParams, 'ContentType', 'get'),
       getMany: wrap(wrapParams, 'ContentType', 'getMany'),
+      getManyWithCursor: wrap(wrapParams, 'ContentType', 'getManyWithCursor'),
       update: wrap(wrapParams, 'ContentType', 'update'),
       delete: wrap(wrapParams, 'ContentType', 'delete'),
       publish: wrap(wrapParams, 'ContentType', 'publish'),
@@ -220,8 +270,25 @@ export const createPlainClient = (
         omitAndDeleteField(
           makeRequest,
           { ...({ ...defaults, ...params } as GetContentTypeParams), fieldId },
-          contentType
+          contentType,
         ),
+    },
+    dataAssembly: {
+      getMany: wrap(wrapParams, 'DataAssembly', 'getMany'),
+      getManyPublished: wrap(wrapParams, 'DataAssembly', 'getManyPublished'),
+      getPublished: wrap(wrapParams, 'DataAssembly', 'getPublished'),
+      get: wrap(wrapParams, 'DataAssembly', 'get'),
+      create: wrap(wrapParams, 'DataAssembly', 'create'),
+      update: wrap(wrapParams, 'DataAssembly', 'update'),
+      delete: wrap(wrapParams, 'DataAssembly', 'delete'),
+      publish: wrap(wrapParams, 'DataAssembly', 'publish'),
+      unpublish: wrap(wrapParams, 'DataAssembly', 'unpublish'),
+    },
+    designToken: {
+      getMany: wrap(wrapParams, 'DesignToken', 'getMany'),
+      get: wrap(wrapParams, 'DesignToken', 'get'),
+      upsert: wrap(wrapParams, 'DesignToken', 'upsert'),
+      delete: wrap(wrapParams, 'DesignToken', 'delete'),
     },
     user: {
       getManyForSpace: wrap(wrapParams, 'User', 'getManyForSpace'),
@@ -239,7 +306,9 @@ export const createPlainClient = (
     },
     entry: {
       getPublished: wrap(wrapParams, 'Entry', 'getPublished'),
+      getPublishedWithCursor: wrap(wrapParams, 'Entry', 'getPublishedWithCursor'),
       getMany: wrap(wrapParams, 'Entry', 'getMany'),
+      getManyWithCursor: wrap(wrapParams, 'Entry', 'getManyWithCursor'),
       get: wrap(wrapParams, 'Entry', 'get'),
       update: wrap(wrapParams, 'Entry', 'update'),
       patch: wrap(wrapParams, 'Entry', 'patch'),
@@ -254,7 +323,9 @@ export const createPlainClient = (
     },
     asset: {
       getPublished: wrap(wrapParams, 'Asset', 'getPublished'),
+      getPublishedWithCursor: wrap(wrapParams, 'Asset', 'getPublishedWithCursor'),
       getMany: wrap(wrapParams, 'Asset', 'getMany'),
+      getManyWithCursor: wrap(wrapParams, 'Asset', 'getManyWithCursor'),
       get: wrap(wrapParams, 'Asset', 'get'),
       update: wrap(wrapParams, 'Asset', 'update'),
       delete: wrap(wrapParams, 'Asset', 'delete'),
@@ -340,8 +411,47 @@ export const createPlainClient = (
     usage: {
       getManyForSpace: wrap(wrapParams, 'Usage', 'getManyForSpace'),
       getManyForOrganization: wrap(wrapParams, 'Usage', 'getManyForOrganization'),
+      getAggregated: wrap(wrapParams, 'Usage', 'getAggregated'),
+      getAssetBandwidthUsageDetailed: wrap(wrapParams, 'Usage', 'getAssetBandwidthUsageDetailed'),
     },
     release: {
+      asset: {
+        get: wrap(wrapParams, 'ReleaseAsset', 'get'),
+        getMany: wrap(wrapParams, 'ReleaseAsset', 'getMany'),
+        update: wrap(wrapParams, 'ReleaseAsset', 'update'),
+        create: wrap(wrapParams, 'ReleaseAsset', 'create'),
+        createWithId: wrap(wrapParams, 'ReleaseAsset', 'createWithId'),
+        createFromFiles: wrap(wrapParams, 'ReleaseAsset', 'createFromFiles'),
+        processForAllLocales: (params, asset, options) =>
+          makeRequest({
+            entityType: 'ReleaseAsset',
+            action: 'processForAllLocales',
+            params: {
+              ...({ ...defaults, ...params } as GetSpaceEnvironmentParams),
+              options,
+              asset,
+            },
+          }),
+        processForLocale: (params, asset, locale, options) =>
+          makeRequest({
+            entityType: 'ReleaseAsset',
+            action: 'processForLocale',
+            params: {
+              ...({ ...defaults, ...params } as GetSpaceEnvironmentParams),
+              locale,
+              asset,
+              options,
+            },
+          }),
+      },
+      entry: {
+        get: wrap(wrapParams, 'ReleaseEntry', 'get'),
+        getMany: wrap(wrapParams, 'ReleaseEntry', 'getMany'),
+        update: wrap(wrapParams, 'ReleaseEntry', 'update'),
+        patch: wrap(wrapParams, 'ReleaseEntry', 'patch'),
+        create: wrap(wrapParams, 'ReleaseEntry', 'create'),
+        createWithId: wrap(wrapParams, 'ReleaseEntry', 'createWithId'),
+      },
       archive: wrap(wrapParams, 'Release', 'archive'),
       get: wrap(wrapParams, 'Release', 'get'),
       query: wrap(wrapParams, 'Release', 'query'),
@@ -474,6 +584,28 @@ export const createPlainClient = (
       delete: wrap(wrapParams, 'OAuthApplication', 'delete'),
       create: wrap(wrapParams, 'OAuthApplication', 'create'),
     },
+    semanticDuplicates: {
+      get: wrap(wrapParams, 'SemanticDuplicates', 'get'),
+    },
+    semanticRecommendations: {
+      get: wrap(wrapParams, 'SemanticRecommendations', 'get'),
+    },
+    semanticReferenceSuggestions: {
+      get: wrap(wrapParams, 'SemanticReferenceSuggestions', 'get'),
+    },
+    semanticSearch: {
+      get: wrap(wrapParams, 'SemanticSearch', 'get'),
+    },
+    semanticSettings: {
+      get: wrap(wrapParams, 'SemanticSettings', 'get'),
+    },
+    contentSemanticsIndex: {
+      get: wrap(wrapParams, 'ContentSemanticsIndex', 'get'),
+      getMany: wrap(wrapParams, 'ContentSemanticsIndex', 'getMany'),
+      getManyForEnvironment: wrap(wrapParams, 'ContentSemanticsIndex', 'getManyForEnvironment'),
+      create: wrap(wrapParams, 'ContentSemanticsIndex', 'create'),
+      delete: wrap(wrapParams, 'ContentSemanticsIndex', 'delete'),
+    },
     spaceMember: {
       get: wrap(wrapParams, 'SpaceMember', 'get'),
       getMany: wrap(wrapParams, 'SpaceMember', 'getMany'),
@@ -513,6 +645,24 @@ export const createPlainClient = (
       update: wrap(wrapParams, 'TeamSpaceMembership', 'update'),
       delete: wrap(wrapParams, 'TeamSpaceMembership', 'delete'),
     },
+    fragment: {
+      getMany: wrap(wrapParams, 'Fragment', 'getMany'),
+      get: wrap(wrapParams, 'Fragment', 'get'),
+      create: wrap(wrapParams, 'Fragment', 'create'),
+      upsert: wrap(wrapParams, 'Fragment', 'upsert'),
+      delete: wrap(wrapParams, 'Fragment', 'delete'),
+      publish: wrap(wrapParams, 'Fragment', 'publish'),
+      unpublish: wrap(wrapParams, 'Fragment', 'unpublish'),
+    },
+    template: {
+      getMany: wrap(wrapParams, 'Template', 'getMany'),
+      get: wrap(wrapParams, 'Template', 'get'),
+      create: wrap(wrapParams, 'Template', 'create'),
+      upsert: wrap(wrapParams, 'Template', 'upsert'),
+      delete: wrap(wrapParams, 'Template', 'delete'),
+      publish: wrap(wrapParams, 'Template', 'publish'),
+      unpublish: wrap(wrapParams, 'Template', 'unpublish'),
+    },
     uiConfig: {
       get: wrap(wrapParams, 'UIConfig', 'get'),
       update: wrap(wrapParams, 'UIConfig', 'update'),
@@ -520,6 +670,55 @@ export const createPlainClient = (
     userUIConfig: {
       get: wrap(wrapParams, 'UserUIConfig', 'get'),
       update: wrap(wrapParams, 'UserUIConfig', 'update'),
+    },
+    experience: {
+      getMany: wrap(wrapParams, 'Experience', 'getMany'),
+      get: wrap(wrapParams, 'Experience', 'get'),
+      create: wrap(wrapParams, 'Experience', 'create'),
+      upsert: wrap(wrapParams, 'Experience', 'upsert'),
+      delete: wrap(wrapParams, 'Experience', 'delete'),
+      publish: wrap(wrapParams, 'Experience', 'publish'),
+      unpublish: wrap(wrapParams, 'Experience', 'unpublish'),
+    },
+    experienceVariant: {
+      getMany: wrap(wrapParams, 'ExperienceVariant', 'getMany'),
+      get: wrap(wrapParams, 'ExperienceVariant', 'get'),
+      create: wrap(wrapParams, 'ExperienceVariant', 'create'),
+      upsert: wrap(wrapParams, 'ExperienceVariant', 'upsert'),
+      delete: wrap(wrapParams, 'ExperienceVariant', 'delete'),
+      publish: wrap(wrapParams, 'ExperienceVariant', 'publish'),
+      unpublish: wrap(wrapParams, 'ExperienceVariant', 'unpublish'),
+      archive: wrap(wrapParams, 'ExperienceVariant', 'archive'),
+      unarchive: wrap(wrapParams, 'ExperienceVariant', 'unarchive'),
+    },
+    experienceFragment: {
+      getMany: wrap(wrapParams, 'ExperienceFragment', 'getMany'),
+      get: wrap(wrapParams, 'ExperienceFragment', 'get'),
+      create: wrap(wrapParams, 'ExperienceFragment', 'create'),
+      upsert: wrap(wrapParams, 'ExperienceFragment', 'upsert'),
+      delete: wrap(wrapParams, 'ExperienceFragment', 'delete'),
+      publish: wrap(wrapParams, 'ExperienceFragment', 'publish'),
+      unpublish: wrap(wrapParams, 'ExperienceFragment', 'unpublish'),
+    },
+    experienceTemplate: {
+      getMany: wrap(wrapParams, 'ExperienceTemplate', 'getMany'),
+      get: wrap(wrapParams, 'ExperienceTemplate', 'get'),
+      create: wrap(wrapParams, 'ExperienceTemplate', 'create'),
+      upsert: wrap(wrapParams, 'ExperienceTemplate', 'upsert'),
+      delete: wrap(wrapParams, 'ExperienceTemplate', 'delete'),
+      publish: wrap(wrapParams, 'ExperienceTemplate', 'publish'),
+      unpublish: wrap(wrapParams, 'ExperienceTemplate', 'unpublish'),
+    },
+    experienceFragmentVariant: {
+      getMany: wrap(wrapParams, 'ExperienceFragmentVariant', 'getMany'),
+      get: wrap(wrapParams, 'ExperienceFragmentVariant', 'get'),
+      create: wrap(wrapParams, 'ExperienceFragmentVariant', 'create'),
+      upsert: wrap(wrapParams, 'ExperienceFragmentVariant', 'upsert'),
+      delete: wrap(wrapParams, 'ExperienceFragmentVariant', 'delete'),
+      publish: wrap(wrapParams, 'ExperienceFragmentVariant', 'publish'),
+      unpublish: wrap(wrapParams, 'ExperienceFragmentVariant', 'unpublish'),
+      archive: wrap(wrapParams, 'ExperienceFragmentVariant', 'archive'),
+      unarchive: wrap(wrapParams, 'ExperienceFragmentVariant', 'unarchive'),
     },
     workflowDefinition: {
       get: wrap(wrapParams, 'WorkflowDefinition', 'get'),

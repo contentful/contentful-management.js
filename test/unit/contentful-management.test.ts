@@ -1,6 +1,6 @@
 import type { MockedFunction } from 'vitest'
 import { describe, it, afterEach, expect, vi, beforeAll } from 'vitest'
-import { createClient } from '../../lib/contentful-management'
+import { createClient } from '../../lib/index'
 import { version } from '../../package.json'
 
 import { createAdapter } from '../../lib/create-adapter'
@@ -28,26 +28,64 @@ describe('Contentful Management', () => {
     vi.clearAllMocks()
   })
 
-  it('creates nested client', () => {
+  it('creates plain client by default when no type is provided', () => {
     createClient({ accessToken: 'token' })
 
-    expect(createPlainClientMock).not.toHaveBeenCalled()
-    expect(createContentfulApiMock).toHaveBeenCalled()
+    expect(createPlainClientMock).toHaveBeenCalled()
+    expect(createContentfulApiMock).not.toHaveBeenCalled()
   })
 
-  it('creates plain client', () => {
+  it('creates plain client when type is explicitly set to plain', () => {
     createClient({ accessToken: 'token' }, { type: 'plain' })
 
     expect(createPlainClientMock).toHaveBeenCalled()
     expect(createContentfulApiMock).not.toHaveBeenCalled()
   })
 
-  it('generates the correct default user agent', () => {
+  it('creates legacy nested client when type is legacy', () => {
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+
+    createClient({ accessToken: 'token' }, { type: 'legacy' })
+
+    expect(createContentfulApiMock).toHaveBeenCalled()
+    expect(createPlainClientMock).not.toHaveBeenCalled()
+    expect(warnSpy).toHaveBeenCalledWith(
+      '[contentful-management] The nested (legacy) client is deprecated and will be removed in the next major version. Please migrate to the plain client. See the README for migration guidance.',
+    )
+
+    warnSpy.mockRestore()
+  })
+
+  it('creates a plain client with releaseSchema defaults', () => {
+    createClient(
+      { accessToken: 'token' },
+      { type: 'plain', defaults: { releaseSchemaVersion: 'Release.v2' } },
+    )
+
+    expect(createPlainClientMock).toHaveBeenCalledWith(expect.any(Function), {
+      releaseSchemaVersion: 'Release.v2',
+    })
+    expect(createContentfulApiMock).not.toHaveBeenCalled()
+  })
+
+  it('generates the correct releaseId', () => {
+    createClient(
+      { accessToken: 'token' },
+      { type: 'plain', defaults: { releaseId: 'my-release-id' } },
+    )
+
+    expect(createPlainClientMock).toHaveBeenCalledWith(expect.any(Function), {
+      releaseId: 'my-release-id',
+    })
+    expect(createContentfulApiMock).not.toHaveBeenCalled()
+  })
+
+  it('generates the correct default user agent for plain client', () => {
     createClient({ accessToken: 'token' })
 
     expect(makeRequestMock).not.toHaveBeenCalled()
 
-    const makeRequestWithUserAgent = createContentfulApiMock.mock.calls[0][0]
+    const makeRequestWithUserAgent = createPlainClientMock.mock.calls[0][0]
     makeRequestWithUserAgent({
       action: 'getMany',
       entityType: 'Asset',
@@ -65,18 +103,23 @@ describe('Contentful Management', () => {
     const userAgent = makeRequestMock.mock.calls[0][0].userAgent
     const userAgentParts = userAgent.split('; ')
     expect(userAgentParts).to.have.lengthOf(3)
-    expect(userAgentParts[0]).to.match(/^sdk contentful-management\.js\/.+/)
+    expect(userAgentParts[0]).to.match(/^sdk contentful-management-plain\.js\/.+/)
     expect(userAgentParts[1]).to.match(/^platform (.+\/.+|browser)/)
     expect(userAgentParts[2]).to.match(/^os .+/)
   })
 
-  it('generates the correct user agent', () => {
-    createClient({
-      accessToken: 'token',
-      application: 'myApplication/1.1.1',
-      integration: 'myIntegration/1.0.0',
-      feature: 'some-feature',
-    })
+  it('generates the correct user agent for legacy client', () => {
+    vi.spyOn(console, 'warn').mockImplementation(() => {})
+
+    createClient(
+      {
+        accessToken: 'token',
+        application: 'myApplication/1.1.1',
+        integration: 'myIntegration/1.0.0',
+        feature: 'some-feature',
+      },
+      { type: 'legacy' },
+    )
 
     expect(makeRequestMock).not.toHaveBeenCalled()
 

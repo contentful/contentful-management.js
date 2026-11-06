@@ -1,7 +1,9 @@
 export * from './common-types'
 export type {
   AccessToken,
+  /** @deprecated Use `AccessTokenProps` instead */
   AccessTokenProps as AccessTokenProp,
+  /** @deprecated Use `CreatePersonalAccessTokenProps` instead */
   CreatePersonalAccessTokenProps as CreatePATProps,
 } from './entities/access-token'
 export type { ApiKey, ApiKeyProps, CreateApiKeyProps } from './entities/api-key'
@@ -11,7 +13,25 @@ export type {
   CreateAppAccessTokenProps,
 } from './entities/app-access-token'
 export type { AiAction, AiActionProps, CreateAiActionProps } from './entities/ai-action'
-export type { AiActionInvocation, AiActionInvocationProps } from './entities/ai-action-invocation'
+export type {
+  AiActionInvocation,
+  AiActionInvocationProps,
+  AiActionInvocationVariable,
+} from './entities/ai-action-invocation'
+export type { Agent, AgentGeneratePayload, AgentProps, AgentToolLink } from './entities/agent'
+export type {
+  AgentGenerateResponse,
+  AgentResumeRunPayload,
+  AgentRun,
+  AgentRunMessage,
+  AgentRunMessagePart,
+  AgentRunMessageRole,
+  AgentRunMessageTextPart,
+  AgentRunMessageToolCallPart,
+  AgentRunProps,
+  AgentRunQueryOptions,
+  AgentRunStatus,
+} from './entities/agent-run'
 export type {
   AppAction,
   AppActionCategoryProps,
@@ -24,6 +44,10 @@ export type {
 export type {
   AppActionCall,
   AppActionCallProps,
+  AppActionCallErrorProps,
+  AppActionCallResponse,
+  AppActionCallRawResponseProps,
+  AppActionCallStatus,
   CreateAppActionCallProps,
 } from './entities/app-action-call'
 export type {
@@ -82,10 +106,15 @@ export type {
   BulkActionType,
   BulkActionUnpublishPayload,
   BulkActionValidatePayload,
+  BulkActionV2Payload,
+  PublishBulkActionV2Payload,
+  UnpublishBulkActionV2Payload,
+  ValidateBulkActionV2Payload,
 } from './entities/bulk-action'
 export type {
   Comment,
   CommentProps,
+  CommentStatus,
   CreateCommentProps,
   DeleteCommentParams,
   GetCommentParentEntityParams,
@@ -118,7 +147,13 @@ export type {
   GroupControl,
   SidebarItem,
 } from './entities/editor-interface'
-export type { CreateEntryProps, Entry, EntryProps, WithResourceName } from './entities/entry'
+export type {
+  CreateEntryProps,
+  Entry,
+  EntryProps,
+  EntryReferenceProps,
+  WithResourceName,
+} from './entities/entry'
 export type { CreateEnvironmentProps, Environment, EnvironmentProps } from './entities/environment'
 export type {
   CreateEnvironmentAliasProps,
@@ -143,8 +178,11 @@ export type {
   ValidationFinding,
 } from './entities/environment-template-installation'
 export type {
+  /** @deprecated Use `CreateExtensionProps` instead */
   CreateExtensionProps as CreateUIExtensionProps,
+  /** @deprecated Use `Extension` instead */
   Extension as UIExtension,
+  /** @deprecated Use `ExtensionProps` instead */
   ExtensionProps as UIExtensionProps,
 } from './entities/extension'
 export type { FieldType } from './entities/field-type'
@@ -176,6 +214,7 @@ export type {
   Release,
   ReleaseMetadata,
   ReleasePayload,
+  ReleasePayloadV2,
   ReleaseProps,
   ReleaseQueryOptions,
   ReleaseReferenceFilters,
@@ -189,7 +228,7 @@ export type {
   ReleaseActionSysProps,
   ReleaseActionTypes,
 } from './entities/release-action'
-export type { CreateRoleProps, Role, RoleProps } from './entities/role'
+export type { ActionType, ConstraintType, CreateRoleProps, Role, RoleProps } from './entities/role'
 export type {
   ScheduledAction,
   ScheduledActionProps,
@@ -197,14 +236,29 @@ export type {
 } from './entities/scheduled-action'
 export type { Snapshot, SnapshotProps } from './entities/snapshot'
 export type { Space, SpaceProps } from './entities/space'
+export type {
+  SpaceAddOn,
+  SpaceAddOnOrganization,
+  SpaceAddOnProps,
+  SpaceAddOnOrganizationProps,
+  SpaceAddOnType,
+  UpdateSpaceAddOnAllocationProps,
+} from './entities/space-add-on'
 export type { SpaceMember, SpaceMemberProps } from './entities/space-member'
 export type {
   CreateSpaceMembershipProps,
   SpaceMembership,
   SpaceMembershipProps,
 } from './entities/space-membership'
-export type { CreateTagProps, Tag, TagProps, TagVisibility } from './entities/tag'
-export type { CreateTaskProps, Task, TaskProps, UpdateTaskProps } from './entities/task'
+export type { CreateTagProps, Tag, TagProps, TagSysProps, TagVisibility } from './entities/tag'
+export type {
+  CreateTaskProps,
+  Task,
+  TaskParentEntityPath,
+  TaskParentEntityType,
+  TaskProps,
+  UpdateTaskProps,
+} from './entities/task'
 export type { CreateTeamProps, Team, TeamProps } from './entities/team'
 export type {
   CreateTeamMembershipProps,
@@ -219,7 +273,19 @@ export type {
 export type { UIConfig, UIConfigProps } from './entities/ui-config'
 export type { Upload, UploadProps } from './entities/upload'
 export type { UploadCredential, UploadCredentialProps } from './entities/upload-credential'
-export type { Usage, UsageProps } from './entities/usage'
+export type {
+  Usage,
+  UsageProps,
+  AggregatedUsage,
+  AggregatedUsageItemProps,
+  AggregatedUsageCollectionProps,
+  AggregatedUsageMetricKey,
+  AggregatedUsageQuery,
+  AssetBandwidthUsage,
+  AssetBandwidthUsageItemProps,
+  AssetBandwidthUsageDetailedCollectionProps,
+  AssetBandwidthUsageDetailedQuery,
+} from './entities/usage'
 export type { User, UserProps } from './entities/user'
 export type { UserUIConfig, UserUIConfigProps } from './entities/user-ui-config'
 export type {
@@ -227,8 +293,11 @@ export type {
   UpdateWebhookProps,
   UpsertWebhookSigningSecretPayload,
   WebHooks,
+  WebhookCallDetailsProps,
   WebhookCallRequest,
+  WebhookCallOverviewProps,
   WebhookFilter,
+  WebhookHealthProps,
   WebhookProps,
   WebhookSigningSecretProps,
   WebhookTransformation,
@@ -260,13 +329,8 @@ export type {
   WorkflowStepProps,
   WorkflowStepTaskAction,
 } from './entities/workflow-definition'
-export * from './plain/common-types'
-
-export {
-  WorkflowStepPermissionAction,
-  WorkflowStepPermissionEffect,
-  WorkflowStepPermissionType,
-} from './entities/workflow-definition'
+export * from './plain/plain-client-types'
+export { OptionalDefaults } from './plain/wrappers/wrap'
 
 export type { ConceptProps, CreateConceptProps } from './entities/concept'
 export type { ConceptSchemeProps, CreateConceptSchemeProps } from './entities/concept-scheme'
@@ -282,6 +346,16 @@ export type {
   SpaceEnvResourceTypeProps,
   UpsertResourceTypeProps,
 } from './entities/resource-type'
+export type { SemanticDuplicatesProps, SemanticDuplicates } from './entities/semantic-duplicates'
+export type {
+  SemanticRecommendationsProps,
+  SemanticRecommendations,
+} from './entities/semantic-recommendations'
+export type {
+  SemanticReferenceSuggestionsProps,
+  SemanticReferenceSuggestions,
+} from './entities/semantic-reference-suggestions'
+export type { SemanticSearchProps, SemanticSearch } from './entities/semantic-search'
 export type {
   DefinedParameters,
   FreeFormParameters,
@@ -303,3 +377,115 @@ export type {
   WorkflowsChangelogEntryProps,
   WorkflowsChangelogQueryOptions,
 } from './entities/workflows-changelog-entry'
+export type {
+  /** @deprecated Use `ComponentCollection` instead */
+  ComponentTypeCollection,
+  /** @deprecated Use `ComponentProps` instead */
+  ComponentTypeProps,
+  /** @deprecated Use `CreateComponentProps` instead */
+  CreateComponentTypeProps,
+  /** @deprecated Use `UpsertComponentProps` instead */
+  UpsertComponentTypeProps,
+  ComponentTypeContentProperty,
+  ComponentTypeDesignProperty,
+  /** @deprecated Use `ComponentSlotDefinition` instead */
+  ComponentTypeSlotDefinition,
+  ComponentSlotDefinition,
+  /** @deprecated Use `TreeNodeV2` instead */
+  TreeNode,
+  /** @deprecated Use `ComponentNodeV2` instead */
+  ComponentNode,
+  /** @deprecated Use `ExperienceFragmentNode` instead */
+  FragmentNode,
+  ExperienceFragmentNode,
+  ComponentNodeV2,
+  TreeNodeV2,
+  SlotNode,
+} from './entities/component-type'
+export type {
+  ComponentCollection,
+  ComponentProps,
+  CreateComponentProps,
+  UpsertComponentProps,
+} from './entities/component'
+export type {
+  /** @deprecated Use `ExperienceTemplateCollection` instead */
+  TemplateCollection,
+  /** @deprecated Use `ExperienceTemplateProps` instead */
+  TemplateProps,
+  /** @deprecated Use `CreateExperienceTemplateProps` instead */
+  CreateTemplateProps,
+  /** @deprecated Use `UpsertExperienceTemplateProps` instead */
+  UpsertTemplateProps,
+} from './entities/template'
+export type {
+  ExperienceTemplateCollection,
+  ExperienceTemplateProps,
+  CreateExperienceTemplateProps,
+  UpsertExperienceTemplateProps,
+} from './entities/experience-template'
+export type {
+  ExperienceCollection,
+  ExperienceProps,
+  CreateExperienceProps,
+  UpsertExperienceProps,
+  ReleaseExperience,
+  ReleaseExperienceCollection,
+  ReleaseExperienceSys,
+  ExperienceContentBindings,
+  ExperienceContentBindingParameter,
+  InlineExperienceFragmentNode,
+} from './entities/experience'
+export type {
+  CreateExperienceVariantProps,
+  ExperienceVariantCollection,
+  ExperienceVariantProps,
+  ExperienceVariantQueryOptions,
+  UpsertExperienceVariantProps,
+} from './entities/experience-variant'
+export type {
+  /** @deprecated Use `ExperienceFragmentCollection` instead */
+  FragmentCollection,
+  /** @deprecated Use `ExperienceFragmentProps` instead */
+  FragmentProps,
+  /** @deprecated Use `CreateExperienceFragmentProps` instead */
+  CreateFragmentProps,
+  /** @deprecated Use `UpsertExperienceFragmentProps` instead */
+  UpsertFragmentProps,
+  InlineFragmentNode,
+} from './entities/fragment'
+export type {
+  ExperienceFragmentCollection,
+  ExperienceFragmentProps,
+  CreateExperienceFragmentProps,
+  UpsertExperienceFragmentProps,
+} from './entities/experience-fragment'
+export type {
+  CreateExperienceFragmentVariantProps,
+  ExperienceFragmentVariantCollection,
+  ExperienceFragmentVariantProps,
+  ExperienceFragmentVariantQueryOptions,
+  UpsertExperienceFragmentVariantProps,
+} from './entities/experience-fragment-variant'
+export type {
+  DataAssemblyCollection,
+  DataAssemblyProps,
+  DataAssemblyParameterConfig,
+  DataAssemblyParameterDefinition,
+  DataAssemblyParameterDefinitionWithId,
+  DataAssemblyResourceLinkParameter,
+  DataAssemblyStringParameter,
+  DataAssemblyNumberParameter,
+  DataAssemblyRecordParameter,
+  DataAssemblyRecordField,
+  DataAssemblyOrderExpressionParameter,
+  DataAssemblyOrderTerm,
+  DataAssemblyOrderExpressionBinding,
+  CreateDataAssemblyProps,
+  UpdateDataAssemblyProps,
+} from './entities/data-assembly'
+export type {
+  DesignTokenCollection,
+  DesignTokenProps,
+  UpsertDesignTokenProps,
+} from './entities/design-token'

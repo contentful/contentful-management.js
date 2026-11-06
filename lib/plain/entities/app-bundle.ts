@@ -36,7 +36,7 @@ export type AppBundlePlainClientAPI = {
    * ```
    */
   getMany(
-    params: OptionalDefaults<GetAppDefinitionParams & QueryParams>
+    params: OptionalDefaults<GetAppDefinitionParams & QueryParams>,
   ): Promise<CollectionProp<AppBundleProps>>
   /**
    * Deletes the App Bundle
@@ -73,6 +73,6 @@ export type AppBundlePlainClientAPI = {
    */
   create(
     params: OptionalDefaults<GetAppDefinitionParams>,
-    payload: CreateAppBundleProps
+    payload: CreateAppBundleProps,
   ): Promise<AppBundleProps>
 }

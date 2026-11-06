@@ -6,6 +6,7 @@ import {
   generateRandomId,
   getDefaultSpace,
   timeoutToCalmRateLimiting,
+  waitForEnvironmentToBeReady,
 } from '../helpers'
 import type { Environment, ContentType, Space } from '../../lib/export-types'
 
@@ -24,8 +25,9 @@ describe('ContentType Api', () => {
     writeSpace = await createTestSpace(defaultClient, 'ContentType')
     writeEnvironment = (await createTestEnvironment(
       writeSpace,
-      'Testing Environment'
+      'Testing Environment',
     )) as unknown as Environment
+    await waitForEnvironmentToBeReady(writeSpace, writeEnvironment)
   })
 
   afterAll(async () => {
@@ -117,7 +119,7 @@ describe('ContentType Api', () => {
 
       const deletedFieldContentType = await updatedContentType.omitAndDeleteField('field2delete')
       expect(
-        deletedFieldContentType.fields.filter((field) => field.id === 'field2delete')
+        deletedFieldContentType.fields.filter((field) => field.id === 'field2delete'),
       ).toHaveLength(0)
 
       expect(deletedFieldContentType.getEditorInterface).toBeTruthy()

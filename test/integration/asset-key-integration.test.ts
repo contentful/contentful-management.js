@@ -48,7 +48,7 @@ describe('AssetKey API (createAssetKey)', () => {
 
     it('when expiry is too far in the future (> 48 hours)', async () => {
       await expect(requestWith({ expiresAt: now() + 72 * 60 * 60 })).rejects.toThrow(
-        ValidationError
+        ValidationError,
       )
     })
 

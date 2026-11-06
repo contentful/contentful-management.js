@@ -12,7 +12,7 @@ export type AdapterParams = {
 }
 
 /**
- * @private
+ * @internal
  */
 export function createAdapter(params: RestAdapterParams | AdapterParams): Adapter {
   if ('apiAdapter' in params) {

@@ -1,4 +1,4 @@
-import { afterAll, beforeAll, describe, it, afterEach, expect } from 'vitest'
+import { afterAll, beforeAll, describe, it, expect } from 'vitest'
 import type { ClientAPI } from '../../lib/create-contentful-api'
 import {
   defaultClient,
@@ -8,6 +8,7 @@ import {
   generateRandomId,
   baseEnvironmentTemplateDescription,
   timeoutToCalmRateLimiting,
+  waitForEnvironmentToBeReady,
 } from '../helpers'
 import type {
   CreateEnvironmentTemplateProps,
@@ -17,32 +18,45 @@ import type {
   Space,
 } from '../../lib/export-types'
 
-type InstallTemplate = () => Promise<EnvironmentTemplateInstallationProps>
+type InstallTemplate = (versionsCount?: number) => Promise<EnvironmentTemplateInstallationProps>
 
 describe('Environment template API', () => {
+  const templateDescription = `${baseEnvironmentTemplateDescription} ${generateRandomId()}`
   const client = defaultClient
   const orgId = getTestOrganizationId()
-  const templateDescription = `${baseEnvironmentTemplateDescription} ${generateRandomId()}`
-
-  afterAll(timeoutToCalmRateLimiting)
-
-  afterEach(async () => {
-    await clearEnvironmentTemplates(client, orgId, templateDescription)
-  })
 
   describe('Environment template', () => {
+    let createdTemplate: EnvironmentTemplate
+    let draftTemplate: CreateEnvironmentTemplateProps
+
+    async function setupEnvironmentTemplate(deleteTemplateBeforeSetup: boolean = false) {
+      if (createdTemplate && deleteTemplateBeforeSetup) {
+        await createdTemplate.delete()
+      }
+      draftTemplate = createDraftTemplate()
+      createdTemplate = await client.createEnvironmentTemplate(orgId, draftTemplate)
+    }
+
+    beforeAll(async () => {
+      await setupEnvironmentTemplate()
+    })
+
+    afterAll(() => {
+      // Cleanup
+      createdTemplate.delete()
+      timeoutToCalmRateLimiting()
+    })
+
     it('creates an environment template', async () => {
-      const draftTemplate = createDraftTemplate()
-      const { sys, ...template } = await client.createEnvironmentTemplate(orgId, draftTemplate)
+      const { sys, ...template } = createdTemplate
       expect(template).toEqual(draftTemplate)
       expect(sys).toBeDefined()
     })
 
     it('gets an environment template', async () => {
-      const draftTemplate = createDraftTemplate()
       const {
         sys: { id: templateId },
-      } = await client.createEnvironmentTemplate(orgId, draftTemplate)
+      } = createdTemplate
 
       const { sys, ...template } = await client.getEnvironmentTemplate({
         organizationId: orgId,
@@ -54,10 +68,9 @@ describe('Environment template API', () => {
     })
 
     it('gets an environment template with select filter applied', async () => {
-      const draftTemplate = createDraftTemplate()
       const {
         sys: { id: templateId },
-      } = await client.createEnvironmentTemplate(orgId, draftTemplate)
+      } = createdTemplate
 
       const response = await client.getEnvironmentTemplate({
         organizationId: orgId,
@@ -71,32 +84,41 @@ describe('Environment template API', () => {
     })
 
     it('gets a collection of environment templates', async () => {
-      const draftTemplate = createDraftTemplate()
-      await client.createEnvironmentTemplate(orgId, draftTemplate)
       const { items: templates } = await client.getEnvironmentTemplates(orgId)
 
-      expect(
-        templates.filter(({ description }) => description === templateDescription)
-      ).toHaveLength(1)
+      const fetchedTemplate = templates.find(({ sys: { id } }) => id === createdTemplate.sys.id)
 
-      const [{ sys, ...template }] = templates
+      expect(fetchedTemplate).toBeDefined()
+
+      const { sys, ...template } = fetchedTemplate!
+
       expect(template).toEqual(draftTemplate)
       expect(sys).toBeDefined()
     })
 
     it('gets a collection of environment templates with select filter applied', async () => {
-      const draftTemplate = createDraftTemplate()
-      await client.createEnvironmentTemplate(orgId, draftTemplate)
       const { items: templates } = await client.getEnvironmentTemplates(orgId, {
-        select: 'description',
+        select: 'sys,description',
       })
 
-      expect(
-        templates.filter(({ description }) => description === templateDescription)
-      ).toHaveLength(1)
+      const fetchedTemplate = templates.find(({ sys: { id } }) => id === createdTemplate.sys.id)
 
-      const [firstTemplate] = templates
-      expect(firstTemplate).toEqual({ description: templateDescription })
+      expect(fetchedTemplate).toBeDefined()
+
+      const { sys, ...template } = fetchedTemplate!
+
+      expect(template).toEqual({ description: templateDescription })
+      expect(sys).toBeDefined()
+    })
+
+    it('gets a collection of environment templates with forTemplatedSpaces filter applied', async () => {
+      const { items: templates } = await client.getEnvironmentTemplates(orgId, {
+        forTemplatedSpaces: true,
+      })
+
+      const fetchedTemplate = templates.find(({ sys: { id } }) => id === createdTemplate.sys.id)
+
+      expect(fetchedTemplate).toBeUndefined()
     })
 
     it('updates an environment template', async () => {
@@ -117,40 +139,36 @@ describe('Environment template API', () => {
     })
 
     it('updates the version description and name of an environment template', async () => {
-      const draftTemplate = createDraftTemplate()
-      const template = await client.createEnvironmentTemplate(orgId, draftTemplate)
-
       const updatedVersionName = 'Updated version name'
       const updatedVersionDescription = 'Updated version description'
-      const updatedTemplateVersion = await template.updateVersion({
+      const updatedTemplateVersion = await createdTemplate.updateVersion({
         versionName: updatedVersionName,
         versionDescription: updatedVersionDescription,
       })
 
-      expect(updatedTemplateVersion.sys.version).toBe(template.sys.version)
+      expect(updatedTemplateVersion.sys.version).toBe(createdTemplate.sys.version)
       expect(updatedTemplateVersion.versionName).toBe(updatedVersionName)
       expect(updatedTemplateVersion.versionDescription).toBe(updatedVersionDescription)
     })
 
     it('gets a version of an environment template', async () => {
-      const draftTemplate = createDraftTemplate()
-      const template = await client.createEnvironmentTemplate(orgId, draftTemplate)
-      template.name = 'Updated name'
-      await template.update()
+      createdTemplate.name = 'Updated name'
+      await createdTemplate.update()
 
       const secondTemplateVersion = await client.getEnvironmentTemplate({
         version: 2,
         organizationId: orgId,
-        environmentTemplateId: template.sys.id,
+        environmentTemplateId: createdTemplate.sys.id,
       })
 
       expect(secondTemplateVersion.sys.version).toBe(2)
     })
 
     it('deletes an environment template', async () => {
-      const draftTemplate = createDraftTemplate()
-      const template = await client.createEnvironmentTemplate(orgId, draftTemplate)
-      await expect(template.delete()).resolves.not.toThrow()
+      await expect(createdTemplate.delete()).resolves.not.toThrow()
+
+      // deleted the template so reset it
+      await setupEnvironmentTemplate(false)
     })
   })
 
@@ -160,8 +178,9 @@ describe('Environment template API', () => {
     let installTemplate: InstallTemplate
 
     beforeAll(async () => {
-      space = (await createTestSpace(client, 'EnvironmentTemplate')) as Space
-      environment = (await createTestEnvironment(space, generateRandomId('env'))) as Environment
+      space = await createTestSpace(client, 'EnvironmentTemplate')
+      environment = await createTestEnvironment(space, generateRandomId('env'))
+      await waitForEnvironmentToBeReady(space, environment)
 
       await enableSpace(client, space)
       installTemplate = createInstallTemplate({
@@ -176,6 +195,7 @@ describe('Environment template API', () => {
     afterAll(async () => {
       await environment?.delete()
       await space?.delete()
+      await clearEnvironmentTemplates(client, orgId, templateDescription)
     })
 
     it('installs an environment template', async () => {
@@ -196,21 +216,33 @@ describe('Environment template API', () => {
     it('gets installations on an environment for a given environment template', async () => {
       const installation = await installTemplate()
       const { items: installations } = await environment.getEnvironmentTemplateInstallations(
-        installation.sys.template.sys.id
+        installation.sys.template.sys.id,
       )
 
       expect(installations).toHaveLength(1)
       expect(installation.sys.id).toBe(installations[0].sys.id)
     })
 
-    it('gets all installations of an environment template for an environment', async () => {
-      const installation = await installTemplate()
+    it('gets all installations of an environment template for a given environment', async () => {
+      const installation = await installTemplate(2)
       const template = await client.getEnvironmentTemplate({
         organizationId: orgId,
         environmentTemplateId: installation.sys.template.sys.id,
       })
 
       const { items: installations } = await template.getInstallations()
+      expect(installations).toHaveLength(2)
+      expect(installation.sys.id).toBe(installations[0].sys.id)
+    })
+
+    it('gets only the latest installation of an environment template for a given environment', async () => {
+      const installation = await installTemplate(2)
+      const template = await client.getEnvironmentTemplate({
+        organizationId: orgId,
+        environmentTemplateId: installation.sys.template.sys.id,
+      })
+
+      const { items: installations } = await template.getInstallations({ latestOnly: true })
       expect(installations).toHaveLength(1)
       expect(installation.sys.id).toBe(installations[0].sys.id)
     })
@@ -223,7 +255,7 @@ describe('Environment template API', () => {
       })
 
       await expect(
-        template.disconnect({ spaceId: space.sys.id, environmentId: environment.sys.id })
+        template.disconnect({ spaceId: space.sys.id, environmentId: environment.sys.id }),
       ).resolves.not.toThrow()
     })
   })
@@ -247,15 +279,14 @@ async function waitForPendingInstallation(
   client: ClientAPI,
   environment: Environment,
   environmentTemplateId: string,
-  { retries = 3, timeout = 200 } = {}
+  { retries = 3, timeout = 200 } = {},
 ): Promise<void> {
   while (retries > 1) {
-    const { items: installations } = await environment.getEnvironmentTemplateInstallations(
-      environmentTemplateId
-    )
+    const { items: installations } =
+      await environment.getEnvironmentTemplateInstallations(environmentTemplateId)
 
     const allInstallationsSuccessful = installations.every(
-      (installation) => installation.sys.status === 'succeeded'
+      (installation) => installation.sys.status === 'succeeded',
     )
 
     if (allInstallationsSuccessful) {
@@ -283,21 +314,39 @@ function createInstallTemplate({
   environment: Environment
   createDraftTemplate: () => CreateEnvironmentTemplateProps
 }): InstallTemplate {
-  return async () => {
-    const template = await client.createEnvironmentTemplate(orgId, createDraftTemplate())
-    const installation = await template.install({
-      spaceId: space.sys.id,
-      environmentId: environment.sys.id,
-      installation: {
-        version: template.sys.version,
-      },
-    })
+  return async (versionsCount: number = 1) => {
+    let template = await client.createEnvironmentTemplate(orgId, createDraftTemplate())
+    let installation = await installNewTemplateVersion(client, space, environment, template)
 
-    expect(installation.sys.template.sys.id).toBe(template.sys.id)
+    for (let version = 2; version <= versionsCount; version++) {
+      template.name = `Updated name for version ${version}`
+      template = await template.update()
+      installation = await installNewTemplateVersion(client, space, environment, template)
+    }
 
-    await waitForPendingInstallation(client, environment, template.sys.id)
     return installation
   }
+}
+
+async function installNewTemplateVersion(
+  client: ClientAPI,
+  space: Space,
+  environment: Environment,
+  template: EnvironmentTemplate,
+): Promise<EnvironmentTemplateInstallationProps> {
+  const installation = await template.install({
+    spaceId: space.sys.id,
+    environmentId: environment.sys.id,
+    installation: {
+      version: template.sys.version,
+    },
+  })
+
+  expect(installation.sys.template.sys.id).toBe(template.sys.id)
+
+  await waitForPendingInstallation(client, environment, template.sys.id)
+
+  return installation
 }
 
 async function enableSpace(client: ClientAPI, space: Space): Promise<void> {
@@ -326,7 +375,7 @@ async function enableSpace(client: ClientAPI, space: Space): Promise<void> {
 async function clearEnvironmentTemplates(
   client: ClientAPI,
   orgId: string,
-  templateDescription: string
+  templateDescription: string,
 ): Promise<void> {
   const { items: templates } = await client.getEnvironmentTemplates(orgId)
 
@@ -334,5 +383,9 @@ async function clearEnvironmentTemplates(
     return description === templateDescription
   }
 
-  await Promise.all(templates.filter(filterByDescription).map((template) => template.delete()))
+  const templatesToBeDeleted = templates.filter(filterByDescription)
+
+  for (const template of templatesToBeDeleted) {
+    await template.delete()
+  }
 }

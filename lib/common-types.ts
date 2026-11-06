@@ -1,5 +1,4 @@
 import type { RawAxiosRequestConfig, RawAxiosRequestHeaders } from 'axios'
-import type { OpPatch } from 'json-patch'
 import type { Stream } from 'stream'
 import type {
   AccessTokenProps,
@@ -10,6 +9,7 @@ import type { AppActionProps, CreateAppActionProps } from './entities/app-action
 import type {
   AppActionCallProps,
   AppActionCallResponse,
+  AppActionCallRawResponseProps,
   CreateAppActionCallProps,
 } from './entities/app-action-call'
 import type { AppBundleProps, CreateAppBundleProps } from './entities/app-bundle'
@@ -36,11 +36,16 @@ import type {
   CreateAssetProps,
 } from './entities/asset'
 import type { AssetKeyProps, CreateAssetKeyProps } from './entities/asset-key'
+import type { AvailableLicenseProps } from './entities/available-license'
 import type {
   BulkActionProps,
   BulkActionPublishPayload,
   BulkActionUnpublishPayload,
+  BulkActionV2Payload,
   BulkActionValidatePayload,
+  PublishBulkActionV2Payload,
+  UnpublishBulkActionV2Payload,
+  ValidateBulkActionV2Payload,
 } from './entities/bulk-action'
 import type {
   CommentProps,
@@ -56,8 +61,66 @@ import type {
   UpdateCommentParams,
   UpdateCommentProps,
 } from './entities/comment'
+import type {
+  ComponentTypeProps,
+  ComponentTypeQueryOptions,
+  CreateComponentTypeProps,
+  UpsertComponentTypeProps,
+} from './entities/component-type'
+import type {
+  ComponentProps,
+  ComponentQueryOptions,
+  CreateComponentProps,
+  UpsertComponentProps,
+} from './entities/component'
+import type {
+  CreateFragmentProps,
+  FragmentProps,
+  FragmentQueryOptions,
+  UpsertFragmentProps,
+} from './entities/fragment'
+import type {
+  CreateTemplateProps,
+  TemplateProps,
+  TemplateQueryOptions,
+  UpsertTemplateProps,
+} from './entities/template'
+import type {
+  CreateExperienceProps,
+  UpsertExperienceProps,
+  ExperienceLocalePublishPayload,
+  ExperienceProps,
+  ExperienceQueryOptions,
+} from './entities/experience'
+import type {
+  CreateExperienceVariantProps,
+  ExperienceVariantCollection,
+  ExperienceVariantProps,
+  ExperienceVariantQueryOptions,
+  UpsertExperienceVariantProps,
+} from './entities/experience-variant'
+import type {
+  CreateExperienceFragmentProps,
+  ExperienceFragmentProps,
+  ExperienceFragmentQueryOptions,
+  UpsertExperienceFragmentProps,
+} from './entities/experience-fragment'
+import type {
+  CreateExperienceTemplateProps,
+  ExperienceTemplateProps,
+  ExperienceTemplateQueryOptions,
+  UpsertExperienceTemplateProps,
+} from './entities/experience-template'
+import type {
+  CreateExperienceFragmentVariantProps,
+  ExperienceFragmentVariantCollection,
+  ExperienceFragmentVariantProps,
+  ExperienceFragmentVariantQueryOptions,
+  UpsertExperienceFragmentVariantProps,
+} from './entities/experience-fragment-variant'
 import type { ContentTypeProps, CreateContentTypeProps } from './entities/content-type'
 import type { EditorInterfaceProps } from './entities/editor-interface'
+import type { EligibleLicenseProps } from './entities/eligible-license'
 import type { CreateEntryProps, EntryProps, EntryReferenceProps } from './entities/entry'
 import type { CreateEnvironmentProps, EnvironmentProps } from './entities/environment'
 import type {
@@ -79,6 +142,7 @@ import type {
 import type { PreviewApiKeyProps } from './entities/preview-api-key'
 import type {
   ReleasePayload,
+  ReleasePayloadV2,
   ReleaseProps,
   ReleaseQueryOptions,
   ReleaseValidatePayload,
@@ -91,7 +155,12 @@ import type {
 import type { CreateRoleProps, RoleProps } from './entities/role'
 import type { ScheduledActionProps } from './entities/scheduled-action'
 import type { SnapshotProps } from './entities/snapshot'
-import type { SpaceProps } from './entities/space'
+import type { SpaceProps, SpaceIncludes, SpaceIncludeParam, UnarchiveProps } from './entities/space'
+import type {
+  SpaceAddOnProps,
+  SpaceAddOnOrganizationProps,
+  UpdateSpaceAddOnAllocationProps,
+} from './entities/space-add-on'
 import type { SpaceMemberProps } from './entities/space-member'
 import type { CreateSpaceMembershipProps, SpaceMembershipProps } from './entities/space-membership'
 import type { CreateTagProps, DeleteTagParams, TagProps, UpdateTagProps } from './entities/tag'
@@ -101,7 +170,12 @@ import type {
   CreateTeamSpaceMembershipProps,
   TeamSpaceMembershipProps,
 } from './entities/team-space-membership'
-import type { UsageProps } from './entities/usage'
+import type {
+  AggregatedUsageCollectionProps,
+  AggregatedUsageMetricKey,
+  AssetBandwidthUsageDetailedCollectionProps,
+  UsageProps,
+} from './entities/usage'
 import type { UserProps } from './entities/user'
 import type {
   CreateWebhooksProps,
@@ -119,6 +193,7 @@ import type {
   CreateTaskParams,
   CreateTaskProps,
   DeleteTaskParams,
+  TaskParentEntityType,
   TaskProps,
   UpdateTaskParams,
   UpdateTaskProps,
@@ -132,6 +207,19 @@ import type {
 import type { AppKeyProps, CreateAppKeyProps } from './entities/app-key'
 import type { ConceptProps, CreateConceptProps } from './entities/concept'
 import type { ConceptSchemeProps, CreateConceptSchemeProps } from './entities/concept-scheme'
+import type {
+  CreateDataAssemblyProps,
+  DataAssemblyProps,
+  DataAssemblyQueryOptions,
+  UpdateDataAssemblyProps,
+  DataAssemblyCollection,
+} from './entities/data-assembly'
+import type {
+  DesignTokenCollection,
+  DesignTokenProps,
+  DesignTokenQueryOptions,
+  UpsertDesignTokenProps,
+} from './entities/design-token'
 import type {
   CreateEnvironmentTemplateProps,
   EnvironmentTemplateProps,
@@ -185,6 +273,43 @@ import type {
   AiActionInvocationProps,
   AiActionInvocationType,
 } from './entities/ai-action-invocation'
+import type { AgentGeneratePayload, AgentProps } from './entities/agent'
+import type {
+  AgentGenerateResponse,
+  AgentResumeRunPayload,
+  AgentRunProps,
+  AgentRunQueryOptions,
+} from './entities/agent-run'
+import type {
+  AutomationDefinitionProps,
+  AutomationDefinitionQueryOptions,
+  CreateAutomationDefinitionProps,
+  UpdateAutomationDefinitionProps,
+} from './entities/automation-definition'
+import type {
+  AutomationExecutionByDefinitionQueryOptions,
+  AutomationExecutionProps,
+  AutomationExecutionQueryOptions,
+} from './entities/automation-execution'
+import type {
+  GetSemanticDuplicatesProps,
+  SemanticDuplicatesProps,
+} from './entities/semantic-duplicates'
+import type {
+  GetSemanticRecommendationsProps,
+  SemanticRecommendationsProps,
+} from './entities/semantic-recommendations'
+import type {
+  GetSemanticReferenceSuggestionsProps,
+  SemanticReferenceSuggestionsProps,
+} from './entities/semantic-reference-suggestions'
+import type { GetSemanticSearchProps, SemanticSearchProps } from './entities/semantic-search'
+import type { ContentSemanticsSettingsProps } from './entities/semantic-settings'
+import type {
+  ContentSemanticsIndexProps,
+  ContentSemanticsIndexCollectionProps,
+  CreateContentSemanticsIndexProps,
+} from './entities/content-semantics-index'
 
 export interface DefaultElements<TPlainObject extends object = object> {
   toPlainObject(): TPlainObject
@@ -211,6 +336,100 @@ export interface ResourceLink<T extends string> {
     urn: string
   }
 }
+
+// Mirrors @contentful/data-type wire shapes with explicit SDK requiredness.
+export type PrimitiveDataTypeName = 'String' | 'Number' | 'Integer' | 'Boolean'
+
+export type AllowedEntryResource = {
+  type: 'Contentful:Entry'
+  source: string
+  allowedTypes: string[]
+}
+
+export type AllowedAssetResource = {
+  type: 'Contentful:Asset'
+  source: string
+}
+
+export type AllowedResource = AllowedEntryResource | AllowedAssetResource
+
+export type BaseDataTypeDefinition = {
+  name?: string
+  required: boolean
+}
+
+export type PrimitiveDataTypeDefinition = BaseDataTypeDefinition & {
+  type: PrimitiveDataTypeName
+}
+
+export type RichTextDataTypeDefinition = BaseDataTypeDefinition & {
+  type: 'RichText'
+}
+
+export type JsonDataTypeDefinition = BaseDataTypeDefinition & {
+  type: 'JSON'
+}
+
+export type DateTimeDataTypeDefinition = BaseDataTypeDefinition & {
+  type: 'DateTime'
+}
+
+export type ArrayDataTypeDefinition = BaseDataTypeDefinition & {
+  type: 'Array'
+  items: DataTypeDefinition
+}
+
+export type RecordField = DataTypeDefinition & { id: string }
+
+export type RecordDataTypeDefinition = BaseDataTypeDefinition & {
+  type: 'Record'
+  fields: RecordField[]
+}
+
+export type TypeRefDataTypeDefinition = BaseDataTypeDefinition & {
+  type: 'TypeRef'
+  ref: ResourceLink<string>
+}
+
+export type JsonValue =
+  string | number | boolean | null | JsonValue[] | { [key: string]: JsonValue }
+
+export type LiteralDataTypeDefinition = BaseDataTypeDefinition & {
+  type: 'Literal'
+  value: JsonValue
+  valueType: DataTypeDefinition
+}
+
+export type DiscriminatedUnionDataTypeDefinition = BaseDataTypeDefinition & {
+  type: 'DiscriminatedUnion'
+  discriminator: string
+  members: DataTypeDefinition[]
+}
+
+export type ResourceLinkDataTypeDefinition = BaseDataTypeDefinition & {
+  type: 'ResourceLink'
+  allowedResources: AllowedResource[]
+}
+
+export type DataTypeDefinition =
+  | PrimitiveDataTypeDefinition
+  | RichTextDataTypeDefinition
+  | JsonDataTypeDefinition
+  | DateTimeDataTypeDefinition
+  | ArrayDataTypeDefinition
+  | RecordDataTypeDefinition
+  | TypeRefDataTypeDefinition
+  | LiteralDataTypeDefinition
+  | DiscriminatedUnionDataTypeDefinition
+  | ResourceLinkDataTypeDefinition
+
+export type PointerExpressionValue =
+  | string
+  | { $from: string | { source: string; select?: PointerExpressionValue } }
+  | { $literal: JsonValue }
+  | { $object: Record<string, PointerExpressionValue> }
+  | { $on: { type: Record<string, PointerExpressionValue>; default?: PointerExpressionValue } }
+  | { [key: string]: PointerExpressionValue }
 
 export interface VersionedLink<T extends string> {
   sys: {
@@ -244,6 +463,7 @@ export interface QueryOptions extends PaginationQueryOptions {
   [key: string]: any
 }
 
+/** @internal */
 export interface SpaceQueryOptions extends PaginationQueryOptions {
   spaceId?: string
 }
@@ -289,6 +509,7 @@ export interface EntityMetaSysProps extends MetaSysProps {
   publishedCounter?: number
   locale?: string
   fieldStatus?: { '*': Record<string, 'draft' | 'changed' | 'published'> }
+  release?: Link<'Release'>
 }
 
 export interface EntryMetaSysProps extends EntityMetaSysProps {
@@ -307,6 +528,77 @@ export interface MetadataProps {
   concepts?: Link<'TaxonomyConcept'>[]
 }
 
+/**
+ * Base metadata shape for ExO entities (ComponentType, Template).
+ * Mirrors upstream MetadataSchema: tags and concepts only.
+ * - tags: optional (upstream MetadataSchema.tags is z.optional as of SPA-3821)
+ * - concepts: optional taxonomy concept links
+ */
+export interface ExoMetadataProps {
+  tags?: Link<'Tag'>[]
+  concepts?: Link<'TaxonomyConcept'>[]
+}
+
+/**
+ * Extended metadata shape for Experience entities only.
+ * Adds name? for variant labeling (SPA-3939), mirroring upstream ExperienceMetadata.
+ */
+export interface ExperienceMetadataProps extends ExoMetadataProps {
+  name?: string
+}
+
+/**
+ * Shared query filter fields for ExO list endpoints (ComponentType, Experience, Fragment, Template).
+ * Mirrors the four shared filter schemas in experiences-management-api-contract:
+ * SysFiltersSchema + TagFiltersSchema + TaxonomyConceptsFiltersSchema + TextFiltersSchema
+ */
+export interface ExoQueryFilters {
+  // SysFiltersSchema
+  'sys.id'?: string
+  'sys.id[in]'?: string
+  'sys.id[nin]'?: string
+  'sys.createdBy.sys.id'?: string
+  'sys.createdBy.sys.id[in]'?: string
+  'sys.createdBy.sys.id[nin]'?: string
+  'sys.updatedBy.sys.id'?: string
+  'sys.updatedBy.sys.id[in]'?: string
+  'sys.updatedBy.sys.id[nin]'?: string
+  'sys.publishedBy.sys.id'?: string
+  'sys.publishedBy.sys.id[in]'?: string
+  'sys.publishedBy.sys.id[nin]'?: string
+  'sys.createdAt[gt]'?: string
+  'sys.createdAt[gte]'?: string
+  'sys.createdAt[lt]'?: string
+  'sys.createdAt[lte]'?: string
+  'sys.updatedAt[gt]'?: string
+  'sys.updatedAt[gte]'?: string
+  'sys.updatedAt[lt]'?: string
+  'sys.updatedAt[lte]'?: string
+  'sys.publishedAt[gt]'?: string
+  'sys.publishedAt[gte]'?: string
+  'sys.publishedAt[lt]'?: string
+  'sys.publishedAt[lte]'?: string
+  'sys.firstPublishedAt[gt]'?: string
+  'sys.firstPublishedAt[gte]'?: string
+  'sys.firstPublishedAt[lt]'?: string
+  'sys.firstPublishedAt[lte]'?: string
+  'sys.version'?: number
+  'sys.publishedVersion'?: number
+  'sys.archivedAt[exists]'?: boolean
+  // TagFiltersSchema
+  'metadata.tags.sys.id[in]'?: string
+  'metadata.tags.sys.id[all]'?: string
+  'metadata.tags.sys.id[nin]'?: string
+  // TaxonomyConceptsFiltersSchema
+  'metadata.concepts.sys.id[in]'?: string
+  'metadata.concepts.sys.id[all]'?: string
+  'metadata.concepts.sys.id[nin]'?: string
+  'metadata.concepts.descendants[in]'?: string
+  // TextFiltersSchema
+  'name[match]'?: string
+  name?: string
+}
+
 export interface SysLink {
   sys: MetaLinkProps
 }
@@ -321,20 +613,32 @@ export interface CollectionProp<TObj> {
   items: TObj[]
 }
 
-export interface CursorPaginatedCollectionProp<TObj>
-  extends Omit<CollectionProp<TObj>, 'total' | 'skip'> {
+export interface CursorPaginatedCollectionProp<TObj> extends Omit<
+  CollectionProp<TObj>,
+  'total' | 'skip'
+> {
   pages?: {
     next?: string
     prev?: string
   }
 }
 
+export interface ExoCursorPaginatedCollectionProp<
+  TObj,
+> extends CursorPaginatedCollectionProp<TObj> {
+  total?: number
+  pages: {
+    next?: string
+    prev?: string
+  }
+}
+
 export interface Collection<T, TPlain>
-  extends CollectionProp<T>,
-    DefaultElements<CollectionProp<TPlain>> {}
+  extends CollectionProp<T>, DefaultElements<CollectionProp<TPlain>> {}
 
 export interface CursorPaginatedCollection<T, TPlain>
-  extends CursorPaginatedCollectionProp<T>,
+  extends
+    CursorPaginatedCollectionProp<T>,
     DefaultElements<CursorPaginatedCollectionProp<TPlain>> {}
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -352,6 +656,7 @@ export interface BasicQueryOptions {
 }
 
 export interface BasicCursorPaginationOptions extends Omit<BasicQueryOptions, 'skip'> {
+  skip?: never
   pageNext?: string
   pagePrev?: string
 }
@@ -377,6 +682,9 @@ interface CursorPaginationNone extends CursorPaginationBase {
   pagePrev?: never
 }
 
+export type CursorPaginationParams =
+  CursorPaginationPageNext | CursorPaginationPagePrev | CursorPaginationNone
+
 type StartOperator = 'gt' | 'gte'
 type EndOperator = 'lt' | 'lte'
 type ComparisonOperator = StartOperator | EndOperator
@@ -392,11 +700,9 @@ type WithOneOperator<P extends string, C extends ComparisonOperator, O extends C
   [K in WithComparisonOperator<P, Exclude<C, O>>]?: never
 }
 type WithStartOperator<P extends string> =
-  | WithOneOperator<P, StartOperator, 'gt'>
-  | WithOneOperator<P, StartOperator, 'gte'>
+  WithOneOperator<P, StartOperator, 'gt'> | WithOneOperator<P, StartOperator, 'gte'>
 type WithEndOperator<P extends string> =
-  | WithOneOperator<P, EndOperator, 'lt'>
-  | WithOneOperator<P, EndOperator, 'lte'>
+  WithOneOperator<P, EndOperator, 'lt'> | WithOneOperator<P, EndOperator, 'lte'>
 
 // Type for valid date range combinations - only start, only end, or both
 type IntervalQuery<P extends string> =
@@ -404,7 +710,9 @@ type IntervalQuery<P extends string> =
   | Partial<WithEndOperator<P>>
   | (Partial<WithStartOperator<P>> & Partial<WithEndOperator<P>>)
 
+/** @internal */
 export type CreatedAtIntervalQueryOptions = IntervalQuery<'sys.createdAt'>
+/** @internal */
 export interface AcceptsQueryOptions {
   'accepts[all]'?: string
 }
@@ -412,7 +720,7 @@ export interface AcceptsQueryOptions {
 export type KeyValueMap = Record<string, any>
 
 /**
- * @private
+ * @internal
  */
 type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Http', 'get', UA>): MRReturn<'Http', 'get'>
@@ -433,6 +741,14 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'AiActionInvocation', 'get', UA>): MRReturn<'AiActionInvocation', 'get'>
 
+  (opts: MROpts<'Agent', 'get', UA>): MRReturn<'Agent', 'get'>
+  (opts: MROpts<'Agent', 'getMany', UA>): MRReturn<'Agent', 'getMany'>
+  (opts: MROpts<'Agent', 'generate', UA>): MRReturn<'Agent', 'generate'>
+
+  (opts: MROpts<'AgentRun', 'get', UA>): MRReturn<'AgentRun', 'get'>
+  (opts: MROpts<'AgentRun', 'getMany', UA>): MRReturn<'AgentRun', 'getMany'>
+  (opts: MROpts<'AgentRun', 'resumeRun', UA>): MRReturn<'AgentRun', 'resumeRun'>
+
   (opts: MROpts<'AppAction', 'get', UA>): MRReturn<'AppAction', 'get'>
   (opts: MROpts<'AppAction', 'getMany', UA>): MRReturn<'AppAction', 'getMany'>
   (opts: MROpts<'AppAction', 'delete', UA>): MRReturn<'AppAction', 'delete'>
@@ -440,11 +756,15 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'AppAction', 'update', UA>): MRReturn<'AppAction', 'update'>
 
   (opts: MROpts<'AppActionCall', 'create', UA>): MRReturn<'AppActionCall', 'create'>
-  (opts: MROpts<'AppActionCall', 'createWithResponse', UA>): MRReturn<
-    'AppActionCall',
-    'createWithResponse'
-  >
+  (
+    opts: MROpts<'AppActionCall', 'createWithResponse', UA>,
+  ): MRReturn<'AppActionCall', 'createWithResponse'>
   (opts: MROpts<'AppActionCall', 'getCallDetails', UA>): MRReturn<'AppActionCall', 'getCallDetails'>
+  (opts: MROpts<'AppActionCall', 'get', UA>): MRReturn<'AppActionCall', 'get'>
+  (
+    opts: MROpts<'AppActionCall', 'createWithResult', UA>,
+  ): MRReturn<'AppActionCall', 'createWithResult'>
+  (opts: MROpts<'AppActionCall', 'getResponse', UA>): MRReturn<'AppActionCall', 'getResponse'>
 
   (opts: MROpts<'AppBundle', 'get', UA>): MRReturn<'AppBundle', 'get'>
   (opts: MROpts<'AppBundle', 'getMany', UA>): MRReturn<'AppBundle', 'getMany'>
@@ -463,22 +783,22 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'AppDefinition', 'create', UA>): MRReturn<'AppDefinition', 'create'>
   (opts: MROpts<'AppDefinition', 'update', UA>): MRReturn<'AppDefinition', 'update'>
   (opts: MROpts<'AppDefinition', 'delete', UA>): MRReturn<'AppDefinition', 'delete'>
-  (opts: MROpts<'AppDefinition', 'getInstallationsForOrg', UA>): MRReturn<
-    'AppDefinition',
-    'getInstallationsForOrg'
-  >
+  (
+    opts: MROpts<'AppDefinition', 'getInstallationsForOrg', UA>,
+  ): MRReturn<'AppDefinition', 'getInstallationsForOrg'>
 
   (opts: MROpts<'AppInstallation', 'get', UA>): MRReturn<'AppInstallation', 'get'>
   (opts: MROpts<'AppInstallation', 'getMany', UA>): MRReturn<'AppInstallation', 'getMany'>
   (opts: MROpts<'AppInstallation', 'upsert', UA>): MRReturn<'AppInstallation', 'upsert'>
   (opts: MROpts<'AppInstallation', 'delete', UA>): MRReturn<'AppInstallation', 'delete'>
-  (opts: MROpts<'AppInstallation', 'getForOrganization', UA>): MRReturn<
-    'AppInstallation',
-    'getForOrganization'
-  >
+  (
+    opts: MROpts<'AppInstallation', 'getForOrganization', UA>,
+  ): MRReturn<'AppInstallation', 'getForOrganization'>
 
   (opts: MROpts<'Asset', 'getMany', UA>): MRReturn<'Asset', 'getMany'>
+  (opts: MROpts<'Asset', 'getManyWithCursor', UA>): MRReturn<'Asset', 'getManyWithCursor'>
   (opts: MROpts<'Asset', 'getPublished', UA>): MRReturn<'Asset', 'getPublished'>
+  (opts: MROpts<'Asset', 'getPublishedWithCursor', UA>): MRReturn<'Asset', 'getPublishedWithCursor'>
   (opts: MROpts<'Asset', 'get', UA>): MRReturn<'Asset', 'get'>
   (opts: MROpts<'Asset', 'update', UA>): MRReturn<'Asset', 'update'>
   (opts: MROpts<'Asset', 'delete', UA>): MRReturn<'Asset', 'delete'>
@@ -519,10 +839,16 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'AssetKey', 'create', UA>): MRReturn<'AssetKey', 'create'>
 
+  (opts: MROpts<'AvailableLicense', 'getMany', UA>): MRReturn<'AvailableLicense', 'getMany'>
+
   (opts: MROpts<'BulkAction', 'get', UA>): MRReturn<'BulkAction', 'get'>
   (opts: MROpts<'BulkAction', 'publish', UA>): MRReturn<'BulkAction', 'publish'>
   (opts: MROpts<'BulkAction', 'unpublish', UA>): MRReturn<'BulkAction', 'unpublish'>
   (opts: MROpts<'BulkAction', 'validate', UA>): MRReturn<'BulkAction', 'validate'>
+  (opts: MROpts<'BulkAction', 'getV2', UA>): MRReturn<'BulkAction', 'getV2'>
+  (opts: MROpts<'BulkAction', 'publishV2', UA>): MRReturn<'BulkAction', 'publishV2'>
+  (opts: MROpts<'BulkAction', 'unpublishV2', UA>): MRReturn<'BulkAction', 'unpublishV2'>
+  (opts: MROpts<'BulkAction', 'validateV2', UA>): MRReturn<'BulkAction', 'validateV2'>
 
   (opts: MROpts<'Comment', 'get', UA>): MRReturn<'Comment', 'get'>
   (opts: MROpts<'Comment', 'getMany', UA>): MRReturn<'Comment', 'getMany'>
@@ -530,6 +856,21 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Comment', 'create', UA>): MRReturn<'Comment', 'create'>
   (opts: MROpts<'Comment', 'update', UA>): MRReturn<'Comment', 'update'>
   (opts: MROpts<'Comment', 'delete', UA>): MRReturn<'Comment', 'delete'>
+
+  (opts: MROpts<'ComponentType', 'getMany', UA>): MRReturn<'ComponentType', 'getMany'>
+  (opts: MROpts<'ComponentType', 'get', UA>): MRReturn<'ComponentType', 'get'>
+  (opts: MROpts<'ComponentType', 'create', UA>): MRReturn<'ComponentType', 'create'>
+  (opts: MROpts<'ComponentType', 'upsert', UA>): MRReturn<'ComponentType', 'upsert'>
+  (opts: MROpts<'ComponentType', 'delete', UA>): MRReturn<'ComponentType', 'delete'>
+  (opts: MROpts<'ComponentType', 'publish', UA>): MRReturn<'ComponentType', 'publish'>
+  (opts: MROpts<'ComponentType', 'unpublish', UA>): MRReturn<'ComponentType', 'unpublish'>
+  (opts: MROpts<'Component', 'getMany', UA>): MRReturn<'Component', 'getMany'>
+  (opts: MROpts<'Component', 'get', UA>): MRReturn<'Component', 'get'>
+  (opts: MROpts<'Component', 'create', UA>): MRReturn<'Component', 'create'>
+  (opts: MROpts<'Component', 'upsert', UA>): MRReturn<'Component', 'upsert'>
+  (opts: MROpts<'Component', 'delete', UA>): MRReturn<'Component', 'delete'>
+  (opts: MROpts<'Component', 'publish', UA>): MRReturn<'Component', 'publish'>
+  (opts: MROpts<'Component', 'unpublish', UA>): MRReturn<'Component', 'unpublish'>
 
   (opts: MROpts<'Concept', 'get', UA>): MRReturn<'Concept', 'get'>
   (opts: MROpts<'Concept', 'getMany', UA>): MRReturn<'Concept', 'getMany'>
@@ -539,7 +880,6 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Concept', 'createWithId', UA>): MRReturn<'Concept', 'createWithId'>
   (opts: MROpts<'Concept', 'patch', UA>): MRReturn<'Concept', 'patch'>
   (opts: MROpts<'Concept', 'update', UA>): MRReturn<'Concept', 'update'>
-  (opts: MROpts<'Concept', 'updatePut', UA>): MRReturn<'Concept', 'updatePut'>
   (opts: MROpts<'Concept', 'delete', UA>): MRReturn<'Concept', 'delete'>
 
   (opts: MROpts<'ConceptScheme', 'get', UA>): MRReturn<'ConceptScheme', 'get'>
@@ -549,11 +889,13 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'ConceptScheme', 'createWithId', UA>): MRReturn<'ConceptScheme', 'createWithId'>
   (opts: MROpts<'ConceptScheme', 'patch', UA>): MRReturn<'ConceptScheme', 'patch'>
   (opts: MROpts<'ConceptScheme', 'update', UA>): MRReturn<'ConceptScheme', 'update'>
-  (opts: MROpts<'ConceptScheme', 'updatePut', UA>): MRReturn<'ConceptScheme', 'updatePut'>
   (opts: MROpts<'ConceptScheme', 'delete', UA>): MRReturn<'ConceptScheme', 'delete'>
 
   (opts: MROpts<'ContentType', 'get', UA>): MRReturn<'ContentType', 'get'>
   (opts: MROpts<'ContentType', 'getMany', UA>): MRReturn<'ContentType', 'getMany'>
+  (
+    opts: MROpts<'ContentType', 'getManyWithCursor', UA>,
+  ): MRReturn<'ContentType', 'getManyWithCursor'>
   (opts: MROpts<'ContentType', 'update', UA>): MRReturn<'ContentType', 'update'>
   (opts: MROpts<'ContentType', 'create', UA>): MRReturn<'ContentType', 'create'>
   (opts: MROpts<'ContentType', 'createWithId', UA>): MRReturn<'ContentType', 'createWithId'>
@@ -561,9 +903,28 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'ContentType', 'publish', UA>): MRReturn<'ContentType', 'publish'>
   (opts: MROpts<'ContentType', 'unpublish', UA>): MRReturn<'ContentType', 'unpublish'>
 
+  (opts: MROpts<'DataAssembly', 'getMany', UA>): MRReturn<'DataAssembly', 'getMany'>
+  (
+    opts: MROpts<'DataAssembly', 'getManyPublished', UA>,
+  ): MRReturn<'DataAssembly', 'getManyPublished'>
+  (opts: MROpts<'DataAssembly', 'getPublished', UA>): MRReturn<'DataAssembly', 'getPublished'>
+  (opts: MROpts<'DataAssembly', 'get', UA>): MRReturn<'DataAssembly', 'get'>
+  (opts: MROpts<'DataAssembly', 'create', UA>): MRReturn<'DataAssembly', 'create'>
+  (opts: MROpts<'DataAssembly', 'update', UA>): MRReturn<'DataAssembly', 'update'>
+  (opts: MROpts<'DataAssembly', 'delete', UA>): MRReturn<'DataAssembly', 'delete'>
+  (opts: MROpts<'DataAssembly', 'publish', UA>): MRReturn<'DataAssembly', 'publish'>
+  (opts: MROpts<'DataAssembly', 'unpublish', UA>): MRReturn<'DataAssembly', 'unpublish'>
+
+  (opts: MROpts<'DesignToken', 'getMany', UA>): MRReturn<'DesignToken', 'getMany'>
+  (opts: MROpts<'DesignToken', 'get', UA>): MRReturn<'DesignToken', 'get'>
+  (opts: MROpts<'DesignToken', 'upsert', UA>): MRReturn<'DesignToken', 'upsert'>
+  (opts: MROpts<'DesignToken', 'delete', UA>): MRReturn<'DesignToken', 'delete'>
+
   (opts: MROpts<'EditorInterface', 'get', UA>): MRReturn<'EditorInterface', 'get'>
   (opts: MROpts<'EditorInterface', 'getMany', UA>): MRReturn<'EditorInterface', 'getMany'>
   (opts: MROpts<'EditorInterface', 'update', UA>): MRReturn<'EditorInterface', 'update'>
+
+  (opts: MROpts<'EligibleLicense', 'getMany', UA>): MRReturn<'EligibleLicense', 'getMany'>
 
   (opts: MROpts<'Environment', 'get', UA>): MRReturn<'Environment', 'get'>
   (opts: MROpts<'Environment', 'getMany', UA>): MRReturn<'Environment', 'getMany'>
@@ -574,10 +935,9 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'EnvironmentAlias', 'get', UA>): MRReturn<'EnvironmentAlias', 'get'>
   (opts: MROpts<'EnvironmentAlias', 'getMany', UA>): MRReturn<'EnvironmentAlias', 'getMany'>
-  (opts: MROpts<'EnvironmentAlias', 'createWithId', UA>): MRReturn<
-    'EnvironmentAlias',
-    'createWithId'
-  >
+  (
+    opts: MROpts<'EnvironmentAlias', 'createWithId', UA>,
+  ): MRReturn<'EnvironmentAlias', 'createWithId'>
   (opts: MROpts<'EnvironmentAlias', 'update', UA>): MRReturn<'EnvironmentAlias', 'update'>
   (opts: MROpts<'EnvironmentAlias', 'delete', UA>): MRReturn<'EnvironmentAlias', 'delete'>
 
@@ -587,28 +947,26 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'EnvironmentTemplate', 'update', UA>): MRReturn<'EnvironmentTemplate', 'update'>
   (opts: MROpts<'EnvironmentTemplate', 'delete', UA>): MRReturn<'EnvironmentTemplate', 'delete'>
   (opts: MROpts<'EnvironmentTemplate', 'versions', UA>): MRReturn<'EnvironmentTemplate', 'versions'>
-  (opts: MROpts<'EnvironmentTemplate', 'versionUpdate', UA>): MRReturn<
-    'EnvironmentTemplate',
-    'versionUpdate'
-  >
+  (
+    opts: MROpts<'EnvironmentTemplate', 'versionUpdate', UA>,
+  ): MRReturn<'EnvironmentTemplate', 'versionUpdate'>
   (opts: MROpts<'EnvironmentTemplate', 'validate', UA>): MRReturn<'EnvironmentTemplate', 'validate'>
   (opts: MROpts<'EnvironmentTemplate', 'install', UA>): MRReturn<'EnvironmentTemplate', 'install'>
-  (opts: MROpts<'EnvironmentTemplate', 'disconnect', UA>): MRReturn<
-    'EnvironmentTemplate',
-    'disconnect'
-  >
+  (
+    opts: MROpts<'EnvironmentTemplate', 'disconnect', UA>,
+  ): MRReturn<'EnvironmentTemplate', 'disconnect'>
 
-  (opts: MROpts<'EnvironmentTemplateInstallation', 'getMany', UA>): MRReturn<
-    'EnvironmentTemplateInstallation',
-    'getMany'
-  >
-  (opts: MROpts<'EnvironmentTemplateInstallation', 'getForEnvironment', UA>): MRReturn<
-    'EnvironmentTemplateInstallation',
-    'getForEnvironment'
-  >
+  (
+    opts: MROpts<'EnvironmentTemplateInstallation', 'getMany', UA>,
+  ): MRReturn<'EnvironmentTemplateInstallation', 'getMany'>
+  (
+    opts: MROpts<'EnvironmentTemplateInstallation', 'getForEnvironment', UA>,
+  ): MRReturn<'EnvironmentTemplateInstallation', 'getForEnvironment'>
 
   (opts: MROpts<'Entry', 'getMany', UA>): MRReturn<'Entry', 'getMany'>
+  (opts: MROpts<'Entry', 'getManyWithCursor', UA>): MRReturn<'Entry', 'getManyWithCursor'>
   (opts: MROpts<'Entry', 'getPublished', UA>): MRReturn<'Entry', 'getPublished'>
+  (opts: MROpts<'Entry', 'getPublishedWithCursor', UA>): MRReturn<'Entry', 'getPublishedWithCursor'>
   (opts: MROpts<'Entry', 'get', UA>): MRReturn<'Entry', 'get'>
   (opts: MROpts<'Entry', 'patch', UA>): MRReturn<'Entry', 'patch'>
   (opts: MROpts<'Entry', 'update', UA>): MRReturn<'Entry', 'update'>
@@ -630,10 +988,9 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'Function', 'get', UA>): MRReturn<'Function', 'get'>
   (opts: MROpts<'Function', 'getMany', UA>): MRReturn<'Function', 'getMany'>
-  (opts: MROpts<'Function', 'getManyForEnvironment', UA>): MRReturn<
-    'Function',
-    'getManyForEnvironment'
-  >
+  (
+    opts: MROpts<'Function', 'getManyForEnvironment', UA>,
+  ): MRReturn<'Function', 'getManyForEnvironment'>
 
   (opts: MROpts<'FunctionLog', 'get', UA>): MRReturn<'FunctionLog', 'get'>
   (opts: MROpts<'FunctionLog', 'getMany', UA>): MRReturn<'FunctionLog', 'getMany'>
@@ -648,24 +1005,20 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Organization', 'get', UA>): MRReturn<'Organization', 'get'>
 
   (opts: MROpts<'OrganizationInvitation', 'get', UA>): MRReturn<'OrganizationInvitation', 'get'>
-  (opts: MROpts<'OrganizationInvitation', 'create', UA>): MRReturn<
-    'OrganizationInvitation',
-    'create'
-  >
+  (
+    opts: MROpts<'OrganizationInvitation', 'create', UA>,
+  ): MRReturn<'OrganizationInvitation', 'create'>
 
   (opts: MROpts<'OrganizationMembership', 'get', UA>): MRReturn<'OrganizationMembership', 'get'>
-  (opts: MROpts<'OrganizationMembership', 'getMany', UA>): MRReturn<
-    'OrganizationMembership',
-    'getMany'
-  >
-  (opts: MROpts<'OrganizationMembership', 'update', UA>): MRReturn<
-    'OrganizationMembership',
-    'update'
-  >
-  (opts: MROpts<'OrganizationMembership', 'delete', UA>): MRReturn<
-    'OrganizationMembership',
-    'delete'
-  >
+  (
+    opts: MROpts<'OrganizationMembership', 'getMany', UA>,
+  ): MRReturn<'OrganizationMembership', 'getMany'>
+  (
+    opts: MROpts<'OrganizationMembership', 'update', UA>,
+  ): MRReturn<'OrganizationMembership', 'update'>
+  (
+    opts: MROpts<'OrganizationMembership', 'delete', UA>,
+  ): MRReturn<'OrganizationMembership', 'delete'>
 
   (opts: MROpts<'PersonalAccessToken', 'get', UA>): MRReturn<'PersonalAccessToken', 'get'>
   (opts: MROpts<'PersonalAccessToken', 'getMany', UA>): MRReturn<'PersonalAccessToken', 'getMany'>
@@ -674,21 +1027,18 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'AccessToken', 'get', UA>): MRReturn<'AccessToken', 'get'>
   (opts: MROpts<'AccessToken', 'getMany', UA>): MRReturn<'AccessToken', 'getMany'>
-  (opts: MROpts<'AccessToken', 'createPersonalAccessToken', UA>): MRReturn<
-    'AccessToken',
-    'createPersonalAccessToken'
-  >
+  (
+    opts: MROpts<'AccessToken', 'createPersonalAccessToken', UA>,
+  ): MRReturn<'AccessToken', 'createPersonalAccessToken'>
   (opts: MROpts<'AccessToken', 'revoke', UA>): MRReturn<'AccessToken', 'revoke'>
-  (opts: MROpts<'AccessToken', 'getManyForOrganization', UA>): MRReturn<
-    'AccessToken',
-    'getManyForOrganization'
-  >
+  (
+    opts: MROpts<'AccessToken', 'getManyForOrganization', UA>,
+  ): MRReturn<'AccessToken', 'getManyForOrganization'>
 
   (opts: MROpts<'OAuthApplication', 'get', UA>): MRReturn<'OAuthApplication', 'get'>
-  (opts: MROpts<'OAuthApplication', 'getManyForUser', UA>): MRReturn<
-    'OAuthApplication',
-    'getManyForUser'
-  >
+  (
+    opts: MROpts<'OAuthApplication', 'getManyForUser', UA>,
+  ): MRReturn<'OAuthApplication', 'getManyForUser'>
   (opts: MROpts<'OAuthApplication', 'create', UA>): MRReturn<'OAuthApplication', 'create'>
   (opts: MROpts<'OAuthApplication', 'update', UA>): MRReturn<'OAuthApplication', 'update'>
   (opts: MROpts<'OAuthApplication', 'delete', UA>): MRReturn<'OAuthApplication', 'delete'>
@@ -709,10 +1059,30 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'ReleaseAction', 'get', UA>): MRReturn<'ReleaseAction', 'get'>
   (opts: MROpts<'ReleaseAction', 'getMany', UA>): MRReturn<'ReleaseAction', 'getMany'>
-  (opts: MROpts<'ReleaseAction', 'queryForRelease', UA>): MRReturn<
-    'ReleaseAction',
-    'queryForRelease'
-  >
+  (
+    opts: MROpts<'ReleaseAction', 'queryForRelease', UA>,
+  ): MRReturn<'ReleaseAction', 'queryForRelease'>
+
+  (opts: MROpts<'ReleaseAsset', 'get', UA>): MRReturn<'ReleaseAsset', 'get'>
+  (opts: MROpts<'ReleaseAsset', 'getMany', UA>): MRReturn<'ReleaseAsset', 'getMany'>
+  (opts: MROpts<'ReleaseAsset', 'update', UA>): MRReturn<'ReleaseAsset', 'update'>
+  (opts: MROpts<'ReleaseAsset', 'create', UA>): MRReturn<'ReleaseAsset', 'create'>
+  (opts: MROpts<'ReleaseAsset', 'createWithId', UA>): MRReturn<'ReleaseAsset', 'createWithId'>
+  (opts: MROpts<'ReleaseAsset', 'createFromFiles', UA>): MRReturn<'ReleaseAsset', 'createFromFiles'>
+  (
+    opts: MROpts<'ReleaseAsset', 'processForAllLocales', UA>,
+  ): MRReturn<'ReleaseAsset', 'processForAllLocales'>
+  (
+    opts: MROpts<'ReleaseAsset', 'processForLocale', UA>,
+  ): MRReturn<'ReleaseAsset', 'processForLocale'>
+
+  (opts: MROpts<'ReleaseEntry', 'get', UA>): MRReturn<'ReleaseEntry', 'get'>
+  (opts: MROpts<'ReleaseEntry', 'getMany', UA>): MRReturn<'ReleaseEntry', 'getMany'>
+  (opts: MROpts<'ReleaseEntry', 'update', UA>): MRReturn<'ReleaseEntry', 'update'>
+  (opts: MROpts<'ReleaseEntry', 'patch', UA>): MRReturn<'ReleaseEntry', 'patch'>
+  (opts: MROpts<'ReleaseEntry', 'create', UA>): MRReturn<'ReleaseEntry', 'create'>
+  (opts: MROpts<'ReleaseEntry', 'createWithId', UA>): MRReturn<'ReleaseEntry', 'createWithId'>
+
   (opts: MROpts<'Resource', 'getMany', UA>): MRReturn<'Resource', 'getMany'>
   (opts: MROpts<'ResourceProvider', 'get', UA>): MRReturn<'ResourceProvider', 'get'>
   (opts: MROpts<'ResourceProvider', 'upsert', UA>): MRReturn<'ResourceProvider', 'upsert'>
@@ -721,10 +1091,9 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'ResourceType', 'get', UA>): MRReturn<'ResourceType', 'get'>
   (opts: MROpts<'ResourceType', 'upsert', UA>): MRReturn<'ResourceType', 'upsert'>
   (opts: MROpts<'ResourceType', 'delete', UA>): MRReturn<'ResourceType', 'delete'>
-  (opts: MROpts<'ResourceType', 'getForEnvironment', UA>): MRReturn<
-    'ResourceType',
-    'getForEnvironment'
-  >
+  (
+    opts: MROpts<'ResourceType', 'getForEnvironment', UA>,
+  ): MRReturn<'ResourceType', 'getForEnvironment'>
   (opts: MROpts<'ResourceType', 'getMany', UA>): MRReturn<'ResourceType', 'getMany'>
 
   (opts: MROpts<'Role', 'get', UA>): MRReturn<'Role', 'get'>
@@ -743,10 +1112,9 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'Snapshot', 'getManyForEntry', UA>): MRReturn<'Snapshot', 'getManyForEntry'>
   (opts: MROpts<'Snapshot', 'getForEntry', UA>): MRReturn<'Snapshot', 'getForEntry'>
-  (opts: MROpts<'Snapshot', 'getManyForContentType', UA>): MRReturn<
-    'Snapshot',
-    'getManyForContentType'
-  >
+  (
+    opts: MROpts<'Snapshot', 'getManyForContentType', UA>,
+  ): MRReturn<'Snapshot', 'getManyForContentType'>
   (opts: MROpts<'Snapshot', 'getForContentType', UA>): MRReturn<'Snapshot', 'getForContentType'>
 
   (opts: MROpts<'Space', 'get', UA>): MRReturn<'Space', 'get'>
@@ -754,6 +1122,7 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Space', 'getManyForOrganization', UA>): MRReturn<'Space', 'getManyForOrganization'>
   (opts: MROpts<'Space', 'create', UA>): MRReturn<'Space', 'create'>
   (opts: MROpts<'Space', 'update', UA>): MRReturn<'Space', 'update'>
+  (opts: MROpts<'Space', 'unarchive', UA>): MRReturn<'Space', 'unarchive'>
   (opts: MROpts<'Space', 'delete', UA>): MRReturn<'Space', 'delete'>
 
   (opts: MROpts<'SpaceMember', 'get', UA>): MRReturn<'SpaceMember', 'get'>
@@ -761,18 +1130,22 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'SpaceMembership', 'get', UA>): MRReturn<'SpaceMembership', 'get'>
   (opts: MROpts<'SpaceMembership', 'getMany', UA>): MRReturn<'SpaceMembership', 'getMany'>
-  (opts: MROpts<'SpaceMembership', 'getForOrganization', UA>): MRReturn<
-    'SpaceMembership',
-    'getForOrganization'
-  >
-  (opts: MROpts<'SpaceMembership', 'getManyForOrganization', UA>): MRReturn<
-    'SpaceMembership',
-    'getManyForOrganization'
-  >
+  (
+    opts: MROpts<'SpaceMembership', 'getForOrganization', UA>,
+  ): MRReturn<'SpaceMembership', 'getForOrganization'>
+  (
+    opts: MROpts<'SpaceMembership', 'getManyForOrganization', UA>,
+  ): MRReturn<'SpaceMembership', 'getManyForOrganization'>
   (opts: MROpts<'SpaceMembership', 'create', UA>): MRReturn<'SpaceMembership', 'create'>
   (opts: MROpts<'SpaceMembership', 'createWithId', UA>): MRReturn<'SpaceMembership', 'createWithId'>
   (opts: MROpts<'SpaceMembership', 'update', UA>): MRReturn<'SpaceMembership', 'update'>
   (opts: MROpts<'SpaceMembership', 'delete', UA>): MRReturn<'SpaceMembership', 'delete'>
+
+  (opts: MROpts<'SpaceAddOn', 'getMany', UA>): MRReturn<'SpaceAddOn', 'getMany'>
+  (
+    opts: MROpts<'SpaceAddOn', 'getManyForOrganization', UA>,
+  ): MRReturn<'SpaceAddOn', 'getManyForOrganization'>
+  (opts: MROpts<'SpaceAddOn', 'updateAllocations', UA>): MRReturn<'SpaceAddOn', 'updateAllocations'>
 
   (opts: MROpts<'Tag', 'get', UA>): MRReturn<'Tag', 'get'>
   (opts: MROpts<'Tag', 'getMany', UA>): MRReturn<'Tag', 'getMany'>
@@ -795,31 +1168,43 @@ type MRInternal<UA extends boolean> = {
   (opts: MROpts<'Team', 'delete', UA>): MRReturn<'Team', 'delete'>
 
   (opts: MROpts<'TeamMembership', 'get', UA>): MRReturn<'TeamMembership', 'get'>
-  (opts: MROpts<'TeamMembership', 'getManyForOrganization', UA>): MRReturn<
-    'TeamMembership',
-    'getManyForOrganization'
-  >
-  (opts: MROpts<'TeamMembership', 'getManyForTeam', UA>): MRReturn<
-    'TeamMembership',
-    'getManyForTeam'
-  >
+  (
+    opts: MROpts<'TeamMembership', 'getManyForOrganization', UA>,
+  ): MRReturn<'TeamMembership', 'getManyForOrganization'>
+  (
+    opts: MROpts<'TeamMembership', 'getManyForTeam', UA>,
+  ): MRReturn<'TeamMembership', 'getManyForTeam'>
   (opts: MROpts<'TeamMembership', 'create', UA>): MRReturn<'TeamMembership', 'create'>
   (opts: MROpts<'TeamMembership', 'update', UA>): MRReturn<'TeamMembership', 'update'>
   (opts: MROpts<'TeamMembership', 'delete', UA>): MRReturn<'TeamMembership', 'delete'>
 
   (opts: MROpts<'TeamSpaceMembership', 'get', UA>): MRReturn<'TeamSpaceMembership', 'get'>
   (opts: MROpts<'TeamSpaceMembership', 'getMany', UA>): MRReturn<'TeamSpaceMembership', 'getMany'>
-  (opts: MROpts<'TeamSpaceMembership', 'getForOrganization', UA>): MRReturn<
-    'TeamSpaceMembership',
-    'getForOrganization'
-  >
-  (opts: MROpts<'TeamSpaceMembership', 'getManyForOrganization', UA>): MRReturn<
-    'TeamSpaceMembership',
-    'getManyForOrganization'
-  >
+  (
+    opts: MROpts<'TeamSpaceMembership', 'getForOrganization', UA>,
+  ): MRReturn<'TeamSpaceMembership', 'getForOrganization'>
+  (
+    opts: MROpts<'TeamSpaceMembership', 'getManyForOrganization', UA>,
+  ): MRReturn<'TeamSpaceMembership', 'getManyForOrganization'>
   (opts: MROpts<'TeamSpaceMembership', 'create', UA>): MRReturn<'TeamSpaceMembership', 'create'>
   (opts: MROpts<'TeamSpaceMembership', 'update', UA>): MRReturn<'TeamSpaceMembership', 'update'>
   (opts: MROpts<'TeamSpaceMembership', 'delete', UA>): MRReturn<'TeamSpaceMembership', 'delete'>
+
+  (opts: MROpts<'Fragment', 'getMany', UA>): MRReturn<'Fragment', 'getMany'>
+  (opts: MROpts<'Fragment', 'get', UA>): MRReturn<'Fragment', 'get'>
+  (opts: MROpts<'Fragment', 'create', UA>): MRReturn<'Fragment', 'create'>
+  (opts: MROpts<'Fragment', 'upsert', UA>): MRReturn<'Fragment', 'upsert'>
+  (opts: MROpts<'Fragment', 'delete', UA>): MRReturn<'Fragment', 'delete'>
+  (opts: MROpts<'Fragment', 'publish', UA>): MRReturn<'Fragment', 'publish'>
+  (opts: MROpts<'Fragment', 'unpublish', UA>): MRReturn<'Fragment', 'unpublish'>
+
+  (opts: MROpts<'Template', 'getMany', UA>): MRReturn<'Template', 'getMany'>
+  (opts: MROpts<'Template', 'get', UA>): MRReturn<'Template', 'get'>
+  (opts: MROpts<'Template', 'create', UA>): MRReturn<'Template', 'create'>
+  (opts: MROpts<'Template', 'upsert', UA>): MRReturn<'Template', 'upsert'>
+  (opts: MROpts<'Template', 'delete', UA>): MRReturn<'Template', 'delete'>
+  (opts: MROpts<'Template', 'publish', UA>): MRReturn<'Template', 'publish'>
+  (opts: MROpts<'Template', 'unpublish', UA>): MRReturn<'Template', 'unpublish'>
 
   (opts: MROpts<'UIConfig', 'get', UA>): MRReturn<'UIConfig', 'get'>
   (opts: MROpts<'UIConfig', 'update', UA>): MRReturn<'UIConfig', 'update'>
@@ -832,7 +1217,10 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'Usage', 'getManyForSpace', UA>): MRReturn<'Usage', 'getManyForSpace'>
   (opts: MROpts<'Usage', 'getManyForOrganization', UA>): MRReturn<'Usage', 'getManyForOrganization'>
-
+  (opts: MROpts<'Usage', 'getAggregated', UA>): MRReturn<'Usage', 'getAggregated'>
+  (
+    opts: MROpts<'Usage', 'getAssetBandwidthUsageDetailed', UA>,
+  ): MRReturn<'Usage', 'getAssetBandwidthUsageDetailed'>
   (opts: MROpts<'User', 'getManyForSpace', UA>): MRReturn<'User', 'getManyForSpace'>
   (opts: MROpts<'User', 'getForSpace', UA>): MRReturn<'User', 'getForSpace'>
   (opts: MROpts<'User', 'getCurrent', UA>): MRReturn<'User', 'getCurrent'>
@@ -841,6 +1229,46 @@ type MRInternal<UA extends boolean> = {
 
   (opts: MROpts<'UserUIConfig', 'get', UA>): MRReturn<'UserUIConfig', 'update'>
   (opts: MROpts<'UserUIConfig', 'update', UA>): MRReturn<'UserUIConfig', 'update'>
+
+  (opts: MROpts<'SemanticDuplicates', 'get', UA>): MRReturn<'SemanticDuplicates', 'get'>
+  (opts: MROpts<'SemanticRecommendations', 'get', UA>): MRReturn<'SemanticRecommendations', 'get'>
+  (
+    opts: MROpts<'SemanticReferenceSuggestions', 'get', UA>,
+  ): MRReturn<'SemanticReferenceSuggestions', 'get'>
+  (opts: MROpts<'SemanticSearch', 'get', UA>): MRReturn<'SemanticSearch', 'get'>
+  (opts: MROpts<'SemanticSettings', 'get', UA>): MRReturn<'SemanticSettings', 'get'>
+  (opts: MROpts<'ContentSemanticsIndex', 'get', UA>): MRReturn<'ContentSemanticsIndex', 'get'>
+  (
+    opts: MROpts<'ContentSemanticsIndex', 'getMany', UA>,
+  ): MRReturn<'ContentSemanticsIndex', 'getMany'>
+  (
+    opts: MROpts<'ContentSemanticsIndex', 'getManyForEnvironment', UA>,
+  ): MRReturn<'ContentSemanticsIndex', 'getManyForEnvironment'>
+  (opts: MROpts<'ContentSemanticsIndex', 'create', UA>): MRReturn<'ContentSemanticsIndex', 'create'>
+  (opts: MROpts<'ContentSemanticsIndex', 'delete', UA>): MRReturn<'ContentSemanticsIndex', 'delete'>
+
+  (opts: MROpts<'Experience', 'getMany', UA>): MRReturn<'Experience', 'getMany'>
+  (opts: MROpts<'Experience', 'get', UA>): MRReturn<'Experience', 'get'>
+  (opts: MROpts<'Experience', 'create', UA>): MRReturn<'Experience', 'create'>
+  (opts: MROpts<'Experience', 'upsert', UA>): MRReturn<'Experience', 'upsert'>
+  (opts: MROpts<'Experience', 'delete', UA>): MRReturn<'Experience', 'delete'>
+  (opts: MROpts<'Experience', 'publish', UA>): MRReturn<'Experience', 'publish'>
+  (opts: MROpts<'Experience', 'unpublish', UA>): MRReturn<'Experience', 'unpublish'>
+
+  (opts: MROpts<'ExperienceFragment', 'getMany', UA>): MRReturn<'ExperienceFragment', 'getMany'>
+  (opts: MROpts<'ExperienceFragment', 'get', UA>): MRReturn<'ExperienceFragment', 'get'>
+  (opts: MROpts<'ExperienceFragment', 'create', UA>): MRReturn<'ExperienceFragment', 'create'>
+  (opts: MROpts<'ExperienceFragment', 'upsert', UA>): MRReturn<'ExperienceFragment', 'upsert'>
+  (opts: MROpts<'ExperienceFragment', 'delete', UA>): MRReturn<'ExperienceFragment', 'delete'>
+  (opts: MROpts<'ExperienceFragment', 'publish', UA>): MRReturn<'ExperienceFragment', 'publish'>
+  (opts: MROpts<'ExperienceFragment', 'unpublish', UA>): MRReturn<'ExperienceFragment', 'unpublish'>
+  (opts: MROpts<'ExperienceTemplate', 'getMany', UA>): MRReturn<'ExperienceTemplate', 'getMany'>
+  (opts: MROpts<'ExperienceTemplate', 'get', UA>): MRReturn<'ExperienceTemplate', 'get'>
+  (opts: MROpts<'ExperienceTemplate', 'create', UA>): MRReturn<'ExperienceTemplate', 'create'>
+  (opts: MROpts<'ExperienceTemplate', 'upsert', UA>): MRReturn<'ExperienceTemplate', 'upsert'>
+  (opts: MROpts<'ExperienceTemplate', 'delete', UA>): MRReturn<'ExperienceTemplate', 'delete'>
+  (opts: MROpts<'ExperienceTemplate', 'publish', UA>): MRReturn<'ExperienceTemplate', 'publish'>
+  (opts: MROpts<'ExperienceTemplate', 'unpublish', UA>): MRReturn<'ExperienceTemplate', 'unpublish'>
 
   (opts: MROpts<'Webhook', 'get', UA>): MRReturn<'Webhook', 'get'>
   (opts: MROpts<'Webhook', 'getMany', UA>): MRReturn<'Webhook', 'getMany'>
@@ -875,22 +1303,22 @@ type MRInternal<UA extends boolean> = {
 }
 
 /**
- * @private
+ * @internal
  */
 export type MakeRequestWithUserAgent = MRInternal<true>
 
 /**
- * @private
+ * @internal
  */
 export type MakeRequest = MRInternal<false>
 
 /**
- * @private
+ * @internal
  */
 type Without<T, U> = { [P in Exclude<keyof T, keyof U>]?: never }
 
 /**
- * @private
+ * @internal
  */
 export type XOR<T, U> = T | U extends object ? (Without<T, U> & U) | (Without<U, T> & T) : T | U
 
@@ -898,8 +1326,36 @@ export interface Adapter {
   makeRequest: MakeRequestWithUserAgent
 }
 
+export type OpPatch = AddPatch | RemovePatch | ReplacePatch | MovePatch | CopyPatch | TestPatch
+interface Patch {
+  path: string
+}
+interface AddPatch extends Patch {
+  op: 'add'
+  value: any
+}
+interface RemovePatch extends Patch {
+  op: 'remove'
+}
+interface ReplacePatch extends Patch {
+  op: 'replace'
+  value: any
+}
+interface MovePatch extends Patch {
+  op: 'move'
+  from: string
+}
+interface CopyPatch extends Patch {
+  op: 'copy'
+  from: string
+}
+interface TestPatch extends Patch {
+  op: 'test'
+  value: any
+}
+
 /**
- * @private
+ * @internal
  */
 export type MRActions = {
   Resource: {
@@ -975,7 +1431,10 @@ export type MRActions = {
       return: AiActionProps
     }
     invoke: {
-      params: GetSpaceEnvironmentParams & { aiActionId: string }
+      params: GetSpaceEnvironmentParams & {
+        aiActionId: string
+        query?: { status?: 'all' | 'published' }
+      }
       payload: AiActionInvocationType
       headers?: RawAxiosRequestHeaders
       return: AiActionInvocationProps
@@ -985,6 +1444,91 @@ export type MRActions = {
     get: {
       params: GetSpaceEnvironmentParams & { aiActionId: string; invocationId: string }
       return: AiActionInvocationProps
+    }
+  }
+  Agent: {
+    get: {
+      params: GetSpaceEnvironmentParams & { agentId: string }
+      headers?: RawAxiosRequestHeaders
+      return: AgentProps
+    }
+    getMany: {
+      params: GetSpaceEnvironmentParams
+      headers?: RawAxiosRequestHeaders
+      return: CollectionProp<AgentProps>
+    }
+    generate: {
+      params: GetSpaceEnvironmentParams & { agentId: string }
+      payload: AgentGeneratePayload
+      headers?: RawAxiosRequestHeaders
+      return: AgentGenerateResponse
+    }
+  }
+  AgentRun: {
+    get: {
+      params: GetSpaceEnvironmentParams & { runId: string }
+      headers?: RawAxiosRequestHeaders
+      return: AgentRunProps
+    }
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query?: AgentRunQueryOptions }
+      headers?: RawAxiosRequestHeaders
+      return: CollectionProp<AgentRunProps>
+    }
+    resumeRun: {
+      params: GetSpaceEnvironmentParams & { runId: string }
+      payload: AgentResumeRunPayload
+      headers?: RawAxiosRequestHeaders
+      return: AgentGenerateResponse
+    }
+  }
+  AutomationDefinition: {
+    get: {
+      params: GetSpaceEnvironmentParams & { automationDefinitionId: string }
+      headers?: RawAxiosRequestHeaders
+      return: AutomationDefinitionProps
+    }
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query?: AutomationDefinitionQueryOptions }
+      headers?: RawAxiosRequestHeaders
+      return: CursorPaginatedCollectionProp<AutomationDefinitionProps>
+    }
+    create: {
+      params: GetSpaceEnvironmentParams
+      payload: CreateAutomationDefinitionProps
+      headers?: RawAxiosRequestHeaders
+      return: AutomationDefinitionProps
+    }
+    update: {
+      params: GetSpaceEnvironmentParams & { automationDefinitionId: string }
+      payload: UpdateAutomationDefinitionProps
+      headers?: RawAxiosRequestHeaders
+      return: AutomationDefinitionProps
+    }
+    delete: {
+      params: GetSpaceEnvironmentParams & { automationDefinitionId: string; version: number }
+      headers?: RawAxiosRequestHeaders
+      return: void
+    }
+  }
+  AutomationExecution: {
+    get: {
+      params: GetSpaceEnvironmentParams & { automationExecutionId: string }
+      headers?: RawAxiosRequestHeaders
+      return: AutomationExecutionProps
+    }
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query?: AutomationExecutionQueryOptions }
+      headers?: RawAxiosRequestHeaders
+      return: CursorPaginatedCollectionProp<AutomationExecutionProps>
+    }
+    getForAutomationDefinition: {
+      params: GetSpaceEnvironmentParams & {
+        automationDefinitionId: string
+        query?: AutomationExecutionByDefinitionQueryOptions
+      }
+      headers?: RawAxiosRequestHeaders
+      return: CursorPaginatedCollectionProp<AutomationExecutionProps>
     }
   }
   AppAction: {
@@ -1015,14 +1559,27 @@ export type MRActions = {
       payload: CreateAppActionCallProps
       return: AppActionCallProps
     }
+    get: {
+      params: GetAppActionCallParamsWithId
+      return: AppActionCallProps
+    }
     getCallDetails: {
       params: GetAppActionCallDetailsParams
       return: AppActionCallResponse
     }
     createWithResponse: {
-      params: GetAppActionCallParams
+      params: CreateWithResponseParams
       payload: CreateAppActionCallProps
       return: AppActionCallResponse
+    }
+    createWithResult: {
+      params: CreateWithResultParams
+      payload: CreateAppActionCallProps
+      return: AppActionCallProps
+    }
+    getResponse: {
+      params: GetAppActionCallParamsWithId
+      return: AppActionCallRawResponseProps
     }
   }
   AppBundle: {
@@ -1204,18 +1761,28 @@ export type MRActions = {
       headers?: RawAxiosRequestHeaders
       return: CollectionProp<AssetProps>
     }
+    getPublishedWithCursor: {
+      params: GetSpaceEnvironmentParams & CursorBasedParams
+      headers?: RawAxiosRequestHeaders
+      return: CursorPaginatedCollectionProp<AssetProps>
+    }
     getMany: {
-      params: GetSpaceEnvironmentParams & QueryParams
+      params: GetSpaceEnvironmentParams & QueryParams & { releaseId?: string }
       headers?: RawAxiosRequestHeaders
       return: CollectionProp<AssetProps>
     }
+    getManyWithCursor: {
+      params: GetSpaceEnvironmentParams & CursorBasedParams & { releaseId?: string }
+      headers?: RawAxiosRequestHeaders
+      return: CursorPaginatedCollectionProp<AssetProps>
+    }
     get: {
-      params: GetSpaceEnvironmentParams & { assetId: string } & QueryParams
+      params: GetSpaceEnvironmentParams & { assetId: string; releaseId?: string } & QueryParams
       headers?: RawAxiosRequestHeaders
       return: AssetProps
     }
     update: {
-      params: GetSpaceEnvironmentParams & { assetId: string }
+      params: GetSpaceEnvironmentParams & { assetId: string; releaseId?: string }
       payload: AssetProps
       headers?: RawAxiosRequestHeaders
       return: AssetProps
@@ -1229,14 +1796,18 @@ export type MRActions = {
     unpublish: { params: GetSpaceEnvironmentParams & { assetId: string }; return: AssetProps }
     archive: { params: GetSpaceEnvironmentParams & { assetId: string }; return: AssetProps }
     unarchive: { params: GetSpaceEnvironmentParams & { assetId: string }; return: AssetProps }
-    create: { params: GetSpaceEnvironmentParams; payload: CreateAssetProps; return: AssetProps }
+    create: {
+      params: GetSpaceEnvironmentParams & { releaseId?: string }
+      payload: CreateAssetProps
+      return: AssetProps
+    }
     createWithId: {
-      params: GetSpaceEnvironmentParams & { assetId: string }
+      params: GetSpaceEnvironmentParams & { assetId: string; releaseId?: string }
       payload: CreateAssetProps
       return: AssetProps
     }
     createFromFiles: {
-      params: GetSpaceEnvironmentParams & { uploadTimeout?: number }
+      params: GetSpaceEnvironmentParams & { uploadTimeout?: number; releaseId?: string }
       payload: Omit<AssetFileProp, 'sys'>
       return: AssetProps
     }
@@ -1263,6 +1834,12 @@ export type MRActions = {
       return: AssetKeyProps
     }
   }
+  AvailableLicense: {
+    getMany: {
+      params: GetOrganizationParams & QueryParams
+      return: CollectionProp<AvailableLicenseProps>
+    }
+  }
   BulkAction: {
     get: {
       params: GetBulkActionParams
@@ -1282,6 +1859,27 @@ export type MRActions = {
       params: GetSpaceEnvironmentParams
       payload: BulkActionValidatePayload
       return: BulkActionProps<BulkActionValidatePayload>
+    }
+    getV2: {
+      params: GetBulkActionParams
+      return: BulkActionProps<BulkActionV2Payload>
+    }
+    publishV2: {
+      params: GetSpaceEnvironmentParams
+      payload: PublishBulkActionV2Payload<'add'>
+      return: BulkActionProps<PublishBulkActionV2Payload<'add'>>
+    }
+    unpublishV2: {
+      params: GetSpaceEnvironmentParams
+      payload: PublishBulkActionV2Payload<'remove'> | UnpublishBulkActionV2Payload
+      return: BulkActionProps<PublishBulkActionV2Payload<'remove'> | UnpublishBulkActionV2Payload>
+    }
+    validateV2: {
+      params: GetSpaceEnvironmentParams
+      payload: ValidateBulkActionV2Payload<'add'> | ValidateBulkActionV2Payload<'remove'>
+      return: BulkActionProps<
+        ValidateBulkActionV2Payload<'add'> | ValidateBulkActionV2Payload<'remove'>
+      >
     }
   }
   Comment: {
@@ -1332,6 +1930,70 @@ export type MRActions = {
         }
     delete: { params: DeleteCommentParams; return: void }
   }
+  ComponentType: {
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query: ComponentTypeQueryOptions }
+      return: ExoCursorPaginatedCollectionProp<ComponentTypeProps>
+    }
+    get: {
+      params: GetComponentTypeParams
+      return: ComponentTypeProps
+    }
+    create: {
+      params: GetSpaceEnvironmentParams
+      payload: CreateComponentTypeProps
+      return: ComponentTypeProps
+    }
+    upsert: {
+      params: GetComponentTypeParams
+      payload: UpsertComponentTypeProps
+      return: ComponentTypeProps
+    }
+    delete: {
+      params: GetComponentTypeParams
+      return: void
+    }
+    publish: {
+      params: GetComponentTypeParams & { version: number }
+      return: ComponentTypeProps
+    }
+    unpublish: {
+      params: GetComponentTypeParams & { version: number }
+      return: ComponentTypeProps
+    }
+  }
+  Component: {
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query: ComponentQueryOptions }
+      return: ExoCursorPaginatedCollectionProp<ComponentProps>
+    }
+    get: {
+      params: GetComponentParams
+      return: ComponentProps
+    }
+    create: {
+      params: GetSpaceEnvironmentParams
+      payload: CreateComponentProps
+      return: ComponentProps
+    }
+    upsert: {
+      params: GetComponentParams
+      payload: UpsertComponentProps
+      return: ComponentProps
+    }
+    delete: {
+      params: GetComponentParams
+      return: void
+    }
+    publish: {
+      params: GetComponentParams & { version: number }
+      return: ComponentProps
+    }
+    unpublish: {
+      params: GetComponentParams & { version: number }
+      return: ComponentProps
+    }
+  }
   Concept: {
     create: {
       params: GetOrganizationParams
@@ -1349,11 +2011,6 @@ export type MRActions = {
       return: ConceptProps
     }
     update: {
-      params: UpdateConceptParams
-      payload: OpPatch[]
-      return: ConceptProps
-    }
-    updatePut: {
       params: UpdateConceptParams
       payload: CreateConceptProps
       return: ConceptProps
@@ -1401,11 +2058,6 @@ export type MRActions = {
     }
     update: {
       params: UpdateConceptSchemeParams
-      payload: OpPatch[]
-      return: ConceptSchemeProps
-    }
-    updatePut: {
-      params: UpdateConceptSchemeParams
       payload: CreateConceptSchemeProps
       return: ConceptSchemeProps
     }
@@ -1432,6 +2084,10 @@ export type MRActions = {
       params: GetSpaceEnvironmentParams & QueryParams
       return: CollectionProp<ContentTypeProps>
     }
+    getManyWithCursor: {
+      params: GetSpaceEnvironmentParams & CursorBasedParams
+      return: CursorPaginatedCollectionProp<ContentTypeProps>
+    }
     create: {
       params: GetSpaceEnvironmentParams
       payload: CreateContentTypeProps
@@ -1452,6 +2108,67 @@ export type MRActions = {
     publish: { params: GetContentTypeParams; payload: ContentTypeProps; return: ContentTypeProps }
     unpublish: { params: GetContentTypeParams; return: ContentTypeProps }
   }
+  DataAssembly: {
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query: DataAssemblyQueryOptions }
+      return: DataAssemblyCollection
+    }
+    getManyPublished: {
+      params: GetSpaceEnvironmentParams & { query: DataAssemblyQueryOptions }
+      return: DataAssemblyCollection
+    }
+    getPublished: {
+      params: GetDataAssemblyParams
+      return: DataAssemblyProps
+    }
+    get: {
+      params: GetDataAssemblyParams
+      return: DataAssemblyProps
+    }
+    create: {
+      params: GetSpaceEnvironmentParams
+      payload: CreateDataAssemblyProps
+      headers?: RawAxiosRequestHeaders
+      return: DataAssemblyProps
+    }
+    update: {
+      params: GetDataAssemblyParams & { version?: number }
+      payload: UpdateDataAssemblyProps
+      headers?: RawAxiosRequestHeaders
+      return: DataAssemblyProps
+    }
+    delete: {
+      params: GetDataAssemblyParams
+      return: void
+    }
+    publish: {
+      params: GetDataAssemblyParams & { version: number }
+      return: DataAssemblyProps
+    }
+    unpublish: {
+      params: GetDataAssemblyParams & { version: number }
+      return: DataAssemblyProps
+    }
+  }
+  DesignToken: {
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query: DesignTokenQueryOptions }
+      return: DesignTokenCollection
+    }
+    get: {
+      params: GetDesignTokenParams
+      return: DesignTokenProps
+    }
+    upsert: {
+      params: GetDesignTokenParams
+      payload: UpsertDesignTokenProps
+      return: DesignTokenProps
+    }
+    delete: {
+      params: GetDesignTokenParams
+      return: void
+    }
+  }
   EditorInterface: {
     get: { params: GetEditorInterfaceParams; return: EditorInterfaceProps }
     getMany: {
@@ -1463,6 +2180,12 @@ export type MRActions = {
       payload: EditorInterfaceProps
       headers?: RawAxiosRequestHeaders
       return: EditorInterfaceProps
+    }
+  }
+  EligibleLicense: {
+    getMany: {
+      params: GetSpaceParams & QueryParams
+      return: CollectionProp<EligibleLicenseProps>
     }
   }
   Environment: {
@@ -1521,7 +2244,7 @@ export type MRActions = {
     }
     getMany: {
       params: GetOrganizationParams & {
-        query?: BasicCursorPaginationOptions & { select?: string }
+        query?: BasicCursorPaginationOptions & { select?: string; forTemplatedSpaces?: boolean }
       }
       return: CursorPaginatedCollectionProp<EnvironmentTemplateProps>
     }
@@ -1551,7 +2274,7 @@ export type MRActions = {
     }
     versions: {
       params: GetEnvironmentTemplateParams & {
-        query?: BasicCursorPaginationOptions & { select?: string }
+        query?: BasicCursorPaginationOptions & { select?: string; installable?: boolean }
       }
       return: CursorPaginatedCollectionProp<EnvironmentTemplateProps>
     }
@@ -1579,6 +2302,7 @@ export type MRActions = {
         environmentTemplateId: string
         organizationId: string
         spaceId?: string
+        latestOnly?: boolean
       }
       return: CursorPaginatedCollectionProp<EnvironmentTemplateInstallationProps>
     }
@@ -1595,22 +2319,30 @@ export type MRActions = {
       params: GetSpaceEnvironmentParams & QueryParams
       return: CollectionProp<EntryProps<any>>
     }
+    getPublishedWithCursor: {
+      params: GetSpaceEnvironmentParams & CursorBasedParams
+      return: CursorPaginatedCollectionProp<EntryProps<any>>
+    }
     getMany: {
-      params: GetSpaceEnvironmentParams & QueryParams
+      params: GetSpaceEnvironmentParams & QueryParams & { releaseId?: string }
       return: CollectionProp<EntryProps<any>>
     }
+    getManyWithCursor: {
+      params: GetSpaceEnvironmentParams & CursorBasedParams & { releaseId?: string }
+      return: CursorPaginatedCollectionProp<EntryProps<any>>
+    }
     get: {
-      params: GetSpaceEnvironmentParams & { entryId: string } & QueryParams
+      params: GetSpaceEnvironmentParams & { entryId: string; releaseId?: string } & QueryParams
       return: EntryProps<any>
     }
     patch: {
-      params: GetSpaceEnvironmentParams & { entryId: string; version: number }
+      params: GetSpaceEnvironmentParams & { entryId: string; version: number; releaseId?: string }
       payload: OpPatch[]
       headers?: RawAxiosRequestHeaders
       return: EntryProps<any>
     }
     update: {
-      params: GetSpaceEnvironmentParams & { entryId: string }
+      params: GetSpaceEnvironmentParams & { entryId: string; releaseId?: string }
       payload: EntryProps<any>
       headers?: RawAxiosRequestHeaders
       return: EntryProps<any>
@@ -1634,12 +2366,19 @@ export type MRActions = {
       return: EntryProps<any>
     }
     create: {
-      params: GetSpaceEnvironmentParams & { contentTypeId: string }
+      params: GetSpaceEnvironmentParams & {
+        contentTypeId: string
+        releaseId?: string
+      }
       payload: CreateEntryProps<any>
       return: EntryProps<any>
     }
     createWithId: {
-      params: GetSpaceEnvironmentParams & { entryId: string; contentTypeId: string }
+      params: GetSpaceEnvironmentParams & {
+        entryId: string
+        contentTypeId: string
+        releaseId?: string
+      }
       payload: CreateEntryProps<any>
       return: EntryProps<any>
     }
@@ -1810,17 +2549,17 @@ export type MRActions = {
       return: ReleaseProps
     }
     query: {
-      params: GetSpaceEnvironmentParams & { query?: ReleaseQueryOptions }
+      params: ReleaseEnvironmentParams & { query?: ReleaseQueryOptions }
       return: CollectionProp<ReleaseProps>
     }
     create: {
-      params: GetSpaceEnvironmentParams
-      payload: ReleasePayload
+      params: ReleaseEnvironmentParams
+      payload: ReleasePayload | ReleasePayloadV2
       return: ReleaseProps
     }
     update: {
       params: GetReleaseParams & { version: number }
-      payload: ReleasePayload
+      payload: ReleasePayload | ReleasePayloadV2
       return: ReleaseProps
     }
     delete: {
@@ -1843,6 +2582,88 @@ export type MRActions = {
       params: GetReleaseParams
       payload?: ReleaseValidatePayload
       return: ReleaseActionProps<'validate'>
+    }
+  }
+  ReleaseAsset: {
+    get: {
+      params: GetReleaseAssetParams & QueryParams
+      headers?: RawAxiosRequestHeaders
+      return: AssetProps<{ release: Link<'Release'> }>
+    }
+    getMany: {
+      params: GetManyReleaseAssetParams & QueryParams
+      headers?: RawAxiosRequestHeaders
+      return: CollectionProp<AssetProps<{ release: Link<'Release'> }>>
+    }
+    update: {
+      params: UpdateReleaseAssetParams & QueryParams
+      payload: AssetProps
+      headers?: RawAxiosRequestHeaders
+      return: AssetProps<{ release: Link<'Release'> }>
+    }
+    create: {
+      params: CreateReleaseAssetParams & QueryParams
+      payload: CreateAssetProps
+      headers?: RawAxiosRequestHeaders
+      return: AssetProps<{ release: Link<'Release'> }>
+    }
+    createWithId: {
+      params: CreateWithIdReleaseAssetParams & QueryParams
+      payload: CreateAssetProps
+      headers?: RawAxiosRequestHeaders
+      return: AssetProps<{ release: Link<'Release'> }>
+    }
+    createFromFiles: {
+      params: CreateWithFilesReleaseAssetParams & QueryParams
+      payload: Omit<AssetFileProp, 'sys'>
+      headers?: RawAxiosRequestHeaders
+      return: AssetProps<{ release: Link<'Release'> }>
+    }
+    processForAllLocales: {
+      params: ProcessForAllLocalesReleaseAssetParams
+      return: AssetProps<{ release: Link<'Release'> }>
+    }
+    processForLocale: {
+      params: ProcessForLocaleReleaseAssetParams
+      return: AssetProps<{ release: Link<'Release'> }>
+    }
+  }
+  ReleaseEntry: {
+    get: {
+      params: GetReleaseEntryParams & QueryParams
+      headers?: RawAxiosRequestHeaders
+      return: EntryProps<any, { release: Link<'Release'> }>
+    }
+    getMany: {
+      params: GetManyReleaseEntryParams & QueryParams
+      headers?: RawAxiosRequestHeaders
+      return: CollectionProp<EntryProps<any, { release: Link<'Release'> }>>
+    }
+    update: {
+      params: UpdateReleaseEntryParams & QueryParams
+      payload: EntryProps<any>
+      headers?: RawAxiosRequestHeaders
+      return: EntryProps<any, { release: Link<'Release'> }>
+    }
+    patch: {
+      params: PatchReleaseEntryParams & QueryParams
+      payload: OpPatch[]
+      headers?: RawAxiosRequestHeaders
+      return: EntryProps<any, { release: Link<'Release'> }>
+    }
+    create: {
+      params: CreateReleaseEntryParams & QueryParams
+      payload: CreateEntryProps<any>
+      headers?: RawAxiosRequestHeaders
+      return: EntryProps<any, { release: Link<'Release'> }>
+    }
+    createWithId: {
+      params: CreateReleaseEntryParams & {
+        entryId: string
+      } & QueryParams
+      payload: CreateEntryProps<any>
+      headers?: RawAxiosRequestHeaders
+      return: EntryProps<any, { release: Link<'Release'> }>
     }
   }
   ReleaseAction: {
@@ -1904,6 +2725,67 @@ export type MRActions = {
     }
     delete: { params: GetSpaceEnvironmentParams & { scheduledActionId: string }; return: any }
   }
+  SemanticDuplicates: {
+    get: {
+      params: GetSpaceEnvironmentParams
+      headers?: RawAxiosRequestHeaders
+      payload: GetSemanticDuplicatesProps
+      return: SemanticDuplicatesProps
+    }
+  }
+  SemanticRecommendations: {
+    get: {
+      params: GetSpaceEnvironmentParams
+      headers?: RawAxiosRequestHeaders
+      payload: GetSemanticRecommendationsProps
+      return: SemanticRecommendationsProps
+    }
+  }
+  SemanticReferenceSuggestions: {
+    get: {
+      params: GetSpaceEnvironmentParams
+      headers?: RawAxiosRequestHeaders
+      payload: GetSemanticReferenceSuggestionsProps
+      return: SemanticReferenceSuggestionsProps
+    }
+  }
+  SemanticSearch: {
+    get: {
+      params: GetSpaceEnvironmentParams
+      headers?: RawAxiosRequestHeaders
+      payload: GetSemanticSearchProps
+      return: SemanticSearchProps
+    }
+  }
+  SemanticSettings: {
+    get: {
+      params: GetOrganizationParams
+      return: ContentSemanticsSettingsProps
+    }
+  }
+  ContentSemanticsIndex: {
+    get: {
+      params: GetContentSemanticsIndexParams
+      return: ContentSemanticsIndexProps
+    }
+    getMany: {
+      params: GetManyContentSemanticsIndexParams
+      return: ContentSemanticsIndexCollectionProps
+    }
+    getManyForEnvironment: {
+      params: GetManyContentSemanticsIndexForEnvironmentParams
+      return: ContentSemanticsIndexCollectionProps
+    }
+    create: {
+      params: GetOrganizationParams
+      payload: CreateContentSemanticsIndexProps
+      return: ContentSemanticsIndexProps
+    }
+    delete: {
+      params: GetContentSemanticsIndexParams
+      return: void
+    }
+  }
   Snapshot: {
     getManyForEntry: {
       params: GetSnapshotForEntryParams & QueryParams
@@ -1923,8 +2805,16 @@ export type MRActions = {
     }
   }
   Space: {
-    get: { params: GetSpaceParams; return: SpaceProps }
-    getMany: { params: QueryParams; return: CollectionProp<SpaceProps> }
+    get: {
+      params: GetSpaceParams & SpaceIncludeParam
+      return: SpaceProps & { includes?: SpaceIncludes }
+    }
+    getMany: {
+      params: QueryParams & { organizationId?: string } & SpaceIncludeParam
+      return: (CollectionProp<SpaceProps> | CursorPaginatedCollectionProp<SpaceProps>) & {
+        includes?: SpaceIncludes
+      }
+    }
     getManyForOrganization: {
       params: GetOrganizationParams & QueryParams
       return: CollectionProp<SpaceProps>
@@ -1938,6 +2828,12 @@ export type MRActions = {
     update: {
       params: GetSpaceParams
       payload: SpaceProps
+      headers?: RawAxiosRequestHeaders
+      return: SpaceProps
+    }
+    unarchive: {
+      params: GetSpaceParams
+      payload: UnarchiveProps
       headers?: RawAxiosRequestHeaders
       return: SpaceProps
     }
@@ -1978,6 +2874,22 @@ export type MRActions = {
     }
     delete: { params: GetSpaceMembershipProps; return: any }
   }
+  SpaceAddOn: {
+    getMany: {
+      params: GetSpaceParams & QueryParams
+      return: CollectionProp<SpaceAddOnProps>
+    }
+    getManyForOrganization: {
+      params: GetOrganizationParams & QueryParams
+      return: CollectionProp<SpaceAddOnOrganizationProps>
+    }
+    updateAllocations: {
+      params: GetSpaceParams
+      payload: UpdateSpaceAddOnAllocationProps[]
+      headers?: RawAxiosRequestHeaders
+      return: CollectionProp<SpaceAddOnProps>
+    }
+  }
   Tag: {
     get: { params: GetTagParams; return: TagProps }
     getMany: { params: GetSpaceEnvironmentParams & QueryParams; return: CollectionProp<TagProps> }
@@ -1993,11 +2905,15 @@ export type MRActions = {
   Task: {
     get: { params: GetTaskParams; return: TaskProps }
     getMany: {
-      params: GetEntryParams & QueryParams
+      // Keep GetEntryParams for backwards compatibility with existing entry task callers.
+      // New task parent entity support should use GetTaskParentEntityParams.
+      params: (GetEntryParams | GetTaskParentEntityParams) & QueryParams
       return: CollectionProp<TaskProps>
     }
     getAll: {
-      params: GetEntryParams & QueryParams
+      // Keep GetEntryParams for backwards compatibility with existing entry task callers.
+      // New task parent entity support should use GetTaskParentEntityParams.
+      params: (GetEntryParams | GetTaskParentEntityParams) & QueryParams
       return: CollectionProp<TaskProps>
     }
     create: { params: CreateTaskParams; payload: CreateTaskProps; return: TaskProps }
@@ -2079,6 +2995,70 @@ export type MRActions = {
     }
     delete: { params: GetTeamSpaceMembershipParams; return: any }
   }
+  Fragment: {
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query: FragmentQueryOptions }
+      return: ExoCursorPaginatedCollectionProp<FragmentProps>
+    }
+    get: {
+      params: GetFragmentParams
+      return: FragmentProps
+    }
+    create: {
+      params: GetSpaceEnvironmentParams
+      payload: CreateFragmentProps
+      return: FragmentProps
+    }
+    upsert: {
+      params: GetFragmentParams
+      payload: UpsertFragmentProps
+      return: FragmentProps
+    }
+    delete: {
+      params: GetFragmentParams
+      return: void
+    }
+    publish: {
+      params: GetFragmentParams & { version: number }
+      return: FragmentProps
+    }
+    unpublish: {
+      params: GetFragmentParams & { version: number }
+      return: FragmentProps
+    }
+  }
+  Template: {
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query: TemplateQueryOptions }
+      return: ExoCursorPaginatedCollectionProp<TemplateProps>
+    }
+    get: {
+      params: GetTemplateParams
+      return: TemplateProps
+    }
+    create: {
+      params: GetSpaceEnvironmentParams
+      payload: CreateTemplateProps
+      return: TemplateProps
+    }
+    upsert: {
+      params: GetTemplateParams
+      payload: UpsertTemplateProps
+      return: TemplateProps
+    }
+    delete: {
+      params: GetTemplateParams
+      return: void
+    }
+    publish: {
+      params: GetTemplateParams & { version: number }
+      return: TemplateProps
+    }
+    unpublish: {
+      params: GetTemplateParams & { version: number }
+      return: TemplateProps
+    }
+  }
   UIConfig: {
     get: { params: GetUIConfigParams; return: UIConfigProps }
     update: { params: GetUIConfigParams; payload: UIConfigProps; return: UIConfigProps }
@@ -2099,13 +3079,30 @@ export type MRActions = {
     }
   }
   Usage: {
+    /**
+     * @deprecated Use `getAggregated` instead, calling it once per metric key and
+     * filtering by `filter[sys.dimensions.space.sys.id]` to scope to a space. Sunset: 2027-02-28.
+     */
     getManyForSpace: {
       params: { organizationId: string } & QueryParams
       return: CollectionProp<UsageProps>
     }
+    /**
+     * @deprecated Use `getAggregated` instead, calling it once per metric key
+     * (this action accepted multiple metrics per call via `metric[in]`; `getAggregated`
+     * is scoped to a single `metricKey` per request). Sunset: 2027-02-28.
+     */
     getManyForOrganization: {
       params: { organizationId: string } & QueryParams
       return: CollectionProp<UsageProps>
+    }
+    getAggregated: {
+      params: { organizationId: string; metricKey: AggregatedUsageMetricKey } & QueryParams
+      return: AggregatedUsageCollectionProps
+    }
+    getAssetBandwidthUsageDetailed: {
+      params: { organizationId: string } & QueryParams
+      return: AssetBandwidthUsageDetailedCollectionProps
     }
   }
   User: {
@@ -2121,6 +3118,187 @@ export type MRActions = {
   UserUIConfig: {
     get: { params: GetUserUIConfigParams; return: UserUIConfigProps }
     update: { params: GetUserUIConfigParams; payload: UserUIConfigProps; return: UserUIConfigProps }
+  }
+  Experience: {
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query: ExperienceQueryOptions }
+      return: ExoCursorPaginatedCollectionProp<ExperienceProps>
+    }
+    get: {
+      params: GetExperienceParams
+      return: ExperienceProps
+    }
+    create: {
+      params: GetSpaceEnvironmentParams
+      payload: CreateExperienceProps
+      return: ExperienceProps
+    }
+    upsert: {
+      params: GetExperienceParams
+      payload: UpsertExperienceProps
+      return: ExperienceProps
+    }
+    delete: {
+      params: GetExperienceParams
+      return: void
+    }
+    publish: {
+      params: GetExperienceParams & { version: number }
+      payload?: ExperienceLocalePublishPayload
+      return: ExperienceProps
+    }
+    unpublish: {
+      params: GetExperienceParams & { version: number }
+      return: ExperienceProps
+    }
+  }
+  ExperienceVariant: {
+    getMany: {
+      params: GetManyExperienceVariantParams & {
+        query: ExperienceVariantQueryOptions
+      }
+      return: ExperienceVariantCollection
+    }
+    get: {
+      params: GetExperienceVariantParams
+      return: ExperienceVariantProps
+    }
+    create: {
+      params: GetManyExperienceVariantParams
+      payload: CreateExperienceVariantProps
+      return: ExperienceVariantProps
+    }
+    upsert: {
+      params: GetExperienceVariantParams
+      payload: UpsertExperienceVariantProps
+      return: ExperienceVariantProps
+    }
+    delete: {
+      params: GetExperienceVariantParams
+      return: void
+    }
+    publish: {
+      params: GetExperienceVariantParams & { version: number }
+      return: ExperienceVariantProps
+    }
+    unpublish: {
+      params: GetExperienceVariantParams & { version: number }
+      return: ExperienceVariantProps
+    }
+    archive: {
+      params: GetExperienceVariantParams & { version: number }
+      return: ExperienceVariantProps
+    }
+    unarchive: {
+      params: GetExperienceVariantParams & { version: number }
+      return: ExperienceVariantProps
+    }
+  }
+  ExperienceFragment: {
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query: ExperienceFragmentQueryOptions }
+      return: ExoCursorPaginatedCollectionProp<ExperienceFragmentProps>
+    }
+    get: {
+      params: GetExperienceFragmentParams
+      return: ExperienceFragmentProps
+    }
+    create: {
+      params: GetSpaceEnvironmentParams
+      payload: CreateExperienceFragmentProps
+      return: ExperienceFragmentProps
+    }
+    upsert: {
+      params: GetExperienceFragmentParams
+      payload: UpsertExperienceFragmentProps
+      return: ExperienceFragmentProps
+    }
+    delete: {
+      params: GetExperienceFragmentParams
+      return: void
+    }
+    publish: {
+      params: GetExperienceFragmentParams & { version: number }
+      return: ExperienceFragmentProps
+    }
+    unpublish: {
+      params: GetExperienceFragmentParams & { version: number }
+      return: ExperienceFragmentProps
+    }
+  }
+  ExperienceTemplate: {
+    getMany: {
+      params: GetSpaceEnvironmentParams & { query: ExperienceTemplateQueryOptions }
+      return: ExoCursorPaginatedCollectionProp<ExperienceTemplateProps>
+    }
+    get: {
+      params: GetExperienceTemplateParams
+      return: ExperienceTemplateProps
+    }
+    create: {
+      params: GetSpaceEnvironmentParams
+      payload: CreateExperienceTemplateProps
+      return: ExperienceTemplateProps
+    }
+    upsert: {
+      params: GetExperienceTemplateParams
+      payload: UpsertExperienceTemplateProps
+      return: ExperienceTemplateProps
+    }
+    delete: {
+      params: GetExperienceTemplateParams
+      return: void
+    }
+    publish: {
+      params: GetExperienceTemplateParams & { version: number }
+      return: ExperienceTemplateProps
+    }
+    unpublish: {
+      params: GetExperienceTemplateParams & { version: number }
+      return: ExperienceTemplateProps
+    }
+  }
+  ExperienceFragmentVariant: {
+    getMany: {
+      params: GetManyExperienceFragmentVariantParams & {
+        query: ExperienceFragmentVariantQueryOptions
+      }
+      return: ExperienceFragmentVariantCollection
+    }
+    get: {
+      params: GetExperienceFragmentVariantParams
+      return: ExperienceFragmentVariantProps
+    }
+    create: {
+      params: GetManyExperienceFragmentVariantParams
+      payload: CreateExperienceFragmentVariantProps
+      return: ExperienceFragmentVariantProps
+    }
+    upsert: {
+      params: GetExperienceFragmentVariantParams
+      payload: UpsertExperienceFragmentVariantProps
+      return: ExperienceFragmentVariantProps
+    }
+    delete: {
+      params: GetExperienceFragmentVariantParams
+      return: void
+    }
+    publish: {
+      params: GetExperienceFragmentVariantParams & { version: number }
+      return: ExperienceFragmentVariantProps
+    }
+    unpublish: {
+      params: GetExperienceFragmentVariantParams & { version: number }
+      return: ExperienceFragmentVariantProps
+    }
+    archive: {
+      params: GetExperienceFragmentVariantParams & { version: number }
+      return: ExperienceFragmentVariantProps
+    }
+    unarchive: {
+      params: GetExperienceFragmentVariantParams & { version: number }
+      return: ExperienceFragmentVariantProps
+    }
   }
   Webhook: {
     get: { params: GetWebhookParams; return: WebhookProps }
@@ -2233,12 +3411,12 @@ export type MRActions = {
 }
 
 /**
- * @private
+ * @internal
  */
 export type MROpts<
   ET extends keyof MRActions,
   Action extends keyof MRActions[ET],
-  UA extends boolean = false
+  UA extends boolean = false,
 > = {
   entityType: ET
   action: Action
@@ -2260,11 +3438,11 @@ export type MROpts<
     : {})
 
 /**
- * @private
+ * @internal
  */
 export type MRReturn<
   ET extends keyof MRActions,
-  Action extends keyof MRActions[ET]
+  Action extends keyof MRActions[ET],
 > = 'return' extends keyof MRActions[ET][Action] ? Promise<MRActions[ET][Action]['return']> : never
 
 /** Base interface for all Payload interfaces. Used as part of the MakeRequestOptions to simplify payload definitions. */
@@ -2280,73 +3458,238 @@ export interface MakeRequestOptions {
   userAgent: string
 }
 
+/** @internal */
 export type EnvironmentTemplateParams = {
   spaceId: string
   environmentId: string
   environmentTemplateId: string
 }
 
+/** @internal */
 export type GetAppActionParams = GetAppDefinitionParams & { appActionId: string }
+/** @internal */
 export type GetAppActionsForEnvParams = GetSpaceParams & { environmentId?: string }
+/** @internal */
 export type GetAppActionCallParams = GetAppInstallationParams & { appActionId: string }
-export type CreateWithResponseParams = GetAppActionCallParams & {
+
+/** @internal */
+export type AppActionCallRetryOptions = {
   retries?: number
   retryInterval?: number
 }
+
+/** @internal */
+export type CreateWithResponseParams = GetAppActionCallParams & AppActionCallRetryOptions
+
+/** @internal */
+export type CreateWithResultParams = GetAppActionCallParams & AppActionCallRetryOptions
+/** @internal */
 export type GetAppActionCallDetailsParams = GetSpaceEnvironmentParams & {
   appActionId: string
   callId: string
 }
+
+/** @internal */
+export type GetAppActionCallParamsWithId = GetAppActionCallParams & { callId: string }
+/** @internal */
 export type GetAppBundleParams = GetAppDefinitionParams & { appBundleId: string }
+/** @internal */
 export type GetAppDefinitionParams = GetOrganizationParams & { appDefinitionId: string }
+/** @internal */
 export type GetAppInstallationsForOrgParams = GetOrganizationParams & {
   appDefinitionId: string
 }
+/** @internal */
 export type GetAppInstallationParams = GetSpaceEnvironmentParams & { appDefinitionId: string }
+/** @internal */
 export type GetBulkActionParams = GetSpaceEnvironmentParams & { bulkActionId: string }
+/** @internal */
 export type GetCommentParams = (GetEntryParams | GetCommentParentEntityParams) & {
   commentId: string
 }
+/** @internal */
+export type GetComponentTypeParams = GetSpaceEnvironmentParams & { componentTypeId: string }
+/** @internal */
+export type GetComponentParams = GetSpaceEnvironmentParams & { componentId: string }
+/** @internal */
+export type GetExperienceParams = GetSpaceEnvironmentParams & { experienceId: string }
+/** @internal */
+export type GetManyExperienceVariantParams = GetSpaceEnvironmentParams & {
+  experienceId: string
+}
+/** @internal */
+export type GetExperienceVariantParams = GetManyExperienceVariantParams & {
+  variantId: string
+}
+/** @internal */
+export type GetExperienceFragmentParams = GetSpaceEnvironmentParams & {
+  experienceFragmentId: string
+}
+/** @internal */
+export type GetDataAssemblyParams = GetSpaceEnvironmentParams & { dataAssemblyId: string }
+/** @internal */
+export type GetDesignTokenParams = GetSpaceEnvironmentParams & { designTokenId: string }
+/** @internal */
+export type GetFragmentParams = GetSpaceEnvironmentParams & { fragmentId: string }
+/** @internal */
+export type GetManyExperienceFragmentVariantParams = GetSpaceEnvironmentParams & {
+  experienceFragmentId: string
+}
+/** @internal */
+export type GetExperienceFragmentVariantParams = GetManyExperienceFragmentVariantParams & {
+  variantId: string
+}
+/** @internal */
+export type GetTemplateParams = GetSpaceEnvironmentParams & { templateId: string }
+/** @internal */
+export type GetExperienceTemplateParams = GetSpaceEnvironmentParams & {
+  experienceTemplateId: string
+}
+/** @internal */
 export type GetContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
+/** @internal */
 export type GetEditorInterfaceParams = GetSpaceEnvironmentParams & { contentTypeId: string }
+/** @internal */
 export type GetEntryParams = GetSpaceEnvironmentParams & { entryId: string }
+/** @internal */
 export type GetExtensionParams = GetSpaceEnvironmentParams & { extensionId: string }
+/** @internal */
 export type GetEnvironmentTemplateParams = GetOrganizationParams & { environmentTemplateId: string }
+/** @internal */
 export type GetFunctionParams = GetAppDefinitionParams & { functionId: string }
+/** @internal */
 export type GetManyFunctionParams = AcceptsQueryParams & GetAppDefinitionParams
+/** @internal */
 export type GetFunctionForEnvParams = AcceptsQueryParams &
   GetSpaceEnvironmentParams & {
     appInstallationId: string
   }
+/** @internal */
 export type GetManyFunctionLogParams = CursorBasedParams &
   CreatedAtIntervalParams &
   GetFunctionForEnvParams & { functionId: string }
+/** @internal */
 export type GetFunctionLogParams = GetManyFunctionLogParams & { logId: string }
+/** @internal */
 export type GetOrganizationParams = { organizationId: string }
-export type GetReleaseParams = GetSpaceEnvironmentParams & { releaseId: string }
+/** @internal */
+export type GetReleaseParams = ReleaseEnvironmentParams & { releaseId: string }
+/** @internal */
+export type GetReleaseAssetParams = GetSpaceEnvironmentParams & {
+  releaseId: string
+  assetId: string
+}
+/** @internal */
+export type GetManyReleaseAssetParams = GetSpaceEnvironmentParams & { releaseId: string }
+/** @internal */
+export type GetReleaseEntryParams = GetSpaceEnvironmentParams & {
+  releaseId: string
+  entryId: string
+}
+/** @internal */
+export type CreateReleaseAssetParams = GetSpaceEnvironmentParams & {
+  releaseId: string
+}
+/** @internal */
+export type CreateWithIdReleaseAssetParams = GetSpaceEnvironmentParams & {
+  releaseId: string
+  assetId: string
+}
+/** @internal */
+export type CreateWithFilesReleaseAssetParams = GetSpaceEnvironmentParams & {
+  releaseId: string
+  uploadTimeout?: number
+}
+/** @internal */
+export type UpdateReleaseAssetParams = GetSpaceEnvironmentParams & {
+  releaseId: string
+  assetId: string
+}
+/** @internal */
+export type ProcessForLocaleReleaseAssetParams = GetSpaceEnvironmentParams & {
+  asset: AssetProps<{ release: Link<'Release'> }>
+  locale: string
+  options?: AssetProcessingForLocale
+}
+/** @internal */
+export type ProcessForAllLocalesReleaseAssetParams = GetSpaceEnvironmentParams & {
+  asset: AssetProps<{ release: Link<'Release'> }>
+  options?: AssetProcessingForLocale
+}
+/** @internal */
+export type GetManyReleaseEntryParams = GetSpaceEnvironmentParams & { releaseId: string }
+/** @internal */
+export type UpdateReleaseEntryParams = GetSpaceEnvironmentParams & {
+  releaseId: string
+  entryId: string
+}
+/** @internal */
+export type PatchReleaseEntryParams = GetSpaceEnvironmentParams & {
+  releaseId: string
+  entryId: string
+  version: number
+}
+/** @internal */
+export type CreateReleaseEntryParams = GetSpaceEnvironmentParams & {
+  releaseId: string
+  contentTypeId: string
+}
+/** @internal */
+export type CreateWithIdReleaseEntryParams = GetSpaceEnvironmentParams & {
+  releaseId: string
+  entryId: string
+  contentTypeId: string
+}
+/** @internal */
 export type GetSnapshotForContentTypeParams = GetSpaceEnvironmentParams & { contentTypeId: string }
+/** @internal */
 export type GetSnapshotForEntryParams = GetSpaceEnvironmentParams & { entryId: string }
+/** @internal */
 export type GetSpaceEnvAliasParams = GetSpaceParams & { environmentAliasId: string }
+/** @internal */
 export type GetSpaceEnvironmentParams = { spaceId: string; environmentId: string }
+/** @internal */
 export type GetSpaceEnvironmentUploadParams = GetSpaceEnvironmentParams & { uploadId: string }
+/** @internal */
 export type GetSpaceMembershipProps = GetSpaceParams & { spaceMembershipId: string }
+/** @internal */
 export type GetSpaceParams = { spaceId: string }
+/** @internal */
 export type GetTagParams = GetSpaceEnvironmentParams & { tagId: string }
-export type GetTaskParams = GetEntryParams & { taskId: string }
+/** @internal */
+export type GetTaskParentEntityParams = GetSpaceEnvironmentParams & {
+  parentEntityType: TaskParentEntityType
+  parentEntityId: string
+}
+/** @internal */
+// Keep GetEntryParams for backwards compatibility with existing entry task callers.
+// New task parent entity support should use GetTaskParentEntityParams.
+export type GetTaskParams = (GetEntryParams | GetTaskParentEntityParams) & { taskId: string }
+/** @internal */
 export type GetTeamMembershipParams = GetTeamParams & { teamMembershipId: string }
+/** @internal */
 export type GetTeamParams = { organizationId: string; teamId: string }
+/** @internal */
 export type GetTeamSpaceMembershipParams = GetSpaceParams & { teamSpaceMembershipId: string }
+/** @internal */
 export type GetWebhookCallDetailsUrl = GetWebhookParams & { callId: string }
+/** @internal */
 export type GetWebhookParams = GetSpaceParams & { webhookDefinitionId: string }
+/** @internal */
 export type GetOrganizationMembershipParams = GetOrganizationParams & {
   organizationMembershipId: string
 }
+/** @internal */
 export type GetConceptParams = GetOrganizationParams & { conceptId: string }
+/** @internal */
 export type UpdateConceptParams = GetOrganizationParams & { conceptId: string; version: number }
+/** @internal */
 export type DeleteConceptParams = GetOrganizationParams & { conceptId: string; version: number }
+/** @internal */
 export type GetConceptDescendantsParams = GetOrganizationParams & { conceptId: string } & {
   query?: { depth?: number; pageUrl?: string }
 }
+/** @internal */
 export type GetManyConceptParams = GetOrganizationParams & {
   query?:
     | { pageUrl?: string }
@@ -2354,53 +3697,99 @@ export type GetManyConceptParams = GetOrganizationParams & {
         Omit<PaginationQueryOptions, 'skip'>)
 }
 
+/** @internal */
 export type GetConceptSchemeParams = GetOrganizationParams & { conceptSchemeId: string }
+/** @internal */
 export type GetManyConceptSchemeParams = GetOrganizationParams & {
   query?:
     | { pageUrl?: string }
     | ({ query?: string } & BasicCursorPaginationOptions & Omit<PaginationQueryOptions, 'skip'>)
 }
+/** @internal */
 export type DeleteConceptSchemeParams = GetOrganizationParams & {
   conceptSchemeId: string
   version: number
 }
+/** @internal */
 export type UpdateConceptSchemeParams = GetOrganizationParams & {
   conceptSchemeId: string
   version: number
 }
 
+/** @internal */
 export type GetAppKeyParams = GetAppDefinitionParams & { fingerprint: string }
+/** @internal */
 export type GetAppUploadParams = GetOrganizationParams & { appUploadId: string }
+/** @internal */
+export type GetAutomationDefinitionParams = GetSpaceEnvironmentParams & {
+  automationDefinitionId: string
+}
+/** @internal */
+export type GetAutomationExecutionParams = GetSpaceEnvironmentParams & {
+  automationExecutionId: string
+}
+/** @internal */
 export type GetWorkflowDefinitionParams = GetSpaceEnvironmentParams & {
   workflowDefinitionId: string
 }
+/** @internal */
 export type GetWorkflowParams = GetSpaceEnvironmentParams & {
   workflowId: string
 }
+/** @internal */
 export type GetUIConfigParams = GetSpaceEnvironmentParams
+/** @internal */
 export type GetUserUIConfigParams = GetUIConfigParams
 
+/** @internal */
 export type GetResourceProviderParams = GetOrganizationParams & { appDefinitionId: string }
 
+/** @internal */
 export type GetResourceTypeParams = GetResourceProviderParams & { resourceTypeId: string }
 
+/** @internal */
 export type GetResourceParams = GetSpaceEnvironmentParams & { resourceTypeId: string }
 
+/** @internal */
 export type QueryParams = { query?: QueryOptions }
+/** @internal */
 export type SpaceQueryParams = { query?: SpaceQueryOptions }
+/** @internal */
 export type PaginationQueryParams = { query?: PaginationQueryOptions }
+/** @internal */
 export type CursorPaginationXORParams = {
-  query?: (CursorPaginationPageNext | CursorPaginationPagePrev | CursorPaginationNone) & {
-    limit?: number
-  }
+  query?: CursorPaginationParams
 }
+/** @internal */
 export type CursorBasedParams = CursorPaginationXORParams
+/** @internal */
 export type CreatedAtIntervalParams = { query?: CreatedAtIntervalQueryOptions }
+/** @internal */
 export type AcceptsQueryParams = { query?: AcceptsQueryOptions }
 
+/** @internal */
 export type GetOAuthApplicationParams = { userId: string; oauthApplicationId: string }
+/** @internal */
 export type GetUserParams = { userId: string }
 
+/** @internal */
 export enum ScheduledActionReferenceFilters {
   contentTypeAnnotationNotIn = 'sys.contentType.metadata.annotations.ContentType[nin]',
+}
+
+/** @internal */
+export type ReleaseEnvironmentParams = GetSpaceEnvironmentParams & {
+  releaseSchemaVersion?: 'Release.v1' | 'Release.v2'
+}
+
+/** @internal */
+export type SemanticRequestFilter = {
+  entityType?: 'Entry'
+  contentTypeIds?: string[]
+}
+
+export type GetContentSemanticsIndexParams = GetOrganizationParams & { indexId: string }
+export type GetManyContentSemanticsIndexParams = GetOrganizationParams & { status?: string }
+export type GetManyContentSemanticsIndexForEnvironmentParams = GetSpaceEnvironmentParams & {
+  status?: string
 }

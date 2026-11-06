@@ -1,4 +1,4 @@
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
@@ -22,11 +22,10 @@ export type OrganizationMembershipProps = {
 }
 
 export interface OrganizationMembership
-  extends OrganizationMembershipProps,
-    DefaultElements<OrganizationMembershipProps> {
+  extends OrganizationMembershipProps, DefaultElements<OrganizationMembershipProps> {
   /**
    * Sends an update to the server with any changes made to the object's properties
-   * @return Object returned from the server with updated changes.
+   * @returns Object returned from the server with updated changes.
    * @example ```javascript
    * const contentful = require('contentful-management')
    *
@@ -65,7 +64,7 @@ export interface OrganizationMembership
 }
 
 /**
- * @private
+ * @internal
  */
 function createOrganizationMembershipApi(makeRequest: MakeRequest, organizationId: string) {
   const getParams = (data: OrganizationMembershipProps) => ({
@@ -96,25 +95,25 @@ function createOrganizationMembershipApi(makeRequest: MakeRequest, organizationI
 }
 
 /**
- * @private
+ * @internal
  * @param {function} makeRequest - function to make requests via an adapter
  * @param {Object} data - Raw organization membership data
- * @return {OrganizationMembership} Wrapped organization membership data
+ * @returns {OrganizationMembership} Wrapped organization membership data
  */
 export function wrapOrganizationMembership(
   makeRequest: MakeRequest,
   data: OrganizationMembershipProps,
-  organizationId: string
+  organizationId: string,
 ): OrganizationMembership {
   const organizationMembership = toPlainObject(copy(data))
   const organizationMembershipWithMethods = enhanceWithMethods(
     organizationMembership,
-    createOrganizationMembershipApi(makeRequest, organizationId)
+    createOrganizationMembershipApi(makeRequest, organizationId),
   )
   return freezeSys(organizationMembershipWithMethods)
 }
 
 /**
- * @private
+ * @internal
  */
 export const wrapOrganizationMembershipCollection = wrapCollection(wrapOrganizationMembership)

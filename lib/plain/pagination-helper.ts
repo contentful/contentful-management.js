@@ -15,10 +15,10 @@ type ExpectedParams = OffsetBasedParams | CursorBasedParams
  */
 type IterableCollection<T> = Omit<CollectionProp<T> | CursorPaginatedCollectionProp<T>, 'sys'>
 export type FetchFn<P extends ExpectedParams, T = unknown> = (
-  params: P
+  params: P,
 ) => Promise<IterableCollection<T>>
 type ParamsType<P extends ExpectedParams, T extends FetchFn<P>> = T extends (
-  params: infer P
+  params: infer P,
 ) => unknown
   ? P
   : never
@@ -57,7 +57,7 @@ function range(from: number, to: number): number[] {
 export async function fetchAll<
   Params extends ExpectedParams,
   Entity,
-  F extends FetchFn<Params, Entity>
+  F extends FetchFn<Params, Entity>,
 >(fetchFn: FetchFn<Params, Entity>, params: ParamsType<Params, F>): Promise<Entity[]> {
   const response = await fetchFn({ ...params })
 
@@ -78,7 +78,7 @@ export async function fetchAll<
           limit,
           skip: page * limit,
         },
-      }).then((result) => result.items)
+      }).then((result) => result.items),
     )
     const remainingItems = await Promise.all(promises)
 
@@ -109,6 +109,6 @@ export async function fetchAll<
   }
 
   throw new Error(
-    `Can not determine collection type of response, neither property "total" nor "pages" are present.`
+    `Can not determine collection type of response, neither property "total" nor "pages" are present.`,
   )
 }

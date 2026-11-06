@@ -1,4 +1,4 @@
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import type { ContentfulOrganizationAPI } from '../create-organization-api'
@@ -19,6 +19,12 @@ export type OrganizationProps = {
    * Name
    */
   name: string
+  /**
+   * Default language used in the interface and email communications.
+   * Users can override this setting in their profile settings.
+   * If not set, the default value is `en-US`.
+   */
+  defaultUserLanguage: string
 }
 
 /**
@@ -31,10 +37,10 @@ export type OrganizationProp = OrganizationProps
  * reading and creating other entities. It also passes down a clone of the
  * http client with an organization id, so the base path for requests now has the
  * organization id already set.
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - API response for an Organization
- * @return {Organization}
+ * @returns {Organization}
  */
 export function wrapOrganization(makeRequest: MakeRequest, data: OrganizationProps): Organization {
   const org = toPlainObject(copy(data))
@@ -45,6 +51,6 @@ export function wrapOrganization(makeRequest: MakeRequest, data: OrganizationPro
 
 /**
  * This method normalizes each organization in a collection.
- * @private
+ * @internal
  */
 export const wrapOrganizationCollection = wrapCollection(wrapOrganization)

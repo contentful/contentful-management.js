@@ -19,7 +19,7 @@ export type LocalePlainClientAPI = {
    * ```
    */
   get(
-    params: OptionalDefaults<GetSpaceEnvironmentParams & { localeId: string }>
+    params: OptionalDefaults<GetSpaceEnvironmentParams & { localeId: string }>,
   ): Promise<LocaleProps>
   /**
    * Fetch all locales in a space and environment
@@ -40,7 +40,7 @@ export type LocalePlainClientAPI = {
    * ```
    */
   getMany(
-    params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>
+    params: OptionalDefaults<GetSpaceEnvironmentParams & QueryParams>,
   ): Promise<CollectionProp<LocaleProps>>
   /**
    * Delete a locale
@@ -87,7 +87,7 @@ export type LocalePlainClientAPI = {
   update(
     params: OptionalDefaults<GetSpaceEnvironmentParams & { localeId: string }>,
     rawData: LocaleProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<LocaleProps>
   /**
    * Create a locale
@@ -114,6 +114,6 @@ export type LocalePlainClientAPI = {
   create(
     params: OptionalDefaults<GetSpaceEnvironmentParams>,
     data: CreateLocaleProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<LocaleProps>
 }

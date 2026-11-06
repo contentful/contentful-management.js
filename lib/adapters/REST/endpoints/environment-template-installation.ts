@@ -7,12 +7,12 @@ const apiPath = (organizationId: string, ...pathSegments: (number | string)[]) =
 
 export const getMany: RestEndpoint<'EnvironmentTemplateInstallation', 'getMany'> = (
   http,
-  { organizationId, environmentTemplateId, spaceId, environmentId, ...paginationProps },
-  headers?: RawAxiosRequestHeaders
+  { organizationId, environmentTemplateId, spaceId, environmentId, ...otherProps },
+  headers?: RawAxiosRequestHeaders,
 ) =>
   raw.get(http, apiPath(organizationId, environmentTemplateId, 'template_installations'), {
     params: {
-      ...paginationProps,
+      ...otherProps,
       ...(environmentId && { 'environment.sys.id': environmentId }),
       ...(spaceId && { 'space.sys.id': spaceId }),
     },
@@ -25,7 +25,7 @@ export const getForEnvironment: RestEndpoint<
 > = (
   http,
   { spaceId, environmentId, environmentTemplateId, installationId, ...paginationProps },
-  headers?: RawAxiosRequestHeaders
+  headers?: RawAxiosRequestHeaders,
 ) =>
   raw.get(
     http,
@@ -36,5 +36,5 @@ export const getForEnvironment: RestEndpoint<
         ...paginationProps,
       },
       headers,
-    }
+    },
   )

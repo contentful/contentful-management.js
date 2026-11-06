@@ -1,6 +1,8 @@
 import { createRequestConfig } from 'contentful-sdk-core'
 import type {
   Collection,
+  CollectionProp,
+  CursorPaginatedCollectionProp,
   MakeRequest,
   PaginationQueryParams,
   QueryOptions,
@@ -12,12 +14,49 @@ import type {
   GetOAuthApplicationParams,
   GetUserParams,
 } from './common-types'
-import entities from './entities'
+import {
+  normalizeCursorPaginationParameters,
+  normalizeCursorPaginationResponse,
+} from './common-utils'
+import {
+  wrapSpace,
+  wrapSpaceCollection,
+  wrapSpaceCursorPaginatedCollection,
+} from './entities/space'
+import { wrapUser } from './entities/user'
+import {
+  wrapPersonalAccessToken,
+  wrapPersonalAccessTokenCollection,
+} from './entities/personal-access-token'
+import { wrapAccessToken, wrapAccessTokenCollection } from './entities/access-token'
+import { wrapOrganization, wrapOrganizationCollection } from './entities/organization'
+import {
+  wrapAggregatedUsageCollection,
+  wrapAssetBandwidthUsageDetailedCollection,
+  wrapUsageCollection,
+} from './entities/usage'
+import { wrapAppDefinition } from './entities/app-definition'
+import {
+  wrapEnvironmentTemplate,
+  wrapEnvironmentTemplateCollection,
+} from './entities/environment-template'
+import type {
+  CreateOAuthApplicationProps,
+  OAuthApplication,
+  OAuthApplicationProps,
+} from './entities/oauth-application'
+import { wrapOAuthApplication, wrapOAuthApplicationCollection } from './entities/oauth-application'
+
 import type { Organization, OrganizationProps } from './entities/organization'
 import type { CreatePersonalAccessTokenProps } from './entities/personal-access-token'
-import type { Space, SpaceProps } from './entities/space'
+import type { Space, SpaceIncludeParam, SpaceProps } from './entities/space'
 import type { AppDefinition } from './entities/app-definition'
-import type { UsageQuery } from './entities/usage'
+import type {
+  AggregatedUsageMetricKey,
+  AggregatedUsageQuery,
+  AssetBandwidthUsageDetailedQuery,
+  UsageQuery,
+} from './entities/usage'
 import type { UserProps } from './entities/user'
 import type {
   CreateEnvironmentTemplateProps,
@@ -25,36 +64,22 @@ import type {
   EnvironmentTemplateProps,
 } from './entities/environment-template'
 import type { RawAxiosRequestConfig } from 'axios'
-import type {
-  CreateOAuthApplicationProps,
-  OAuthApplication,
-  OAuthApplicationProps,
-} from './export-types'
-
-export type ClientAPI = ReturnType<typeof createClientApi>
-type CreateSpaceProps = Omit<SpaceProps, 'sys'> & { defaultLocale?: string }
 
 /**
- * @private
+ * @deprecated The nested (legacy) client is deprecated and will be removed in the next major version. Use the plain client instead.
+ */
+export type ClientAPI = ReturnType<typeof createClientApi>
+type CreateSpaceProps = Omit<SpaceProps, 'sys'> & { defaultLocale?: string; productId?: string }
+
+/**
+ * @internal
  */
 export default function createClientApi(makeRequest: MakeRequest) {
-  const { wrapSpace, wrapSpaceCollection } = entities.space
-  const { wrapUser } = entities.user
-  const { wrapPersonalAccessToken, wrapPersonalAccessTokenCollection } =
-    entities.personalAccessToken
-  const { wrapAccessToken, wrapAccessTokenCollection } = entities.accessToken
-  const { wrapOrganization, wrapOrganizationCollection } = entities.organization
-  const { wrapUsageCollection } = entities.usage
-  const { wrapAppDefinition } = entities.appDefinition
-  const { wrapEnvironmentTemplate, wrapEnvironmentTemplateCollection } =
-    entities.environmentTemplate
-  const { wrapOAuthApplication, wrapOAuthApplicationCollection } = entities.oauthApplication
-
   return {
     /**
      * Gets all environment templates for a given organization with the lasted version
      * @param organizationId - Organization ID
-     * @return Promise for a collection of EnvironmentTemplates
+     * @returns Promise for a collection of EnvironmentTemplates
      * ```javascript
      * const contentful = require('contentful-management')
      *
@@ -69,7 +94,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      */
     getEnvironmentTemplates: function getEnvironmentTemplates(
       organizationId: string,
-      query: BasicCursorPaginationOptions & { select?: string } = {}
+      query: BasicCursorPaginationOptions & { select?: string; forTemplatedSpaces?: boolean } = {},
     ): Promise<CursorPaginatedCollection<EnvironmentTemplate, EnvironmentTemplateProps>> {
       return makeRequest({
         entityType: 'EnvironmentTemplate',
@@ -82,7 +107,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * @param params.organizationId - Organization ID
      * @param params.environmentTemplateId - Environment template ID
      * @param [params.version] - Template version number to return a specific version of the environment template
-     * @return Promise for a EnvironmentTemplate
+     * @returns Promise for a EnvironmentTemplate
      * ```javascript
      * const contentful = require('contentful-management')
      *
@@ -123,7 +148,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * Creates an environment template
      * @param organizationId - Organization ID
      * @param environmentTemplateData - Object representation of the environment template to be created
-     * @return Promise for the newly created EnvironmentTemplate
+     * @returns Promise for the newly created EnvironmentTemplate
      * @example ```javascript
      * const contentful = require('contentful-management')
      *
@@ -138,7 +163,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      */
     createEnvironmentTemplate: function createEnvironmentTemplate(
       organizationId: string,
-      environmentTemplateData: CreateEnvironmentTemplateProps
+      environmentTemplateData: CreateEnvironmentTemplateProps,
     ): Promise<EnvironmentTemplate> {
       return makeRequest({
         entityType: 'EnvironmentTemplate',
@@ -149,7 +174,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
     },
     /**
      * Gets all spaces
-     * @return Promise for a collection of Spaces
+     * @returns Promise for a collection of Spaces
      * ```javascript
      * const contentful = require('contentful-management')
      *
@@ -163,19 +188,47 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * ```
      */
     getSpaces: function getSpaces(
-      query: QueryOptions = {}
-    ): Promise<Collection<Space, SpaceProps>> {
+      query: (QueryOptions | BasicCursorPaginationOptions) & {
+        cursor?: boolean
+      } & SpaceIncludeParam = {},
+      organizationId?: string,
+    ): Promise<Collection<Space, SpaceProps> | CursorPaginatedCollection<Space, SpaceProps>> {
+      const { cursor, include, ...rest } = query
+      const normalizedQuery = cursor
+        ? normalizeCursorPaginationParameters(rest as BasicCursorPaginationOptions)
+        : rest
       return makeRequest({
         entityType: 'Space',
         action: 'getMany',
-        params: { query: createRequestConfig({ query: query }).params },
-      }).then((data) => wrapSpaceCollection(makeRequest, data))
+        params: {
+          query: createRequestConfig({ query: normalizedQuery }).params,
+          organizationId,
+          include,
+        },
+      }).then((data) =>
+        // makeRequest returns the union type; cursor determines which branch is present at runtime so the casts are required
+        cursor
+          ? wrapSpaceCursorPaginatedCollection(
+              makeRequest,
+              normalizeCursorPaginationResponse(data as CursorPaginatedCollectionProp<SpaceProps>),
+            )
+          : wrapSpaceCollection(makeRequest, data as CollectionProp<SpaceProps>),
+      )
+    } as {
+      (
+        query?: QueryOptions & { cursor?: false } & SpaceIncludeParam,
+        organizationId?: string,
+      ): Promise<Collection<Space, SpaceProps>>
+      (
+        query: BasicCursorPaginationOptions & { cursor: true } & SpaceIncludeParam,
+        organizationId?: string,
+      ): Promise<CursorPaginatedCollection<Space, SpaceProps>>
     },
 
     /**
      * Gets a space
      * @param spaceId - Space ID
-     * @return Promise for a Space
+     * @returns Promise for a Space
      * ```javascript
      * const contentful = require('contentful-management')
      *
@@ -188,11 +241,14 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      * ```
      */
-    getSpace: function getSpace(spaceId: string): Promise<Space> {
+    getSpace: function getSpace(
+      spaceId: string,
+      { include }: SpaceIncludeParam = {},
+    ): Promise<Space> {
       return makeRequest({
         entityType: 'Space',
         action: 'get',
-        params: { spaceId },
+        params: { spaceId, include },
       }).then((data) => wrapSpace(makeRequest, data))
     },
 
@@ -200,7 +256,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * Creates a space
      * @param spaceData - Object representation of the Space to be created
      * @param organizationId - Organization ID, if the associated token can manage more than one organization.
-     * @return Promise for the newly created Space
+     * @returns Promise for the newly created Space
      * @example ```javascript
      * const contentful = require('contentful-management')
      *
@@ -217,7 +273,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      */
     createSpace: function createSpace(
       spaceData: CreateSpaceProps,
-      organizationId: string
+      organizationId: string,
     ): Promise<Space> {
       return makeRequest({
         entityType: 'Space',
@@ -230,7 +286,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
     /**
      * Gets an organization
      * @param  id - Organization ID
-     * @return Promise for a Organization
+     * @returns Promise for a Organization
      * @example ```javascript
      * const contentful = require('contentful-management')
      *
@@ -253,7 +309,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
 
     /**
      * Gets a collection of Organizations
-     * @return Promise for a collection of Organizations
+     * @returns Promise for a collection of Organizations
      * @example ```javascript
      * const contentful = require('contentful-management')
      *
@@ -267,7 +323,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * ```
      */
     getOrganizations: function getOrganizations(
-      query: PaginationQueryParams['query'] = {}
+      query: PaginationQueryParams['query'] = {},
     ): Promise<Collection<Organization, OrganizationProps>> {
       return makeRequest({
         entityType: 'Organization',
@@ -278,7 +334,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
 
     /**
      * Gets the authenticated user
-     * @return Promise for a User
+     * @returns Promise for a User
      * @example ```javascript
      * const contentful = require('contentful-management')
      *
@@ -317,7 +373,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      */
     getOAuthApplication: function getOAuthApplication(
-      params: GetOAuthApplicationParams
+      params: GetOAuthApplicationParams,
     ): Promise<OAuthApplicationProps> {
       const { userId } = params
       return makeRequest({
@@ -343,7 +399,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * .catch(console.error)
      */
     getOAuthApplications: function getOAuthApplications(
-      params: GetUserParams & QueryParams
+      params: GetUserParams & QueryParams,
     ): Promise<CursorPaginatedCollection<OAuthApplication, OAuthApplicationProps>> {
       const { userId } = params
       return makeRequest({
@@ -375,7 +431,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      */
     createOAuthApplication: function createOAuthApplication(
       params: GetUserParams,
-      rawData: CreateOAuthApplicationProps
+      rawData: CreateOAuthApplicationProps,
     ): Promise<OAuthApplicationProps> {
       const { userId } = params
       return makeRequest({
@@ -387,7 +443,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
     },
     /**
      * Gets App Definition
-     * @return Promise for App Definition
+     * @returns Promise for App Definition
      * @param organizationId - Id of the organization where the app is installed
      * @param appDefinitionId - Id of the app that will be returned
      * @example ```javascript
@@ -404,7 +460,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      */
 
     getAppDefinition: function getAppDefinition(
-      params: GetAppDefinitionParams
+      params: GetAppDefinitionParams,
     ): Promise<AppDefinition> {
       return makeRequest({
         entityType: 'AppDefinition',
@@ -416,7 +472,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
     /**
      * Creates a personal access token
      * @param data - personal access token config
-     * @return Promise for a Token
+     * @returns Promise for a Token
      * @example ```javascript
      * const contentful = require('contentful-management')
      *
@@ -437,7 +493,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * ```
      */
     createPersonalAccessToken: function createPersonalAccessToken(
-      data: CreatePersonalAccessTokenProps
+      data: CreatePersonalAccessTokenProps,
     ) {
       return makeRequest({
         /**
@@ -456,7 +512,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      *
      * Gets a personal access token
      * @param data - personal access token config
-     * @return Promise for a Token
+     * @returns Promise for a Token
      * @example ```javascript
      * const contentful = require('contentful-management')
      *
@@ -481,7 +537,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * @deprecated - use getAccessTokens instead
      *
      * Gets all personal access tokens
-     * @return Promise for a Token
+     * @returns Promise for a Token
      * @example ```javascript
      * const contentful = require('contentful-management')
      *
@@ -490,7 +546,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      * })
      *
      * client.getPersonalAccessTokens()
-     * .then(response => console.log(reponse.items))
+     * .then(response => console.log(response.items))
      * .catch(console.error)
      * ```
      */
@@ -505,7 +561,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
     /**
      * Gets a users access token
      * @param data - users access token config
-     * @return Promise for a Token
+     * @returns Promise for a Token
      * @example ```javascript
      * const contentful = require('contentful-management')
      *
@@ -528,7 +584,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
 
     /**
      * Gets all user access tokens
-     * @return Promise for a Token
+     * @returns Promise for a Token
      * @example ```javascript
      * const contentful = require('contentful-management')
      *
@@ -552,7 +608,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
     /**
      * Retrieves a list of redacted versions of access tokens for an organization, accessible to owners or administrators of an organization.
      *
-     * @return Promise for a Token
+     * @returns Promise for a Token
      * @example ```javascript
      * const contentful = require('contentful-management')
      *
@@ -567,7 +623,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      */
     getOrganizationAccessTokens: function getOrganizationAccessTokens(
       organizationId: string,
-      query: QueryOptions = {}
+      query: QueryOptions = {},
     ) {
       return makeRequest({
         entityType: 'AccessToken',
@@ -581,7 +637,10 @@ export default function createClientApi(makeRequest: MakeRequest) {
      *
      * @param organizationId - Id of an organization
      * @param query - Query parameters
-     * @return Promise of a collection of usages
+     * @returns Promise of a collection of usages
+     * @deprecated Use {@link getUsageAggregated} instead, calling it once per metric key
+     * (this method accepted multiple metrics per call via `metric[in]`; {@link getUsageAggregated}
+     * is scoped to a single `metricKey` per request). Sunset: 2027-02-28.
      * @example ```javascript
      *
      * const contentful = require('contentful-management')
@@ -602,7 +661,7 @@ export default function createClientApi(makeRequest: MakeRequest) {
      */
     getOrganizationUsage: function getOrganizationUsage(
       organizationId: string,
-      query: QueryOptions = {}
+      query: QueryOptions = {},
     ) {
       return makeRequest({
         entityType: 'Usage',
@@ -616,7 +675,9 @@ export default function createClientApi(makeRequest: MakeRequest) {
      *
      * @param organizationId - Id of an organization
      * @param query - Query parameters
-     * @return Promise of a collection of usages
+     * @returns Promise of a collection of usages
+     * @deprecated Use {@link getUsageAggregated} instead, calling it once per metric key and
+     * filtering by `filter[sys.dimensions.space.sys.id]` to scope to a space. Sunset: 2027-02-28.
      * ```javascript
      * const contentful = require('contentful-management')
      *
@@ -648,9 +709,76 @@ export default function createClientApi(makeRequest: MakeRequest) {
     },
 
     /**
+     * Get aggregated usage for an organization metric.
+     *
+     * @param organizationId - Id of the organization
+     * @param metricKey - Key of the metric, e.g. `"functions_invocations"`, `"asset_bandwidth"`, `"api_call_cma"`, `"api_call_cpa"`, `"api_call_cda"`, `"api_call_graphql"`, `"ai_action_invocation"`, `"ai_action_word_count"`, `"ai_consumption_unit"`, `"monthly_active_profiles"`
+     * @param query - Query parameters (date range, granularity, grouping, pagination)
+     * @returns Promise of an aggregated usage collection
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getUsageAggregated('<organizationId>', 'functions_invocations', {
+     *   'date[gte]': '2025-01-01',
+     *   'date[lte]': '2025-01-31',
+     *   granularity: 'P1D',
+     * })
+     * .then(result => console.log(result.items))
+     * .catch(console.error)
+     * ```
+     */
+    getUsageAggregated: function getUsageAggregated(
+      organizationId: string,
+      metricKey: AggregatedUsageMetricKey,
+      query: AggregatedUsageQuery,
+    ) {
+      return makeRequest({
+        entityType: 'Usage',
+        action: 'getAggregated',
+        params: { organizationId, metricKey, query },
+      }).then((data) => wrapAggregatedUsageCollection(makeRequest, data))
+    },
+
+    /**
+     * Get detailed asset-bandwidth usage for an organization.
+     *
+     * @param organizationId - Id of the organization
+     * @param query - Query parameters (date range only)
+     * @returns Promise of a detailed asset-bandwidth usage collection
+     * @example ```javascript
+     * const contentful = require('contentful-management')
+     *
+     * const client = contentful.createClient({
+     *   accessToken: '<content_management_api_key>'
+     * })
+     *
+     * client.getUsageAssetBandwidthDetailed('<organizationId>', {
+     *   'date[gte]': '2025-01-01',
+     *   'date[lte]': '2025-01-31',
+     * })
+     * .then(result => console.log(result.items))
+     * .catch(console.error)
+     * ```
+     */
+    getUsageAssetBandwidthDetailed: function getUsageAssetBandwidthDetailed(
+      organizationId: string,
+      query: AssetBandwidthUsageDetailedQuery,
+    ) {
+      return makeRequest({
+        entityType: 'Usage',
+        action: 'getAssetBandwidthUsageDetailed',
+        params: { organizationId, query },
+      }).then((data) => wrapAssetBandwidthUsageDetailedCollection(makeRequest, data))
+    },
+
+    /**
      * Make a custom request to the Contentful management API's /spaces endpoint
      * @param opts - axios request options (https://github.com/mzabriskie/axios)
-     * @return Promise for the response data
+     * @returns Promise for the response data
      * ```javascript
      * const contentful = require('contentful-management')
      *

@@ -1,21 +1,22 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import type {
   CollectionProp,
+  CursorPaginatedCollectionProp,
   DefaultElements,
   EntryMetaSysProps,
   KeyValueMap,
   MakeRequest,
   MetadataProps,
 } from '../common-types'
-import { wrapCollection } from '../common-utils'
-import type { ContentfulEntryApi } from '../create-entry-api'
+import { wrapCollection, wrapCursorPaginatedCollection } from '../common-utils'
+import type { ContentfulEntryAPI } from '../create-entry-api'
 import createEntryApi from '../create-entry-api'
 import enhanceWithMethods from '../enhance-with-methods'
 import type { AssetProps } from './asset'
 
-export type EntryProps<T = KeyValueMap> = {
-  sys: EntryMetaSysProps
+export type EntryProps<T = KeyValueMap, S = unknown> = {
+  sys: EntryMetaSysProps & S
   metadata?: MetadataProps
   fields: T
 }
@@ -46,7 +47,7 @@ export type EntryReferenceOptionsProps = {
   include?: number
 }
 
-export interface Entry extends EntryProps, DefaultElements<EntryProps>, ContentfulEntryApi {}
+export interface Entry extends EntryProps, DefaultElements<EntryProps>, ContentfulEntryAPI {}
 
 export type WithResourceName<T extends { sys: unknown }> = T extends { sys: infer Sys }
   ? Omit<T, 'sys'> & {
@@ -55,10 +56,10 @@ export type WithResourceName<T extends { sys: unknown }> = T extends { sys: infe
   : never
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw entry data
- * @return Wrapped entry data
+ * @returns Wrapped entry data
  */
 export function wrapEntry(makeRequest: MakeRequest, data: EntryProps): Entry {
   const entry = toPlainObject(copy(data))
@@ -68,6 +69,11 @@ export function wrapEntry(makeRequest: MakeRequest, data: EntryProps): Entry {
 
 /**
  * Data is also mixed in with link getters if links exist and includes were requested
- * @private
+ * @internal
  */
 export const wrapEntryCollection = wrapCollection(wrapEntry)
+
+/**
+ * @internal
+ */
+export const wrapEntryTypeCursorPaginatedCollection = wrapCursorPaginatedCollection(wrapEntry)

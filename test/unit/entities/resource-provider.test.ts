@@ -19,7 +19,7 @@ function setup(promise: Promise<ResourceProviderProps>) {
 }
 
 function setupResourceType(
-  promise: Promise<ResourceTypeProps | CollectionProp<ResourceTypeProps>>
+  promise: Promise<ResourceTypeProps | CollectionProp<ResourceTypeProps>>,
 ) {
   return {
     makeRequest: setupMakeRequest(promise),
@@ -51,7 +51,7 @@ describe('Entity ResourceProvider', () => {
 
     const response = await entity['upsertResourceType'](
       'resourceProvider:resourceTypeId',
-      resourceTypeMock
+      resourceTypeMock,
     )
     expect(response).toEqual(resourceTypeMock)
     expect(response.toPlainObject).toBeTruthy()
@@ -74,7 +74,7 @@ describe('Entity ResourceProvider', () => {
         skip: 0,
         limit: 100,
         sys: { type: 'Array' },
-      })
+      }),
     )
     const entity = wrapResourceProvider(makeRequest, entityMock)
     const response = await entity['getResourceTypes']()

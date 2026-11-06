@@ -1,4 +1,4 @@
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import type { Except } from 'type-fest'
 import type { BasicMetaSysProps, DefaultElements, MakeRequest, SysLink } from '../common-types'
@@ -31,14 +31,14 @@ export type CreateAppAccessTokenProps = {
 export interface AppAccessToken extends AppAccessTokenProps, DefaultElements<AppAccessTokenProps> {}
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw app access token data
- * @return {AppAccessToken} Wrapped AppAccessToken data
+ * @returns {AppAccessToken} Wrapped AppAccessToken data
  */
 export function wrapAppAccessToken(
   _makeRequest: MakeRequest,
-  data: AppAccessTokenProps
+  data: AppAccessTokenProps,
 ): AppAccessToken {
   const appAccessToken = toPlainObject(copy(data))
   return freezeSys(appAccessToken)

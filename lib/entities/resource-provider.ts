@@ -6,10 +6,11 @@ import type {
   SysLink,
 } from '../common-types'
 import { toPlainObject, freezeSys } from 'contentful-sdk-core'
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import enhanceWithMethods from '../enhance-with-methods'
 import type { ResourceType, UpsertResourceTypeProps } from './resource-type'
-import entities from '.'
+
+import { wrapResourceType } from './resource-type'
 
 export type ResourceProviderProps = {
   /**
@@ -34,8 +35,7 @@ export type UpsertResourceProviderProps = Omit<ResourceProviderProps, 'sys'> & {
 }
 
 export interface ResourceProvider
-  extends ResourceProviderProps,
-    DefaultElements<ResourceProviderProps> {
+  extends ResourceProviderProps, DefaultElements<ResourceProviderProps> {
   upsert(): Promise<ResourceProvider>
   delete(): Promise<void>
   upsertResourceType(id: string, data: UpsertResourceTypeProps): Promise<ResourceType>
@@ -44,15 +44,13 @@ export interface ResourceProvider
 }
 
 /**
- * @private
+ * @internal
  */
 function createResourceProviderApi(makeRequest: MakeRequest) {
-  const { wrapResourceType } = entities.resourceType
-
   return {
     /**
      * Sends an update to the server with any changes made to the object's properties
-     * @return Object returned from the server with updated changes.
+     * @returns Object returned from the server with updated changes.
      * @example ```javascript
      * const contentful = require('contentful-management')
      *
@@ -82,7 +80,7 @@ function createResourceProviderApi(makeRequest: MakeRequest) {
     },
     /**
      * Deletes this object on the server.
-     * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
+     * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
      * @example ```javascript
      * const contentful = require('contentful-management')
      *
@@ -146,18 +144,18 @@ function createResourceProviderApi(makeRequest: MakeRequest) {
   }
 }
 /**
- * @private
+ * @internal
  * @param data - raw ResourceProvider Object
- * @return Object containing the http params for the ResourceProvider request: organizationId and appDefinitionId
+ * @returns Object containing the http params for the ResourceProvider request: organizationId and appDefinitionId
  */
 const getParams = (data: ResourceProviderProps) => ({
   organizationId: data.sys.organization.sys.id,
   appDefinitionId: data.sys.appDefinition.sys.id,
 })
 /**
- * @private
+ * @internal
  * @param data - raw ResourceProvider Object
- * @return UpsertResourceProviderProps
+ * @returns UpsertResourceProviderProps
  */
 const getUpsertParams = (data: ResourceProviderProps): UpsertResourceProviderProps => ({
   sys: { id: data.sys.id },
@@ -166,19 +164,19 @@ const getUpsertParams = (data: ResourceProviderProps): UpsertResourceProviderPro
 })
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw Resource Provider data
- * @return Wrapped Resource Provider data
+ * @returns Wrapped Resource Provider data
  */
 export function wrapResourceProvider(
   makeRequest: MakeRequest,
-  data: ResourceProviderProps
+  data: ResourceProviderProps,
 ): ResourceProvider {
   const resourceProvider = toPlainObject(copy(data))
   const ResourceProviderWithMethods = enhanceWithMethods(
     resourceProvider,
-    createResourceProviderApi(makeRequest)
+    createResourceProviderApi(makeRequest),
   )
   return freezeSys(ResourceProviderWithMethods)
 }

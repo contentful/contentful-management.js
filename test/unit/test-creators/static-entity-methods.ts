@@ -4,11 +4,11 @@ import { expect } from 'vitest'
 
 export async function makeGetEntityTest(
   setup,
-  { entityType, mockToReturn, methodToTest, wrapperSuffix = '' }
+  { entityType, mockToReturn, methodToTest, wrapperSuffix = '' },
 ) {
   const { api, entitiesMock } = setup(Promise.resolve(mockToReturn))
   entitiesMock[entityType][`wrap${upperFirst(entityType)}${wrapperSuffix}`].mockReturnValue(
-    mockToReturn
+    mockToReturn,
   )
   const result = await api[methodToTest]('eid')
   expect(result).toEqual(mockToReturn)
@@ -22,6 +22,25 @@ export async function makeGetCollectionTest(setup, { entityType, mockToReturn, m
       skip: 0,
       limit: 10,
       items: [mockToReturn],
+    },
+    methodToTest: methodToTest,
+    wrapperSuffix: 'Collection',
+  })
+}
+
+export async function makeGetPaginatedCollectionTest(
+  setup,
+  { entityType, mockToReturn, methodToTest },
+) {
+  await makeGetEntityTest(setup, {
+    entityType: entityType,
+    mockToReturn: {
+      limit: 100,
+      items: [mockToReturn],
+      pages: {
+        next: undefined,
+        prev: undefined,
+      },
     },
     methodToTest: methodToTest,
     wrapperSuffix: 'Collection',
@@ -50,7 +69,7 @@ export async function makeCreateEntityTest(setup, { entityType, mockToReturn, me
 
 export async function makeCreateEntityWithIdTest(
   setup,
-  { entityType, mockToReturn, methodToTest }
+  { entityType, mockToReturn, methodToTest },
 ) {
   const id = 'entityId'
   const { api, makeRequest, entitiesMock } = setup(Promise.resolve(mockToReturn))
@@ -71,7 +90,7 @@ export function testGettingEntrySDKObject(
     wrapFunction,
     expectedFunctions,
     getResourceFromDataFunctionName,
-  }
+  },
 ) {
   const { api, makeRequest, entitiesMock } = setup(Promise.resolve({}))
   const resourceData = cloneDeep(resourceMock)

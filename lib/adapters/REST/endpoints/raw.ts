@@ -20,7 +20,7 @@ export function patch<T = any>(
   http: AxiosInstance,
   url: string,
   payload?: any,
-  config?: RawAxiosRequestConfig
+  config?: RawAxiosRequestConfig,
 ) {
   return http
     .patch<T>(url, payload, {
@@ -34,7 +34,7 @@ export function post<T = any>(
   http: AxiosInstance,
   url: string,
   payload?: any,
-  config?: RawAxiosRequestConfig
+  config?: RawAxiosRequestConfig,
 ) {
   return http
     .post<T>(url, payload, {
@@ -48,7 +48,7 @@ export function put<T = any>(
   http: AxiosInstance,
   url: string,
   payload?: any,
-  config?: RawAxiosRequestConfig
+  config?: RawAxiosRequestConfig,
 ) {
   return http
     .put<T>(url, payload, {
@@ -70,7 +70,7 @@ export function del<T = any>(http: AxiosInstance, url: string, config?: RawAxios
 export function http<T = any>(
   http: AxiosInstance,
   url: string,
-  config?: Omit<RawAxiosRequestConfig, 'url'>
+  config?: Omit<RawAxiosRequestConfig, 'url'>,
 ) {
   return http(url, {
     baseURL: getBaseUrl(http),

@@ -1,5 +1,5 @@
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import type { DefaultElements, Link, MakeRequest, MetaSysProps } from '../common-types'
 import { wrapCollection } from '../common-utils'
 import enhanceWithMethods from '../enhance-with-methods'
@@ -22,12 +22,17 @@ export type AiActionReferenceVariableConfiguration = {
   allowedEntities: Array<'Entry'>
 }
 
+export type LocaleVariableConfiguration = {
+  localeType: 'Target' | 'Source'
+}
+
 export type AiActionVariableConfiguration =
   | {
       strict: boolean
       in: Array<string>
     }
   | AiActionReferenceVariableConfiguration
+  | LocaleVariableConfiguration
 
 export type AiActionVariable = {
   configuration?: AiActionVariableConfiguration

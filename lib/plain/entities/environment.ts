@@ -36,7 +36,7 @@ export type EnvironmentPlainClientAPI = {
    * ```
    */
   getMany(
-    params: OptionalDefaults<GetSpaceParams & PaginationQueryParams>
+    params: OptionalDefaults<GetSpaceParams & PaginationQueryParams>,
   ): Promise<CollectionProp<EnvironmentProps>>
   /**
    * Create an environment
@@ -60,7 +60,7 @@ export type EnvironmentPlainClientAPI = {
   create(
     params: OptionalDefaults<GetSpaceParams>,
     rawData: Partial<Pick<EnvironmentProps, 'name'>>,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<EnvironmentProps>
   /**
    * Create an environment with a specific ID
@@ -85,7 +85,7 @@ export type EnvironmentPlainClientAPI = {
   createWithId(
     params: OptionalDefaults<GetSpaceEnvironmentParams & { sourceEnvironmentId?: string }>,
     rawData: CreateEnvironmentProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<EnvironmentProps>
   /**
    * Update an environment
@@ -115,7 +115,7 @@ export type EnvironmentPlainClientAPI = {
   update(
     params: OptionalDefaults<GetSpaceEnvironmentParams>,
     rawData: EnvironmentProps,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ): Promise<EnvironmentProps>
   /**
    * Delete an environment

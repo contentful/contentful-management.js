@@ -174,7 +174,7 @@ describe('AiAction api', { sequential: true }, () => {
                   value: 'Hello world',
                 },
               ],
-            })
+            }),
           )
           .then((invocation) => {
             expect(invocation.sys.type).equals('AiActionInvocation')

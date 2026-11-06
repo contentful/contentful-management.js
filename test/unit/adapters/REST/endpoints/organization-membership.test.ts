@@ -17,12 +17,12 @@ describe('Rest Organization Membership', () => {
     const entity = wrapOrganizationMembership(
       (...args) => adapterMock.makeRequest(...args),
       entityMock,
-      'org-id'
+      'org-id',
     )
     return entity.delete().then((response) => {
       expect(httpMock.delete.mock.calls[0][0]).equals(
         `/organizations/org-id/organization_memberships/${entityMock.sys.id}`,
-        'url is correct'
+        'url is correct',
       )
       return {
         httpMock,

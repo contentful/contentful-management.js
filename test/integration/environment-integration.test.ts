@@ -78,7 +78,7 @@ describe('Environment Api', () => {
     beforeAll(async () => {
       organization = await getTestOrganization()
       appDefinition = await organization.createAppDefinition({
-        name: 'Test',
+        name: 'Test Environment Integration CMA (delete if stale)',
         src: 'http://localhost:2222',
         locations: [{ location: 'app-config' }],
         parameters: {
@@ -95,7 +95,7 @@ describe('Environment Api', () => {
       })
 
       appUpload = await organization.createAppUpload(
-        readFileSync(`${__dirname}/fixtures/build.zip`)
+        readFileSync(`${__dirname}/fixtures/build.zip`),
       )
       appBundle = await appDefinition.createAppBundle({
         appUploadId: appUpload.sys.id,
@@ -130,7 +130,7 @@ describe('Environment Api', () => {
             tmdbAccessToken: 'test',
           },
         },
-        { acceptAllTerms: true }
+        { acceptAllTerms: true },
       )
     })
 

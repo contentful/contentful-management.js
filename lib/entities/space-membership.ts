@@ -1,4 +1,4 @@
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import { freezeSys, toPlainObject } from 'contentful-sdk-core'
 import enhanceWithMethods from '../enhance-with-methods'
 import { wrapCollection } from '../common-utils'
@@ -16,11 +16,10 @@ export type CreateSpaceMembershipProps = Omit<SpaceMembershipProps, 'sys' | 'use
 }
 
 export interface SpaceMembership
-  extends SpaceMembershipProps,
-    DefaultElements<SpaceMembershipProps> {
+  extends SpaceMembershipProps, DefaultElements<SpaceMembershipProps> {
   /**
    * Deletes this object on the server.
-   * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
+   * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
    * @example ```javascript
    * const contentful = require('contentful-management')
    *
@@ -38,7 +37,7 @@ export interface SpaceMembership
   delete(): Promise<void>
   /**
    * Sends an update to the server with any changes made to the object's properties
-   * @return Object returned from the server with updated changes.
+   * @returns Object returned from the server with updated changes.
    * @example ```javascript
    * const contentful = require('contentful-management')
    *
@@ -59,7 +58,7 @@ export interface SpaceMembership
 }
 
 /**
- * @private
+ * @internal
  */
 function createSpaceMembershipApi(makeRequest: MakeRequest) {
   const getParams = (data: SpaceMembershipProps) => ({
@@ -89,24 +88,24 @@ function createSpaceMembershipApi(makeRequest: MakeRequest) {
 }
 
 /**
- * @private
+ * @internal
  * @param makeRequest - function to make requests via an adapter
  * @param data - Raw space membership data
- * @return Wrapped space membership data
+ * @returns Wrapped space membership data
  */
 export function wrapSpaceMembership(
   makeRequest: MakeRequest,
-  data: SpaceMembershipProps
+  data: SpaceMembershipProps,
 ): SpaceMembership {
   const spaceMembership = toPlainObject(copy(data))
   const spaceMembershipWithMethods = enhanceWithMethods(
     spaceMembership,
-    createSpaceMembershipApi(makeRequest)
+    createSpaceMembershipApi(makeRequest),
   )
   return freezeSys(spaceMembershipWithMethods)
 }
 
 /**
- * @private
+ * @internal
  */
 export const wrapSpaceMembershipCollection = wrapCollection(wrapSpaceMembership)

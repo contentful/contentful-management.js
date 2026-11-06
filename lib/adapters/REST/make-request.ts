@@ -1,6 +1,5 @@
 import type { AxiosInstance } from 'contentful-sdk-core'
-import type { MakeRequestOptions, MakeRequestPayload } from '../../common-types'
-import type { OpPatch } from 'json-patch'
+import type { OpPatch, MakeRequestOptions, MakeRequestPayload } from '../../common-types'
 import type { RawAxiosRequestHeaders } from 'axios'
 import endpoints from './endpoints'
 
@@ -23,7 +22,7 @@ export const makeRequest = async <R>({
     http: AxiosInstance,
     params?: Record<string, unknown>,
     payload?: Record<string, unknown> | OpPatch[] | MakeRequestPayload,
-    headers?: RawAxiosRequestHeaders
+    headers?: RawAxiosRequestHeaders,
   ) => Promise<R> =
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore

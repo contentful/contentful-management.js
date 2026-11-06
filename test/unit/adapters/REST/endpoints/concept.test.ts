@@ -28,7 +28,7 @@ describe('Concept', () => {
       .then((r) => {
         expect(r).to.eql(entityMock)
         expect(httpMock.get.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concepts/concept-id'
+          '/organizations/organization-id/taxonomy/concepts/concept-id',
         )
       })
   })
@@ -38,14 +38,16 @@ describe('Concept', () => {
       {
         name: 'without query params',
         params: {},
-        expected: { url: '/organizations/organization-id/taxonomy/concepts', params: {} },
+        // IMPORTANT: if we pass {} instead of undefined for params, axios adds ? which breaks the pre-appended url params
+        expected: { url: '/organizations/organization-id/taxonomy/concepts', params: undefined },
       },
       {
         name: 'with pageUrl query params',
         params: {
           query: { pageUrl: 'page-url' },
         },
-        expected: { url: 'page-url', params: {} },
+        // IMPORTANT: if we pass {} instead of undefined for params, axios adds ? which breaks the pre-appended url params
+        expected: { url: 'page-url', params: undefined },
       },
       {
         name: 'with conceptScheme query params',
@@ -98,7 +100,7 @@ describe('Concept', () => {
       })
       .then(() => {
         expect(httpMock.get.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concepts/total'
+          '/organizations/organization-id/taxonomy/concepts/total',
         )
       })
   })
@@ -120,7 +122,7 @@ describe('Concept', () => {
       .then((r) => {
         expect(r).to.eql(entityMock)
         expect(httpMock.post.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concepts'
+          '/organizations/organization-id/taxonomy/concepts',
         )
       })
   })
@@ -143,7 +145,7 @@ describe('Concept', () => {
       .then((r) => {
         expect(r).to.eql(entityMock)
         expect(httpMock.put.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concepts/concept-id'
+          '/organizations/organization-id/taxonomy/concepts/concept-id',
         )
       })
   })
@@ -164,32 +166,11 @@ describe('Concept', () => {
       })
       .then(() => {
         expect(httpMock.patch.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concepts/concept-id'
+          '/organizations/organization-id/taxonomy/concepts/concept-id',
         )
       })
   })
   test('update', async () => {
-    const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
-
-    httpMock.patch.mockReturnValue(Promise.resolve({ data: entityMock }))
-
-    return adapterMock
-      .makeRequest({
-        entityType: 'Concept',
-        action: 'update',
-        userAgent: 'mocked',
-        params: {
-          organizationId: 'organization-id',
-          conceptId: 'concept-id',
-        },
-      })
-      .then(() => {
-        expect(httpMock.patch.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concepts/concept-id'
-        )
-      })
-  })
-  test('updatePut', async () => {
     const { httpMock, adapterMock, entityMock } = setup(Promise.resolve({}))
 
     httpMock.put.mockReturnValue(Promise.resolve({ data: entityMock }))
@@ -197,7 +178,7 @@ describe('Concept', () => {
     return adapterMock
       .makeRequest({
         entityType: 'Concept',
-        action: 'updatePut',
+        action: 'update',
         params: {
           organizationId: 'organization-id',
           conceptId: 'concept-id',
@@ -207,7 +188,7 @@ describe('Concept', () => {
       })
       .then(() => {
         expect(httpMock.put.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concepts/concept-id'
+          '/organizations/organization-id/taxonomy/concepts/concept-id',
         )
       })
   })
@@ -228,7 +209,7 @@ describe('Concept', () => {
       })
       .then(() => {
         expect(httpMock.delete.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concepts/concept-id'
+          '/organizations/organization-id/taxonomy/concepts/concept-id',
         )
       })
   })
@@ -249,7 +230,7 @@ describe('Concept', () => {
       })
       .then(() => {
         expect(httpMock.get.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concepts/concept-id/descendants'
+          '/organizations/organization-id/taxonomy/concepts/concept-id/descendants',
         )
       })
   })
@@ -271,7 +252,7 @@ describe('Concept', () => {
       })
       .then(() => {
         expect(httpMock.get.mock.calls[0][0]).to.eql(
-          '/organizations/organization-id/taxonomy/concepts/concept-id/ancestors'
+          '/organizations/organization-id/taxonomy/concepts/concept-id/ancestors',
         )
       })
   })

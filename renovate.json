@@ -1,0 +1,14 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["local>contentful/renovate-config"],
+  "packageRules": [
+    {
+      "matchPackageNames": ["typedoc"],
+      "enabled": false
+    },
+    {
+      "matchPackageNames": ["webpack"],
+      "allowedVersions": "< 5.0.0"
+    }
+  ]
+}

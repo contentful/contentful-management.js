@@ -7,7 +7,7 @@ const outputPath = resolve(
   url.fileURLToPath(new URL('.', import.meta.url)),
   '..',
   'public',
-  'env.js'
+  'env.js',
 )
 
 // Convert process.env into a JS object with JSON.stringify

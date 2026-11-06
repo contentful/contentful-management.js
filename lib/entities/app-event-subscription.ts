@@ -1,4 +1,4 @@
-import copy from 'fast-copy'
+import { copy } from 'fast-copy'
 import { toPlainObject } from 'contentful-sdk-core'
 import type { Except } from 'type-fest'
 import type {
@@ -35,11 +35,10 @@ export type AppEventSubscriptionProps = {
 export type CreateAppEventSubscriptionProps = Except<AppEventSubscriptionProps, 'sys'>
 
 export interface AppEventSubscription
-  extends AppEventSubscriptionProps,
-    DefaultElements<AppEventSubscriptionProps> {
+  extends AppEventSubscriptionProps, DefaultElements<AppEventSubscriptionProps> {
   /**
    * Deletes this object on the server.
-   * @return Promise for the deletion. It contains no data, but the Promise error case should be handled.
+   * @returns Promise for the deletion. It contains no data, but the Promise error case should be handled.
    * @example ```javascript
    * const contentful = require('contentful-management')
    *
@@ -75,14 +74,14 @@ function createEventSubscriptionApi(makeRequest: MakeRequest) {
 }
 
 /**
- * @private
+ * @internal
  * @param http - HTTP client instance
  * @param data - Raw AppEventSubscription data
- * @return Wrapped AppEventSubscription data
+ * @returns Wrapped AppEventSubscription data
  */
 export function wrapAppEventSubscription(
   makeRequest: MakeRequest,
-  data: AppEventSubscriptionProps
+  data: AppEventSubscriptionProps,
 ): AppEventSubscription {
   const eventSubscription = toPlainObject(copy(data))
   return enhanceWithMethods(eventSubscription, createEventSubscriptionApi(makeRequest))

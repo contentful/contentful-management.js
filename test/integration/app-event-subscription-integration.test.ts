@@ -1,6 +1,6 @@
 import { expect, describe, test, beforeAll, afterAll } from 'vitest'
 import { initPlainClient, getTestOrganization, timeoutToCalmRateLimiting } from '../helpers'
-import type { PlainClientAPI, Organization, AppDefinition } from '../../lib/contentful-management'
+import type { PlainClientAPI, Organization, AppDefinition } from '../../lib/index'
 
 describe('AppEventSubscription api', { sequential: true }, () => {
   let appDefinition: AppDefinition
@@ -14,7 +14,7 @@ describe('AppEventSubscription api', { sequential: true }, () => {
     organization = await getTestOrganization()
 
     appDefinition = await organization.createAppDefinition({
-      name: 'Test AppEventSubscription',
+      name: 'Test AppEventSubscription in CMA (delete if stale)',
     })
 
     entityId = { organizationId: organization.sys.id, appDefinitionId: appDefinition.sys.id }
@@ -72,7 +72,7 @@ describe('AppEventSubscription api', { sequential: true }, () => {
     await client.appEventSubscription.delete(entityId)
 
     await expect(client.appEventSubscription.get(entityId)).rejects.toThrow(
-      'The resource could not be found'
+      'The resource could not be found',
     )
   })
 })
