@@ -28,6 +28,8 @@ export { makeRequest } from './adapters/REST/make-request'
 export { editorInterfaceDefaults }
 export type { PlainClientDefaultParams } from './plain/plain-client'
 export { ScheduledActionStatus }
+export { AiActionScope, AiActionOutputType } from './entities/ai-action'
+export { AiActionOutputFormat } from './entities/ai-action-invocation'
 export { OptionalDefaults } from './plain/wrappers/wrap'
 export type * from './export-types'
 

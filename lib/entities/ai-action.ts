@@ -52,7 +52,10 @@ export const AiActionOutputType = {
   Transform: 'Transform',
   Suggestion: 'Suggestion',
 } as const
-export type AiActionOutputTypeType = (typeof AiActionOutputType)[keyof typeof AiActionOutputType]
+export type AiActionOutputTypeValue = (typeof AiActionOutputType)[keyof typeof AiActionOutputType]
+
+/** @deprecated Use `AiActionOutputTypeValue` instead. */
+export type AiActionOutputTypeType = AiActionOutputTypeValue
 
 export type AiActionInstruction = {
   variables: Array<AiActionVariable>
@@ -63,8 +66,26 @@ export type AiActionConfiguration = {
   modelType: string
   modelTemperature: number
   scope?: AiActionScopeType
-  outputType?: AiActionOutputTypeType
+  outputType?: AiActionOutputTypeValue
 }
+
+/** @deprecated Use `AiActionVariableType` instead. */
+export type VariableType = AiActionVariableType
+
+/** @deprecated Use `AiActionReferenceVariableConfiguration` instead. */
+export type ReferenceVariableConfiguration = AiActionReferenceVariableConfiguration
+
+/** @deprecated Use `AiActionVariableConfiguration` instead. */
+export type VariableConfiguration = AiActionVariableConfiguration
+
+/** @deprecated Use `AiActionVariable` instead. */
+export type Variable = AiActionVariable
+
+/** @deprecated Use `AiActionInstruction` instead. */
+export type Instruction = AiActionInstruction
+
+/** @deprecated Use `AiActionConfiguration` instead. */
+export type Configuration = AiActionConfiguration
 
 export type AiActionTestCase =
   | {

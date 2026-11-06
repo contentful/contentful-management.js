@@ -12,11 +12,29 @@ export type {
   AppAccessTokenProps,
   CreateAppAccessTokenProps,
 } from './entities/app-access-token'
-export type { AiAction, AiActionProps, CreateAiActionProps } from './entities/ai-action'
+export type {
+  AiAction,
+  AiActionConfiguration,
+  AiActionInstruction,
+  AiActionOutputTypeValue,
+  AiActionProps,
+  AiActionReferenceVariableConfiguration,
+  AiActionScopeType,
+  AiActionVariable,
+  AiActionVariableConfiguration,
+  AiActionVariableType,
+  CreateAiActionProps,
+} from './entities/ai-action'
 export type {
   AiActionInvocation,
+  AiActionInvocationMetadata,
   AiActionInvocationProps,
+  AiActionInvocationType,
   AiActionInvocationVariable,
+  AiActionMarkdownBlock,
+  AiActionOutputFormatType,
+  AiActionSuggestionBlock,
+  AiActionSuggestionContentBlock,
 } from './entities/ai-action-invocation'
 export type { Agent, AgentGeneratePayload, AgentProps, AgentToolLink } from './entities/agent'
 export type {
