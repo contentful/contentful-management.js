@@ -8,15 +8,20 @@ import type {
   AiActionMarkdownBlock,
   AiActionOutputFormatType,
   AiActionOutputTypeValue,
+  AiActionQueryOptions,
   AiActionReferenceVariableConfiguration,
   AiActionScopeType,
   AiActionSuggestionBlock,
   AiActionSuggestionContentBlock,
+  AiActionTestCase,
   AiActionVariable,
   AiActionVariableConfiguration,
   AiActionVariableType,
   CreateAiActionProps,
+  MRActions,
 } from '../index'
+// Deprecated aliases retain their original entity-module export path.
+// Only their AiAction-prefixed replacements are exported from the package root.
 import type {
   AiActionOutputTypeType,
   Configuration,
@@ -27,8 +32,8 @@ import type {
   VariableType,
 } from './ai-action'
 
-describe('AI Action public types', () => {
-  it('preserves the previous entity type names as aliases', () => {
+describe('AI Action types', () => {
+  it('preserves deprecated aliases in their original entity module', () => {
     expectTypeOf<VariableType>().toEqualTypeOf<AiActionVariableType>()
     expectTypeOf<ReferenceVariableConfiguration>().toEqualTypeOf<AiActionReferenceVariableConfiguration>()
     expectTypeOf<VariableConfiguration>().toEqualTypeOf<AiActionVariableConfiguration>()
@@ -36,6 +41,15 @@ describe('AI Action public types', () => {
     expectTypeOf<Instruction>().toEqualTypeOf<AiActionInstruction>()
     expectTypeOf<Configuration>().toEqualTypeOf<AiActionConfiguration>()
     expectTypeOf<AiActionOutputTypeType>().toEqualTypeOf<AiActionOutputTypeValue>()
+  })
+
+  it('exports query and test case types used by public requests', () => {
+    expectTypeOf<AiActionQueryOptions>().toEqualTypeOf<
+      MRActions['AiAction']['getMany']['params']['query']
+    >()
+    expectTypeOf<AiActionTestCase[]>().toEqualTypeOf<
+      NonNullable<CreateAiActionProps['testCases']>
+    >()
   })
 
   it('keeps existing configuration and invocation payloads valid', () => {
@@ -110,6 +124,7 @@ describe('AI Action public types', () => {
     const blocks: AiActionSuggestionContentBlock[] = [markdown, suggestion]
     expectTypeOf(blocks).toExtend<NonNullable<AiActionInvocationProps['result']>['content']>()
 
+    // The typecheck project verifies the same branch narrowing used by consumers.
     for (const block of blocks) {
       if (block.type === 'SuggestionBlock') {
         expectTypeOf(block.suggested).toEqualTypeOf<string>()
