@@ -23,7 +23,6 @@ import type {
 // Deprecated aliases retain their original entity-module export path.
 // Only their AiAction-prefixed replacements are exported from the package root.
 import type {
-  AiActionOutputTypeType,
   Configuration,
   Instruction,
   ReferenceVariableConfiguration,
@@ -40,7 +39,6 @@ describe('AI Action types', () => {
     expectTypeOf<Variable>().toEqualTypeOf<AiActionVariable>()
     expectTypeOf<Instruction>().toEqualTypeOf<AiActionInstruction>()
     expectTypeOf<Configuration>().toEqualTypeOf<AiActionConfiguration>()
-    expectTypeOf<AiActionOutputTypeType>().toEqualTypeOf<AiActionOutputTypeValue>()
   })
 
   it('exports query and test case types used by public requests', () => {

@@ -54,9 +54,6 @@ export const AiActionOutputType = {
 } as const
 export type AiActionOutputTypeValue = (typeof AiActionOutputType)[keyof typeof AiActionOutputType]
 
-/** @deprecated Use `AiActionOutputTypeValue` instead. */
-export type AiActionOutputTypeType = AiActionOutputTypeValue
-
 export type AiActionCondition = {
   id: string
   variable: string
