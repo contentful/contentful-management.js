@@ -10,30 +10,30 @@ describe('Experience Integration', { sequential: true }, () => {
   })
 
   const createdExperienceIds: string[] = []
-  const createdTemplateIds: string[] = []
+  const createdExperienceTemplateIds: string[] = []
   let experienceId: string
-  let templateId: string
+  let experienceTemplateId: string
 
   beforeAll(async () => {
     await sweepStaleExoEntities(client)
 
-    // Experiences require a published Template
-    const tmpl = await client.template.create(
+    // Experiences require a published ExperienceTemplate
+    const experienceTemplate = await client.experienceTemplate.create(
       {},
       {
-        name: testName('Template for Experience'),
+        name: testName('ExperienceTemplate for Experience'),
         description: 'Backing template for experience integration test',
         contentProperties: [],
         designProperties: [],
         componentTree: null,
       },
     )
-    templateId = tmpl.sys.id
-    createdTemplateIds.push(templateId)
+    experienceTemplateId = experienceTemplate.sys.id
+    createdExperienceTemplateIds.push(experienceTemplateId)
 
-    await client.template.publish({
-      templateId: templateId,
-      version: tmpl.sys.version,
+    await client.experienceTemplate.publish({
+      experienceTemplateId,
+      version: experienceTemplate.sys.version,
     })
 
     const exp = await client.experience.create(
@@ -41,7 +41,7 @@ describe('Experience Integration', { sequential: true }, () => {
       {
         name: testName('Experience'),
         description: 'Created by integration test',
-        experienceTemplate: makeResourceLink('Contentful:ExperienceTemplate', templateId),
+        experienceTemplate: makeResourceLink('Contentful:ExperienceTemplate', experienceTemplateId),
         designProperties: {},
       },
     )
@@ -65,16 +65,16 @@ describe('Experience Integration', { sequential: true }, () => {
       }
     }
 
-    for (const id of createdTemplateIds) {
+    for (const id of createdExperienceTemplateIds) {
       try {
-        const latest = await client.template.get({ templateId: id })
+        const latest = await client.experienceTemplate.get({ experienceTemplateId: id })
         if (latest.sys.publishedVersion) {
-          await client.template.unpublish({
-            templateId: id,
+          await client.experienceTemplate.unpublish({
+            experienceTemplateId: id,
             version: latest.sys.version,
           })
         }
-        await client.template.delete({ templateId: id })
+        await client.experienceTemplate.delete({ experienceTemplateId: id })
       } catch {
         // entity already deleted or not found
       }
@@ -94,7 +94,7 @@ describe('Experience Integration', { sequential: true }, () => {
     expect(exp.sys.createdBy).toBeDefined()
     expect(exp.sys.experienceTemplate.sys.type).toBe('ResourceLink')
     expect(exp.sys.experienceTemplate.sys.linkType).toBe('Contentful:ExperienceTemplate')
-    expect(exp.sys.experienceTemplate.sys.urn).toContain(templateId)
+    expect(exp.sys.experienceTemplate.sys.urn).toContain(experienceTemplateId)
     expect(exp.name).toBe(testName('Experience'))
   })
 
