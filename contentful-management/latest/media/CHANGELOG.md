@@ -1,10 +1,3 @@
-# [12.20.0](https://github.com/contentful/contentful-management.js/compare/v12.19.4...v12.20.0) (2026-10-26)
-
-
-### Features
-
-* **data-assembly:** use array parameters [ARC-2630] ([#3162](https://github.com/contentful/contentful-management.js/issues/3162)) ([dfe576c](https://github.com/contentful/contentful-management.js/commit/dfe576c9f320da5bf4732b6e8891f250c59d68b7))
-
 <!-- shared header  START -->
 
 <p align="center">
