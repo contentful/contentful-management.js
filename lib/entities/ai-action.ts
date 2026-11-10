@@ -9,7 +9,7 @@ import {
   type AiActionInvocation,
 } from './ai-action-invocation'
 
-export type VariableType =
+export type AiActionVariableType =
   | 'ResourceLink'
   | 'Text'
   | 'StandardInput'
@@ -18,7 +18,7 @@ export type VariableType =
   | 'Reference'
   | 'SmartContext'
 
-export type ReferenceVariableConfiguration = {
+export type AiActionReferenceVariableConfiguration = {
   allowedEntities: Array<'Entry'>
 }
 
@@ -26,31 +26,78 @@ export type LocaleVariableConfiguration = {
   localeType: 'Target' | 'Source'
 }
 
-export type VariableConfiguration =
+export type AiActionVariableConfiguration =
   | {
       strict: boolean
       in: Array<string>
     }
-  | ReferenceVariableConfiguration
+  | AiActionReferenceVariableConfiguration
   | LocaleVariableConfiguration
 
-export type Variable = {
-  configuration?: VariableConfiguration
+export type AiActionVariable = {
+  configuration?: AiActionVariableConfiguration
   description?: string
   name?: string
-  type: VariableType
+  type: AiActionVariableType
   id: string
 }
 
-export type Instruction = {
-  variables: Array<Variable>
+export const AiActionScope = {
+  Entry: 'Entry',
+  EntryField: 'EntryField',
+} as const
+export type AiActionScopeType = (typeof AiActionScope)[keyof typeof AiActionScope]
+
+export const AiActionOutputType = {
+  Transform: 'Transform',
+  Suggestion: 'Suggestion',
+} as const
+export type AiActionOutputTypeValue = (typeof AiActionOutputType)[keyof typeof AiActionOutputType]
+
+export type AiActionCondition = {
+  id: string
+  variable: string
+} & (
+  | {
+      operator: 'eq' | 'neq'
+      value: string
+    }
+  | {
+      operator: 'in' | 'nin'
+      value: string[]
+    }
+)
+
+export type AiActionInstruction = {
+  variables: Array<AiActionVariable>
   template: string
+  conditions?: Array<AiActionCondition>
 }
 
-export type Configuration = {
+export type AiActionConfiguration = {
   modelType: string
   modelTemperature: number
+  scope?: AiActionScopeType
+  outputType?: AiActionOutputTypeValue
 }
+
+/** @deprecated Use `AiActionVariableType` instead. */
+export type VariableType = AiActionVariableType
+
+/** @deprecated Use `AiActionReferenceVariableConfiguration` instead. */
+export type ReferenceVariableConfiguration = AiActionReferenceVariableConfiguration
+
+/** @deprecated Use `AiActionVariableConfiguration` instead. */
+export type VariableConfiguration = AiActionVariableConfiguration
+
+/** @deprecated Use `AiActionVariable` instead. */
+export type Variable = AiActionVariable
+
+/** @deprecated Use `AiActionInstruction` instead. */
+export type Instruction = AiActionInstruction
+
+/** @deprecated Use `AiActionConfiguration` instead. */
+export type Configuration = AiActionConfiguration
 
 export type AiActionTestCase =
   | {
@@ -88,8 +135,8 @@ export type AiActionProps = {
   }
   name: string
   description: string
-  configuration: Configuration
-  instruction: Instruction
+  configuration: AiActionConfiguration
+  instruction: AiActionInstruction
   testCases?: Array<AiActionTestCase>
 }
 

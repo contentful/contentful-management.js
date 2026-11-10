@@ -1,6 +1,11 @@
 import type { MockedFunction } from 'vitest'
 import { describe, it, afterEach, expect, vi, beforeAll } from 'vitest'
-import { createClient } from '../../lib/index'
+import {
+  AiActionOutputFormat,
+  AiActionOutputType,
+  AiActionScope,
+  createClient,
+} from '../../lib/index'
 import { version } from '../../package.json'
 
 import { createAdapter } from '../../lib/create-adapter'
@@ -26,6 +31,17 @@ describe('Contentful Management', () => {
   })
   afterEach(() => {
     vi.clearAllMocks()
+  })
+
+  it('exports AI Action constants as runtime values', () => {
+    expect(AiActionScope).toEqual({ Entry: 'Entry', EntryField: 'EntryField' })
+    expect(AiActionOutputType).toEqual({ Transform: 'Transform', Suggestion: 'Suggestion' })
+    expect(AiActionOutputFormat).toEqual({
+      RichText: 'RichText',
+      Markdown: 'Markdown',
+      PlainText: 'PlainText',
+      Suggestion: 'Suggestion',
+    })
   })
 
   it('creates plain client by default when no type is provided', () => {
