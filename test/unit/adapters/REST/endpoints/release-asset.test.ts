@@ -245,4 +245,26 @@ describe('Rest ReleaseAsset', () => {
         )
       })
   })
+
+  test('processForLocale rejects when the asset check fails', async () => {
+    const { httpMock, entityMock, adapterMock } = setup(Promise.resolve({ data: {} }))
+    const checkError = new Error('Network Error')
+    httpMock.get.mockReturnValue(Promise.reject(checkError))
+    entityMock.sys.version = 2
+
+    await expect(
+      adapterMock.makeRequest({
+        entityType: 'ReleaseAsset',
+        action: 'processForLocale',
+        userAgent: 'mocked',
+        params: {
+          spaceId: 'space123',
+          environmentId: 'master',
+          locale: 'en-US',
+          asset: entityMock,
+        },
+      }),
+    ).rejects.toBe(checkError)
+    expect(httpMock.get).toHaveBeenCalledTimes(1)
+  })
 })
