@@ -1,3 +1,10 @@
+# [12.21.0](https://github.com/contentful/contentful-management.js/compare/v12.20.0...v12.21.0) (2026-11-10)
+
+
+### Features
+
+* introduce support for the new Suggestion AI Action type ([#2699](https://github.com/contentful/contentful-management.js/issues/2699)) ([328428c](https://github.com/contentful/contentful-management.js/commit/328428c4430c7938df8c3f5a55195fd47fcdd128))
+
 <!-- shared header  START -->
 
 <p align="center">
