@@ -212,6 +212,17 @@ describe('Rest Asset', { concurrent: true }, async () => {
     },
   )
 
+  test('Asset processing for one locale rejects when the asset check fails', async () => {
+    const { httpMock, entityMock, adapterMock } = setup(Promise.resolve({ data: {} }))
+    const checkError = new Error('Network Error')
+    httpMock.get.mockReturnValue(Promise.reject(checkError))
+    entityMock.sys.version = 2
+    const entity = wrapAsset((...args) => adapterMock.makeRequest(...args), entityMock)
+
+    await expect(entity.processForLocale('en-US')).rejects.toBe(checkError)
+    expect(httpMock.get).toHaveBeenCalledTimes(1)
+  })
+
   test('Asset update with tags works', async () => {
     const { adapterMock, httpMock } = setup()
     const entityMock = cloneMock('assetWithTags')
