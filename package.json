@@ -107,7 +107,7 @@
     "rollup": "^4.53.3",
     "rollup-plugin-polyfill-node": "^0.13.0",
     "rollup-plugin-sourcemaps2": "^0.5.4",
-    "semantic-release": "^25.0.2",
+    "semantic-release": "^26.0.0",
     "size-limit": "^14.0.0",
     "type-fest": "^6.0.0",
     "typedoc": "^0.26.2",
