@@ -1584,7 +1584,7 @@ export default function createSpaceApi(makeRequest: MakeRequest) {
      *   .then((space) => space.createAiAction({
      *     name: 'My AI Action',
      *     description: 'Description here',
-     *     configuration: { modelType: 'model-x', modelTemperature: 0.7 },
+     *     configuration: { modelType: 'model-x' },
      *     instruction: { template: 'Do something: {{var.input}}', variables: [], conditions: [] },
      *     testCases: []
      *   }))

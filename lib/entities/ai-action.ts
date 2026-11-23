@@ -76,6 +76,7 @@ export type AiActionInstruction = {
 
 export type AiActionConfiguration = {
   modelType: string
+  /** @deprecated AI Actions are moving to model provider defaults. This value is retained for API compatibility. */
   modelTemperature: number
   scope?: AiActionScopeType
   outputType?: AiActionOutputTypeValue
